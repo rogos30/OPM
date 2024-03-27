@@ -34,22 +34,22 @@ public class Item
         {
             if (HealthRestored > 1)
             {
-                Description = DefaultDescription + HealthRestored + "HP";
+                Description = DefaultDescription + HealthRestored + " HP";
             }
             else
             {
-                Description = DefaultDescription + HealthRestored * 100 + "%HP";
+                Description = DefaultDescription + HealthRestored * 100 + "% HP";
             }
         }
         else if (SkillRestored > 0)
         {
             if (SkillRestored > 1)
             {
-                Description = DefaultDescription + SkillRestored + "SP";
+                Description = DefaultDescription + SkillRestored + " SP";
             }
             else
             {
-                Description = DefaultDescription + SkillRestored * 100 + "%SP";
+                Description = DefaultDescription + SkillRestored * 100 + "% SP";
             }
         }
         else if (EffectImmunity > 0)
@@ -66,10 +66,14 @@ public class Item
     {
         Amount += amount;
     }
-    public string Use(Character target)
+    public string Use(FriendlyCharacter source, FriendlyCharacter target)
     {
-        string finalDesc = target.Name + " ";
+        string finalDesc = target.NominativeName + " ";
         float multiplier = 1;
+        if (source is Kaja)
+        {
+            multiplier = 1.5f;
+        }
         if (Resurrects && target.KnockedOut)
         {
             target.KnockedOut = false;
@@ -77,7 +81,7 @@ public class Item
         }
         if (target.IsGuarding)
         {
-            multiplier = 1.5f;
+            multiplier *= 1.5f;
         }
         foreach (var wearable in target.wearablesWorn)
         {
@@ -86,37 +90,46 @@ public class Item
         }
         if (HealthRestored > 1)
         {
-            target.Health = Mathf.Min(target.Health + (int)(HealthRestored * multiplier), target.MaxHealth);
+            target.Heal((int)(HealthRestored * multiplier));
             finalDesc += "odzyskuje " + (int)(HealthRestored * multiplier) + " HP";
         }
         else if (HealthRestored > 0)
         {
-            target.Health = Mathf.Min(target.Health + (int)(target.MaxHealth * HealthRestored), target.MaxHealth);
+            target.Heal(HealthRestored * multiplier);
             finalDesc += "odzyskuje " + HealthRestored * 100 + "% HP";
         }
 
+        multiplier = 1;
+        if (source is Kaja)
+        {
+            multiplier = 1.5f;
+        }
         if (SkillRestored > 1)
         {
-            target.Skill = Mathf.Min(target.Skill + (int)SkillRestored, target.MaxSkill);
+            target.RestoreSkill((int)(SkillRestored * multiplier));
             finalDesc += "odzyskuje " + SkillRestored + " SP";
         }
         else if (SkillRestored > 0)
         {
-            target.Skill = Mathf.Min(target.Skill + (int)(target.MaxSkill * SkillRestored), target.MaxSkill);
+            target.RestoreSkill(SkillRestored * multiplier);
             finalDesc += "odzyskuje " + SkillRestored * 100 + "% SP";
         }
 
         if (EffectImmunity > 0)
         {
-            for (int i=0; i < target.NegativeStatusTimers.Length; i++)
+            for (int i=0; i < target.StatusTimers.Length; i++)
             {
-                target.NegativeStatusTimers[i] = 0;
+                if (target.StatusTimers[i] < 0)
+                {
+                    target.StatusTimers[i] = 0;
+                }
             }
             finalDesc += " pozbywa siê negatywnych efektów";
             if (EffectImmunity > 1)
             {
                 finalDesc += " na " + EffectImmunity + " tur!";
             }
+            target.NegativeEffectsImmunity = EffectImmunity;
         }
         Amount--;
         return finalDesc;

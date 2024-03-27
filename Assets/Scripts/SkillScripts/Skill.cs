@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 
-public class Skill
+public abstract class Skill
 {
-    const float criticalChance = 0.1f;
-
     public string Name { get; set; }
-    public string SkillDescription { get; set; }
-    public string InFightDescription { get; }
-    public float Cost { get; set; }
-    public int Repetitions { get; }
-    public float AttackMultiplier { get; }
-    public float AccuracyMultiplier { get; }
-    public float Healing { get; }
-    public bool TargetIsFriendly { get; }
-    public bool TargetIsSelf {  get; }
-    public bool TargetIsRandom { get; }
-    public bool MultipleTargets { get; }
+    public string InFightDescription { get; set; }
+    public int Repetitions { get; set; }
+    public float AccuracyMultiplier { get; set; }
+    public bool TargetIsFriendly { get; set; }
+    public bool TargetIsSelf {  get; set; }
+    public bool MultipleTargets { get; set; }
     public bool[] PositiveStatusEffects = new bool[5];
     public bool[] NegativeStatusEffects = new bool[5];
 
-    public Skill(string name, string skillDescription, string inFightDescription, float cost, int repetitions, float attackMultiplier,
+    public Skill()
+    {
+        Repetitions = 1;
+        AccuracyMultiplier = 1;
+    }
+    /*public Skill(string name, string skillDescription, string inFightDescription, float cost, int repetitions, float attackMultiplier,
         float accuracyMultiplier, float healing, bool targetIsFriendly, bool targetIsSelf, bool targetIsRandom, bool multipleTargets, int[] statusChanges)
     {
         Name = name;
@@ -51,10 +49,10 @@ public class Skill
                 NegativeStatusEffects[i] = true;
             }
         }
-    }
+    }*/
 
-    public string execute(Character source, Character target, int skillPerformance)
-    {
+    //public abstract string execute(Character source, Character target, int skillPerformance);
+    /*{
         if (Cost > 1 || Cost == 0)
         {
             source.Skill -= (int)Cost;
@@ -223,6 +221,6 @@ public class Skill
         {
             return source.Name + " nie trafia umiejêtnoœci¹ " + this.Name + "!";
         }
-    }
+    }*/
 
 }

@@ -87,8 +87,7 @@ public class PlayerController : MonoBehaviour
         {
             for (int i = 0; i < BattleManager.instance.playableCharacters.Count; i++)
             {
-                BattleManager.instance.playableCharacters[i].CurrentXP += 5000;
-                BattleManager.instance.playableCharacters[i].HandleLevel();
+                BattleManager.instance.playableCharacters[i].HandleLevel(5000);
             }
         }
         if ( Input.GetKeyDown(KeyCode.L))

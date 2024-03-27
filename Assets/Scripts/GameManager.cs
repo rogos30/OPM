@@ -375,7 +375,7 @@ public class GameManager : MonoBehaviour
                             }
                             for (int i = 0; i < BattleManager.instance.playableCharacters.Count; i++)
                             {
-                                inventoryMainTexts[i + 1].text = BattleManager.instance.playableCharacters[i].Name;
+                                inventoryMainTexts[i + 1].text = BattleManager.instance.playableCharacters[i].NominativeName;
                             }
                             inventoryMainColumn.SetActive(true);
                             break;
@@ -518,7 +518,7 @@ public class GameManager : MonoBehaviour
             }
         }
         characterSprite.sprite = DialogManager.instance.speakerSprites[currentPage];
-        characterInfoTexts[0].text = BattleManager.instance.playableCharacters[currentPage].Name;
+        characterInfoTexts[0].text = BattleManager.instance.playableCharacters[currentPage].NominativeName;
         characterInfoTexts[1].text = "Poziom: " + BattleManager.instance.playableCharacters[currentPage].Level;
         characterInfoTexts[2].text = "XP do nast.: " + (BattleManager.instance.playableCharacters[currentPage].XPToNextLevel - BattleManager.instance.playableCharacters[currentPage].CurrentXP);
         characterInfoTexts[3].text = "HP: " + BattleManager.instance.playableCharacters[currentPage].MaxHealth;
@@ -579,7 +579,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("difficulty", difficulty);
         foreach (var enemy in BattleManager.instance.enemyCharacters)
         {
-            enemy.UpdateDifficulty();
+            enemy.UpdateDifficulty(difficulty);
         }
         PlayerPrefs.SetInt("showFPS", showFPS);
         PlayerPrefs.Save();
@@ -635,26 +635,21 @@ public class GameManager : MonoBehaviour
     {
         currentQuestText.text = questDescriptions[++currentQuest];
         Skill[] skillTable = BattleManager.instance.skillTable;
-        List<Skill> skills;
-        Character character;
+        FriendlyCharacter character;
         switch (currentQuest)
         {
             case 1:
-                skills = new List<Skill> { skillTable[0], skillTable[2], skillTable[8], skillTable[12], skillTable[13] };
-                character = new Character("Œwietlik", 500, 0, 80, 110, 0, 40, 0.9f, 1, 500, 0, 0, skills);
+                character = new Swietlik();
                 BattleManager.instance.playableCharacters.Add(character);
                 break;
             case 2:
-                skills = new List<Skill> { skillTable[0], skillTable[14], skillTable[15], skillTable[16], skillTable[17] };
-                character = new Character("Stasiak", 450, 0, 100, 110, 0, 30, 1, 1, 400, 0, 0, skills);
+                character = new Stasiak();
                 BattleManager.instance.playableCharacters.Add(character);
 
-                skills = new List<Skill> { skillTable[0], skillTable[18], skillTable[19], skillTable[20], skillTable[21] };
-                character = new Character("Kaja", 350, 0, 80, 70, 0, 30, 0.9f, 1, 300, 0, 0, skills);
+                character = new Kaja();
                 BattleManager.instance.playableCharacters.Add(character);
 
-                skills = new List<Skill> { skillTable[0], skillTable[22], skillTable[23], skillTable[24], skillTable[25], skillTable[26] };
-                character = new Character("Brudzyñski", 450, 0, 100, 100, 0, 30, 0.8f, 1, 200, 0, 0, skills);
+                character = new Brudzynski();
                 BattleManager.instance.playableCharacters.Add(character);
                 break;
         }
