@@ -8,6 +8,8 @@ using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
 using static UnityEngine.GraphicsBuffer;
 
+
+public enum GameState { INGAME, PAUSED, INBATTLE, CUTSCENE }
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -441,8 +443,7 @@ public class GameManager : MonoBehaviour
                         case 0: //taking off equipment
                             if (BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq] != null)
                             {
-                                BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq].Amount++;
-                                BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq] = null;
+                                BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq].TakeOff(BattleManager.instance.playableCharacters[chosenInv - 1]);
                             }
                             break;
                         default: //replacing current equipment
@@ -450,10 +451,9 @@ public class GameManager : MonoBehaviour
                             {
                                 if (BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq] != null)
                                 { //is currently wearing something
-                                    BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq].Amount++;
+                                    BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq].TakeOff(BattleManager.instance.playableCharacters[chosenInv - 1]);
                                 }
-                                Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Amount--;
-                                BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq] = Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq];
+                                Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].PutOn(BattleManager.instance.playableCharacters[chosenInv - 1]);
                             }
                             break;
                     }
@@ -505,18 +505,10 @@ public class GameManager : MonoBehaviour
 
     void PrintCharInfo()
     {
-        int addedAttack = 0, addedDefense = 0;
-        float accuracyModifier = 1, healingModifier = 1;
-        for (int i = 0; i < 4; i++)
-        {
-            if (BattleManager.instance.playableCharacters[currentPage].wearablesWorn[i] != null)
-            {
-                addedAttack += BattleManager.instance.playableCharacters[currentPage].wearablesWorn[i].AttackAdded;
-                addedDefense += BattleManager.instance.playableCharacters[currentPage].wearablesWorn[i].DefenseAdded;
-                accuracyModifier *= BattleManager.instance.playableCharacters[currentPage].wearablesWorn[i].AccuracyMultiplier;
-                healingModifier *= BattleManager.instance.playableCharacters[currentPage].wearablesWorn[i].HealingMultiplier;
-            }
-        }
+        int addedAttack = BattleManager.instance.playableCharacters[currentPage].GetAttackFromWearables();
+        int addedDefense = BattleManager.instance.playableCharacters[currentPage].GetDefenseFromWearables();
+        float accuracyModifier = BattleManager.instance.playableCharacters[currentPage].GetAccuracyFromWearables();
+        float healingModifier = BattleManager.instance.playableCharacters[currentPage].GetHealingFromWearables();
         characterSprite.sprite = DialogManager.instance.speakerSprites[currentPage];
         characterInfoTexts[0].text = BattleManager.instance.playableCharacters[currentPage].NominativeName;
         characterInfoTexts[1].text = "Poziom: " + BattleManager.instance.playableCharacters[currentPage].Level;
