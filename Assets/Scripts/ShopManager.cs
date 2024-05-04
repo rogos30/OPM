@@ -35,7 +35,7 @@ public class ShopManager : MonoBehaviour
     const string defaultControlsText = "W/S - nawigacja, A/D - iloœæ, Z/X - kategoria, Q/E - strona\r\nENTER - zakup, ESC - wyjœcie",
                 controlsTextAddOn = ", LSHIFT - ulepszenie";
     const int maxLevel = 3;
-    readonly int[] storyRequirementsForUpgrades = { 1, 2, 2};
+    readonly int[] storyRequirementsForUpgrades = { 2, 3, 4};
     // Start is called before the first frame update
     private void Awake()
     {
@@ -228,7 +228,7 @@ public class ShopManager : MonoBehaviour
 
     void HandleUpgrade()
     {
-        if (level < maxLevel && GameManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
+        if (level < maxLevel && StoryManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
         {
             if (Inventory.Instance.Money >= upgradeCosts[level])
             {
@@ -247,14 +247,18 @@ public class ShopManager : MonoBehaviour
         moneyText.text = "Kasa: " + Inventory.Instance.Money + " PLN";
         pageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
         controlsText.text = defaultControlsText;
-        if (level < maxLevel && GameManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
+        if (level < maxLevel && StoryManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
         {
             upgradeText.text = "Ulepszenie: " + upgradeCosts[level] + " PLN";
             controlsText.text += controlsTextAddOn;
         }
+        else if (level < maxLevel && StoryManager.instance.currentQuest < storyRequirementsForUpgrades[level])
+        {
+            upgradeText.text = "Kontynuuj fabu³ê, aby móc ulepszyæ";
+        }
         else
         {
-            upgradeText.text = "Ulepszenie niedostêpne";
+            upgradeText.text = "Osi¹gniêto maksymalny poziom";
         }
         shopLevelText.text = "Poziom: " + (level + 1) + " / " + (maxLevel + 1);
         if (currentColumn == 0)
@@ -288,14 +292,18 @@ public class ShopManager : MonoBehaviour
         categories[0].color = Color.red;
         categories[1].color = Color.white;
         controlsText.text = defaultControlsText;
-        if (level < maxLevel && GameManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
+        if (level < maxLevel && StoryManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
         {
             upgradeText.text = "Ulepszenie: " + upgradeCosts[level] + " PLN";
             controlsText.text += controlsTextAddOn;
         }
+        else if (level < maxLevel && StoryManager.instance.currentQuest < storyRequirementsForUpgrades[level])
+        {
+            upgradeText.text = "Kontynuuj fabu³ê, aby móc ulepszyæ";
+        }
         else
         {
-            upgradeText.text = "";
+            upgradeText.text = "Osi¹gniêto maksymalny poziom";
         }
     }
 

@@ -72,7 +72,7 @@ public abstract class Character
         Health = Mathf.Min(Health + (int)(MaxHealth * healing), MaxHealth);
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         damage = Mathf.Max(damage, 1);
         Health = Mathf.Max(Health - damage, 0);
@@ -82,9 +82,9 @@ public abstract class Character
         }
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
-        Health = Mathf.Max(Health - (int)(Health * damage), 0);
+        Health = Mathf.Max(Health - (int)(MaxHealth * damage), 0);
         if (Health == 0)
         {
             Death(); 
@@ -106,9 +106,6 @@ public abstract class Character
                     break;
                 case 2: //accuracy buff
                     Accuracy = DefaultAccuracy * statBoostMultiplier;
-                    break;
-                case 3: //regeneration
-                    Health = Mathf.Min((int)(Health + poisonAndRegenMultiplier * MaxHealth), MaxHealth);
                     break;
                 case 4: //more turns
                     Turns = DefaultTurns + 1;
@@ -141,9 +138,6 @@ public abstract class Character
                 case 2: //accuracy debuff
                     Accuracy = DefaultAccuracy / statBoostMultiplier;
                     break;
-                case 3: //poison
-                    Health = Mathf.Max((int)(Health * (1 - poisonAndRegenMultiplier)), 1);
-                    break;
                 case 4: //paralysis
                     Turns = 0;
                     break;
@@ -152,6 +146,18 @@ public abstract class Character
         else
         { //effects cancel each other out
             StatusTimers[effect] = 0;
+        }
+    }
+
+    public void HandlePersistentStatusEffects()
+    {
+        if (StatusTimers[(int)StatusEffects.HEALTH] > 0)
+        {
+            Heal(poisonAndRegenMultiplier);
+        }
+        else if (StatusTimers[(int)StatusEffects.HEALTH] < 0)
+        {
+            TakeDamage(poisonAndRegenMultiplier);
         }
     }
 

@@ -21,7 +21,7 @@ public class MoraleBoost : PlayableSkill
     {
         if (skillPerformance == 0)
         {
-            return source.DativeName + "nie udaje siê pocieszyæ dru¿yny";
+            return source.DativeName + " nie udaje siê pocieszyæ dru¿yny";
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
         int turns = 3;

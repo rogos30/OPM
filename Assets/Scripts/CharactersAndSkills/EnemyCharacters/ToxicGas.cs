@@ -29,6 +29,7 @@ public class ToxicGas : EnemySkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             damage *= 2;
         }
+        damage = Mathf.Max(1, damage);
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         return finalDesc;

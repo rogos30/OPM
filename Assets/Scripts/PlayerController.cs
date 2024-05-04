@@ -172,6 +172,11 @@ public class PlayerController : MonoBehaviour
         {
             interactionPrompt.SetActive(true);
         }
+        else if (other.CompareTag("Marlboro"))
+        {
+            StoryManager.instance.CollectMarlboro();
+            other.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

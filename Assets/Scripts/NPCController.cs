@@ -36,7 +36,7 @@ public class NPCController : Interactable
         }
         else if (interactionProgressesStory)
         { //dialogue end progresses story
-            GameManager.instance.ProgressStory();
+            StoryManager.instance.ProgressStory();
         }
     }
     void AfterBattle()
@@ -47,12 +47,12 @@ public class NPCController : Interactable
             DialogManager.instance.StartDialogue(postFightLines, postFightSpeakersIndexes);
             if (interactionProgressesStory)
             {
-                DialogManager.instance.onDialogueEnd.AddListener(GameManager.instance.ProgressStory); //after dialogue progress story
+                DialogManager.instance.onDialogueEnd.AddListener(StoryManager.instance.ProgressStory); //after dialogue progress story
             }
         }
         else if (interactionProgressesStory)
         { //dialogue end progresses story
-            GameManager.instance.ProgressStory();
+            StoryManager.instance.ProgressStory();
         }
     }
 }

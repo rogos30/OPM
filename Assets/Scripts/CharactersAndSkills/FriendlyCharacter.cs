@@ -105,7 +105,7 @@ public class FriendlyCharacter : Character
 
     public void DepleteSkill(float skill)
     {
-        Skill = Mathf.Max(Skill - (int)(MaxSkill * skill), MaxSkill);
+        Skill = Mathf.Max(Skill - (int)(MaxSkill * skill), 0);
     }
 
     virtual public void StartGuard()
@@ -191,5 +191,14 @@ public class FriendlyCharacter : Character
     {
         Skill = MaxSkill;
         IsGuarding = false;
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        if (IsGuarding)
+        {
+            damage /= 2;
+        }
+        base.TakeDamage(damage);
     }
 }

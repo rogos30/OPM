@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.AudioSettings;
 
-public class Lora : MonoBehaviour
+public class Lora : FriendlyCharacter
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public Lora() : base()
     {
-        
+        NominativeName = "Lora";
+        DativeName = "Lorze";
+        AccusativeName = "Lory";
+        Health = MaxHealth = DefaultMaxHealth = 350;
+        Skill = MaxSkill = 80;
+        Attack = DefaultAttack = 80;
+        Defense = DefaultDefense = 30;
+        Turns = DefaultTurns = 2;
+        Speed = 400;
+        AbilityDescription = "Lora jest chwilowo hiperpobudzona przez kawê i ma 2 ruchy w ka¿dej turze";
+        Attack attack = new Attack();
+        skillSet.Add(attack);
     }
 }

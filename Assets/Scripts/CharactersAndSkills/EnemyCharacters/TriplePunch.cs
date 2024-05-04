@@ -26,7 +26,6 @@ public class TriplePunch : EnemySkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             damage *= source.criticalDamageMultiplier;
         }
-        damage = Mathf.Max(damage, 1);
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         return finalDesc;

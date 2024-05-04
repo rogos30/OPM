@@ -5,6 +5,8 @@ using UnityEngine;
 public class Fijolek : FriendlyCharacter
 {
     //specialty - is immune to negative status effects
+
+
     public Fijolek() : base()
     {
         NominativeName = "Fijo³ek";
@@ -20,6 +22,12 @@ public class Fijolek : FriendlyCharacter
         AbilityDescription = "Fijo³ek jest odporny na negatywne efekty statusu";
         Attack attack = new Attack();
         skillSet.Add(attack);
+        Psalm psalm = new Psalm();
+        skillSet.Add(psalm);
+        ShortTest shortTest = new ShortTest();
+        skillSet.Add(shortTest);
+        Exercises exercises = new Exercises();
+        skillSet.Add(exercises);
     }
 
     public override void ApplyDebuff(int effect, int duration)

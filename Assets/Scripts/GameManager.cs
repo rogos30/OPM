@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     public Canvas pauseCanvas, inGameCanvas;
     [SerializeField] TMP_Text gameFpsText;
     [SerializeField] TMP_Text currentLocationText;
-    [SerializeField] TMP_Text currentQuestText;
     [SerializeField] GameObject optionsColumn;
     [SerializeField] GameObject inventoryMainColumn;
     [SerializeField] GameObject inventoryItemsColumn;
@@ -53,11 +52,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text eqDescriptionText;
     Color orange = new Color(0.976f, 0.612f, 0.007f);
 
-
-    [SerializeField] GameObject[] NPCs;
-    [NonSerialized] public int currentQuest = 0;
-    readonly string[] questDescriptions = { "Zwerbuj Œwietlika", "Pobij Welenca dla zasady", "KONIEC GRY!!!1!" };
-
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -75,10 +69,8 @@ public class GameManager : MonoBehaviour
         musicSource.outputAudioMixerGroup = musicMixerGroup;
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.outputAudioMixerGroup = sfxMixerGroup;
-        currentQuestText.text = questDescriptions[currentQuest];
         Inventory.Instance.InitializeItems();
         Inventory.Instance.InitializeWearables();
-        HandleNPCs(); //initializing all npcs
     }
 
     // Update is called once per frame
@@ -606,46 +598,4 @@ public class GameManager : MonoBehaviour
         canPause = true;
     }
 
-    void HandleNPCs()
-    {
-        foreach (var npc in NPCs)
-        {
-            if (currentQuest >= npc.GetComponent<Interactable>().appearanceAtQuest && currentQuest < npc.GetComponent<Interactable>().disappearanceAtQuest)
-            {
-                npc.SetActive(true);
-            }
-            else
-            {
-                npc.SetActive(false);
-            }
-        }
-    }
-
-
-
-    public void ProgressStory()
-    {
-        currentQuestText.text = questDescriptions[++currentQuest];
-        Skill[] skillTable = BattleManager.instance.skillTable;
-        FriendlyCharacter character;
-        switch (currentQuest)
-        {
-            case 1:
-                character = new Swietlik();
-                BattleManager.instance.playableCharacters.Add(character);
-                break;
-            case 2:
-                character = new Stasiak();
-                BattleManager.instance.playableCharacters.Add(character);
-
-                character = new Kaja();
-                BattleManager.instance.playableCharacters.Add(character);
-
-                character = new Brudzynski();
-                BattleManager.instance.playableCharacters.Add(character);
-                break;
-        }
-
-        HandleNPCs();
-    }
 }

@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject player;
 
     public UnityEvent onBattleWon, onBattleLost;
+    public UnityEvent onSkillCheckFinished, onMoveFinished;
     public static BattleManager instance;
     [SerializeField] Canvas battleCanvas;
     [SerializeField] Slider skillCheckSlider;
@@ -254,7 +255,7 @@ public class BattleManager : MonoBehaviour
                         case 2: //guard
                             if (subactions[chosenSubaction].text == "PotwierdŸ") //accepted to guard
                             {
-                                PerformPlayersMove();
+                                HandlePlayersMove();
                                 maxCurrentRow = 4;
                             }
                             else //didn't guard
@@ -287,7 +288,7 @@ public class BattleManager : MonoBehaviour
 
                     targetNames[currentRow].color = Color.red;
                     currentColumn++;
-                    PerformPlayersMove();
+                    HandlePlayersMove();
                     maxCurrentRow = 4;
                     break;
             }
@@ -361,7 +362,7 @@ public class BattleManager : MonoBehaviour
                             descriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            descriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + " SP";
+                            descriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
                             break;
                         case 3: //run
                             descriptionText.text = "Ucieknij z walki";
@@ -625,72 +626,72 @@ public class BattleManager : MonoBehaviour
         maxCurrentRow = textIndex;
         maxCurrentPage = toSkip / targetNames.Length + 1;
     }
-    void PerformPlayersMove()
+    void HandlePlayersMove()
     {
         uiIndexOffset = 0;
         acceptsInput = false;
-        float delay = 0;
         if (actions[chosenAction].text == "Garda")
         {
             playableCharacterList[currentPlayable].StartGuard();
             UpdateHealthBarsAndIcons();
+            FinishPlayersMove();
         }
         else if (actions[chosenAction].text == "Przedmiot")
         {
             descriptionText.text = Inventory.Instance.items[chosenSubactionPage * subactions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[currentPage * targetNames.Length + chosenTarget]);
             UpdateHealthBarsAndIcons();
+            FinishPlayersMove();
         }
         else // skill
         {
-            delay = 3;
             int skillIndex = chosenSubactionPage * subactions.Length + chosenSubaction;
             HandleSkillCheck(currentPlayable, skillIndex);
-            if (playableCharacterList[currentPlayable].skillSet[skillIndex].TargetIsFriendly || playableCharacterList[currentPlayable].skillSet[skillIndex].TargetIsSelf)
-            {
-                if (playableCharacterList[currentPlayable].skillSet[skillIndex].MultipleTargets)
-                { //skill targets every ally
-                    StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, playableCharacterList.Cast<Character>().ToList()));
-                }
-                else
-                { //skill targets one ally
-                    StartCoroutine(FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[currentPage * targetNames.Length + chosenTarget]));
-                }
-            }
-            else
-            {
-                if (playableCharacterList[currentPlayable].skillSet[skillIndex].MultipleTargets)
-                { //skill targets every enemy
-                    StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList.Cast<Character>().ToList()));
-                }
-                else if (playableCharacterList[currentPlayable].skillSet[skillIndex].Repetitions > 1)
-                { //skill targets random enemies multiple times
-                    StartCoroutine(FriendlyExecuteSkillMultipleTimes(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList.Cast<Character>().ToList()));
-                }
-                else
-                { //skill targets one enemy
-                    StartCoroutine(FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[currentPage * targetNames.Length + chosenTarget]));
-                }
-            }
-            float cost = playableCharacterList[currentPlayable].skillSet[skillIndex].Cost;
-            if (cost > 1 || cost == 0)
-            {
-                playableCharacterList[currentPlayable].DepleteSkill((int)cost);
-            }
-            else
-            {
-                playableCharacterList[currentPlayable].DepleteSkill(cost);
-            }
+            onSkillCheckFinished.AddListener(PerformPlayersMove);
         }
-        if (currentMoveInTurn < playableCharacterList[currentPlayable].Turns - 1)
+    }
+
+    void PerformPlayersMove()
+    {
+        onSkillCheckFinished.RemoveAllListeners();
+        int skillIndex = chosenSubactionPage * subactions.Length + chosenSubaction;
+        float cost = playableCharacterList[currentPlayable].skillSet[skillIndex].Cost;
+        if (cost > 1 || cost == 0)
         {
-            currentMoveInTurn++;
-            StartCoroutine(AllowPlayerToMove(false));
+            playableCharacterList[currentPlayable].DepleteSkill((int)cost);
         }
         else
         {
-            StartCoroutine(FinishPlayersMove(delay));
+            playableCharacterList[currentPlayable].DepleteSkill(cost);
+        }
+        onMoveFinished.AddListener(FinishPlayersMove);
+        if (playableCharacterList[currentPlayable].skillSet[skillIndex].TargetIsFriendly || playableCharacterList[currentPlayable].skillSet[skillIndex].TargetIsSelf)
+        {
+            if (playableCharacterList[currentPlayable].skillSet[skillIndex].MultipleTargets)
+            { //skill targets every ally
+                StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, playableCharacterList.Cast<Character>().ToList()));
+            }
+            else
+            { //skill targets one ally
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[currentPage * targetNames.Length + chosenTarget]);
+            }
+        }
+        else
+        {
+            if (playableCharacterList[currentPlayable].skillSet[skillIndex].MultipleTargets)
+            { //skill targets every enemy
+                StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList.Cast<Character>().ToList()));
+            }
+            else if (playableCharacterList[currentPlayable].skillSet[skillIndex].Repetitions > 1)
+            { //skill targets random enemies multiple times
+                StartCoroutine(FriendlyExecuteSkillMultipleTimes(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList.Cast<Character>().ToList()));
+            }
+            else
+            { //skill targets one enemy
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[currentPage * targetNames.Length + chosenTarget]);
+            }
         }
     }
+
 
     void FindAvailableToMove()
     {
@@ -765,25 +766,20 @@ public class BattleManager : MonoBehaviour
     void HandleEnemysMove()
     {
         enemyCharacterList[currentEnemy].HandleTimers();
-        int delay = -3;
         if (enemyCharacterList[currentEnemy].Turns == 0)
         {
-            StartCoroutine(EnemyIsParalyzed(enemyCharacterList[currentEnemy]));
+            EnemyIsParalyzed(enemyCharacterList[currentEnemy]);
         }
         for (int i = 0; i < enemyCharacterList[currentEnemy].Turns; i++)
         {
-            delay += 3;
-            StartCoroutine(PerformEnemysMove(delay, enemyCharacterList[currentEnemy]));
+            StartCoroutine(PerformEnemysMove(3*i, enemyCharacterList[currentEnemy]));
         }
-        currentEnemy++;
-        FindAvailableToMove();
     }
 
-    IEnumerator EnemyIsParalyzed(Character source)
+    void EnemyIsParalyzed(Character source)
     {
-        yield return new WaitForSeconds(0);
         descriptionText.text = source.NominativeName + " nie mo¿e siê ruszyæ!";
-        DecideNextMove();
+        FinishEnemysMove();
     }
 
     IEnumerator PerformEnemysMove(int delay, EnemyCharacter source)
@@ -791,7 +787,7 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         int randSkill = Random.Range(0, source.skillSet.Count);
         int randTarget;
-
+        onMoveFinished.AddListener(FinishEnemysMove);
         if (source.skillSet[randSkill].TargetIsFriendly)
         { //targets are alive enemies
             if (source.skillSet[randSkill].MultipleTargets)
@@ -801,8 +797,12 @@ public class BattleManager : MonoBehaviour
             else
             { //skill targets a single enemy
                 randTarget = ChooseRandomTarget(enemyCharacterList.Cast<Character>().ToList());
-                descriptionText.text = source.skillSet[randSkill].execute(source, enemyCharacterList[randTarget]);
-                UpdateHealthBarsAndIcons();
+                if (randTarget == -1)
+                {
+                    StartCoroutine(FinishBattle(false));
+                    yield break;
+                }
+                EnemyExecuteSkill(source, randSkill, enemyCharacterList[randTarget]);
             }
         }
         else
@@ -823,13 +823,8 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one playable
-                descriptionText.text = source.skillSet[randSkill].execute(source, playableCharacterList[randTarget]);
-                UpdateHealthBarsAndIcons();
+                EnemyExecuteSkill(source, randSkill, playableCharacterList[randTarget]);
             }
-        }
-        if (delay+3 == source.Turns * 3)
-        {
-            DecideNextMove();
         }
     }
 
@@ -1032,9 +1027,10 @@ public class BattleManager : MonoBehaviour
         characterSkillTexts[0].transform.localScale = defaultTextScale;
     }
 
+
     IEnumerator AllowPlayerToMove(bool rotatePlayables)
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(4);
         if (rotatePlayables)
         {
             playableCharacterList[currentPlayable].HandleTimers();
@@ -1060,7 +1056,6 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator FriendlyExecuteSkillOnEveryone(FriendlyCharacter source, int skill, List<Character> targets)
     {
-        yield return new WaitForSeconds(2.5f); //friendly character - wait for skillcheck to end
         for (int i=0; i < targets.Count; i++)
         {
             if (!targets[i].KnockedOut) 
@@ -1074,6 +1069,7 @@ public class BattleManager : MonoBehaviour
         {
             ((Swietlik)source).ResetBetrayal();
         }
+        onMoveFinished.Invoke();
     }
 
     IEnumerator EnemyExecuteSkillOnEveryone(EnemyCharacter source, int skill, List<Character> targets)
@@ -1087,14 +1083,18 @@ public class BattleManager : MonoBehaviour
                 yield return new WaitForSeconds(1.5f / targets.Count);
             }
         }
+        onMoveFinished.Invoke();
     }
 
     IEnumerator FriendlyExecuteSkillMultipleTimes(FriendlyCharacter source, int skill, List<Character> targets)
     {
-        yield return new WaitForSeconds(2.5f);
         for (int i=0; i < source.skillSet[skill].Repetitions; i++)
         {
             int target = ChooseRandomTarget(targets);
+            if (target == -1)
+            {
+                break;
+            }
             descriptionText.text = source.skillSet[skill].execute(source, targets[target], skillPerformance);
             UpdateHealthBarsAndIcons();
             yield return new WaitForSeconds(1.5f / source.skillSet[skill].Repetitions);
@@ -1103,6 +1103,7 @@ public class BattleManager : MonoBehaviour
         {
             ((Swietlik)source).ResetBetrayal();
         }
+        onMoveFinished.Invoke();
     }
 
     IEnumerator EnemyExecuteSkillMultipleTimes(EnemyCharacter source, int skill, List<Character> targets)
@@ -1110,32 +1111,53 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < source.skillSet[skill].Repetitions; i++)
         {
             int target = ChooseRandomTarget(targets);
+            if (target == -1)
+            {
+                break;
+            }
             descriptionText.text = source.skillSet[skill].execute(source, targets[target]);
             UpdateHealthBarsAndIcons();
             yield return new WaitForSeconds(1.5f / source.skillSet[skill].Repetitions);
         }
+        onMoveFinished.Invoke();
     }
 
-    IEnumerator FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target)
+    void FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target)
     {
-        yield return new WaitForSeconds(2.5f);
         descriptionText.text = source.skillSet[skill].execute(source, target, skillPerformance);
         UpdateHealthBarsAndIcons();
+        onMoveFinished.Invoke();
     }
 
-    IEnumerator EnemyExecuteSkill(EnemyCharacter source, int skill, Character target)
+    void EnemyExecuteSkill(EnemyCharacter source, int skill, Character target)
     {
-        yield return null;
         descriptionText.text = source.skillSet[skill].execute(source, target);
         UpdateHealthBarsAndIcons();
+        onMoveFinished.Invoke();
     }
 
-    IEnumerator FinishPlayersMove(float delay)
+    void FinishPlayersMove()
     {
-        yield return new WaitForSeconds(delay);
-        currentPlayable++;
-        uiIndexOffset++;
-        currentMoveInTurn = 0;
+        onMoveFinished.RemoveAllListeners();
+        if (currentMoveInTurn < playableCharacterList[currentPlayable].Turns - 1)
+        {
+            currentMoveInTurn++;
+            StartCoroutine(AllowPlayerToMove(false));
+        }
+        else
+        {
+            currentPlayable++;
+            uiIndexOffset++;
+            currentMoveInTurn = 0;
+            FindAvailableToMove();
+            DecideNextMove();
+        }
+    }
+
+    void FinishEnemysMove()
+    {
+        onMoveFinished.RemoveAllListeners();
+        currentEnemy++;
         FindAvailableToMove();
         DecideNextMove();
     }
@@ -1217,8 +1239,13 @@ public class BattleManager : MonoBehaviour
                     skillCheckSlider.value--;
                 }
             }
+            else
+            {
+                break;
+            }
             yield return new WaitForSeconds(skillCheckTime / (2 * skillCheckSlider.maxValue));
         }
+        yield return new WaitForSeconds(1);
         skillCheckSlider.gameObject.SetActive(false);
         skillCheckAcceptsInput = false;
         float value = -skillCheckSliderWidth / 2 + skillCheckSliderWidth * skillCheckSlider.value / skillCheckSlider.maxValue;
@@ -1239,6 +1266,7 @@ public class BattleManager : MonoBehaviour
         {
             skillPerformance = 0;
         }
+        onSkillCheckFinished.Invoke();
     }
 
     void HandlePhases()
