@@ -18,6 +18,7 @@ public class Rogos : FriendlyCharacter
         Accuracy = DefaultAccuracy = 0.95f;
         Turns = DefaultTurns = 1;
         Speed = 600;
+        SpriteIndex = 0;
         GuardTimer = 0;
         AbilityDescription = "Garda Rogosa trwa 2 tury i odnawia 40% SP";
         Attack attack = new Attack();

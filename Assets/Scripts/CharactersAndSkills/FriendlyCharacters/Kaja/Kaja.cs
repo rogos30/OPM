@@ -17,6 +17,7 @@ public class Kaja : FriendlyCharacter
         Accuracy = DefaultAccuracy = 0.9f;
         Turns = DefaultTurns = 1;
         Speed = 300;
+        SpriteIndex = 3;
         ItemEnhancementMultiplier = 1.5f;
         AbilityDescription = "Przedmioty u¿yte przez Kajê maj¹ o 50% zwiêkszony efekt";
         Attack attack = new Attack();

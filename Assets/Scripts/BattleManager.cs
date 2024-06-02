@@ -36,17 +36,19 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Image[] next1EffectSprites;
     [SerializeField] Image[] next2EffectSprites;
     [SerializeField] Image[] next3EffectSprites;
+    [SerializeField] Image[] playableCharactersSprites;
     [SerializeField] Slider[] enemyHealthBars;
+    [SerializeField] Slider[] targetHealthBars;
     [SerializeField] TMP_Text[] enemyHealthTexts;
     [SerializeField] Slider[] characterHealthBars;
     [SerializeField] Slider[] characterSkillBars;
     [SerializeField] TMP_Text[] characterHealthTexts;
     [SerializeField] TMP_Text[] characterSkillTexts;
     [SerializeField] TMP_Text[] actions;
-    [SerializeField] TMP_Text[] subactions;
-    [SerializeField] TMP_Text[] targetNames;
-    [SerializeField] TMP_Text descriptionText;
-    [SerializeField] TMP_Text characterDescriptionText;
+    [SerializeField] TMP_Text dynamicDescriptionText;
+    [SerializeField] GameObject actionDescriptionMenu;
+    [SerializeField] GameObject dynamicDescription;
+    [SerializeField] TMP_Text actionDescriptionText;
     public TMP_Text battleFpsText;
 
     public Skill[] skillTable = new Skill[100];
@@ -133,7 +135,8 @@ public class BattleManager : MonoBehaviour
         {
             nextCharacters.SetActive(true);
 
-            characterDescriptionText.text = playableCharacterList[Mathf.Min(currentPlayable, playableCharacterList.Count-1)].AbilityDescription;
+
+            actionDescriptionText.text = playableCharacterList[Mathf.Min(currentPlayable, playableCharacterList.Count-1)].AbilityDescription;
         }
         else
         {
@@ -150,8 +153,6 @@ public class BattleManager : MonoBehaviour
                 case 0: //just selected an action - entering subactions
                     currentColumn++;
                     chosenAction = currentRow;
-                    actions[chosenAction].color = Color.red;
-                    subactions[currentRow = 0].color = orange;
                     currentPage = 0;
                     switch(chosenAction)
                     { //what action has been selected
@@ -169,33 +170,34 @@ public class BattleManager : MonoBehaviour
                 case 1: //just selected a subaction - entering targets (most likely)
                     chosenSubaction = currentRow;
                     chosenSubactionPage = currentPage;
-                    subactions[chosenSubaction].color = Color.red;
-                    targetNames[currentRow = 0].color = orange;
                     currentPage = 0;
                     switch (chosenAction)
                     { //what action has been selected
                         case 0: //skill
-                            if ((playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].Cost > playableCharacterList[currentPlayable].Skill &&
-                                playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].Cost > 1) ||
-                                ((int)(playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].Cost * playableCharacterList[currentPlayable].MaxSkill) > playableCharacterList[currentPlayable].Skill &&
-                                playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].Cost <= 1))
+                            if ((playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost > playableCharacterList[currentPlayable].Skill &&
+                                playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost > 1) ||
+                                ((int)(playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost * playableCharacterList[currentPlayable].MaxSkill) > playableCharacterList[currentPlayable].Skill &&
+                                playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost <= 1))
                             { //too expensive to use
                                 StartCoroutine(TooLittleSkillToUse());
                             }
-                            else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].TargetIsFriendly)
+                            else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly)
                             {
-                                if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].MultipleTargets)
+                                if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
                                 { //every ally is a target
+                                    ClearActions();
                                     maxCurrentRow = 1;
                                     maxCurrentPage = 1;
-                                    targetNames[0].text = "Wszyscy";
+                                    actions[0].text = "Wszyscy";
                                     currentColumn++;
                                 }
-                                else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].TargetIsRandom)
+                                else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom)
                                 {
+                                    ClearActions();
                                     maxCurrentRow = 1;
                                     maxCurrentPage = 1;
-                                    targetNames[0].text = "Losowo";
+                                    actions[0].text = "Losowo";
+                                    currentColumn++;
                                 }
                                 else
                                 { //a singular alive ally is a target
@@ -203,26 +205,29 @@ public class BattleManager : MonoBehaviour
                                     currentColumn++;
                                 }
                             }
-                            else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].TargetIsSelf)
+                            else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsSelf)
                             { //target is self
+                                ClearActions();
                                 maxCurrentRow = 1;
                                 maxCurrentPage = 1;
-                                targetNames[0].text = playableCharacterList[currentPlayable].NominativeName;
+                                actions[0].text = playableCharacterList[currentPlayable].NominativeName;
                                 currentColumn++;
                             }
                             else
                             { //targets are alive enemies
-                                if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].MultipleTargets)
+                                if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
                                 { //every enemy is a target
+                                    ClearActions();
                                     maxCurrentRow = 1;
                                     maxCurrentPage = 1;
-                                    targetNames[0].text = "Wszyscy";
+                                    actions[0].text = "Wszyscy";
                                 }
-                                else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].TargetIsRandom)
+                                else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom)
                                 { //random enemy is a target
+                                    ClearActions();
                                     maxCurrentRow = 1;
                                     maxCurrentPage = 1;
-                                    targetNames[0].text = "Losowo";
+                                    actions[0].text = "Losowo";
                                 }
                                 else
                                 { //one enemy is a target
@@ -232,7 +237,7 @@ public class BattleManager : MonoBehaviour
                             }
                             break;
                         case 1: //item
-                            if (Inventory.Instance.items[chosenSubactionPage * subactions.Length + chosenSubaction].Amount > 0)
+                            if (Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Amount > 0)
                             {
                                 if (chosenSubaction == 2) //resurrects
                                 {
@@ -247,32 +252,28 @@ public class BattleManager : MonoBehaviour
                             else
                             {
                                 currentPage = chosenSubactionPage;
-                                subactions[chosenSubaction].color = Color.white;
-                                subactions[currentRow].color = orange;
-                                descriptionText.text = Inventory.Instance.items[currentPage * subactions.Length + currentRow].Description;
+                                actionDescriptionText.text = Inventory.Instance.items[currentPage * actions.Length + currentRow].Description;
                             }
                             break;
                         case 2: //guard
-                            if (subactions[chosenSubaction].text == "PotwierdŸ") //accepted to guard
+                            if (actions[chosenSubaction].text == "PotwierdŸ") //accepted to guard
                             {
                                 HandlePlayersMove();
                                 maxCurrentRow = 4;
                             }
                             else //didn't guard
                             {
-                                ClearSubactions();
                                 currentColumn--;
                                 maxCurrentRow = 4;
                             }
                             break;
                         case 3: //run
-                            if (subactions[chosenSubaction].text == "PotwierdŸ") //accepted to run
+                            if (actions[chosenSubaction].text == "PotwierdŸ") //accepted to run
                             {
                                 StartCoroutine(FinishBattle(false));
                             }
                             else //didn't run
                             {
-                                ClearSubactions();
                                 currentColumn--;
                                 maxCurrentRow = 4;
                             }
@@ -280,57 +281,51 @@ public class BattleManager : MonoBehaviour
                     }
                     break;
                 case 2: //just selected a target
-                    chosenTarget = enemyCharacterList.FindIndex(x => x.NominativeName.Equals(targetNames[currentRow].text)) % targetNames.Length;
+                    chosenTarget = enemyCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text)) % actions.Length;
                     if (chosenTarget == -1)
                     { //if not an enemy, then an ally (or all enemies which does not matter)
-                        chosenTarget = playableCharacterList.FindIndex(x => x.NominativeName.Equals(targetNames[currentRow].text)) % targetNames.Length;
+                        chosenTarget = playableCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text)) % actions.Length;
                     }
 
-                    targetNames[currentRow].color = Color.red;
                     currentColumn++;
                     HandlePlayersMove();
                     maxCurrentRow = 4;
                     break;
             }
+            ResetCurrentRow();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Escape))
         {
+            ResetCurrentRow();
             switch (currentColumn)
             {
                 case 1: //backed out of subactions
-                    actions[currentRow = chosenAction].color = orange;
+                    PrintPageOfActions();
                     switch (currentRow)
                     {
                         case 0: //skill
-                            descriptionText.text = "U¿yj umiejêtnoœci";
+                            actionDescriptionText.text = "U¿yj umiejêtnoœci";
                             break;
                         case 1: //item
-                            descriptionText.text = "U¿yj przedmiotu";
+                            actionDescriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            descriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
                             break;
                         case 3: //run
-                            descriptionText.text = "Ucieknij z walki";
+                            actionDescriptionText.text = "Ucieknij z walki";
                             break;
                     }
-                    currentPage = 0;
-                    ClearSubactions();
-                    maxCurrentRow = 4;
                     break;
                 case 2: //backed out of targets
-                    subactions[currentRow = chosenSubaction].color = orange;
                     currentPage = chosenSubactionPage;
-                    ClearTargets();
                     switch (chosenAction)
                     {
                         case 0: //skill
                             PrintPageOfSkills();
-                            maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].skillSet.Count, subactions.Length);
                             break;
                         case 1: //item
                             PrintPageOfItems();
-                            maxCurrentRow = subactions.Length;
                             break;
                     }
                     break;
@@ -340,71 +335,51 @@ public class BattleManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            actions[currentRow].color = Color.white;
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+            {
+                currentRow = (currentRow + 1) % maxCurrentRow;
+            }
+            else
+            {
+                currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
+            }
+            actions[currentRow].color = orange;
             switch (currentColumn)
             {
                 case 0: //actions
-                    actions[currentRow].color = Color.white;
-                    if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-                    {
-                        currentRow = (currentRow + 1) % maxCurrentRow;
-                    }
-                    else
-                    {
-                        currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
-                    }
-                    actions[currentRow].color = orange;
                     switch (currentRow)
                     {
                         case 0: //skill
-                            descriptionText.text = "U¿yj umiejêtnoœci";
+                            actionDescriptionText.text = "U¿yj umiejêtnoœci";
                             break;
                         case 1: //item
-                            descriptionText.text = "U¿yj przedmiotu";
+                            actionDescriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            descriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
                             break;
                         case 3: //run
-                            descriptionText.text = "Ucieknij z walki";
+                            actionDescriptionText.text = "Ucieknij z walki";
                             break;
                     }
                     break;
                 case 1: //subactions
-                    subactions[currentRow].color = Color.white;
-                    if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-                    {
-                        currentRow = (currentRow + 1) % maxCurrentRow;
-                    }
-                    else
-                    {
-                        currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
-                    }
-                    subactions[currentRow].color = orange;
                     switch(chosenAction)
                     {
                         case 0: //skill
-                            descriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " +
-                                playableCharacterList[currentPlayable].skillSet[currentPage * subactions.Length + currentRow].SkillDescription;
+                            actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " +
+                            playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + currentRow].SkillDescription;
                             break;
                         case 1: //item
-                            descriptionText.text = Inventory.Instance.items[currentPage * subactions.Length + currentRow].Description;
+                            actionDescriptionText.text = Inventory.Instance.items[currentPage * actions.Length + currentRow].Description;
                             break;
                         default:
-                            descriptionText.text = "";
+                            actionDescriptionText.text = "";
                             break;
                     }
                     break;
                 case 2: //targets
-                    targetNames[currentRow].color = Color.white;
-                    if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-                    {
-                        currentRow = (currentRow + 1) % maxCurrentRow;
-                    }
-                    else
-                    {
-                        currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
-                    }
-                    targetNames[currentRow].color = orange;
                     break;
             }
         }
@@ -433,7 +408,7 @@ public class BattleManager : MonoBehaviour
                 case 2: //actions
                     if (chosenAction == 0) //skill
                     {
-                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * subactions.Length + chosenSubaction].TargetIsFriendly)
+                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly)
                         {
                             PrintPageOfAllies(true);
                         }
@@ -444,7 +419,7 @@ public class BattleManager : MonoBehaviour
                     }
                     else //item
                     {
-                        if (Inventory.Instance.items[chosenSubactionPage * subactions.Length + chosenSubaction].Resurrects)
+                        if (Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Resurrects)
                         {
                             PrintPageOfAllies(false);
                         }
@@ -455,8 +430,6 @@ public class BattleManager : MonoBehaviour
                     }
                     break;
             }
-            subactions[currentRow].color = Color.white;
-            subactions[currentRow = 0].color = orange;
         }
     }
 
@@ -465,70 +438,78 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < actions.Length; i++) //make everything white
         {
             actions[i].color = Color.white;
-            subactions[i].color = Color.white;
-            targetNames[i].color = Color.white;
         }
     }
-    void ClearTargets()
+
+    void PrintPageOfActions()
     {
-        for (int i = 0; i < targetNames.Length; i++)
-        {
-            targetNames[i].color = Color.white;
-            targetNames[i].text = "";
-        }
-    }
-    void ClearSubactions()
-    {
-        for (int i = 0; i < subactions.Length; i++)
-        {
-            subactions[i].color = Color.white;
-            subactions[i].text = "";
-        }
+        actions[0].text = "Umiejêtnoœæ";
+        actions[1].text = "Przedmiot";
+        actions[2].text = "Garda";
+        actions[3].text = "Ucieczka";
+        maxCurrentRow = actions.Length;
+        maxCurrentPage = 1;
     }
     void PrintPageOfSkills()
     {
-        for (int i = 0; i < subactions.Length; i++)
+        ClearActions();
+        for (int i = 0; i < actions.Length; i ++)
         {
-            if (currentPage * subactions.Length + i < playableCharacterList[currentPlayable].UnlockedSkills)
+            if (currentPage * actions.Length + i < playableCharacterList[currentPlayable].UnlockedSkills)
             {
                 float cost = 0;
-                if (playableCharacterList[currentPlayable].skillSet[currentPage * subactions.Length + i].Cost > 1)
+                if (playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost > 1)
                 {
-                    cost = playableCharacterList[currentPlayable].skillSet[currentPage * subactions.Length + i].Cost;
+                    cost = playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost;
                 }
                 else
                 {
-                    cost = (int)(playableCharacterList[currentPlayable].skillSet[currentPage * subactions.Length + i].Cost * playableCharacterList[currentPlayable].MaxSkill);
+                    cost = (int)(playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost * playableCharacterList[currentPlayable].MaxSkill);
                 }
-                subactions[i].text = playableCharacterList[currentPlayable].skillSet[currentPage * subactions.Length + i].Name + " (" + cost + ")";
+                actions[i].text = playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Name + " (" + cost + ")";
             }
             else
             {
-                subactions[i].text = "";
+                actions[i].text = "";
             }
         }
-        maxCurrentPage = (playableCharacterList[currentPlayable].UnlockedSkills - 1) / subactions.Length + 1;
-        maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].UnlockedSkills - currentPage * subactions.Length, subactions.Length);
-        descriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " + playableCharacterList[currentPlayable].skillSet[currentPage * subactions.Length].SkillDescription;
+        maxCurrentPage = (playableCharacterList[currentPlayable].UnlockedSkills - 1) / actions.Length + 1;
+        maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].UnlockedSkills - currentPage * actions.Length, actions.Length);
+        actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " + playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length].SkillDescription;
+    }
+
+    void ResetCurrentRow()
+    {
+        actions[currentRow].color = Color.white;
+        currentRow = 0;
+        actions[currentRow].color = orange;
     }
 
     void PrintPageOfItems()
     {
-        for (int i = 0; i < subactions.Length; i++)
+        for (int i = 0; i < actions.Length; i++)
         {
-            subactions[i].text = Inventory.Instance.items[currentPage * subactions.Length + i].Name + " ("
-                + Inventory.Instance.items[currentPage * subactions.Length + i].Amount + ")"; ;
+            actions[i].text = Inventory.Instance.items[currentPage * actions.Length + i].Name + " ("
+                + Inventory.Instance.items[currentPage * actions.Length + i].Amount + ")"; ;
         }
-        maxCurrentRow = subactions.Length;
+        maxCurrentRow = actions.Length;
         maxCurrentPage = ShopManager.instance.level + 1;
-        descriptionText.text = Inventory.Instance.items[currentPage * subactions.Length].Description;
+        actionDescriptionText.text = Inventory.Instance.items[currentPage * actions.Length].Description;
     }
     void PrintYesNo()
     {
-        subactions[0].text = "PotwierdŸ";
-        subactions[1].text = "Cofnij";
+        ClearActions();
+        actions[0].text = "PotwierdŸ";
+        actions[1].text = "Cofnij";
         maxCurrentRow = 2;
         maxCurrentPage = 1;
+    }
+    void ClearActions()
+    {
+        foreach (var action in actions)
+        {
+            action.text = "";
+        }
     }
     void UpdateHealthBarsAndIcons()
     {
@@ -582,12 +563,9 @@ public class BattleManager : MonoBehaviour
     
     void PrintPageOfAllies(bool alive)
     {
-        foreach (var text in targetNames)
-        {
-            text.text = "";
-        }
+        ClearActions();
         currentRow = 0;
-        int skipped = 0, toSkip = currentPage * targetNames.Length, textIndex = 0;
+        int skipped = 0, toSkip = currentPage * actions.Length, textIndex = 0;
         for (int i = 0; i < playableCharacterList.Count; i++)
         {
             if (playableCharacterList[i].KnockedOut != alive)
@@ -596,19 +574,20 @@ public class BattleManager : MonoBehaviour
                 {
                     skipped++;
                 }
-                else if (textIndex < targetNames.Length)
+                else if (textIndex < actions.Length)
                 {
-                    targetNames[textIndex++].text = playableCharacterList[i].NominativeName;
+                    actions[textIndex++].text = playableCharacterList[i].NominativeName;
                 }
             }
         }
         maxCurrentRow = textIndex;
-        maxCurrentPage = (playableCharacterList.Count - 1) / targetNames.Length + 1;
+        maxCurrentPage = (playableCharacterList.Count - 1) / actions.Length + 1;
     }
 
     void PrintPageOfEnemies()
     {
-        int skipped = 0, toSkip = currentPage * targetNames.Length, textIndex = 0;
+        ClearActions();
+        int skipped = 0, toSkip = currentPage * actions.Length, textIndex = 0;
         for (int i = 0; i < enemyCharacterList.Count; i++)
         {
             if (!enemyCharacterList[i].KnockedOut)
@@ -619,32 +598,37 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                    targetNames[textIndex++].text = enemyCharacterList[i].NominativeName;
+                    actions[textIndex++].text = enemyCharacterList[i].NominativeName;
                 }
             }
         }
         maxCurrentRow = textIndex;
-        maxCurrentPage = toSkip / targetNames.Length + 1;
+        maxCurrentPage = toSkip / actions.Length + 1;
     }
     void HandlePlayersMove()
     {
         uiIndexOffset = 0;
         acceptsInput = false;
-        if (actions[chosenAction].text == "Garda")
-        {
+        if (chosenAction == 2)
+        { //guard
+            dynamicDescription.SetActive(true);
+            actionDescriptionMenu.SetActive(false);
+            dynamicDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " broni siê!";
             playableCharacterList[currentPlayable].StartGuard();
             UpdateHealthBarsAndIcons();
             FinishPlayersMove();
         }
-        else if (actions[chosenAction].text == "Przedmiot")
-        {
-            descriptionText.text = Inventory.Instance.items[chosenSubactionPage * subactions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[currentPage * targetNames.Length + chosenTarget]);
+        else if (chosenAction == 1)
+        { //item
+            dynamicDescription.SetActive(true);
+            actionDescriptionMenu.SetActive(false);
+            dynamicDescriptionText.text = Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[currentPage * actions.Length + chosenTarget]);
             UpdateHealthBarsAndIcons();
             FinishPlayersMove();
         }
         else // skill
         {
-            int skillIndex = chosenSubactionPage * subactions.Length + chosenSubaction;
+            int skillIndex = chosenSubactionPage * actions.Length + chosenSubaction;
             HandleSkillCheck(currentPlayable, skillIndex);
             onSkillCheckFinished.AddListener(PerformPlayersMove);
         }
@@ -653,8 +637,10 @@ public class BattleManager : MonoBehaviour
     void PerformPlayersMove()
     {
         onSkillCheckFinished.RemoveAllListeners();
-        int skillIndex = chosenSubactionPage * subactions.Length + chosenSubaction;
+        int skillIndex = chosenSubactionPage * actions.Length + chosenSubaction;
         float cost = playableCharacterList[currentPlayable].skillSet[skillIndex].Cost;
+        dynamicDescription.SetActive(true);
+        actionDescriptionMenu.SetActive(false);
         if (cost > 1 || cost == 0)
         {
             playableCharacterList[currentPlayable].DepleteSkill((int)cost);
@@ -672,7 +658,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one ally
-                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[currentPage * targetNames.Length + chosenTarget]);
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[currentPage * actions.Length + chosenTarget]);
             }
         }
         else
@@ -687,7 +673,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one enemy
-                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[currentPage * targetNames.Length + chosenTarget]);
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[currentPage * actions.Length + chosenTarget]);
             }
         }
     }
@@ -778,7 +764,7 @@ public class BattleManager : MonoBehaviour
 
     void EnemyIsParalyzed(Character source)
     {
-        descriptionText.text = source.NominativeName + " nie mo¿e siê ruszyæ!";
+        dynamicDescriptionText.text = source.NominativeName + " nie mo¿e siê ruszyæ!";
         FinishEnemysMove();
     }
 
@@ -834,10 +820,12 @@ public class BattleManager : MonoBehaviour
         musicSource.loop = true;
         musicSource.Play();
         skillCheckSlider.gameObject.SetActive(false);
+        actionDescriptionMenu.SetActive(true);
+        dynamicDescription.SetActive(false);
         acceptsInput = true;
         enemyIsMoving = false;
         handlingPhases = false;
-        currentEnemy = 0; currentPlayable = 0; currentRow = 0; currentColumn = 0; maxCurrentRow = 4; currentPage = 0; maxCurrentPage = 1;
+        currentEnemy = 0; currentPlayable = 0; currentRow = 0; currentColumn = 0; currentPage = 0;
         currentPhase = 0; currentTurn = 0; uiIndexOffset = 0; skillPerformance = 0;
         skillCheckTime = defaultSkillCheckTime - 0.25f * GameManager.instance.difficulty;
         battleFinished = false;
@@ -857,14 +845,17 @@ public class BattleManager : MonoBehaviour
                 allEffectSprites[i, j].sprite = effectSprites[12];
             }
         }
-        for (int i=0; i < subactions.Length; i++)
+        foreach (Image sprite in playableCharactersSprites)
         {
-            subactions[i].text = "";
-            targetNames[i].text = "";
+            sprite.sprite = effectSprites[12];
+        }
+        for (int i=0; i < enemyNames.Length; i++)
+        {
             enemyHealthBars[i].gameObject.SetActive(false);
             enemyNames[i].text = "";
         }
-        descriptionText.text = "U¿yj umiejêtnoœci";
+        PrintPageOfActions();
+        actionDescriptionText.text = "U¿yj umiejêtnoœci";
         actions[0].color = orange;
 
         for (int i = 0; i < playables.Length; i++) //show what's necessary
@@ -874,6 +865,7 @@ public class BattleManager : MonoBehaviour
             characterNames[i].text = playableCharacterList[i].NominativeName;
             characterHealthBars[i].gameObject.SetActive(true);
             characterSkillBars[i].gameObject.SetActive(true);
+            playableCharactersSprites[i].sprite = DialogManager.instance.speakerSprites[playableCharacterList[i].SpriteIndex];
         }
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -884,7 +876,7 @@ public class BattleManager : MonoBehaviour
             enemyHealthBars[i].gameObject.SetActive(true);
         }
         UpdateHealthBarsAndIcons();
-        characterDescriptionText.text = playableCharacterList[0].AbilityDescription;
+        actionDescriptionText.text = playableCharacterList[0].AbilityDescription;
     }
 
     IEnumerator FinishBattle(bool playerWon)
@@ -984,6 +976,7 @@ public class BattleManager : MonoBehaviour
             characterSkillBars[i].value = (float)(playableCharacterList[index].Skill / (float)playableCharacterList[index].MaxSkill);
             characterHealthTexts[i].text = playableCharacterList[index].Health + " / " + playableCharacterList[index].MaxHealth;
             characterSkillTexts[i].text = playableCharacterList[index].Skill + " / " + playableCharacterList[index].MaxSkill;
+            playableCharactersSprites[i].sprite = DialogManager.instance.speakerSprites[playableCharacterList[index].SpriteIndex];
             if (playableCharacterList[index].IsGuarding)
             {
                 allEffectSprites[i, 0].sprite = effectSprites[0];
@@ -1036,21 +1029,20 @@ public class BattleManager : MonoBehaviour
             playableCharacterList[currentPlayable].HandleTimers();
             RotatePlayables();
         }
+        dynamicDescription.SetActive(false);
+        actionDescriptionMenu.SetActive(true);
         acceptsInput = true;
         currentColumn = 0;
-        ClearSubactions();
-        ClearTargets();
         RidUIofColor();
         actions[currentRow = 0].color = orange;
-        descriptionText.text = "U¿yj umiejêtnoœci";
+        actionDescriptionText.text = "U¿yj umiejêtnoœci";
+        PrintPageOfActions();
     }
 
     IEnumerator AllowEnemyToMove()
     {
         yield return new WaitForSeconds(5);
         enemyIsMoving = true;
-        ClearSubactions();
-        ClearTargets();
         RidUIofColor();
     }
 
@@ -1060,7 +1052,7 @@ public class BattleManager : MonoBehaviour
         {
             if (!targets[i].KnockedOut) 
             {
-                descriptionText.text = source.skillSet[skill].execute(source, targets[i], skillPerformance);
+                dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[i], skillPerformance);
                 UpdateHealthBarsAndIcons();
                 yield return new WaitForSeconds(1.5f / targets.Count);
             }
@@ -1078,7 +1070,7 @@ public class BattleManager : MonoBehaviour
         {
             if (!targets[i].KnockedOut)
             {
-                descriptionText.text = source.skillSet[skill].execute(source, targets[i]);
+                dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[i]);
                 UpdateHealthBarsAndIcons();
                 yield return new WaitForSeconds(1.5f / targets.Count);
             }
@@ -1095,7 +1087,7 @@ public class BattleManager : MonoBehaviour
             {
                 break;
             }
-            descriptionText.text = source.skillSet[skill].execute(source, targets[target], skillPerformance);
+            dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[target], skillPerformance);
             UpdateHealthBarsAndIcons();
             yield return new WaitForSeconds(1.5f / source.skillSet[skill].Repetitions);
         }
@@ -1115,7 +1107,7 @@ public class BattleManager : MonoBehaviour
             {
                 break;
             }
-            descriptionText.text = source.skillSet[skill].execute(source, targets[target]);
+            dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[target]);
             UpdateHealthBarsAndIcons();
             yield return new WaitForSeconds(1.5f / source.skillSet[skill].Repetitions);
         }
@@ -1124,14 +1116,14 @@ public class BattleManager : MonoBehaviour
 
     void FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target)
     {
-        descriptionText.text = source.skillSet[skill].execute(source, target, skillPerformance);
+        dynamicDescriptionText.text = source.skillSet[skill].execute(source, target, skillPerformance);
         UpdateHealthBarsAndIcons();
         onMoveFinished.Invoke();
     }
 
     void EnemyExecuteSkill(EnemyCharacter source, int skill, Character target)
     {
-        descriptionText.text = source.skillSet[skill].execute(source, target);
+        dynamicDescriptionText.text = source.skillSet[skill].execute(source, target);
         UpdateHealthBarsAndIcons();
         onMoveFinished.Invoke();
     }

@@ -15,6 +15,7 @@ public class FriendlyCharacter : Character
     public int CurrentXP { get; set; }
     public int XPToNextLevel { get; set; }
     public int UnlockedSkills { get; set; }
+    public int SpriteIndex { get; set; }
     public bool IsGuarding { get; set; }
     public float HealingMultiplier {  get; set; }
     public float ItemEnhancementMultiplier {  get; set; }

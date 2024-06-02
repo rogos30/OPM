@@ -17,6 +17,7 @@ public class Stasiak : FriendlyCharacter
         Accuracy = DefaultAccuracy = 1;
         Turns = DefaultTurns = 1;
         Speed = 400;
+        SpriteIndex = 2;
         criticalDamageMultiplier = 3;
         AbilityDescription = "Krytyczne trafienia Stasiaka daj¹ 3x efekt zamiast 2x";
         Attack attack = new Attack();

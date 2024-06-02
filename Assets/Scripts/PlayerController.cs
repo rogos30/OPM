@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    float moveSpeed = 3;
+    float moveSpeed = 4;
     float timeToFight;
     Animator animator;
     bool isFacingRight = false, isMoving = false;

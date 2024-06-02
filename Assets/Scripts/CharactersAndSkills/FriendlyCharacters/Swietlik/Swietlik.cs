@@ -19,6 +19,7 @@ public class Swietlik : FriendlyCharacter
         Accuracy = DefaultAccuracy = 0.9f;
         Turns = DefaultTurns = 1;
         Speed = 500;
+        SpriteIndex = 1;
         AbilityDescription = "Œwietlik ma szansê na zdradê. Za ka¿dy % zdrady obra¿enia zwiêkszaj¹ siê o 2%. Obecnie: " + Betrayal + "% na zdradê";
         BetrayableAttack attack = new BetrayableAttack();
         skillSet.Add(attack);

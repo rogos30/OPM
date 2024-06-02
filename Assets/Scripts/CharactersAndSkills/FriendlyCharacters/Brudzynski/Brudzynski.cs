@@ -18,6 +18,7 @@ public class Brudzynski : FriendlyCharacter
         Accuracy = DefaultAccuracy = 0.8f;
         Turns = DefaultTurns = 1;
         Speed = 200;
+        SpriteIndex = 4;
         levelsToUnlockSkill = 3;
         AbilityDescription = "Brudzyñski ma ³¹cznie 7 umiejêtnoœci i odblokowuje je szybciej";
         Attack attack = new Attack();
