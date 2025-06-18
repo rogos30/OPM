@@ -177,6 +177,11 @@ public class PlayerController : MonoBehaviour
             StoryManager.instance.CollectMarlboro();
             other.gameObject.SetActive(false);
         }
+        else if (other.CompareTag("VisionCone"))
+        {
+            //Debug.Log("AAAAAAAAA");
+            other.GetComponentInParent<PatrolNPCController>().CheckIfPlayerInSight();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -184,6 +189,11 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("NPC"))
         {
             interactionPrompt.SetActive(false);
+        }
+        else if (other.CompareTag("VisionCone"))
+        {
+            //Debug.Log("BBBBBBBBB");
+            other.GetComponentInParent<PatrolNPCController>().isPlayerInSight = false;
         }
     }
 

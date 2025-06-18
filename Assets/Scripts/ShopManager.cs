@@ -228,7 +228,7 @@ public class ShopManager : MonoBehaviour
 
     void HandleUpgrade()
     {
-        if (level < maxLevel && StoryManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
+        if (level < maxLevel && StoryManager.instance.currentMainQuest >= storyRequirementsForUpgrades[level])
         {
             if (Inventory.Instance.Money >= upgradeCosts[level])
             {
@@ -247,12 +247,12 @@ public class ShopManager : MonoBehaviour
         moneyText.text = "Kasa: " + Inventory.Instance.Money + " PLN";
         pageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
         controlsText.text = defaultControlsText;
-        if (level < maxLevel && StoryManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
+        if (level < maxLevel && StoryManager.instance.currentMainQuest >= storyRequirementsForUpgrades[level])
         {
             upgradeText.text = "Ulepszenie: " + upgradeCosts[level] + " PLN";
             controlsText.text += controlsTextAddOn;
         }
-        else if (level < maxLevel && StoryManager.instance.currentQuest < storyRequirementsForUpgrades[level])
+        else if (level < maxLevel && StoryManager.instance.currentMainQuest < storyRequirementsForUpgrades[level])
         {
             upgradeText.text = "Kontynuuj fabu³ê, aby móc ulepszyæ";
         }
@@ -292,12 +292,12 @@ public class ShopManager : MonoBehaviour
         categories[0].color = Color.red;
         categories[1].color = Color.white;
         controlsText.text = defaultControlsText;
-        if (level < maxLevel && StoryManager.instance.currentQuest >= storyRequirementsForUpgrades[level])
+        if (level < maxLevel && StoryManager.instance.currentMainQuest >= storyRequirementsForUpgrades[level])
         {
             upgradeText.text = "Ulepszenie: " + upgradeCosts[level] + " PLN";
             controlsText.text += controlsTextAddOn;
         }
-        else if (level < maxLevel && StoryManager.instance.currentQuest < storyRequirementsForUpgrades[level])
+        else if (level < maxLevel && StoryManager.instance.currentMainQuest < storyRequirementsForUpgrades[level])
         {
             upgradeText.text = "Kontynuuj fabu³ê, aby móc ulepszyæ";
         }

@@ -10,13 +10,13 @@ public class StoryManager : MonoBehaviour
     [SerializeField] TMP_Text currentQuestText;
     [SerializeField] GameObject[] NPCs;
     [SerializeField] GameObject[] Marlboros;
-    [NonSerialized] public int currentQuest = 0;
-    readonly string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Œwietlika", "Pobij Welenca dla zasady", "KONIEC GRY!!!1!" };
+    [NonSerialized] public int currentMainQuest = 0;
+    [SerializeField] readonly string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Œwietlika", "Pobij Welenca dla zasady", "KONIEC GRY!!!1!" };
     int marlborosCollected;
     void Awake()
     {
         instance = this;
-        currentQuestText.text = questDescriptions[currentQuest];
+        currentQuestText.text = questDescriptions[currentMainQuest];
         HandleNPCs(); //initializing all npcs
         marlborosCollected = 0;
     }
@@ -48,7 +48,7 @@ public class StoryManager : MonoBehaviour
     {
         foreach (var npc in NPCs)
         {
-            if (currentQuest >= npc.GetComponent<Interactable>().appearanceAtQuest && currentQuest < npc.GetComponent<Interactable>().disappearanceAtQuest)
+            if (currentMainQuest >= npc.GetComponent<Interactable>().appearanceAtQuest && currentMainQuest < npc.GetComponent<Interactable>().disappearanceAtQuest)
             {
                 npc.SetActive(true);
             }
@@ -64,13 +64,13 @@ public class StoryManager : MonoBehaviour
     public void ProgressStory()
     {
         Debug.Log("progressing story");
-        currentQuestText.text = questDescriptions[++currentQuest];
+        currentQuestText.text = questDescriptions[++currentMainQuest];
         Skill[] skillTable = BattleManager.instance.skillTable;
         FriendlyCharacter character;
-        switch (currentQuest)
+        switch (currentMainQuest)
         {
             case 1:
-                Debug.Log("almost enabling marlboros");
+                Debug.Log("enabling marlboros");
                 EnableMarlboros();
                 break;
             case 4:
