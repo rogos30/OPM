@@ -19,7 +19,7 @@ public class EnemySwietlik : EnemyCharacter
         Turns = DefaultTurns = 1;
         Speed = 500;
         MoneyDropped = 30;
-        XPDropped = 500;
+        XPDropped = 5000;
         EnemyAttack attack = new EnemyAttack();
         skillSet.Add(attack);
     }

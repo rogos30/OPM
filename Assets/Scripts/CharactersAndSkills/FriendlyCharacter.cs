@@ -60,13 +60,16 @@ public class FriendlyCharacter : Character
         }
     }
 
-    public void HandleLevel(int exp)
+    public List<string> HandleLevel(int exp)
     {
+
         CurrentXP += exp;
+        List<string> charInfoLog = new List<string>();
         while (CurrentXP >= XPToNextLevel && Level < 20)
         {
-            LevelUp();
+            charInfoLog.Add(LevelUp());
         }
+        return charInfoLog;
     }
 
     public override void Heal(int healing)
@@ -120,13 +123,16 @@ public class FriendlyCharacter : Character
         IsGuarding = false;
     }
 
-    public void LevelUp()
+    public string LevelUp()
     {
         Level++;
+        string result = NominativeName + " osi¹ga poziom " + Level;
         if (Level % levelsToUnlockSkill == 0 && UnlockedSkills < skillSet.Count)
         {
             UnlockedSkills++;
+            result += " i odblokowuje umiejêtnoœæ " + skillSet[UnlockedSkills-1].Name;
         }
+        result += "\n";
         MaxHealth = (int)(MaxHealth * statIncreaseFactor);
         MaxSkill = (int)(MaxSkill * statIncreaseFactor);
         DefaultAttack -= GetAttackFromWearables();
@@ -138,6 +144,7 @@ public class FriendlyCharacter : Character
         CurrentXP -= XPToNextLevel;
         XPToNextLevel += requiredXPincrease;
         Debug.Log(NominativeName + " reached level " + Level);
+        return result;
     }
 
     public int GetAttackFromWearables()

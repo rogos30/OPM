@@ -9,8 +9,11 @@ public class DialogManager : MonoBehaviour
 {
     public static DialogManager instance;
     public UnityEvent onDialogueEnd;
+    public UnityEvent onGameInfoEnd;
     [SerializeField] public Canvas dialogueCanvas;
     [SerializeField] TMP_Text dialogueText;
+    [SerializeField] public Canvas gameInfoCanvas;
+    [SerializeField] TMP_Text gameInfoText;
     [SerializeField] TMP_Text speakersName;
     [SerializeField] Image speakerSprite;
     [SerializeField] public Sprite[] speakerSprites;
@@ -24,6 +27,7 @@ public class DialogManager : MonoBehaviour
     {
         instance = this;
         dialogueCanvas.enabled = false;
+        gameInfoCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -31,11 +35,15 @@ public class DialogManager : MonoBehaviour
     {
         if (dialogueCanvas.enabled)
         {
-            HandleInput();
+            HandleDialogueInput();
+        }
+        else if (gameInfoCanvas.enabled)
+        {
+            HandleGameInfoInput();
         }
     }
 
-    void HandleInput()
+    void HandleDialogueInput()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -50,6 +58,13 @@ public class DialogManager : MonoBehaviour
             }
         }
     }
+    void HandleGameInfoInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameInfoNextLine();
+        }
+    }
     public void StartDialogue(string[] lines, int[] speakersIndexes)
     {
         currentIndex = -1;
@@ -58,6 +73,7 @@ public class DialogManager : MonoBehaviour
         this.speakersIndexes = speakersIndexes;
         NextLine();
     }
+    
     void EndDialogue()
     {
         dialogueCanvas.enabled = false;
@@ -88,5 +104,32 @@ public class DialogManager : MonoBehaviour
             dialogueText.text += letter;
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
+    }
+
+
+
+    public void StartGameInfo(string[] lines)
+    {
+        currentIndex = -1;
+        gameInfoCanvas.enabled = true;
+        this.lines = lines;
+        GameInfoNextLine();
+    }
+    void GameInfoNextLine()
+    {
+        if (currentIndex < lines.Length - 1)
+        {
+            currentIndex++;
+            gameInfoText.text = lines[currentIndex];
+        }
+        else
+        {
+            EndGameInfo();
+        }
+    }
+    void EndGameInfo()
+    {
+        gameInfoCanvas.enabled = false;
+        onGameInfoEnd.Invoke();
     }
 }

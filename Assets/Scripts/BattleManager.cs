@@ -271,6 +271,7 @@ public class BattleManager : MonoBehaviour
                             if (actions[chosenSubaction].text == "Potwierdü") //accepted to run
                             {
                                 StartCoroutine(FinishBattle(false));
+                                //HandleBattleEnd(false);
                             }
                             else //didn't run
                             {
@@ -725,10 +726,12 @@ public class BattleManager : MonoBehaviour
         if (playablesKnockedOut == playableCharacterList.Count && !battleFinished)
         { //player lost
             StartCoroutine(FinishBattle(false));
+            //HandleBattleEnd(false);
         }
         else if (enemiesKnockedOut == enemyCharacterList.Count && !battleFinished)
         { //enemy lost
             StartCoroutine(FinishBattle(true));
+            //HandleBattleEnd(true);
         }
         else
         {
@@ -786,6 +789,7 @@ public class BattleManager : MonoBehaviour
                 if (randTarget == -1)
                 {
                     StartCoroutine(FinishBattle(false));
+                    //HandleBattleEnd(false);
                     yield break;
                 }
                 EnemyExecuteSkill(source, randSkill, enemyCharacterList[randTarget]);
@@ -797,6 +801,7 @@ public class BattleManager : MonoBehaviour
             if (randTarget == -1)
             {
                 StartCoroutine(FinishBattle(false));
+                //HandleBattleEnd(false);
                 yield break;
             }
             if (source.skillSet[randSkill].MultipleTargets)
@@ -879,10 +884,11 @@ public class BattleManager : MonoBehaviour
         actionDescriptionText.text = playableCharacterList[0].AbilityDescription;
     }
 
-    IEnumerator FinishBattle(bool playerWon)
+    void HandleBattleEnd(bool playerWon)
     {
         battleFinished = true;
         acceptsInput = false;
+        List<string> gameInfoLines = new List<string>();
         if (playerWon)
         {
             int xpEarned = 0, moneyEarned = 0;
@@ -891,38 +897,76 @@ public class BattleManager : MonoBehaviour
                 xpEarned += enemyCharacterList[i].XPDropped;
                 moneyEarned += enemyCharacterList[i].MoneyDropped;
             }
+            gameInfoLines.Add("Zdobywasz " + xpEarned + " doúwiadczenia!");
             for (int i = 0; i < playableCharacterList.Count; i++)
             {
-                playableCharacterList[i].HandleLevel(xpEarned);
+                gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
             }
             Inventory.Instance.Money += moneyEarned;
+            gameInfoLines.Add("Zarabiasz " + moneyEarned + " PLN!");
             Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.Instance.Money + " money");
+
+            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
         {
-            
+
         }
+        DialogManager.instance.onGameInfoEnd.AddListener(() => StartCoroutine(FinishBattle(playerWon)));
+    }
+
+    IEnumerator FinishBattle(bool playerWon)
+    {
+        battleFinished = true;
+        acceptsInput = false;
+        List<string> gameInfoLines = new List<string>();
+        
         yield return new WaitForSeconds(2);
         musicSource.Stop();
         foreach (var sprite in enemySprites)
         {
             sprite.SetActive(false);
         }
-        playableCharacterList.Clear();
-        enemyCharacterList.Clear();
+        
         player.SetActive(true);
         player.transform.position = returnPosition;
         battleCanvas.enabled = false;
-        GameManager.instance.inGameCanvas.enabled = true;
-        StopAllCoroutines();
         if (playerWon)
         {
-            onBattleWon.Invoke();
+            int xpEarned = 0, moneyEarned = 0;
+            for (int i = 0; i < enemyCharacterList.Count; i++)
+            {
+                xpEarned += enemyCharacterList[i].XPDropped;
+                moneyEarned += enemyCharacterList[i].MoneyDropped;
+            }
+            gameInfoLines.Add("Zdobywasz " + xpEarned + " punktÛw doúwiadczenia!\n" + "Zarabiasz " + moneyEarned + " PLN!");
+            for (int i = 0; i < playableCharacterList.Count; i++)
+            {
+                gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
+            }
+            Inventory.Instance.Money += moneyEarned;
+            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.Instance.Money + " money");
+
+            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
         {
-            onBattleLost.Invoke();
+
         }
+        playableCharacterList.Clear();
+        enemyCharacterList.Clear();
+        StopAllCoroutines();
+        DialogManager.instance.onGameInfoEnd.AddListener(() => {
+            GameManager.instance.inGameCanvas.enabled = true;
+            if (playerWon)
+            {
+                onBattleWon.Invoke();
+            }
+            else
+            {
+                onBattleLost.Invoke();
+            }
+        });
     }
 
     void InitializeFriendlyCharacter()

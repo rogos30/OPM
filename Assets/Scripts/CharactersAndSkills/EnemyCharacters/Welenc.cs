@@ -18,7 +18,7 @@ public class Welenc : EnemyCharacter
         Turns = DefaultTurns = 1;
         Speed = 300;
         MoneyDropped = 50;
-        XPDropped = 1000;
+        XPDropped = 10000;
         EnemyAttack attack = new EnemyAttack();
         skillSet.Add(attack);
         skillSet.Add(attack);

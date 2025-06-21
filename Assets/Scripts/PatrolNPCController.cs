@@ -7,18 +7,20 @@ using UnityEngine.UI;
 public class PatrolNPCController : Interactable
 {
     [SerializeField] private Slider currentAwarenessSlider;
-    private const float moveSpeed = 1.5f;
-    private const float waitTimeAtPatrolPoint = 5f;
     private float currentWaitTime = 0;
     private const float timeBetweenAwarenessUpdates = 0.05f;
     private float currentTimeBetweenAwarenessUpdates = 0;
-    private const float cooldownTime = 3f;
     private float currentCooldownTime = 0;
     private float awareness = 0;
     private int minAwareness = 0;
     [SerializeField] private GameObject[] patrolPoints;
     [SerializeField] private GameObject visionCone;
     [SerializeField] private GameObject player;
+    [Range(0.5f, 10f)][SerializeField] private float moveSpeed;
+    [Range(0.5f, 10f)][SerializeField] private float waitTimeAtPatrolPoint;
+    [Range(0.5f, 10f)][SerializeField] private float awarenessCooldownTime;
+    [SerializeField] private bool playerInSightExtendsPatrol;
+    [SerializeField] private bool hasAwarenessThresholds;
     private int currentPatrolPoint = 0;
     private bool canMove = true;
     private bool hasSetDirection = true;
@@ -61,7 +63,7 @@ public class PatrolNPCController : Interactable
     void HandlePatrol()
     {
         animator.SetInteger("isWalking", 0);
-        if (!isPlayerInSight)
+        if (!playerInSightExtendsPatrol || !isPlayerInSight)
         {
             currentWaitTime += Time.deltaTime;
         }
@@ -156,7 +158,7 @@ public class PatrolNPCController : Interactable
     void HandlePlayerOutOfSight()
     {
         currentCooldownTime += Time.deltaTime;
-        if (awareness > minAwareness && currentTimeBetweenAwarenessUpdates >= timeBetweenAwarenessUpdates && currentCooldownTime >= cooldownTime)
+        if (awareness > minAwareness && currentTimeBetweenAwarenessUpdates >= timeBetweenAwarenessUpdates && currentCooldownTime >= awarenessCooldownTime)
         {
             awareness--;
             currentTimeBetweenAwarenessUpdates = 0;
@@ -182,17 +184,20 @@ public class PatrolNPCController : Interactable
         {
             Debug.Log("Spotted! Game over!");
         }
-        else if (awareness >= 75)
+        else if (hasAwarenessThresholds)
         {
-            minAwareness = 75;
-        }
-        else if (awareness >= 50)
-        {
-            minAwareness = 50;
-        }
-        else if (awareness >= 25)
-        {
-            minAwareness = 25;
+            if (awareness >= 75)
+            {
+                minAwareness = 75;
+            }
+            else if (awareness >= 50)
+            {
+                minAwareness = 50;
+            }
+            else if (awareness >= 25)
+            {
+                minAwareness = 25;
+            }
         }
     }
 
