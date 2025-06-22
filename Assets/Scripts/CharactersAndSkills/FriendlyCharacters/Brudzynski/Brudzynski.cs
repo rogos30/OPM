@@ -21,6 +21,7 @@ public class Brudzynski : FriendlyCharacter
         SpriteIndex = 4;
         levelsToUnlockSkill = 3;
         AbilityDescription = "Brudzyñski ma ³¹cznie 7 umiejêtnoœci i odblokowuje je szybciej";
+        CharacterDescription = "Opis Brudzyñskiego wip";
         Attack attack = new Attack();
         skillSet.Add(attack);
         Balaclava balaclava = new Balaclava();

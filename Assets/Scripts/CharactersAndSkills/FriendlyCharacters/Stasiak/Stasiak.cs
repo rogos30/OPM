@@ -20,6 +20,7 @@ public class Stasiak : FriendlyCharacter
         SpriteIndex = 2;
         criticalDamageMultiplier = 3;
         AbilityDescription = "Krytyczne trafienia Stasiaka daj¹ 3x efekt zamiast 2x";
+        CharacterDescription = "Opis Stasiaka wip";
         Attack attack = new Attack();
         skillSet.Add(attack);
         Overrun overrun = new Overrun();

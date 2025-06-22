@@ -21,6 +21,7 @@ public class Swietlik : FriendlyCharacter
         Speed = 500;
         SpriteIndex = 1;
         AbilityDescription = "Œwietlik ma szansê na zdradê. Za ka¿dy % zdrady obra¿enia zwiêkszaj¹ siê o 2%. Obecnie: " + Betrayal + "% na zdradê";
+        CharacterDescription = "Opis Œwietlika wip";
         BetrayableAttack attack = new BetrayableAttack();
         skillSet.Add(attack);
         BetrayableTriplePunch betrayableTriplePunch = new BetrayableTriplePunch();

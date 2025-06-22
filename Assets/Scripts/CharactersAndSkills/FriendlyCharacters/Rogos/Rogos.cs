@@ -21,6 +21,7 @@ public class Rogos : FriendlyCharacter
         SpriteIndex = 0;
         GuardTimer = 0;
         AbilityDescription = "Garda Rogosa trwa 2 tury i odnawia 40% SP";
+        CharacterDescription = "Opis Rogosa wip";
         Attack attack = new Attack();
         ControllerThrow controllerThrow = new ControllerThrow();
         Cheats cheats = new Cheats();

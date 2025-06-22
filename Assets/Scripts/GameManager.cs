@@ -497,23 +497,24 @@ public class GameManager : MonoBehaviour
 
     void PrintCharInfo()
     {
-        int addedAttack = BattleManager.instance.playableCharacters[currentPage].GetAttackFromWearables();
-        int addedDefense = BattleManager.instance.playableCharacters[currentPage].GetDefenseFromWearables();
-        float accuracyModifier = BattleManager.instance.playableCharacters[currentPage].GetAccuracyFromWearables();
-        float healingModifier = BattleManager.instance.playableCharacters[currentPage].GetHealingFromWearables();
+        var currentChar = BattleManager.instance.playableCharacters[currentPage];
+        int addedAttack = currentChar.GetAttackFromWearables();
+        int addedDefense = currentChar.GetDefenseFromWearables();
+        float accuracyModifier = currentChar.GetAccuracyFromWearables();
+        float healingModifier = currentChar.GetHealingFromWearables() * currentChar.ItemEnhancementMultiplier;
         characterSprite.sprite = DialogManager.instance.speakerSprites[currentPage];
-        characterInfoTexts[0].text = BattleManager.instance.playableCharacters[currentPage].NominativeName;
-        characterInfoTexts[1].text = "Poziom: " + BattleManager.instance.playableCharacters[currentPage].Level;
-        characterInfoTexts[2].text = "XP do nast.: " + (BattleManager.instance.playableCharacters[currentPage].XPToNextLevel - BattleManager.instance.playableCharacters[currentPage].CurrentXP);
-        characterInfoTexts[3].text = "HP: " + BattleManager.instance.playableCharacters[currentPage].MaxHealth;
-        characterInfoTexts[4].text = "SP: " + BattleManager.instance.playableCharacters[currentPage].MaxSkill;
-        characterInfoTexts[5].text = "Atak: " + (BattleManager.instance.playableCharacters[currentPage].DefaultAttack + addedAttack);
-        characterInfoTexts[6].text = "Obrona: " + (BattleManager.instance.playableCharacters[currentPage].DefaultAttack + addedDefense);
-        characterInfoTexts[7].text = "Szybkoœæ: " + BattleManager.instance.playableCharacters[currentPage].Speed;
-        characterInfoTexts[8].text = "Ruchy w turze: " + BattleManager.instance.playableCharacters[currentPage].Turns;
+        characterInfoTexts[0].text = currentChar.NominativeName;
+        characterInfoTexts[1].text = "Poziom: " + currentChar.Level;
+        characterInfoTexts[2].text = "XP do nast.: " + (currentChar.XPToNextLevel - currentChar.CurrentXP);
+        characterInfoTexts[3].text = "HP: " + currentChar.MaxHealth;
+        characterInfoTexts[4].text = "SP: " + currentChar.MaxSkill;
+        characterInfoTexts[5].text = "Atak: " + (currentChar.DefaultAttack + addedAttack);
+        characterInfoTexts[6].text = "Obrona: " + (currentChar.DefaultAttack + addedDefense);
+        characterInfoTexts[7].text = "Szybkoœæ: " + currentChar.Speed;
+        characterInfoTexts[8].text = "Ruchy w turze: " + currentChar.Turns;
         characterInfoTexts[9].text = "Leczenie: " + healingModifier * 100 + "%";
-        characterInfoTexts[10].text = "Celnoœæ: " + BattleManager.instance.playableCharacters[currentPage].Accuracy * accuracyModifier * 100 + "%";
-        characterInfoTexts[11].text = "Opis - work in progress";
+        characterInfoTexts[10].text = "Celnoœæ: " + currentChar.Accuracy * accuracyModifier * 100 + "%";
+        characterInfoTexts[11].text = "Opis: " + currentChar.CharacterDescription;
     }
 
     void LoadSettings()

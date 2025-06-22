@@ -20,6 +20,7 @@ public class Kaja : FriendlyCharacter
         SpriteIndex = 3;
         ItemEnhancementMultiplier = 1.5f;
         AbilityDescription = "Przedmioty u¿yte przez Kajê maj¹ o 50% zwiêkszony efekt";
+        CharacterDescription = "Opis Kai wip";
         Attack attack = new Attack();
         skillSet.Add(attack);
         FrogThrow frogThrow = new FrogThrow();

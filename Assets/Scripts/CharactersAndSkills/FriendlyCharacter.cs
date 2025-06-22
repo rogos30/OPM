@@ -20,6 +20,7 @@ public class FriendlyCharacter : Character
     public float HealingMultiplier {  get; set; }
     public float ItemEnhancementMultiplier {  get; set; }
     public string AbilityDescription { get; set; }
+    public string CharacterDescription { get; set; }
     public List<PlayableSkill> skillSet = new List<PlayableSkill>();
     public Wearable[] wearablesWorn = new Wearable[4];
 
