@@ -160,6 +160,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\FatumBox.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\IronSword.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_New.cs" />
+    <Compile Include="Assets\Scripts\PlayerFollowerController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\Cutball.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\Stasiak.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Brudzynski\SwordTwirl.cs" />

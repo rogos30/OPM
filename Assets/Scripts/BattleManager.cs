@@ -839,6 +839,7 @@ public class BattleManager : MonoBehaviour
         returnPosition = player.transform.position;
         player.transform.position = battlePosition;
         player.SetActive(false);
+        StoryManager.instance.DisableNPCs();
         RidUIofColor();
         for (int i=0; i < characterNames.Length; i++) //clear everything up
         {
@@ -930,6 +931,7 @@ public class BattleManager : MonoBehaviour
         
         player.SetActive(true);
         player.transform.position = returnPosition;
+        StoryManager.instance.HandleNPCs();
         battleCanvas.enabled = false;
         if (playerWon)
         {

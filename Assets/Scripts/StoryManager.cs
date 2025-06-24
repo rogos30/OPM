@@ -44,7 +44,15 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    void HandleNPCs()
+    public void DisableNPCs()
+    {
+        foreach(var npc in NPCs)
+        {
+            npc.SetActive(false);
+        }
+    }
+
+    public void HandleNPCs()
     {
         foreach (var npc in NPCs)
         {

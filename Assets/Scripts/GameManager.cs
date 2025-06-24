@@ -511,9 +511,9 @@ public class GameManager : MonoBehaviour
         characterInfoTexts[5].text = "Atak: " + (currentChar.DefaultAttack + addedAttack);
         characterInfoTexts[6].text = "Obrona: " + (currentChar.DefaultAttack + addedDefense);
         characterInfoTexts[7].text = "Szybkoœæ: " + currentChar.Speed;
-        characterInfoTexts[8].text = "Ruchy w turze: " + currentChar.Turns;
+        characterInfoTexts[8].text = "Ruchy w turze: " + currentChar.DefaultTurns;
         characterInfoTexts[9].text = "Leczenie: " + healingModifier * 100 + "%";
-        characterInfoTexts[10].text = "Celnoœæ: " + currentChar.Accuracy * accuracyModifier * 100 + "%";
+        characterInfoTexts[10].text = "Celnoœæ: " + currentChar.DefaultAccuracy * accuracyModifier * 100 + "%";
         characterInfoTexts[11].text = "Opis: " + currentChar.CharacterDescription;
     }
 

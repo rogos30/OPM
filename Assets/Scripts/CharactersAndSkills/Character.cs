@@ -31,7 +31,7 @@ public abstract class Character
     public int DefaultAttack { get; set; }
     public int DefaultDefense { get; set; }
     public float DefaultAccuracy { get; set; }
-    protected int DefaultTurns { get; set; }
+    public int DefaultTurns { get; set; }
     public int NegativeEffectsImmunity { get; set; }
     public int Speed { get; set; }
     public bool KnockedOut { get; set; }
