@@ -135974,7 +135974,7 @@ PrefabInstance:
       objectReference: {fileID: 2013769090}
     - target: {fileID: 5062368262333893221, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
       propertyPath: appearanceAtQuest
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5062368262333893221, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
       propertyPath: disappearanceAtQuest

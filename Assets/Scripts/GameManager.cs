@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
 using static UnityEngine.GraphicsBuffer;
@@ -390,6 +391,8 @@ public class GameManager : MonoBehaviour
                             optionsColumn.SetActive(true);
                             break;
                         case 4: //returned to main
+
+                            SceneManager.LoadScene("start");
                             break;
                     }
                     break;
