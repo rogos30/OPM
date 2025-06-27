@@ -54,11 +54,16 @@ public class FriendlyCharacter : Character
             {
                 StatusTimers[i]++;
             }
+            if (StatusTimers[i] == 0)
+            {
+                CancelStatusEffect(i);
+            }
         }
         if (NegativeEffectsImmunity > 0)
         {
             NegativeEffectsImmunity--;
         }
+        Debug.Log(NominativeName + " handling timers");
     }
 
     public List<string> HandleLevel(int exp)
@@ -75,22 +80,12 @@ public class FriendlyCharacter : Character
 
     public override void Heal(int healing)
     {
-        float multiplier = HealingMultiplier;
-        if (IsGuarding)
-        {
-            multiplier *= 1.5f;
-        }
-        base.Heal((int)(healing*multiplier));
+        base.Heal((int)(healing* HealingMultiplier));
     }
 
     public override void Heal(float healing)
     {
-        float multiplier = HealingMultiplier;
-        if (IsGuarding)
-        {
-            multiplier *= 1.5f;
-        }
-        base.Heal(multiplier * healing);
+        base.Heal(HealingMultiplier * healing);
     }
 
     public void RestoreSkill(int skill)
@@ -117,11 +112,13 @@ public class FriendlyCharacter : Character
     {
         IsGuarding = true;
         RestoreSkill(0.2f);
+        HealingMultiplier = 1.5f;
     }
 
     virtual public void HandleGuard()
     {
         IsGuarding = false;
+        HealingMultiplier = 1;
     }
 
     public string LevelUp()

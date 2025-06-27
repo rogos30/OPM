@@ -24,6 +24,14 @@ public class EnemyCharacter : Character
             {
                 StatusTimers[i]--;
             }
+            else if (StatusTimers[i] < 0)
+            {
+                StatusTimers[i]++;
+            }
+            if (StatusTimers[i] == 0)
+            {
+                CancelStatusEffect(i);
+            }
         }
         if (NegativeEffectsImmunity > 0)
         {

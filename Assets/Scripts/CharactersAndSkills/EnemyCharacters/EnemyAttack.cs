@@ -27,8 +27,12 @@ public class EnemyAttack : EnemySkill
             damage *= source.criticalDamageMultiplier;
         }
         damage = Mathf.Max(damage, 1);
-        finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         target.TakeDamage(damage);
+        if (((FriendlyCharacter)target).IsGuarding && damage != 1)
+        {
+            damage /= 2;
+        }
+        finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         return finalDesc;
     }
 }

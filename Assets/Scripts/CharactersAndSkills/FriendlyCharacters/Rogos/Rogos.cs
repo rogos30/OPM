@@ -41,6 +41,7 @@ public class Rogos : FriendlyCharacter
         GuardTimer = 2;
         IsGuarding = true;
         RestoreSkill(0.4f);
+        HealingMultiplier = 1.5f;
     }
 
     public override void HandleGuard()
@@ -52,6 +53,7 @@ public class Rogos : FriendlyCharacter
         if (GuardTimer == 0)
         {
             IsGuarding = false;
+            HealingMultiplier = 1;
         }
     }
 }

@@ -115,6 +115,7 @@ public abstract class Character
         else
         { //effects cancel each other out
             StatusTimers[effect] = 0;
+            CancelStatusEffect(effect);
         }
     }
 
@@ -146,6 +147,26 @@ public abstract class Character
         else
         { //effects cancel each other out
             StatusTimers[effect] = 0;
+            CancelStatusEffect(effect);
+        }
+    }
+
+    virtual public void CancelStatusEffect(int effect)
+    {
+        switch (effect)
+        {
+            case 0: //attack
+                Attack = DefaultAttack;
+                break;
+            case 1: //defense
+                Defense = DefaultDefense;
+                break;
+            case 2: //accuracy
+                Accuracy = DefaultAccuracy;
+                break;
+            case 4: //turns
+                Turns = DefaultTurns;
+                break;
         }
     }
 

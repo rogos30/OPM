@@ -24,13 +24,13 @@ public class Cheats : PlayableSkill
             return source.NominativeName + " wpisuje niedzia³aj¹ce kody";
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int turns = 3;
+        int turns = 4;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
+            turns = 6;
         }
-        finalDesc = finalDesc + " " + turns + " tur!";
+        finalDesc = finalDesc + (turns-1) + " tur!";
         target.ApplyBuff((int)Character.StatusEffects.TURNS, turns);
         return finalDesc;
     }

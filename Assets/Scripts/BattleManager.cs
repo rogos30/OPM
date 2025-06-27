@@ -72,6 +72,7 @@ public class BattleManager : MonoBehaviour
     bool skillCheckGoingRight, skillCheckAcceptsInput;
     int playablesKnockedOut = 0, enemiesKnockedOut = 0, uiIndexOffset = 0;
     int skillPerformance;
+    int playerMovesThisTurn;
     float skillCheckTime = defaultSkillCheckTime, defaultBlueAreaScale, defaultGreenAreaScale;
     Vector3 defaultTextScale;
     Image[,] allEffectSprites = new Image[maxCharactersInBattle, iconsPerPlayable];
@@ -1074,6 +1075,7 @@ public class BattleManager : MonoBehaviour
         {
             playableCharacterList[currentPlayable].HandleTimers();
             RotatePlayables();
+            playerMovesThisTurn = playableCharacterList[currentPlayable].Turns;
         }
         dynamicDescription.SetActive(false);
         actionDescriptionMenu.SetActive(true);
@@ -1177,7 +1179,8 @@ public class BattleManager : MonoBehaviour
     void FinishPlayersMove()
     {
         onMoveFinished.RemoveAllListeners();
-        if (currentMoveInTurn < playableCharacterList[currentPlayable].Turns - 1)
+        //if (currentMoveInTurn < playableCharacterList[currentPlayable].Turns - 1)
+        if (currentMoveInTurn < playerMovesThisTurn - 1)
         {
             currentMoveInTurn++;
             StartCoroutine(AllowPlayerToMove(false));
