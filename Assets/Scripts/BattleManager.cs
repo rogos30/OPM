@@ -708,22 +708,7 @@ public class BattleManager : MonoBehaviour
 
     void DecideNextMove()
     {
-        playablesKnockedOut = 0; enemiesKnockedOut = 0;
-        foreach (Character character in playableCharacterList)
-        {
-            if (character.KnockedOut)
-            {
-                playablesKnockedOut++;
-            }
-        }
-        for (int i = 0; i < enemyCharacterList.Count; i++)
-        {
-            if (enemyCharacterList[i].KnockedOut)
-            {
-                enemiesKnockedOut++;
-                enemySprites[i].SetActive(false);
-            }
-        }
+        CountKnockedOut();
         if (playablesKnockedOut == playableCharacterList.Count && !battleFinished)
         { //player lost
             StartCoroutine(FinishBattle(false));
@@ -884,6 +869,7 @@ public class BattleManager : MonoBehaviour
         }
         UpdateHealthBarsAndIcons();
         actionDescriptionText.text = playableCharacterList[0].AbilityDescription;
+        playerMovesThisTurn = playableCharacterList[0].DefaultTurns;
     }
 
     void HandleBattleEnd(bool playerWon)
@@ -1180,7 +1166,8 @@ public class BattleManager : MonoBehaviour
     {
         onMoveFinished.RemoveAllListeners();
         //if (currentMoveInTurn < playableCharacterList[currentPlayable].Turns - 1)
-        if (currentMoveInTurn < playerMovesThisTurn - 1)
+        CountKnockedOut();
+        if (currentMoveInTurn < playerMovesThisTurn - 1 && enemiesKnockedOut != enemyCharacterList.Count && playablesKnockedOut != playableCharacterList.Count)
         {
             currentMoveInTurn++;
             StartCoroutine(AllowPlayerToMove(false));
@@ -1367,5 +1354,26 @@ public class BattleManager : MonoBehaviour
         UpdateHealthBarsAndIcons();
         handlingPhases = false;
         DecideNextMove();
+    }
+
+    void CountKnockedOut()
+    {
+        playablesKnockedOut = 0; enemiesKnockedOut = 0;
+        foreach (Character character in playableCharacterList)
+        {
+            if (character.KnockedOut)
+            {
+                playablesKnockedOut++;
+            }
+        }
+        for (int i = 0; i < enemyCharacterList.Count; i++)
+        {
+            if (enemyCharacterList[i].KnockedOut)
+            {
+                enemiesKnockedOut++;
+                enemySprites[i].SetActive(false);
+            }
+        }
+        Debug.Log("count knocked enemies " + enemiesKnockedOut);
     }
 }

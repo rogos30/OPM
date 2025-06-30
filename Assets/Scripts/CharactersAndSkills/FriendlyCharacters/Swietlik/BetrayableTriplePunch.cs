@@ -64,7 +64,7 @@ public class BetrayableTriplePunch : PlayableSkill
         }
         damage = Mathf.Max(damage, 1);
         target.TakeDamage(damage);
-        if (((FriendlyCharacter)target).IsGuarding && damage != 1)
+        if (betrayed && ((FriendlyCharacter)target).IsGuarding && damage != 1)
         {
             damage /= 2;
         }

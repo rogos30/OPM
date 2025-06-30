@@ -68,6 +68,11 @@ public class BetrayableAttack : PlayableSkill
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         ((Swietlik)source).ResetBetrayal();
+
+        if (betrayed && ((FriendlyCharacter)target).IsGuarding && damage != 1)
+        {
+            damage /= 2;
+        }
         return finalDesc;
     }
 }
