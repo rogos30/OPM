@@ -658,6 +658,10 @@ public class BattleManager : MonoBehaviour
             { //skill targets every ally
                 StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, playableCharacterList.Cast<Character>().ToList()));
             }
+            else if (playableCharacterList[currentPlayable].skillSet[skillIndex].Repetitions > 1)
+            { //skill targets random allies multiple times
+                StartCoroutine(FriendlyExecuteSkillMultipleTimes(playableCharacterList[currentPlayable], skillIndex, playableCharacterList.Cast<Character>().ToList()));
+            }
             else
             { //skill targets one ally
                 FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[currentPage * actions.Length + chosenTarget]);
@@ -940,7 +944,8 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-
+            gameInfoLines.Add("ciota");
+            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         playableCharacterList.Clear();
         enemyCharacterList.Clear();

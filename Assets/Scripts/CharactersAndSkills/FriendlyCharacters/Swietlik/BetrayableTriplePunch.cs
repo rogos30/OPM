@@ -10,7 +10,7 @@ public class BetrayableTriplePunch : PlayableSkill
     {
         Name = "Potrójny atak";
         SkillDescription = "wyprowadza 3 zwyk³e ciosy. Mo¿e zdradziæ!";
-        InFightDescription = " wyprowadza 3 zwyk³e ciosy ";
+        InFightDescription = " wyprowadza 3 zwyk³e ciosy, zadaj¹c ";
         Cost = 0.2f;
         Repetitions = 3;
         TargetIsFriendly = false;

@@ -10,14 +10,14 @@ public class KorwinsPistol : PlayableSkill
     {
         Name = "Pistolet Korwina";
         SkillDescription = "pos³uguje siê broni¹ krula w celu rozprawienia siê z komunistami.";
-        InFightDescription = " stawia kres lewactwu ";
+        InFightDescription = " stawia kres lewactwu i zadaje ";
         Cost = 240f;
         Repetitions = 3;
         AccuracyMultiplier = 1f;
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
-        TargetIsRandom = false;
+        TargetIsRandom = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

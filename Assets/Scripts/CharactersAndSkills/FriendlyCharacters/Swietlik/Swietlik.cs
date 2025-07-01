@@ -47,4 +47,9 @@ public class Swietlik : FriendlyCharacter
         Betrayal = Mathf.Max(Betrayal - Random.Range(10, 20), 0);
         AbilityDescription = "Œwietlik ma szansê na zdradê. Za ka¿dy % zdrady obra¿enia zwiêkszaj¹ siê o 2%. Obecnie: " + Betrayal + "% na zdradê";
     }
+
+    protected override void AdditionalChangesOnReset()
+    {
+        ResetBetrayal();
+    }
 }

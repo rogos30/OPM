@@ -58,13 +58,6 @@ public class DialogManager : MonoBehaviour
             }
         }
     }
-    void HandleGameInfoInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GameInfoNextLine();
-        }
-    }
     public void StartDialogue(string[] lines, int[] speakersIndexes)
     {
         currentIndex = -1;
@@ -108,6 +101,13 @@ public class DialogManager : MonoBehaviour
 
 
 
+    void HandleGameInfoInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameInfoNextLine();
+        }
+    }
     public void StartGameInfo(string[] lines)
     {
         currentIndex = -1;
