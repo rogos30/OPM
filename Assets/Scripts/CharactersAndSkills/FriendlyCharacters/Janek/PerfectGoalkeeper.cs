@@ -33,7 +33,6 @@ public class PerfectGoalkeeper : PlayableSkill
         }
         finalDesc = finalDesc + turns + " tur!";
         target.ApplyBuff(1, turns);
-        ((Swietlik)source).ReduceBetrayal();
         return finalDesc;
     }
 }

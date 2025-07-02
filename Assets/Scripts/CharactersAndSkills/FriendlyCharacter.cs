@@ -207,4 +207,9 @@ public class FriendlyCharacter : Character
         }
         base.TakeDamage(damage);
     }
+
+    public virtual void OnItemUsed(Item item)
+    {
+
+    }
 }

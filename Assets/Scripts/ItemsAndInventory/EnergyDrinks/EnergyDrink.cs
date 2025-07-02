@@ -8,6 +8,7 @@ public class EnergyDrink : Item
 
     public override string Use(FriendlyCharacter source, FriendlyCharacter target)
     {
+        source.OnItemUsed(this);
         float multiplier = source.ItemEnhancementMultiplier;
         string finalDesc = target.NominativeName + " wraca do ¿ywych z " + HealthRestored * multiplier * 100 + "% HP";
         target.KnockedOut = false;

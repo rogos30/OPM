@@ -49,14 +49,17 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject actionDescriptionMenu;
     [SerializeField] GameObject dynamicDescription;
     [SerializeField] TMP_Text actionDescriptionText;
+    [SerializeField] TMP_Text characterDescriptionText;
     public TMP_Text battleFpsText;
 
     public Skill[] skillTable = new Skill[100];
     public List<FriendlyCharacter> playableCharacters = new List<FriendlyCharacter>();
-    public List<EnemyCharacter> enemyCharacters = new List<EnemyCharacter>();
+    public List<EnemyCharacter> allEnemyCharacters = new List<EnemyCharacter>();
 
     List<FriendlyCharacter> playableCharacterList = new List<FriendlyCharacter>();
     List<EnemyCharacter> enemyCharacterList = new List<EnemyCharacter>();
+
+    List<int> enemySpriteIndexes = new List<int>();
 
     const int maxCharactersInBattle = 5, iconsPerPlayable = 6;
     const int guardSpBoost = 20, skillCheckSliderWidth = 500;
@@ -137,7 +140,7 @@ public class BattleManager : MonoBehaviour
             nextCharacters.SetActive(true);
 
 
-            actionDescriptionText.text = playableCharacterList[Mathf.Min(currentPlayable, playableCharacterList.Count-1)].AbilityDescription;
+            characterDescriptionText.text = playableCharacterList[Mathf.Min(currentPlayable, playableCharacterList.Count-1)].AbilityDescription;
         }
         else
         {
@@ -167,6 +170,7 @@ public class BattleManager : MonoBehaviour
                             PrintYesNo();
                             break;
                     }
+                    ResetCurrentRow();
                     break;
                 case 1: //just selected a subaction - entering targets (most likely)
                     chosenSubaction = currentRow;
@@ -281,12 +285,13 @@ public class BattleManager : MonoBehaviour
                             }
                             break;
                     }
+                    ResetCurrentRow();
                     break;
                 case 2: //just selected a target
-                    chosenTarget = enemyCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text)) % actions.Length;
+                    chosenTarget = enemyCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text));
                     if (chosenTarget == -1)
                     { //if not an enemy, then an ally (or all enemies which does not matter)
-                        chosenTarget = playableCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text)) % actions.Length;
+                        chosenTarget = playableCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text));
                     }
 
                     currentColumn++;
@@ -294,7 +299,6 @@ public class BattleManager : MonoBehaviour
                     maxCurrentRow = 4;
                     break;
             }
-            ResetCurrentRow();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Escape))
         {
@@ -387,6 +391,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
         {
+            ResetCurrentRow();
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 currentPage = Mathf.Max(currentPage - 1, 0);
@@ -562,11 +567,10 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
-    
+
     void PrintPageOfAllies(bool alive)
     {
         ClearActions();
-        currentRow = 0;
         int skipped = 0, toSkip = currentPage * actions.Length, textIndex = 0;
         for (int i = 0; i < playableCharacterList.Count; i++)
         {
@@ -624,7 +628,7 @@ public class BattleManager : MonoBehaviour
         { //item
             dynamicDescription.SetActive(true);
             actionDescriptionMenu.SetActive(false);
-            dynamicDescriptionText.text = Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[currentPage * actions.Length + chosenTarget]);
+            dynamicDescriptionText.text = Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[chosenTarget]);
             UpdateHealthBarsAndIcons();
             FinishPlayersMove();
         }
@@ -664,7 +668,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one ally
-                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[currentPage * actions.Length + chosenTarget]);
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[chosenTarget]);
             }
         }
         else
@@ -679,7 +683,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one enemy
-                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[currentPage * actions.Length + chosenTarget]);
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[chosenTarget]);
             }
         }
     }
@@ -811,6 +815,8 @@ public class BattleManager : MonoBehaviour
 
     public void InitiateBattle(int[] playables, int[] enemies)
     {
+        enemySpriteIndexes.AddRange(enemies);
+        Debug.Log(enemySpriteIndexes[0]);
         musicSource.clip = battleMusic[enemies[0]];
         musicSource.loop = true;
         musicSource.Play();
@@ -865,14 +871,14 @@ public class BattleManager : MonoBehaviour
         }
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemyCharacters[enemies[i]].Reset();
-            enemyCharacterList.Add(enemyCharacters[enemies[i]]);
+            allEnemyCharacters[enemies[i]].Reset();
+            enemyCharacterList.Add(allEnemyCharacters[enemies[i]]);
             enemySprites[enemies[i]].SetActive(true);
             enemyNames[i].text = enemyCharacterList[i].NominativeName;
             enemyHealthBars[i].gameObject.SetActive(true);
         }
         UpdateHealthBarsAndIcons();
-        actionDescriptionText.text = playableCharacterList[0].AbilityDescription;
+        characterDescriptionText.text = playableCharacterList[0].AbilityDescription;
         playerMovesThisTurn = playableCharacterList[0].DefaultTurns;
     }
 
@@ -949,6 +955,7 @@ public class BattleManager : MonoBehaviour
         }
         playableCharacterList.Clear();
         enemyCharacterList.Clear();
+        enemySpriteIndexes.Clear();
         StopAllCoroutines();
         DialogManager.instance.onGameInfoEnd.AddListener(() => {
             GameManager.instance.inGameCanvas.enabled = true;
@@ -972,31 +979,31 @@ public class BattleManager : MonoBehaviour
     void InitializeEnemyCharacters()
     {
         EnemyCharacter character = new MiddleFingerKid();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new IndianKid();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new AngryGirl();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new OffendedKid();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new EnemySwietlik();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new Welenc();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new Monitoring();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new Camera1();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
 
         character = new Camera2();
-        enemyCharacters.Add(character);
+        allEnemyCharacters.Add(character);
     }
 
     void RotatePlayables()
@@ -1044,6 +1051,7 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
+        characterDescriptionText.text = playableCharacterList[currentPlayable].AbilityDescription;
     }
 
 
@@ -1224,10 +1232,11 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemyCharacters[enemies[i]].Reset();
-            enemyCharacterList.Add(enemyCharacters[enemies[i]]);
+            enemySpriteIndexes.Add(enemies[i]);
+            allEnemyCharacters[enemies[i]].Reset();
+            enemyCharacterList.Add(allEnemyCharacters[enemies[i]]);
             enemySprites[enemies[i]].SetActive(true);
-            enemyNames[enemyCharacterList.Count-1].text = enemyCharacters[enemies[i]].NominativeName;
+            enemyNames[enemyCharacterList.Count-1].text = allEnemyCharacters[enemies[i]].NominativeName;
             enemyHealthBars[enemyCharacterList.Count - 1].gameObject.SetActive(true);
         }
     }
@@ -1376,7 +1385,8 @@ public class BattleManager : MonoBehaviour
             if (enemyCharacterList[i].KnockedOut)
             {
                 enemiesKnockedOut++;
-                enemySprites[i].SetActive(false);
+                enemySprites[enemySpriteIndexes[i]].SetActive(false);
+                //enemySprites[i].SetActive(false);
             }
         }
         Debug.Log("count knocked enemies " + enemiesKnockedOut);

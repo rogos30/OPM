@@ -9,6 +9,7 @@ public abstract class Sandwich : Item
 
     public override string Use(FriendlyCharacter source, FriendlyCharacter target)
     {
+        source.OnItemUsed(this);
         float multiplier = source.ItemEnhancementMultiplier;
         foreach (var wearable in target.wearablesWorn)
         {

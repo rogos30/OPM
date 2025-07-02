@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class Swietlik : FriendlyCharacter
 {
@@ -44,12 +45,24 @@ public class Swietlik : FriendlyCharacter
 
     public void ReduceBetrayal()
     {
-        Betrayal = Mathf.Max(Betrayal - Random.Range(10, 20), 0);
+        Betrayal = Mathf.Max(Betrayal - Random.Range(15, 25), 0);
         AbilityDescription = "Œwietlik ma szansê na zdradê. Za ka¿dy % zdrady obra¿enia zwiêkszaj¹ siê o 2%. Obecnie: " + Betrayal + "% na zdradê";
     }
 
     protected override void AdditionalChangesOnReset()
     {
+        base.AdditionalChangesOnReset();
         ResetBetrayal();
+    }
+
+    public override void StartGuard()
+    {
+        base.StartGuard();
+        ReduceBetrayal();
+    }
+
+    public override void OnItemUsed(Item item)
+    {
+        ReduceBetrayal();
     }
 }

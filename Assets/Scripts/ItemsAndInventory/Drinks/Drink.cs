@@ -9,6 +9,7 @@ public class Drink : Item
 
     public override string Use(FriendlyCharacter source, FriendlyCharacter target)
     {
+        source.OnItemUsed(this);
         float multiplier = source.ItemEnhancementMultiplier;
         string finalDesc = target.NominativeName + " odzyskuje ";
         if (SkillRestored <= 1)

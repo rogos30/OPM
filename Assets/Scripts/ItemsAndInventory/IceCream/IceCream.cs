@@ -8,6 +8,7 @@ public class IceCream : Item
 
     public override string Use(FriendlyCharacter source, FriendlyCharacter target)
     {
+        source.OnItemUsed(this);
         string finalDesc = target.NominativeName + " pozbywa siê negatywnych efektów";
         for (int i = 0; i < target.StatusTimers.Length; i++)
         {

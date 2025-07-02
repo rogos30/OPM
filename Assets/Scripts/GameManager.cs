@@ -565,7 +565,7 @@ public class GameManager : MonoBehaviour
             mixer.SetFloat("musicVolume", Mathf.Log10((float)musicVolume / 100) * 20);
         }
         PlayerPrefs.SetInt("difficulty", difficulty);
-        foreach (var enemy in BattleManager.instance.enemyCharacters)
+        foreach (var enemy in BattleManager.instance.allEnemyCharacters)
         {
             enemy.UpdateDifficulty(difficulty);
         }
