@@ -65,6 +65,8 @@ public class BattleManager : MonoBehaviour
     const int guardSpBoost = 20, skillCheckSliderWidth = 500;
     const float defaultSkillCheckTime = 1.75f;
 
+    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 } };
+
     Color orange = new Color(0.976f, 0.612f, 0.007f);
     int currentPlayable, currentEnemy;
     int currentRow, currentColumn, maxCurrentRow, currentPage, maxCurrentPage;
@@ -138,13 +140,20 @@ public class BattleManager : MonoBehaviour
         if (Input.GetKey(KeyCode.Tab) && playableCharacterList.Count > 1)
         {
             nextCharacters.SetActive(true);
+            characterDescriptionText.transform.parent.gameObject.SetActive(false);
+            actionDescriptionText.transform.parent.gameObject.SetActive(false);
+            //characterDescriptionText.gameObject.SetActive(false);
+            //actionDescriptionText.gameObject.SetActive(false);
 
-
-            characterDescriptionText.text = playableCharacterList[Mathf.Min(currentPlayable, playableCharacterList.Count-1)].AbilityDescription;
+            //characterDescriptionText.text = playableCharacterList[Mathf.Min(currentPlayable, playableCharacterList.Count-1)].AbilityDescription;
         }
         else
         {
             nextCharacters.SetActive(false);
+            //characterDescriptionText.gameObject.SetActive(true);
+            //actionDescriptionText.gameObject.SetActive(true);
+            characterDescriptionText.transform.parent.gameObject.SetActive(true);
+            actionDescriptionText.transform.parent.gameObject.SetActive(true);
         }
     }
 

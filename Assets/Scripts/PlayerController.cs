@@ -9,18 +9,19 @@ public class PlayerController : MonoBehaviour
     float timeToFight;
     Animator animator;
     bool isFacingRight = false, isMoving = false;
+    int currentArea = 0;
 
     [SerializeField] GameObject interactionPrompt;
     void Start()
     {
         animator = GetComponent<Animator>();
-        timeToFight = Random.Range(25, 40);
+        ResetTimeToRandomEcounter();
         interactionPrompt.SetActive(false);
     }
 
     void Update()
     {
-        if (!GameManager.instance.pauseCanvas.enabled && !DialogManager.instance.dialogueCanvas.enabled)
+        if (!GameManager.instance.pauseCanvas.enabled && !DialogManager.instance.dialogueCanvas.enabled && !DialogManager.instance.gameInfoCanvas.enabled)
         {
             isMoving = false;
             HandleInput();
@@ -30,32 +31,8 @@ public class PlayerController : MonoBehaviour
             }
             if (timeToFight <= 0)
             {
-                timeToFight = Random.Range(25, 40);
-                int[] playables = new int[BattleManager.instance.playableCharacters.Count];
-                for (int i = 0; i < playables.Length; i++)
-                {
-                    playables[i] = i;
-                }
-                bool[] enemiesFirstDraw = new bool[4];
-                int amountOfEnemies = 0;
-                for (int i = 0; i < 4; i++)
-                {
-                    enemiesFirstDraw[i] = Random.Range(0, 2) == 1;
-                    if (enemiesFirstDraw[i])
-                    {
-                        amountOfEnemies++;
-                    }
-                }
-                int[] enemies = new int[amountOfEnemies];
-                int j = 0;
-                for (int i = 0;i < 4; i++)
-                {
-                    if (enemiesFirstDraw[i])
-                    {
-                        enemies[j++] = i;
-                    }
-                }
-                BattleManager.instance.InitiateBattle(playables, enemies);
+                ResetTimeToRandomEcounter();
+                InitiateRandomEncounter();
             }
         }
     }
@@ -98,8 +75,7 @@ public class PlayerController : MonoBehaviour
             {
                 playables[i] = i;
             }
-            int[] enemies = new int[1];
-            enemies[0] = 6;
+            int[] enemies = { 6 };
             BattleManager.instance.InitiateBattle(playables, enemies);
         }
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -108,11 +84,6 @@ public class PlayerController : MonoBehaviour
             {
                 GameManager.instance.Pause();
             }
-        }
-        if (Input.GetKey(KeyCode.F7))  
-        {
-            animator.SetBool("isKaboom", true);
-            StartCoroutine(Disable());
         }
         if (!Input.anyKey)
         {
@@ -197,9 +168,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator Disable()
+    void ResetTimeToRandomEcounter()
     {
-        yield return new WaitForSeconds(0.4f);
-        this.gameObject.SetActive(false);
+        timeToFight = Random.Range(25, 40);
+        //timeToFight = Random.Range(5, 10);
+    }
+
+    void InitiateRandomEncounter()
+    {
+        int[] playables = new int[BattleManager.instance.playableCharacters.Count];
+        int[,] enemyConfigurations = { { 0, 0, 0, 1 }, { 0, 0, 1, 0 }, { 0, 0, 1, 1 }, { 0, 1, 0, 0 }, { 0, 1, 0, 1 }, { 0, 1, 1, 0 }, { 0, 1, 1, 1 },
+                                        { 1, 0, 0, 0 }, { 1, 0, 0, 1 }, { 1, 0, 1, 0 }, { 1, 0, 1, 1 }, { 1, 1, 0, 0 }, { 1, 1, 0, 1 }, { 1, 1, 1, 0 }, { 1, 1, 1, 1 } };
+        int enemySet = Random.Range(0, 15);
+        for (int i = 0; i < playables.Length; i++)
+        {
+            playables[i] = i;
+        }
+        bool[] enemiesFirstDraw = new bool[4];
+        int amountOfEnemies = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            enemiesFirstDraw[i] = enemyConfigurations[enemySet,i] == 1;
+            if (enemiesFirstDraw[i])
+            {
+                amountOfEnemies++;
+            }
+        }
+        int[] enemies = new int[amountOfEnemies];
+        int j = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (enemiesFirstDraw[i])
+            {
+                enemies[j++] = BattleManager.instance.randomEncounterEnemyIndexes[currentArea, i];
+            }
+        }
+        BattleManager.instance.InitiateBattle(playables, enemies);
     }
 }

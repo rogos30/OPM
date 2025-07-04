@@ -8,7 +8,7 @@ public class EnemyHealing : EnemySkill
     {
         Name = "Leczenie";
         InFightDescription = " leczy ";
-        TargetIsFriendly = false;
+        TargetIsFriendly = true;
         TargetIsSelf = false;
         MultipleTargets = false;
     }
@@ -19,7 +19,7 @@ public class EnemyHealing : EnemySkill
         {
             return source.NominativeName + " nie trafia leczeniem w " + target.AccusativeName;
         }
-        string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
+        string finalDesc = source.NominativeName + InFightDescription;
         int healing = 100;
         if (Random.Range(0, 1f) < criticalChance)
         {
@@ -27,7 +27,7 @@ public class EnemyHealing : EnemySkill
             healing *= source.criticalDamageMultiplier;
         }
         target.Heal(healing);
-        finalDesc = finalDesc + target.DativeName + " " + healing + " zdrowia!";
+        finalDesc = finalDesc + " " + target.DativeName + " " + healing + " zdrowia!";
         return finalDesc;
     }
 }
