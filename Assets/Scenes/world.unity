@@ -1470,11 +1470,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.34
+      value: 2.03
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.76
+      value: -0.42
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11880,28 +11880,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 1
-  appearanceAtQuest: 3
-  disappearanceAtQuest: 4
-  playables: 00000000
+  appearanceAtQuest: 4
+  disappearanceAtQuest: 5
+  playables: 0000000001000000
   enemies: 04000000
   preFightLines:
   - "Pom\xF3\u017C mi w nasraniu na \u015Bwiat"
-  - (i Welenca)
   - Nie
   - "No we\u017A"
   - Nie
   - "No we\u017A"
-  - Nie.
+  - Spierdalaj
   - ...
   - "Nie chcia\u0142em tego robi\u0107"
-  preFightSpeakersIndexes: 000000000000000001000000000000000100000000000000010000000000000000000000
+  preFightSpeakersIndexes: 0000000001000000000000000100000005000000010000000500000000000000
   postFightLines:
   - 'Jeszcze raz:'
   - "Pom\xF3\u017C mi w nasraniu na \u015Bwiat"
-  - (i Welenca)
   - Nie
   - "Dobra masz tu st\xF3w\u0119 i zamknij mord\u0119"
-  postFightSpeakersIndexes: 0000000000000000000000000100000000000000
+  postFightSpeakersIndexes: 00000000000000000100000000000000
 --- !u!212 &737480933
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15106,12 +15104,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 1
-  appearanceAtQuest: 4
-  disappearanceAtQuest: 5
-  playables: 0000000001000000
+  appearanceAtQuest: 3
+  disappearanceAtQuest: 4
+  playables: 00000000
   enemies: 05000000
   preFightLines:
-  - "Przyszli\u015Bmy nasra\u0107 na \u015Bwiat"
+  - "Przyszed\u0142em nasra\u0107 na \u015Bwiat"
   - (i na ciebie)
   - "Pierdol si\u0119"
   - Spierdalaj
@@ -15119,7 +15117,7 @@ MonoBehaviour:
   postFightLines:
   - "Czemu tak \u0142atwo kurewko?"
   - Pierdalaj
-  postFightSpeakersIndexes: 0100000005000000
+  postFightSpeakersIndexes: 0000000005000000
 --- !u!50 &889765739
 Rigidbody2D:
   serializedVersion: 4
@@ -15863,11 +15861,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.91
+      value: 5.26
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.11
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.z
@@ -82525,11 +82523,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.38
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.44
+      value: 2.11
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83533,11 +83531,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 2.79
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.1
+      value: 5.14
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83923,7 +83921,7 @@ Transform:
   m_GameObject: {fileID: 2013769087}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.97, y: 8.65, z: 0}
+  m_LocalPosition: {x: -2.21, y: 0.47, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -136612,11 +136610,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.43
+      value: 6.42
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.32
+      value: 2.12
       objectReference: {fileID: 0}
     - target: {fileID: 7355801126881906387, guid: c9d9f61996bf2b448a0b33548f7eda22, type: 3}
       propertyPath: m_LocalPosition.z

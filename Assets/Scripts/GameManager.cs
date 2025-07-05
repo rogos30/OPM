@@ -505,7 +505,7 @@ public class GameManager : MonoBehaviour
         int addedDefense = currentChar.GetDefenseFromWearables();
         float accuracyModifier = currentChar.GetAccuracyFromWearables();
         float healingModifier = currentChar.GetHealingFromWearables() * currentChar.ItemEnhancementMultiplier;
-        characterSprite.sprite = DialogManager.instance.speakerSprites[currentPage];
+        characterSprite.sprite = DialogManager.instance.speakerSprites[BattleManager.instance.playableCharacters[currentPage].SpriteIndex];
         characterInfoTexts[0].text = currentChar.NominativeName;
         characterInfoTexts[1].text = "Poziom: " + currentChar.Level;
         characterInfoTexts[2].text = "XP do nast.: " + (currentChar.XPToNextLevel - currentChar.CurrentXP);

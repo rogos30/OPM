@@ -30,9 +30,9 @@ public class Dinology : PlayableSkill
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
+            turns = 4;
         }
-        finalDesc = finalDesc + " i parali¿uje na " +  turns + " tur!";
+        finalDesc = finalDesc + " i parali¿uje na " +  (turns-1) + " tury!";
         target.ApplyDebuff(4, turns);
         return finalDesc;
     }

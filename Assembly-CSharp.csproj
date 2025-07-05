@@ -62,12 +62,15 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\TennisTable.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\PlayableSkill.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Item.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\Welenc.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoRotate.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\Dzik.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\MultipliableAttack.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Zubrowka.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\DiscoPoloStar.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\TriplePunch.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Surveillance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="Assets\Scripts\ShopManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\Capoeira.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\ControllerBarrage.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\Monster.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\Sandwich.cs" />
@@ -116,8 +120,10 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\DivorcePapers.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableGrants.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\IndianKid.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\FPL.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\DefensiveAttribute.cs" />
     <Compile Include="Assets\Scripts\BattleManager.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\LaughingStock.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableTriplePunch.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Attack.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Drink.cs" />
@@ -154,6 +160,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\Skill.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Brudzynski\MoraleDebuff.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\LushBangs.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\Aphrodite.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\DiamondSword.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Kaja\StrokeOfLuck.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\Curveball.cs" />
@@ -208,7 +215,6 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Camera1.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\ControllerThrow.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\BienkowskasRemains.cs" />
-    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Welenc.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\MoraleBoost.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\Overrun.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\StoneSword.cs" />
@@ -219,6 +225,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\AngryGirl.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacter.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_Translate.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\EnemyWelenc.cs" />
     <Compile Include="Assets\Scripts\GameStart.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Connection.cs" />

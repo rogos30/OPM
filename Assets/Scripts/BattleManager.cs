@@ -692,7 +692,14 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one enemy
-                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[chosenTarget]);
+                if (chosenTarget != -1)
+                {
+                    FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[chosenTarget]);
+                }
+                else
+                {
+                    FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[ChooseRandomTarget(enemyCharacterList.Cast<Character>().ToList())]);
+                }
             }
         }
     }
@@ -1002,7 +1009,7 @@ public class BattleManager : MonoBehaviour
         character = new EnemySwietlik();
         allEnemyCharacters.Add(character);
 
-        character = new Welenc();
+        character = new EnemyWelenc();
         allEnemyCharacters.Add(character);
 
         character = new Monitoring();
@@ -1117,6 +1124,10 @@ public class BattleManager : MonoBehaviour
         {
             ((Swietlik)source).ResetBetrayal();
         }
+        else if (source is Welenc)
+        {
+            ((Welenc)source).IncreaseAttackMultiplier();
+        }
         onMoveFinished.Invoke();
     }
 
@@ -1150,6 +1161,10 @@ public class BattleManager : MonoBehaviour
         if (source is Swietlik)
         {
             ((Swietlik)source).ResetBetrayal();
+        }
+        else if (source is Welenc)
+        {
+            ((Welenc)source).IncreaseAttackMultiplier();
         }
         onMoveFinished.Invoke();
     }

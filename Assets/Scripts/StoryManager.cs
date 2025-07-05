@@ -11,7 +11,7 @@ public class StoryManager : MonoBehaviour
     [SerializeField] GameObject[] NPCs;
     [SerializeField] GameObject[] Marlboros;
     [NonSerialized] public int currentMainQuest = 0;
-    [SerializeField] readonly string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Œwietlika", "Pobij Welenca dla zasady", "KONIEC GRY!!!1!" };
+    [SerializeField] readonly string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Welenca", "Pobij Swietlika dla zasady", "KONIEC GRY!!!1!" };
     int marlborosCollected;
     void Awake()
     {
@@ -82,7 +82,7 @@ public class StoryManager : MonoBehaviour
                 EnableMarlboros();
                 break;
             case 4:
-                character = new Swietlik();
+                character = new Welenc();
                 BattleManager.instance.playableCharacters.Add(character);
                 break;
             case 5:
