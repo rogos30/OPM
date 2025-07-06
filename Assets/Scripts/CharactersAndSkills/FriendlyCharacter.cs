@@ -63,7 +63,6 @@ public class FriendlyCharacter : Character
         {
             NegativeEffectsImmunity--;
         }
-        Debug.Log(NominativeName + " handling timers");
     }
 
     public List<string> HandleLevel(int exp)
@@ -136,9 +135,9 @@ public class FriendlyCharacter : Character
         DefaultAttack -= GetAttackFromWearables();
         DefaultAttack = (int)(DefaultAttack * statIncreaseFactor);
         DefaultAttack += GetAttackFromWearables();
-        DefaultDefense -= GetAttackFromWearables();
+        DefaultDefense -= GetDefenseFromWearables();
         DefaultDefense = (int)(DefaultDefense * statIncreaseFactor);
-        DefaultDefense += GetAttackFromWearables();
+        DefaultDefense += GetDefenseFromWearables();
         CurrentXP -= XPToNextLevel;
         XPToNextLevel += requiredXPincrease;
         Debug.Log(NominativeName + " reached level " + Level);

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
 
 public class Rogos : FriendlyCharacter
 {
@@ -55,5 +57,11 @@ public class Rogos : FriendlyCharacter
             IsGuarding = false;
             HealingMultiplier = 1;
         }
+    }
+    protected override void AdditionalChangesOnReset()
+    {
+        Skill = MaxSkill;
+        IsGuarding = false;
+        ((ZahirTrip)skillSet[5]).SetToMission();
     }
 }

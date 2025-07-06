@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BattleManager : MonoBehaviour
 {
-    Vector2 returnPosition, battlePosition = new Vector2(1000,0);
+    Vector2 returnPosition, battlePosition = new Vector2(1000, 0);
     [SerializeField] GameObject player;
 
     public UnityEvent onBattleWon, onBattleLost;
@@ -36,9 +37,13 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Image[] next1EffectSprites;
     [SerializeField] Image[] next2EffectSprites;
     [SerializeField] Image[] next3EffectSprites;
+    [SerializeField] Image[] enemy1EffectSprites;
+    [SerializeField] Image[] enemy2EffectSprites;
+    [SerializeField] Image[] enemy3EffectSprites;
+    [SerializeField] Image[] enemy4EffectSprites;
     [SerializeField] Image[] playableCharactersSprites;
     [SerializeField] Slider[] enemyHealthBars;
-    [SerializeField] Slider[] targetHealthBars;
+    //[SerializeField] Slider[] targetHealthBars;
     [SerializeField] TMP_Text[] enemyHealthTexts;
     [SerializeField] Slider[] characterHealthBars;
     [SerializeField] Slider[] characterSkillBars;
@@ -62,6 +67,7 @@ public class BattleManager : MonoBehaviour
     List<int> enemySpriteIndexes = new List<int>();
 
     const int maxCharactersInBattle = 5, iconsPerPlayable = 6;
+    const int maxEnemiesInBattle = 4, iconsPerEnemy = 5;
     const int guardSpBoost = 20, skillCheckSliderWidth = 500;
     const float defaultSkillCheckTime = 1.75f;
 
@@ -81,6 +87,7 @@ public class BattleManager : MonoBehaviour
     float skillCheckTime = defaultSkillCheckTime, defaultBlueAreaScale, defaultGreenAreaScale;
     Vector3 defaultTextScale;
     Image[,] allEffectSprites = new Image[maxCharactersInBattle, iconsPerPlayable];
+    Image[,] allEnemyEffectSprites = new Image[maxEnemiesInBattle, iconsPerEnemy];
 
     [SerializeField] AudioClip[] battleMusic;
     AudioSource musicSource, sfxSource;
@@ -108,6 +115,15 @@ public class BattleManager : MonoBehaviour
             allEffectSprites[3, i] = next2EffectSprites[i];
         for (int i = 0; i < iconsPerPlayable; i++)
             allEffectSprites[4, i] = next3EffectSprites[i];
+
+        for (int i = 0; i < iconsPerEnemy; i++)
+            allEnemyEffectSprites[0, i] = enemy1EffectSprites[i];
+        for (int i = 0; i < iconsPerEnemy; i++)
+            allEnemyEffectSprites[1, i] = enemy2EffectSprites[i];
+        for (int i = 0; i < iconsPerEnemy; i++)
+            allEnemyEffectSprites[2, i] = enemy3EffectSprites[i];
+        for (int i = 0; i < iconsPerEnemy; i++)
+            allEnemyEffectSprites[3, i] = enemy4EffectSprites[i];
     }
 
     private void Update()
@@ -134,7 +150,7 @@ public class BattleManager : MonoBehaviour
             HandleIndependentInput();
         }
     }
-    
+
     void HandleIndependentInput()
     {
         if (Input.GetKey(KeyCode.Tab) && playableCharacterList.Count > 1)
@@ -167,7 +183,7 @@ public class BattleManager : MonoBehaviour
                     currentColumn++;
                     chosenAction = currentRow;
                     currentPage = 0;
-                    switch(chosenAction)
+                    switch (chosenAction)
                     { //what action has been selected
                         case 0: //skill
                             PrintPageOfSkills();
@@ -380,7 +396,7 @@ public class BattleManager : MonoBehaviour
                     }
                     break;
                 case 1: //subactions
-                    switch(chosenAction)
+                    switch (chosenAction)
                     {
                         case 0: //skill
                             actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " +
@@ -469,7 +485,7 @@ public class BattleManager : MonoBehaviour
     void PrintPageOfSkills()
     {
         ClearActions();
-        for (int i = 0; i < actions.Length; i ++)
+        for (int i = 0; i < actions.Length; i++)
         {
             if (currentPage * actions.Length + i < playableCharacterList[currentPlayable].UnlockedSkills)
             {
@@ -542,6 +558,19 @@ public class BattleManager : MonoBehaviour
         { //showing status of enemies
             enemyHealthBars[i].value = (float)(enemyCharacterList[i].Health / (float)enemyCharacterList[i].MaxHealth);
             enemyHealthTexts[i].text = enemyCharacterList[i].Health + " / " + enemyCharacterList[i].MaxHealth;
+            for (int j = 0; j < enemyCharacterList[i].StatusTimers.Length; j++)
+            {
+                int type = 10 - 2 * j;
+                if (enemyCharacterList[i].StatusTimers[j] < 0)
+                {
+                    type = 1;
+                }
+                else if (enemyCharacterList[i].StatusTimers[j] > 0)
+                {
+                    type = 0;
+                }
+                allEnemyEffectSprites[i, j].sprite = effectSprites[2 * j + 2 + type];
+            }
         }
 
         for (int j = 0; j < playableCharacterList.Count; j++)
@@ -709,8 +738,10 @@ public class BattleManager : MonoBehaviour
     {
         while (currentPlayable < playableCharacterList.Count && (playableCharacterList[currentPlayable].KnockedOut || playableCharacterList[currentPlayable].Turns <= 0))
         { //find next playable that can move or go beyond the list
+            Debug.Log(currentPlayable + " " + playableCharacterList[currentPlayable].NominativeName + " ma ruchow: " + playableCharacterList[currentPlayable].Turns);
             if (playableCharacterList[currentPlayable].Turns <= 0)
             {
+                playableCharacterList[currentPlayable].HandlePersistentStatusEffects();
                 playableCharacterList[currentPlayable].HandleTimers();
             }
             currentPlayable++;
@@ -764,14 +795,17 @@ public class BattleManager : MonoBehaviour
 
     void HandleEnemysMove()
     {
+        enemyCharacterList[currentEnemy].HandlePersistentStatusEffects();
         enemyCharacterList[currentEnemy].HandleTimers();
+        Debug.Log("Handling " + enemyCharacterList[currentEnemy].NominativeName + " move");
         if (enemyCharacterList[currentEnemy].Turns == 0)
         {
             EnemyIsParalyzed(enemyCharacterList[currentEnemy]);
+            return;
         }
         for (int i = 0; i < enemyCharacterList[currentEnemy].Turns; i++)
         {
-            StartCoroutine(PerformEnemysMove(3*i, enemyCharacterList[currentEnemy]));
+            StartCoroutine(PerformEnemysMove(3 * i, enemyCharacterList[currentEnemy]));
         }
     }
 
@@ -784,7 +818,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator PerformEnemysMove(int delay, EnemyCharacter source)
     {
         yield return new WaitForSeconds(delay);
-        int randSkill = Random.Range(0, source.skillSet.Count);
+        int randSkill = UnityEngine.Random.Range(0, source.skillSet.Count);
         int randTarget;
         onMoveFinished.AddListener(FinishEnemysMove);
         if (source.skillSet[randSkill].TargetIsFriendly)
@@ -853,7 +887,7 @@ public class BattleManager : MonoBehaviour
         player.SetActive(false);
         StoryManager.instance.DisableNPCs();
         RidUIofColor();
-        for (int i=0; i < characterNames.Length; i++) //clear everything up
+        for (int i = 0; i < characterNames.Length; i++) //clear everything up
         {
             characterNames[i].text = "";
             characterHealthBars[i].gameObject.SetActive(false);
@@ -863,14 +897,19 @@ public class BattleManager : MonoBehaviour
                 allEffectSprites[i, j].sprite = effectSprites[12];
             }
         }
+
         foreach (Image sprite in playableCharactersSprites)
         {
             sprite.sprite = effectSprites[12];
         }
-        for (int i=0; i < enemyNames.Length; i++)
+        for (int i = 0; i < enemyNames.Length; i++)
         {
             enemyHealthBars[i].gameObject.SetActive(false);
             enemyNames[i].text = "";
+            for (int j = 0; j < iconsPerEnemy; j++)
+            {
+                allEnemyEffectSprites[i, j].sprite = effectSprites[12];
+            }
         }
         PrintPageOfActions();
         actionDescriptionText.text = "U¿yj umiejêtnoœci";
@@ -934,14 +973,14 @@ public class BattleManager : MonoBehaviour
         battleFinished = true;
         acceptsInput = false;
         List<string> gameInfoLines = new List<string>();
-        
+
         yield return new WaitForSeconds(2);
         musicSource.Stop();
         foreach (var sprite in enemySprites)
         {
             sprite.SetActive(false);
         }
-        
+
         player.SetActive(true);
         player.transform.position = returnPosition;
         StoryManager.instance.HandleNPCs();
@@ -1050,20 +1089,20 @@ public class BattleManager : MonoBehaviour
             {
                 allEffectSprites[i, 0].sprite = effectSprites[12];
             }
-            
+
             for (int j = 0; j < 5; j++)
             {
                 if (playableCharacterList[index].StatusTimers[j] == 0)
                 {
-                    allEffectSprites[i, j+1].sprite = effectSprites[12];
+                    allEffectSprites[i, j + 1].sprite = effectSprites[12];
                 }
                 else if (playableCharacterList[index].StatusTimers[j] < 0)
                 {
-                    allEffectSprites[i, j+1].sprite = effectSprites[3 + j * 2];
+                    allEffectSprites[i, j + 1].sprite = effectSprites[3 + j * 2];
                 }
                 else
                 {
-                    allEffectSprites[i, j+1].sprite = effectSprites[2 + j * 2];
+                    allEffectSprites[i, j + 1].sprite = effectSprites[2 + j * 2];
                 }
             }
         }
@@ -1088,8 +1127,10 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(4);
         if (rotatePlayables)
         {
+            playableCharacterList[currentPlayable].HandlePersistentStatusEffects();
             playableCharacterList[currentPlayable].HandleTimers();
             RotatePlayables();
+            Debug.Log("Now " + playableCharacterList[currentPlayable].NominativeName + " will move");
             playerMovesThisTurn = playableCharacterList[currentPlayable].Turns;
         }
         dynamicDescription.SetActive(false);
@@ -1111,9 +1152,9 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator FriendlyExecuteSkillOnEveryone(FriendlyCharacter source, int skill, List<Character> targets)
     {
-        for (int i=0; i < targets.Count; i++)
+        for (int i = 0; i < targets.Count; i++)
         {
-            if (!targets[i].KnockedOut) 
+            if (!targets[i].KnockedOut)
             {
                 dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[i], skillPerformance);
                 UpdateHealthBarsAndIcons();
@@ -1128,7 +1169,14 @@ public class BattleManager : MonoBehaviour
         {
             ((Welenc)source).IncreaseAttackMultiplier();
         }
-        onMoveFinished.Invoke();
+        else if (source is Rogos)
+        {
+            if (source.skillSet[skill].Name == "Rozdanie kebabów")
+            {
+                ((ZahirTrip)source.skillSet[skill]).SetToMission();
+            }
+        }
+            onMoveFinished.Invoke();
     }
 
     IEnumerator EnemyExecuteSkillOnEveryone(EnemyCharacter source, int skill, List<Character> targets)
@@ -1147,7 +1195,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator FriendlyExecuteSkillMultipleTimes(FriendlyCharacter source, int skill, List<Character> targets)
     {
-        for (int i=0; i < source.skillSet[skill].Repetitions; i++)
+        for (int i = 0; i < source.skillSet[skill].Repetitions; i++)
         {
             int target = ChooseRandomTarget(targets);
             if (target == -1)
@@ -1204,7 +1252,7 @@ public class BattleManager : MonoBehaviour
         onMoveFinished.RemoveAllListeners();
         //if (currentMoveInTurn < playableCharacterList[currentPlayable].Turns - 1)
         CountKnockedOut();
-        if (currentMoveInTurn < playerMovesThisTurn - 1 && enemiesKnockedOut != enemyCharacterList.Count && playablesKnockedOut != playableCharacterList.Count)
+        if (currentMoveInTurn < playerMovesThisTurn - 1 && playableCharacterList[currentPlayable].Turns > 0 && enemiesKnockedOut != enemyCharacterList.Count && playablesKnockedOut != playableCharacterList.Count)
         {
             currentMoveInTurn++;
             StartCoroutine(AllowPlayerToMove(false));
@@ -1226,7 +1274,7 @@ public class BattleManager : MonoBehaviour
         FindAvailableToMove();
         DecideNextMove();
     }
-    
+
     int ChooseRandomTarget(List<Character> targets)
     {
         int knockedOut = 0, result = -1;
@@ -1243,7 +1291,7 @@ public class BattleManager : MonoBehaviour
         }
         while (result == -1)
         {
-            result = Random.Range(0, targets.Count);
+            result = UnityEngine.Random.Range(0, targets.Count);
             if (targets[result].KnockedOut)
             {
                 result = -1;
@@ -1260,15 +1308,15 @@ public class BattleManager : MonoBehaviour
             allEnemyCharacters[enemies[i]].Reset();
             enemyCharacterList.Add(allEnemyCharacters[enemies[i]]);
             enemySprites[enemies[i]].SetActive(true);
-            enemyNames[enemyCharacterList.Count-1].text = allEnemyCharacters[enemies[i]].NominativeName;
+            enemyNames[enemyCharacterList.Count - 1].text = allEnemyCharacters[enemies[i]].NominativeName;
             enemyHealthBars[enemyCharacterList.Count - 1].gameObject.SetActive(true);
         }
     }
 
     void HandleSkillCheck(int currPlayable, int skillIndex)
     {
-        int greenPosition = (int)Random.Range(-skillCheckSliderWidth * (1 - skillCheckGreenArea.transform.localScale.x) / 2, skillCheckSliderWidth * (1 - skillCheckGreenArea.transform.localScale.x) / 2);
-        int bluePosition = (int)Random.Range(-skillCheckSliderWidth * (1 - skillCheckBlueArea.transform.localScale.x) / 2, skillCheckSliderWidth * (1 - skillCheckBlueArea.transform.localScale.x) / 2);
+        int greenPosition = (int)UnityEngine.Random.Range(-skillCheckSliderWidth * (1 - skillCheckGreenArea.transform.localScale.x) / 2, skillCheckSliderWidth * (1 - skillCheckGreenArea.transform.localScale.x) / 2);
+        int bluePosition = (int)UnityEngine.Random.Range(-skillCheckSliderWidth * (1 - skillCheckBlueArea.transform.localScale.x) / 2, skillCheckSliderWidth * (1 - skillCheckBlueArea.transform.localScale.x) / 2);
         Vector2 newPos = skillCheckGreenArea.transform.localPosition;
         Vector3 newScale = skillCheckBlueArea.transform.localScale;
         newPos.x = greenPosition;
@@ -1338,7 +1386,7 @@ public class BattleManager : MonoBehaviour
     void HandlePhases()
     {
         handlingPhases = true;
-        switch(enemyCharacterList[0].NominativeName)
+        switch (enemyCharacterList[0].NominativeName)
         {
             /*case "Welenc":
                 if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth < 0.5f && currentPhase == 0)
@@ -1413,6 +1461,5 @@ public class BattleManager : MonoBehaviour
                 //enemySprites[i].SetActive(false);
             }
         }
-        Debug.Log("count knocked enemies " + enemiesKnockedOut);
     }
 }

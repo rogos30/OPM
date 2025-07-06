@@ -12,7 +12,7 @@ public class ZahirTrip : PlayableSkill
         SetToMission();
     }
 
-    void SetToMission()
+    public void SetToMission()
     {
         giveaway = false;
         Name = "Podró¿ po kebaby";
@@ -25,7 +25,7 @@ public class ZahirTrip : PlayableSkill
         TargetIsRandom = false;
     }
 
-    void SetToGiveaway()
+    public void SetToGiveaway()
     {
         giveaway = true;
         Name = "Rozdanie kebabów";
@@ -82,7 +82,6 @@ public class ZahirTrip : PlayableSkill
                 target.ApplyBuff(i, turns);
             }
             target.Heal(healing);
-            SetToMission();
             return finalDesc;
         }
     }
