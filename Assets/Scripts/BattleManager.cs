@@ -60,6 +60,7 @@ public class BattleManager : MonoBehaviour
     public Skill[] skillTable = new Skill[100];
     public List<FriendlyCharacter> playableCharacters = new List<FriendlyCharacter>();
     public List<EnemyCharacter> allEnemyCharacters = new List<EnemyCharacter>();
+    public List<int> currentPartyCharacters = new List<int>();
 
     List<FriendlyCharacter> playableCharacterList = new List<FriendlyCharacter>();
     List<EnemyCharacter> enemyCharacterList = new List<EnemyCharacter>();
@@ -96,7 +97,7 @@ public class BattleManager : MonoBehaviour
     {
         instance = this;
         battleCanvas.enabled = false;
-        InitializeFriendlyCharacter();
+        InitializeFriendlyCharacters();
         InitializeEnemyCharacters();
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.outputAudioMixerGroup = musicMixerGroup;
@@ -1025,9 +1026,22 @@ public class BattleManager : MonoBehaviour
         });
     }
 
-    void InitializeFriendlyCharacter()
+    void InitializeFriendlyCharacters()
     {
         FriendlyCharacter character = new Rogos();
+        playableCharacters.Add(character);
+        currentPartyCharacters.Add(0);
+
+        character = new Welenc();
+        playableCharacters.Add(character);
+
+        character = new Stasiak();
+        playableCharacters.Add(character);
+
+        character = new Kaja();
+        playableCharacters.Add(character);
+
+        character = new Brudzynski();
         playableCharacters.Add(character);
     }
 
@@ -1058,6 +1072,15 @@ public class BattleManager : MonoBehaviour
         allEnemyCharacters.Add(character);
 
         character = new Camera2();
+        allEnemyCharacters.Add(character);
+
+        character = new Kinga();
+        allEnemyCharacters.Add(character);
+
+        character = new StrongKinga();
+        allEnemyCharacters.Add(character);
+
+        character = new Klara();
         allEnemyCharacters.Add(character);
     }
 

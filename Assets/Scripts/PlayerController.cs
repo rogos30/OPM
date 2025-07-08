@@ -62,15 +62,16 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            for (int i = 0; i < BattleManager.instance.playableCharacters.Count; i++)
+            for (int i = 0; i < BattleManager.instance.currentPartyCharacters.Count; i++)
             {
-                BattleManager.instance.playableCharacters[i].HandleLevel(5000);
+                int index = BattleManager.instance.currentPartyCharacters[i];
+                BattleManager.instance.playableCharacters[index].HandleLevel(5000);
             }
         }
         if ( Input.GetKeyDown(KeyCode.L))
         {
 
-            int[] playables = new int[BattleManager.instance.playableCharacters.Count];
+            int[] playables = new int[BattleManager.instance.currentPartyCharacters.Count];
             for (int i = 0; i < playables.Length; i++)
             {
                 playables[i] = i;
@@ -176,7 +177,7 @@ public class PlayerController : MonoBehaviour
 
     void InitiateRandomEncounter()
     {
-        int[] playables = new int[BattleManager.instance.playableCharacters.Count];
+        int[] playables = new int[BattleManager.instance.currentPartyCharacters.Count];
         int[,] enemyConfigurations = { { 0, 0, 0, 1 }, { 0, 0, 1, 0 }, { 0, 0, 1, 1 }, { 0, 1, 0, 0 }, { 0, 1, 0, 1 }, { 0, 1, 1, 0 }, { 0, 1, 1, 1 },
                                         { 1, 0, 0, 0 }, { 1, 0, 0, 1 }, { 1, 0, 1, 0 }, { 1, 0, 1, 1 }, { 1, 1, 0, 0 }, { 1, 1, 0, 1 }, { 1, 1, 1, 0 }, { 1, 1, 1, 1 } };
         int enemySet = Random.Range(0, 15);

@@ -11,7 +11,7 @@ public class EnemyWelenc : EnemyCharacter
         AccusativeName = "Welenca";
         Health = MaxHealth = DefaultMaxHealth = 400;
         DifficultyHealthChange = 100;
-        Attack = DefaultAttack = 110;
+        Attack = DefaultAttack = 60;
         DifficultyAttackChange = 25;
         Defense = DefaultDefense = 10;
         Accuracy = DefaultAccuracy = 0.85f;

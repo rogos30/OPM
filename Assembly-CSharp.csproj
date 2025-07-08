@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Zubrowka.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\DiscoPoloStar.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\TriplePunch.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Toxicity.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Surveillance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\NPCController.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\OstrysChair.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\Lora.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\DivorcePapers.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Grunt.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableGrants.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\IndianKid.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\FPL.cs" />
@@ -125,9 +127,11 @@
     <Compile Include="Assets\Scripts\BattleManager.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\LaughingStock.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableTriplePunch.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Klara.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Attack.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Drink.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\Character.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Kinga.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\DoublePunch.cs" />
@@ -153,6 +157,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Janek\Counterattack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Scripts\PatrolNPCController.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\StrongKinga.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Camera2.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
@@ -185,10 +190,12 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Observation.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\StrongGrunt.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\Rogos.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\CheeseHamToast.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Idiocy.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\EnemyHealing.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\Marletto.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Janek\Crosswords.cs" />

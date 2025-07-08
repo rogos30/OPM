@@ -11,7 +11,7 @@ public class StoryManager : MonoBehaviour
     [SerializeField] GameObject[] NPCs;
     [SerializeField] GameObject[] Marlboros;
     [NonSerialized] public int currentMainQuest = 0;
-    [SerializeField] readonly string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Welenca", "Pobij Swietlika dla zasady", "KONIEC GRY!!!1!" };
+    [SerializeField] string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Welenca", "Pobij Swietlika dla zasady", "KONIEC GRY!!!1!" };
     int marlborosCollected;
     void Awake()
     {
@@ -74,7 +74,7 @@ public class StoryManager : MonoBehaviour
         Debug.Log("progressing story");
         currentQuestText.text = questDescriptions[++currentMainQuest];
         Skill[] skillTable = BattleManager.instance.skillTable;
-        FriendlyCharacter character;
+        //FriendlyCharacter character;
         switch (currentMainQuest)
         {
             case 1:
@@ -82,18 +82,19 @@ public class StoryManager : MonoBehaviour
                 EnableMarlboros();
                 break;
             case 4:
-                character = new Welenc();
-                BattleManager.instance.playableCharacters.Add(character);
+                //character = new Welenc();
+                BattleManager.instance.currentPartyCharacters.Add(1);
                 break;
             case 5:
-                character = new Stasiak();
-                BattleManager.instance.playableCharacters.Add(character);
+                //character = new Stasiak();
+                BattleManager.instance.currentPartyCharacters.Add(2);
+                break;
+            case 6:
+                //character = new Kaja();
+                BattleManager.instance.currentPartyCharacters.Add(3);
 
-                character = new Kaja();
-                BattleManager.instance.playableCharacters.Add(character);
-
-                character = new Brudzynski();
-                BattleManager.instance.playableCharacters.Add(character);
+                //character = new Brudzynski();
+                BattleManager.instance.currentPartyCharacters.Add(4);
                 break;
         }
 

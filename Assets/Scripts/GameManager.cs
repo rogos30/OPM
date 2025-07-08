@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
                     inventoryItemsTexts[currentRow].color = Color.white;
                     currentRow = chosenInv;
                     inventoryMainTexts[currentRow].color = orange;
-                    maxCurrentRow = BattleManager.instance.playableCharacters.Count + 1;
+                    maxCurrentRow = BattleManager.instance.currentPartyCharacters.Count + 1;
                     break;
                 case 4: //equipment column
                     inventoryEquipmentColumn.SetActive(false);
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
                     inventoryEquipmentTexts[currentRow].color = Color.white;
                     currentRow = chosenInv;
                     inventoryMainTexts[currentRow].color = orange;
-                    maxCurrentRow = BattleManager.instance.playableCharacters.Count + 1;
+                    maxCurrentRow = BattleManager.instance.currentPartyCharacters.Count + 1;
                     break;
                 case 5: //eq change column
                     inventoryEqChangeColumn.SetActive(false);
@@ -363,12 +363,12 @@ public class GameManager : MonoBehaviour
                             chosenMain = currentRow;
                             mainColumnTexts[chosenMain].color = Color.red;
                             inventoryMainTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = BattleManager.instance.playableCharacters.Count + 1;
+                            maxCurrentRow = BattleManager.instance.currentPartyCharacters.Count + 1;
                             for (int i = 1; i < inventoryMainTexts.Length; i++)
                             {
                                 inventoryMainTexts[i].text = "";
                             }
-                            for (int i = 0; i < BattleManager.instance.playableCharacters.Count; i++)
+                            for (int i = 0; i < BattleManager.instance.currentPartyCharacters.Count; i++)
                             {
                                 inventoryMainTexts[i + 1].text = BattleManager.instance.playableCharacters[i].NominativeName;
                             }
@@ -490,7 +490,7 @@ public class GameManager : MonoBehaviour
                     PrintCurrentPageOfItems();
                     break;
                 case 6:
-                    currentPage = (currentPage + 1 >= BattleManager.instance.playableCharacters.Count) ? currentPage : currentPage + 1;
+                    currentPage = (currentPage + 1 >= BattleManager.instance.currentPartyCharacters.Count) ? currentPage : currentPage + 1;
                     PrintCharInfo();
                     break;
 
@@ -500,7 +500,8 @@ public class GameManager : MonoBehaviour
 
     void PrintCharInfo()
     {
-        var currentChar = BattleManager.instance.playableCharacters[currentPage];
+        int index = BattleManager.instance.currentPartyCharacters[currentPage];
+        var currentChar = BattleManager.instance.playableCharacters[index];
         int addedAttack = currentChar.GetAttackFromWearables();
         int addedDefense = currentChar.GetDefenseFromWearables();
         float accuracyModifier = currentChar.GetAccuracyFromWearables();

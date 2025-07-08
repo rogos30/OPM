@@ -17,7 +17,7 @@ public class EnemySwietlik : EnemyCharacter
         Defense = DefaultDefense = 45;
         Accuracy = DefaultAccuracy = 0.9f;
         Turns = DefaultTurns = 1;
-        Speed = 400;
+        Speed = 550;
         MoneyDropped = 10000;
         XPDropped = 10000;
         EnemyAttack attack = new EnemyAttack();
