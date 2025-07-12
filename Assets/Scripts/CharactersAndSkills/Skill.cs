@@ -8,6 +8,7 @@ public abstract class Skill
     public string Name { get; set; }
     public string InFightDescription { get; set; }
     public int Repetitions { get; set; }
+    public int AnimationId { get; set; }
     public float AccuracyMultiplier { get; set; }
     public bool TargetIsFriendly { get; set; }
     public bool TargetIsSelf {  get; set; }
@@ -19,6 +20,7 @@ public abstract class Skill
     {
         Repetitions = 1;
         AccuracyMultiplier = 1;
+        AnimationId = 1;
     }
     /*public Skill(string name, string skillDescription, string inFightDescription, float cost, int repetitions, float attackMultiplier,
         float accuracyMultiplier, float healing, bool targetIsFriendly, bool targetIsSelf, bool targetIsRandom, bool multipleTargets, int[] statusChanges)

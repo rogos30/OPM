@@ -9,7 +9,7 @@ public class Overrun : PlayableSkill
     {
         Name = "Rozjazd";
         SkillDescription = "wzywa swojego konia i rozje¿d¿a nim wszystkich wrogów";
-        InFightDescription = " traktuje wrogów jako tor jeŸdziecki i ";
+        InFightDescription = " traktuje wrogów jako tor jeŸdziecki i zadaje ";
         Cost = 50;
         AccuracyMultiplier = 1.2f;
         TargetIsFriendly = false;

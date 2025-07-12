@@ -19,6 +19,7 @@ public class FPL : PlayableSkill
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
     {
+        AnimationId = 1;
         if (skillPerformance == 0)
         {
             return target.NominativeName + " ka¿e " + source.DativeName + " siê goniæ";
@@ -33,6 +34,7 @@ public class FPL : PlayableSkill
             int turns = 2;
             target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + " i parali¿uj¹c na " + (turns - 1) + " turê!";
+            AnimationId = 4;
         }
         ((Welenc)source).IncreaseAttackMultiplier();
         return finalDesc;

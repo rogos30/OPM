@@ -14,6 +14,7 @@ public class KorwinsPistol : PlayableSkill
         Cost = 240f;
         Repetitions = 3;
         AccuracyMultiplier = 1f;
+        AnimationId = 7;
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;

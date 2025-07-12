@@ -18,7 +18,7 @@ public class StrongGrunt : EnemySkill
     {
         if (Random.Range(0, 1f) > source.Accuracy * AccuracyMultiplier)
         {
-            return source.DativeName + " nie chrumka na " + target.AccusativeName;
+            return source.NominativeName + " nie chrumka na " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
         int damage = (int)(source.Attack * Random.Range(0.8f, 1.2f)) - target.Defense;

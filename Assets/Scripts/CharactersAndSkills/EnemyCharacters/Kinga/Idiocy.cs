@@ -11,6 +11,7 @@ public class Idiocy : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
+        AnimationId = 4;
     }
 
     public override string execute(EnemyCharacter source, Character target)
