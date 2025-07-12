@@ -60,7 +60,7 @@ public class BattleManager : MonoBehaviour
     public Skill[] skillTable = new Skill[100];
     public List<FriendlyCharacter> playableCharacters = new List<FriendlyCharacter>();
     public List<EnemyCharacter> allEnemyCharacters = new List<EnemyCharacter>();
-    public List<int> currentPartyCharacters = new List<int>();
+    [NonSerialized] public List<int> currentPartyCharacters = new List<int>();
 
     List<FriendlyCharacter> playableCharacterList = new List<FriendlyCharacter>();
     List<EnemyCharacter> enemyCharacterList = new List<EnemyCharacter>();
@@ -72,7 +72,8 @@ public class BattleManager : MonoBehaviour
     const int guardSpBoost = 20, skillCheckSliderWidth = 500;
     const float defaultSkillCheckTime = 1.75f;
 
-    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 } };
+    [SerializeField] GameObject[] animationObjects;
+    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 } }; //easy, medium, hard, underground
 
     Color orange = new Color(0.976f, 0.612f, 0.007f);
     int currentPlayable, currentEnemy;
@@ -660,6 +661,8 @@ public class BattleManager : MonoBehaviour
             actionDescriptionMenu.SetActive(false);
             dynamicDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " broni siê!";
             playableCharacterList[currentPlayable].StartGuard();
+            animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 2);
+            StartCoroutine(disableAnimation(animationObjects.Length - 1));
             UpdateHealthBarsAndIcons();
             FinishPlayersMove();
         }
@@ -668,6 +671,8 @@ public class BattleManager : MonoBehaviour
             dynamicDescription.SetActive(true);
             actionDescriptionMenu.SetActive(false);
             dynamicDescriptionText.text = Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[chosenTarget]);
+            animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 5);
+            StartCoroutine(disableAnimation(animationObjects.Length - 1));
             UpdateHealthBarsAndIcons();
             FinishPlayersMove();
         }
@@ -699,7 +704,7 @@ public class BattleManager : MonoBehaviour
         {
             if (playableCharacterList[currentPlayable].skillSet[skillIndex].MultipleTargets)
             { //skill targets every ally
-                StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, playableCharacterList.Cast<Character>().ToList()));
+                StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, playableCharacterList.Cast<Character>().ToList(), true));
             }
             else if (playableCharacterList[currentPlayable].skillSet[skillIndex].Repetitions > 1)
             { //skill targets random allies multiple times
@@ -714,7 +719,7 @@ public class BattleManager : MonoBehaviour
         {
             if (playableCharacterList[currentPlayable].skillSet[skillIndex].MultipleTargets)
             { //skill targets every enemy
-                StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList.Cast<Character>().ToList()));
+                StartCoroutine(FriendlyExecuteSkillOnEveryone(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList.Cast<Character>().ToList(), false));
             }
             else if (playableCharacterList[currentPlayable].skillSet[skillIndex].Repetitions > 1)
             { //skill targets random enemies multiple times
@@ -1148,6 +1153,10 @@ public class BattleManager : MonoBehaviour
     IEnumerator AllowPlayerToMove(bool rotatePlayables)
     {
         yield return new WaitForSeconds(4);
+        foreach (var obj in animationObjects)
+        {
+            obj.GetComponent<Animator>().SetInteger("animation", 0);
+        }
         if (rotatePlayables)
         {
             playableCharacterList[currentPlayable].HandlePersistentStatusEffects();
@@ -1169,11 +1178,15 @@ public class BattleManager : MonoBehaviour
     IEnumerator AllowEnemyToMove()
     {
         yield return new WaitForSeconds(5);
+        foreach (var obj in animationObjects)
+        {
+            obj.GetComponent<Animator>().SetInteger("animation", 0);
+        }
         enemyIsMoving = true;
         RidUIofColor();
     }
 
-    IEnumerator FriendlyExecuteSkillOnEveryone(FriendlyCharacter source, int skill, List<Character> targets)
+    IEnumerator FriendlyExecuteSkillOnEveryone(FriendlyCharacter source, int skill, List<Character> targets, bool targetIsFriendly)
     {
         for (int i = 0; i < targets.Count; i++)
         {
@@ -1181,6 +1194,16 @@ public class BattleManager : MonoBehaviour
             {
                 dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[i], skillPerformance);
                 UpdateHealthBarsAndIcons();
+                if (targetIsFriendly)
+                {
+                    animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+                    StartCoroutine(disableAnimation(animationObjects.Length - 1));
+                }
+                else
+                {
+                    animationObjects[i].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+                    StartCoroutine(disableAnimation(i));
+                }
                 yield return new WaitForSeconds(1.5f / targets.Count);
             }
         }
@@ -1204,6 +1227,8 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator EnemyExecuteSkillOnEveryone(EnemyCharacter source, int skill, List<Character> targets)
     {
+        animationObjects[0].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+        StartCoroutine(disableAnimation(0));
         for (int i = 0; i < targets.Count; i++)
         {
             if (!targets[i].KnockedOut)
@@ -1226,6 +1251,8 @@ public class BattleManager : MonoBehaviour
                 break;
             }
             dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[target], skillPerformance);
+            animationObjects[target].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+            StartCoroutine(disableAnimation(target));
             UpdateHealthBarsAndIcons();
             yield return new WaitForSeconds(1.5f / source.skillSet[skill].Repetitions);
         }
@@ -1250,6 +1277,8 @@ public class BattleManager : MonoBehaviour
                 break;
             }
             dynamicDescriptionText.text = source.skillSet[skill].execute(source, targets[target]);
+            animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+            StartCoroutine(disableAnimation(animationObjects.Length - 1));
             UpdateHealthBarsAndIcons();
             yield return new WaitForSeconds(1.5f / source.skillSet[skill].Repetitions);
         }
@@ -1259,6 +1288,12 @@ public class BattleManager : MonoBehaviour
     void FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target)
     {
         dynamicDescriptionText.text = source.skillSet[skill].execute(source, target, skillPerformance);
+        if (chosenTarget == -1)
+        {
+            chosenTarget = enemyCharacterList.FindIndex(x => x.Equals(target));
+        }
+        animationObjects[chosenTarget].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+        StartCoroutine(disableAnimation(chosenTarget));
         UpdateHealthBarsAndIcons();
         onMoveFinished.Invoke();
     }
@@ -1266,6 +1301,8 @@ public class BattleManager : MonoBehaviour
     void EnemyExecuteSkill(EnemyCharacter source, int skill, Character target)
     {
         dynamicDescriptionText.text = source.skillSet[skill].execute(source, target);
+        animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+        StartCoroutine(disableAnimation(animationObjects.Length - 1));
         UpdateHealthBarsAndIcons();
         onMoveFinished.Invoke();
     }
@@ -1484,5 +1521,11 @@ public class BattleManager : MonoBehaviour
                 //enemySprites[i].SetActive(false);
             }
         }
+    }
+
+    IEnumerator disableAnimation(int index)
+    {
+        yield return new WaitForSeconds(0.5f);
+        animationObjects[index].GetComponent<Animator>().SetInteger("animation", 0);
     }
 }

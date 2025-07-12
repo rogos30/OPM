@@ -12,6 +12,7 @@ public class Toxicisity : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = false;
         AccuracyMultiplier = 0.8f;
+        AnimationId = 4;
     }
 
     public override string execute(EnemyCharacter source, Character target)

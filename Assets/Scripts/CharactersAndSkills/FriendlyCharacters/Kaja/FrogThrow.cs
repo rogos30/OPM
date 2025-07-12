@@ -18,6 +18,7 @@ public class FrogThrow : PlayableSkill
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
     {
+        AnimationId = 1;
         if (skillPerformance == 0)
         {
             return source.NominativeName + " nie trafia ¿ab¹ w " + target.AccusativeName;
@@ -28,6 +29,7 @@ public class FrogThrow : PlayableSkill
         {
             finalDesc = finalDesc + ", nak³adaj¹c truciznê na 3 tury";
             target.ApplyDebuff(3, 3);
+            AnimationId = 4;
         }
         damage = Mathf.Max(damage, 1);
         finalDesc = finalDesc + " i zadaje " + damage + " obra¿eñ!";
