@@ -68,9 +68,8 @@ public class PlayerController : MonoBehaviour
                 BattleManager.instance.playableCharacters[index].HandleLevel(5000);
             }
         }
-        if ( Input.GetKeyDown(KeyCode.L))
+        /*if ( Input.GetKeyDown(KeyCode.L))
         {
-
             int[] playables = new int[BattleManager.instance.currentPartyCharacters.Count];
             for (int i = 0; i < playables.Length; i++)
             {
@@ -78,6 +77,10 @@ public class PlayerController : MonoBehaviour
             }
             int[] enemies = { 6 };
             BattleManager.instance.InitiateBattle(playables, enemies);
+        }*/
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StoryManager.instance.ProgressStory();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {

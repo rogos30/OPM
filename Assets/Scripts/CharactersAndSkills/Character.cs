@@ -84,11 +84,7 @@ public abstract class Character
 
     public virtual void TakeDamage(float damage)
     {
-        Health = Mathf.Max(Health - (int)(MaxHealth * damage), 0);
-        if (Health == 0)
-        {
-            Death(); 
-        }
+        Health = Mathf.Max(Health - (int)(Health * damage), 1);
     }
 
     virtual public void ApplyBuff(int effect, int duration)

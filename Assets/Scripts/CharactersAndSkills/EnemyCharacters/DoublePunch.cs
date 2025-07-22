@@ -7,7 +7,7 @@ public class DoublePunch : EnemySkill
     public DoublePunch()
     {
         Name = "Podwójny atak";
-        InFightDescription = " wyprowadza 2 zwyk³e ciosy ";
+        InFightDescription = " wyprowadza seriê 2 ciosów, zadaj¹c ";
         Repetitions = 2;
         TargetIsFriendly = false;
         TargetIsSelf = false;

@@ -44,6 +44,15 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    void DisableMarlboros()
+    {
+        Debug.Log("disabling marlboros");
+        foreach (var marlboro in Marlboros)
+        {
+            marlboro.SetActive(false);
+        }
+    }
+
     public void DisableNPCs()
     {
         foreach(var npc in NPCs)
@@ -77,22 +86,25 @@ public class StoryManager : MonoBehaviour
         //FriendlyCharacter character;
         switch (currentMainQuest)
         {
-            case 1:
-                Debug.Log("enabling marlboros");
-                EnableMarlboros();
-                break;
-            case 4:
+            case 2:
                 //character = new Welenc();
                 BattleManager.instance.currentPartyCharacters.Add(1);
                 break;
-            case 5:
+            case 3:
                 //character = new Stasiak();
                 BattleManager.instance.currentPartyCharacters.Add(2);
                 break;
-            case 6:
+            case 4:
                 //character = new Kaja();
                 BattleManager.instance.currentPartyCharacters.Add(3);
-
+                break;
+            case 5:
+                EnableMarlboros();
+                break;
+            case 6:
+                DisableMarlboros();
+                break;
+            case 11:
                 //character = new Brudzynski();
                 BattleManager.instance.currentPartyCharacters.Add(4);
                 break;

@@ -13,7 +13,7 @@ public abstract class Interactable : MonoBehaviour
     {
         if (playerNearby)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && !GameManager.instance.pauseCanvas.enabled)
             {
                 Interact();
             }

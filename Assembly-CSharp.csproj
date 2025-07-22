@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Brudzynski\Balaclava.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Generator1.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\EnergyDrink.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\IceCream.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\Capoeira.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\ControllerBarrage.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\Monster.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Generator3.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\Sandwich.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Armor\DiamondArmor.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\Magnum.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableTriplePunch.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Klara.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Attack.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\GroupShock.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Drink.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\Character.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\Kinga.cs" />
@@ -192,6 +195,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Observation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\StrongGrunt.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\Rogos.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\PowerGeneration.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\CheeseHamToast.cs" />
@@ -222,7 +226,9 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Camera1.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\ControllerThrow.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\BienkowskasRemains.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Shock.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\MoraleBoost.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Generator2.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\Overrun.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\StoneSword.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Fijolek\Exercises.cs" />

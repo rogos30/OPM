@@ -8,9 +8,9 @@ public class Camera1 : EnemyCharacter
 
     public Camera1() : base()
     {
-        NominativeName = "Kamera 1";
-        DativeName = "Kamerze 1";
-        AccusativeName = "Kamerê 1";
+        NominativeName = "Kamera";
+        DativeName = "Kamerze";
+        AccusativeName = "Kamerê";
         Health = MaxHealth = DefaultMaxHealth = 15000;
         DifficultyHealthChange = 2500;
         Attack = DefaultAttack = 400;

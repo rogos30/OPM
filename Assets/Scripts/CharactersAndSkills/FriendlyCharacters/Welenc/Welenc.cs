@@ -18,7 +18,7 @@ public class Welenc : FriendlyCharacter
         Accuracy = DefaultAccuracy = 1;
         Turns = DefaultTurns = 1;
         Speed = 500;
-        SpriteIndex = 5;
+        SpriteIndex = 1;
         AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
         CharacterDescription = "Opis Welenca wip";
         MultipliableAttack attack = new MultipliableAttack();

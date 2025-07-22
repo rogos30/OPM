@@ -845,6 +845,10 @@ public class BattleManager : MonoBehaviour
                 EnemyExecuteSkill(source, randSkill, enemyCharacterList[randTarget]);
             }
         }
+        else if (source.skillSet[randSkill].TargetIsSelf)
+        {
+            EnemyExecuteSkill(source, randSkill, source);
+        }
         else
         { //targets are playables
             randTarget = ChooseRandomTarget(playableCharacterList.Cast<Character>().ToList());
@@ -1086,6 +1090,15 @@ public class BattleManager : MonoBehaviour
         allEnemyCharacters.Add(character);
 
         character = new Klara();
+        allEnemyCharacters.Add(character);
+
+        character = new Generator1();
+        allEnemyCharacters.Add(character);
+
+        character = new Generator2();
+        allEnemyCharacters.Add(character);
+
+        character = new Generator3();
         allEnemyCharacters.Add(character);
     }
 
