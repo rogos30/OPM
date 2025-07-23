@@ -22,36 +22,6 @@ public class Inventory
     public List<Wearable> wearables;
     public readonly int maxOwnedItems = 99;
 
-    readonly string[,] wearablesNames = new string[4, 4]
-    {
-        {"Drewniany miecz", "Skórzana zbroja", "Attr1", "Bi¿u1" },
-        {"Kamienny miecz", "Kolczuga", "Attr2", "Bi¿u2"},
-        {"¯elazny miecz", "¯elazna zbroja", "Attr3", "Bi¿u3" },
-        {"Diamentowy miecz", "Diamentowa zbroja", "Attr4", "Bi¿u4" }
-    };
-    readonly int[,] wearablesAttack = new int[4, 4]
-    {
-        {50, 0, 30, 0},
-        {100, 0, 60, 0 },
-        {200, 0, 120, 0 },
-        {400, 0, 240, 0 }
-    };
-    readonly int[,] wearablesDefense = new int[4, 4]
-    {
-        {0, 20, 0, 12},
-        {0, 40, 0, 25 },
-        {0, 80, 0, 50 },
-        {0, 160, 0, 100}
-    };
-    readonly float[] attributesHealingMultiplier = new float[4] {0.9f, 0.8f, 0.7f, 0.6f };
-    readonly float[] jeweleryAccuracyMultiplier = new float[4] { 0.9f, 0.8f, 0.7f, 0.6f };
-    readonly int[,] wearablesCosts = new int[4, 4]
-    {
-        {20, 20, 10, 10 },
-        {50, 50, 20, 20 },
-        {110, 110, 35, 35 },
-        {170, 170, 60, 60 }
-    };
     public Inventory()
     {
         items = new List<Item>();

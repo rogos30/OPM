@@ -139,7 +139,7 @@ public class FriendlyCharacter : Character
         DefaultDefense = (int)(DefaultDefense * statIncreaseFactor);
         DefaultDefense += GetDefenseFromWearables();
         CurrentXP -= XPToNextLevel;
-        XPToNextLevel += requiredXPincrease;
+        XPToNextLevel = 500 + (Level - 1) * requiredXPincrease;
         Debug.Log(NominativeName + " reached level " + Level);
         return result;
     }

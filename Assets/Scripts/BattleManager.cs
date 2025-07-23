@@ -57,7 +57,6 @@ public class BattleManager : MonoBehaviour
     [SerializeField] TMP_Text characterDescriptionText;
     public TMP_Text battleFpsText;
 
-    public Skill[] skillTable = new Skill[100];
     public List<FriendlyCharacter> playableCharacters = new List<FriendlyCharacter>();
     public List<EnemyCharacter> allEnemyCharacters = new List<EnemyCharacter>();
     [NonSerialized] public List<int> currentPartyCharacters = new List<int>();

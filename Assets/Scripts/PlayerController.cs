@@ -82,6 +82,14 @@ public class PlayerController : MonoBehaviour
         {
             StoryManager.instance.ProgressStory();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            GameManager.instance.LoadGame();
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            GameManager.instance.SaveGame();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameManager.instance.canPause)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -53,6 +54,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text eqDescriptionText;
     Color orange = new Color(0.976f, 0.612f, 0.007f);
 
+    string dataDirPath;
+    string dataFileName = "0";
+
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -60,6 +64,7 @@ public class GameManager : MonoBehaviour
             LoadSettings();
         }
         SaveSettings();
+        dataDirPath = Application.persistentDataPath;
     }
     private void Awake()
     {
@@ -603,4 +608,67 @@ public class GameManager : MonoBehaviour
         canPause = true;
     }
 
+    public void SaveGame()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+        using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+        {
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.WriteLine(StoryManager.instance.currentMainQuest);
+                writer.WriteLine(Inventory.Instance.Money);
+                writer.WriteLine(ShopManager.instance.player.transform.position.x);
+                writer.WriteLine(ShopManager.instance.player.transform.position.y);
+                foreach (var character in BattleManager.instance.playableCharacters)
+                {
+                    writer.WriteLine(character.Level);
+                    writer.WriteLine(character.CurrentXP);
+                }
+                writer.WriteLine(ShopManager.instance.level);
+            }
+        }
+    }
+
+    public void LoadGame()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        Debug.Log(fullPath);
+        using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                int currentMainQuest = int.Parse(reader.ReadLine());
+                StoryManager.instance.currentMainQuest = 0;
+                for (int i = 0; i < currentMainQuest; i++)
+                {
+                    StoryManager.instance.ProgressStory();
+                }
+
+                Inventory.Instance.Money = int.Parse(reader.ReadLine());
+
+                float playerX = float.Parse(reader.ReadLine());
+                float playerY = float.Parse(reader.ReadLine());
+                ShopManager.instance.player.transform.position = new Vector2(playerX, playerY);
+
+                foreach (var character in BattleManager.instance.playableCharacters)
+                {
+                    int characterLevel = int.Parse(reader.ReadLine());
+                    character.Level = 1;
+                    for (int i = 1; i < characterLevel; i++)
+                    {
+                        character.LevelUp();
+                    }
+                    character.CurrentXP = int.Parse(reader.ReadLine());
+                }
+
+                int shopLevel = int.Parse(reader.ReadLine());
+                ShopManager.instance.level = 0;
+                for (int i = 0; i < shopLevel; i++)
+                {
+                    ShopManager.instance.PerformUpgrade();
+                }
+            }
+        }
+    }
 }

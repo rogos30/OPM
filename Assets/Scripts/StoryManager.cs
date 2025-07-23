@@ -11,7 +11,7 @@ public class StoryManager : MonoBehaviour
     [SerializeField] GameObject[] NPCs;
     [SerializeField] GameObject[] Marlboros;
     [NonSerialized] public int currentMainQuest = 0;
-    [SerializeField] string[] questDescriptions = { "Porozmawiaj z Chrobotem", "Zbierz Marlboraski", "Oddaj Chrobotowi Marlboraski", "Zwerbuj Welenca", "Pobij Swietlika dla zasady", "KONIEC GRY!!!1!" };
+    [SerializeField] string[] questDescriptions;
     int marlborosCollected;
     void Awake()
     {
@@ -82,7 +82,6 @@ public class StoryManager : MonoBehaviour
     {
         Debug.Log("progressing story");
         currentQuestText.text = questDescriptions[++currentMainQuest];
-        Skill[] skillTable = BattleManager.instance.skillTable;
         //FriendlyCharacter character;
         switch (currentMainQuest)
         {
