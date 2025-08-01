@@ -14,5 +14,6 @@ public class Necklace : DefensiveAttribute
         AccuracyMultiplier = 0.85f;
         Cost = 20;
         Amount = 0;
+        Id = 6;
     }
 }

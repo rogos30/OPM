@@ -14,5 +14,6 @@ public class IronArmor : Armor
         AccuracyMultiplier = 1;
         Cost = 110;
         Amount = 0;
+        Id = 9;
     }
 }

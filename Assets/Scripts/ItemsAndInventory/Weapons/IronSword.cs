@@ -14,5 +14,6 @@ public class IronSword : Weapon
         AccuracyMultiplier = 1;
         Cost = 110;
         Amount = 0;
+        Id = 8;
     }
 }

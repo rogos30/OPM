@@ -14,5 +14,6 @@ public class FatumBox : OffensiveAttribute
         AccuracyMultiplier = 1;
         Cost = 10;
         Amount = 0;
+        Id = 13;
     }
 }

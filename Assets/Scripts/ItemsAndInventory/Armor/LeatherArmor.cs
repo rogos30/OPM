@@ -14,5 +14,6 @@ public class LeatherArmor : Armor
         AccuracyMultiplier = 1;
         Cost = 20;
         Amount = 0;
+        Id = 1;
     }
 }

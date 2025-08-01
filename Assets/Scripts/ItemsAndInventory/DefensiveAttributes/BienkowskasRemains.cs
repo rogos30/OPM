@@ -14,5 +14,6 @@ public class BienkowskasRemains : DefensiveAttribute
         AccuracyMultiplier = 0.75f;
         Cost = 80;
         Amount = 0;
+        Id = 14;
     }
 }

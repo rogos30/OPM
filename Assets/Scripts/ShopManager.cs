@@ -177,8 +177,8 @@ public class ShopManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             warningCanvas.enabled = false;
+            Inventory.Instance.Money -= upgradeCosts[level];
             PerformUpgrade();
-            Inventory.Instance.Money -= upgradeCosts[level++];
         }
     }
 
@@ -244,6 +244,7 @@ public class ShopManager : MonoBehaviour
 
     public void PerformUpgrade()
     {
+        level++;
         moneyText.text = "Kasa: " + Inventory.Instance.Money + " PLN";
         pageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
         controlsText.text = defaultControlsText;

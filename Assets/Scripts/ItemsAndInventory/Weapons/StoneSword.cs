@@ -14,5 +14,6 @@ public class StoneSword : Weapon
         AccuracyMultiplier = 1;
         Cost = 50;
         Amount = 0;
+        Id = 4;
     }
 }

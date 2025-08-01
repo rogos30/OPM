@@ -14,5 +14,6 @@ public class DivorcePapers : OffensiveAttribute
         AccuracyMultiplier = 1;
         Cost = 80;
         Amount = 0;
+        Id = 15;
     }
 }

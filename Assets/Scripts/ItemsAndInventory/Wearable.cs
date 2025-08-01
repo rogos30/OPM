@@ -18,6 +18,7 @@ public abstract class Wearable
     public float HealingMultiplier { get; set; }
     public float AccuracyMultiplier { get; set; }
     public int Cost { get; set; }
+    public int Id { get; set; }
     public int Amount { get; set; }
 
     public void Add(int amount)

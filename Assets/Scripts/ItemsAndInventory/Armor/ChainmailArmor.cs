@@ -14,5 +14,6 @@ public class ChainmailArmor : Armor
         AccuracyMultiplier = 1;
         Cost = 50;
         Amount = 0;
+        Id = 5;
     }
 }

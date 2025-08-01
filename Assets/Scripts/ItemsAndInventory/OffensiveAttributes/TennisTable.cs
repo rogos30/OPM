@@ -14,5 +14,6 @@ public class TennisTable : OffensiveAttribute
         AccuracyMultiplier = 1;
         Cost = 40;
         Amount = 0;
+        Id = 11;
     }
 }

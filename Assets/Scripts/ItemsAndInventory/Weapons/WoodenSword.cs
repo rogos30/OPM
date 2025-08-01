@@ -14,5 +14,6 @@ public class WoodenSword : Weapon
         AccuracyMultiplier = 1;
         Cost = 20;
         Amount = 0;
+        Id = 0;
     }
 }

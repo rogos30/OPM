@@ -14,5 +14,6 @@ public class OstrysChair : DefensiveAttribute
         AccuracyMultiplier = 0.8f;
         Cost = 40;
         Amount = 0;
+        Id = 10;
     }
 }

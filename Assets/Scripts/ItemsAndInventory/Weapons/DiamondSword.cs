@@ -14,5 +14,6 @@ public class DiamondSword : Weapon
         AccuracyMultiplier = 1;
         Cost = 170;
         Amount = 0;
+        Id = 12;
     }
 }

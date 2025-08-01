@@ -47,14 +47,17 @@ public class Inventory
         item = new Zubrowka(); items.Add(item);
         item = new Tiger(); items.Add(item);
         item = new Algida(); items.Add(item);
+
         item = new CheeseHamToast(); items.Add(item);
         item = new Bocian(); items.Add(item);
         item = new Redbull(); items.Add(item);
         item = new Magnum(); items.Add(item);
+
         item = new CheeseChickenToast(); items.Add(item);
         item = new Stock(); items.Add(item);
         item = new Monster(); items.Add(item);
         item = new BigMilk(); items.Add(item);
+
         item = new FatToast(); items.Add(item);
         item = new Wyjebongo(); items.Add(item);
         item = new Dzik(); items.Add(item);
@@ -66,14 +69,17 @@ public class Inventory
         item = new LeatherArmor(); wearables.Add(item);
         item = new MalachHoodie(); wearables.Add(item);
         item = new FatumBox(); wearables.Add(item);
+
         item = new StoneSword(); wearables.Add(item);
         item = new ChainmailArmor(); wearables.Add(item);
         item = new Necklace(); wearables.Add(item);
         item = new CeilingPart(); wearables.Add(item);
+
         item = new IronSword(); wearables.Add(item);
         item = new IronArmor(); wearables.Add(item);
         item = new OstrysChair(); wearables.Add(item);
         item = new TennisTable(); wearables.Add(item);
+
         item = new DiamondSword(); wearables.Add(item);
         item = new DiamondArmor(); wearables.Add(item);
         item = new BienkowskasRemains(); wearables.Add(item);

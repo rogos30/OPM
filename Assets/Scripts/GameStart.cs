@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -23,7 +24,7 @@ public class GameStart : MonoBehaviour
 
     readonly string[] difficultyNames = {"£atwy", "Œredni", "Trudny", "Fatalny" };
     readonly string[] showFpsNames = { "Nigdy", "W œwiecie gry", "W walce", "Zawsze" };
-    int currentRow, maxCurrentRow, currentState;
+    int currentRow, maxCurrentRow, currentState, chosenSaveSlot;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     [SerializeField] TMP_Text guideText;
@@ -199,36 +200,24 @@ public class GameStart : MonoBehaviour
                     mainTexts[currentRow = 0].color = orange;
                     break;
                 case 1: //new game slots
-                    /*switch (currentRow)
-                    {
-                        case 0: //slot 1
-                            currentState = 3;
-                            //PrintCurrentPageOfItems();
-                            mainTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = mainTexts.Length;
-                            break;
-                        default: //slot 2, slot 3 TODO
-                            currentState = 4;
-                            mainTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = mainTexts.Length;
-                            break;
-                    }*/
-
-                    //TODO - zaimplementowac logike wyboru save file'a, na razie wrzuca do gry
-
-                    SceneManager.LoadScene("world");
+                    chosenSaveSlot = currentRow;
+                    PrintYesNo();
+                    currentState = 2;
                     break;
                 case 2: //new game slots - are you sure?
                     switch (currentRow)
                     {
                         case 0: //yes
-                            /*currentState = 3;
-                            //PrintCurrentPageOfItems();
-                            mainTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = mainTexts.Length;*/
 
-                            //zaimplementowac logike tworzenia nowego zapisu gry
-
+                            string dataDirPath1 = Application.persistentDataPath;
+                            string dataFileName1 = currentRow.ToString();
+                            string fullPath1 = Path.Combine(dataDirPath1, dataFileName1);
+                            if (File.Exists(fullPath1))
+                            {
+                                File.Delete(fullPath1);
+                            }
+                            PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
+                            SceneManager.LoadScene("world");
                             break;
                         case 1: //no
                             currentState = 1;
@@ -236,33 +225,24 @@ public class GameStart : MonoBehaviour
                             mainTexts[currentRow = 0].color = orange;
                             break;
                     }
-
                     break;
-
-                case 3: //load game slots TODO
-                    /*currentState = 5;
-                    mainTexts[currentRow].color = Color.red;
-                    mainTexts[currentRow = 0].color = orange;
-                    maxCurrentRow = ShopManager.instance.level + 2;
-                    //PrintAvailableEquipment();*/
-
-                    //TODO - zaimplementowac logike wyboru save file'a, na razie wrzuca do gry
-                    SceneManager.LoadScene("world");
-
+                case 3: //load game slots
+                    string dataDirPath = Application.persistentDataPath;
+                    string dataFileName = currentRow.ToString();
+                    string fullPath = Path.Combine(dataDirPath, dataFileName);
+                    if (File.Exists(fullPath))
+                    {
+                        chosenSaveSlot = currentRow;
+                        PrintYesNo();
+                        currentState = 4;
+                    }
                     break;
-
                 case 4: //load game slots - are you sure?
-
                     switch (currentRow)
                     {
                         case 0: //yes
-                            /*currentState = 3;
-                            //PrintCurrentPageOfItems();
-                            mainTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = mainTexts.Length;*/
-
-                            //zaimplementowac logike wczytywania zapisu gry
-
+                            PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
+                            SceneManager.LoadScene("world");
                             break;
                         case 1: //no
                             currentState = 3;
@@ -270,9 +250,8 @@ public class GameStart : MonoBehaviour
                             mainTexts[currentRow = 0].color = orange;
                             break;
                     }
-
                     break;
-                case 6: //exit TODO
+                case 6:
                     switch (currentRow)
                     {
                         case 0: //yes
@@ -360,46 +339,16 @@ public class GameStart : MonoBehaviour
                 }
                 break;
             case 1: //new game slots
-                guideText.text = "Trzeba dorobiæ logikê";
-                /*switch (currentRow)
-                {
-                    case 0:
-                        guideText.text = "Rozpocznij przygodê od pocz¹tku";
-                        break;
-                    case 1:
-                        guideText.text = "Kontynuuj przygodê";
-                        break;
-                    case 2:
-                        guideText.text = "Zmieñ ustawienia";
-                        break;
-                    case 3:
-                        guideText.text = "WyjdŸ do pulpitu";
-                        break;
-                }*/
+                GetInfoFromFile();
                 break;
             case 2: //new game - are you sure?
-                guideText.text = "Czy na pewno chcesz rozpocz¹æ now¹ grê na miejscu zapisu" + (currentRow+1) + "?";
+                guideText.text = "Czy na pewno rozpocz¹æ now¹ grê na miejscu zapisu " + (chosenSaveSlot + 1) + "?";
                 break;
             case 3: //load game slots
-                guideText.text = "Trzeba dorobiæ logikê";
-                /*switch (currentRow)
-                {
-                    case 0:
-                        guideText.text = "Rozpocznij przygodê od pocz¹tku";
-                        break;
-                    case 1:
-                        guideText.text = "Kontynuuj przygodê";
-                        break;
-                    case 2:
-                        guideText.text = "Zmieñ ustawienia";
-                        break;
-                    case 3:
-                        guideText.text = "WyjdŸ do pulpitu";
-                        break;
-                }*/
+                GetInfoFromFile();
                 break;
             case 4: //load game - are you sure?
-                guideText.text = "Czy na pewno chcesz wczytaæ grê z zapisu" + (currentRow + 1) + "?";
+                guideText.text = "Czy na pewno wczytaæ grê z zapisu " + (chosenSaveSlot + 1) + "?";
                 break;
 
             case 5: //settings
@@ -498,4 +447,25 @@ public class GameStart : MonoBehaviour
         optionValuesTexts[3].text = showFpsNames[showFPS];
     }
 
+    void GetInfoFromFile()
+    {
+        string dataDirPath = Application.persistentDataPath;
+        string dataFileName = currentRow.ToString();
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        if (!File.Exists(fullPath))
+        {
+            guideText.text = "Puste miejsce zapisu";
+            return;
+        }
+        //Debug.Log(fullPath);
+        using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+        {
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                int currentMainQuest = int.Parse(reader.ReadLine());
+                string date = reader.ReadLine();
+                guideText.text = "Data zapisu: " + date + ", postêp: " + (100f * currentMainQuest / 15) + "%";
+            }
+        }
+    }
 }

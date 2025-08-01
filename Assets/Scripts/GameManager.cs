@@ -8,6 +8,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
+using static UnityEditor.Progress;
 using static UnityEngine.GraphicsBuffer;
 
 
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour
     Color orange = new Color(0.976f, 0.612f, 0.007f);
 
     string dataDirPath;
-    string dataFileName = "0";
+    string dataFileName;
 
     private void Start()
     {
@@ -65,11 +66,19 @@ public class GameManager : MonoBehaviour
         }
         SaveSettings();
         dataDirPath = Application.persistentDataPath;
+        dataFileName = PlayerPrefs.GetString("lastSaveFile");
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        if (File.Exists(fullPath))
+        {
+            LoadGame();
+        }
+        
     }
     private void Awake()
     {
         pauseCanvas.enabled = false;
         inGameCanvas.enabled = true;
+        Time.timeScale = 1;
         instance = this;
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.outputAudioMixerGroup = musicMixerGroup;
@@ -375,7 +384,7 @@ public class GameManager : MonoBehaviour
                             }
                             for (int i = 0; i < BattleManager.instance.currentPartyCharacters.Count; i++)
                             {
-                                inventoryMainTexts[i + 1].text = BattleManager.instance.playableCharacters[i].NominativeName;
+                                inventoryMainTexts[i + 1].text = BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[i]].NominativeName;
                             }
                             inventoryMainColumn.SetActive(true);
                             break;
@@ -617,6 +626,7 @@ public class GameManager : MonoBehaviour
             using (StreamWriter writer = new StreamWriter(stream))
             {
                 writer.WriteLine(StoryManager.instance.currentMainQuest);
+                writer.WriteLine(DateTime.Today.Day + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
                 writer.WriteLine(Inventory.Instance.Money);
                 writer.WriteLine(ShopManager.instance.player.transform.position.x);
                 writer.WriteLine(ShopManager.instance.player.transform.position.y);
@@ -624,8 +634,28 @@ public class GameManager : MonoBehaviour
                 {
                     writer.WriteLine(character.Level);
                     writer.WriteLine(character.CurrentXP);
+                    foreach(var wearable in character.wearablesWorn)
+                    {
+                        if (wearable != null)
+                        {
+                            writer.WriteLine(wearable.Id);
+                        }
+                        else
+                        {
+                            writer.WriteLine(-1);
+                        }
+                    }
                 }
                 writer.WriteLine(ShopManager.instance.level);
+                foreach (var item in Inventory.Instance.items)
+                {
+                    writer.WriteLine(item.Amount);
+                }
+                foreach (var wearable in Inventory.Instance.wearables)
+                {
+                    writer.WriteLine(wearable.Amount);
+                }
+
             }
         }
     }
@@ -645,6 +675,8 @@ public class GameManager : MonoBehaviour
                     StoryManager.instance.ProgressStory();
                 }
 
+                string date = reader.ReadLine();
+
                 Inventory.Instance.Money = int.Parse(reader.ReadLine());
 
                 float playerX = float.Parse(reader.ReadLine());
@@ -660,6 +692,14 @@ public class GameManager : MonoBehaviour
                         character.LevelUp();
                     }
                     character.CurrentXP = int.Parse(reader.ReadLine());
+                    for (int i = 0; i < character.wearablesWorn.Length; i++)
+                    {
+                        int wearableId = int.Parse(reader.ReadLine());
+                        if (wearableId != -1)
+                        {
+                            Inventory.Instance.wearables[wearableId].PutOn(character);
+                        }
+                    }
                 }
 
                 int shopLevel = int.Parse(reader.ReadLine());
@@ -667,6 +707,15 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < shopLevel; i++)
                 {
                     ShopManager.instance.PerformUpgrade();
+                }
+
+                foreach (var item in Inventory.Instance.items)
+                {
+                    item.Amount = int.Parse(reader.ReadLine());
+                }
+                foreach (var wearable in Inventory.Instance.wearables)
+                {
+                    wearable.Amount = int.Parse(reader.ReadLine());
                 }
             }
         }

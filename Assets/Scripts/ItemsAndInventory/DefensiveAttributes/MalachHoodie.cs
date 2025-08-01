@@ -14,5 +14,6 @@ public class MalachHoodie : DefensiveAttribute
         AccuracyMultiplier = 0.9f;
         Cost = 10;
         Amount = 0;
+        Id = 2;
     }
 }
