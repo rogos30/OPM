@@ -110,6 +110,12 @@ public class DialogManager : MonoBehaviour
     }
     public void StartGameInfo(string[] lines)
     {
+        if (lines.Length == 0)
+        {
+            Debug.Log("no lines");
+            onGameInfoEnd.Invoke();
+            return;
+        }
         currentIndex = -1;
         gameInfoCanvas.enabled = true;
         this.lines = lines;

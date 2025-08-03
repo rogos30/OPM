@@ -2096,6 +2096,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 1
+  interactionSavesGame: 0
+  interactionBlocksSavingGame: 1
   appearanceAtQuest: 4
   disappearanceAtQuest: 5
   playables: 
@@ -3847,6 +3849,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 1
+  interactionSavesGame: 1
+  interactionBlocksSavingGame: 0
   appearanceAtQuest: 6
   disappearanceAtQuest: 7
   playables: 
@@ -7497,6 +7501,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -10785,6 +10793,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -11014,6 +11026,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 0
+  interactionSavesGame: 0
+  interactionBlocksSavingGame: 1
   appearanceAtQuest: 5
   disappearanceAtQuest: 6
   playables: 
@@ -12984,6 +12998,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -13331,6 +13349,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 1
+  interactionSavesGame: 1
+  interactionBlocksSavingGame: 0
   appearanceAtQuest: 100
   disappearanceAtQuest: 101
   playables: 000000000100000002000000
@@ -16504,6 +16524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 1
+  interactionSavesGame: 1
+  interactionBlocksSavingGame: 0
   appearanceAtQuest: 1
   disappearanceAtQuest: 2
   playables: 
@@ -19774,6 +19796,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -21100,11 +21126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 94836419622286473, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 3.64
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 94836419622286473, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 3.37
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: appearanceAtQuest
@@ -21117,6 +21143,10 @@ PrefabInstance:
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: disappearanceAtQuest
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
@@ -76147,6 +76177,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -78897,6 +78931,10 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -80569,7 +80607,7 @@ Transform:
   m_GameObject: {fileID: 1584638937}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.043, y: 0.495, z: 0}
+  m_LocalPosition: {x: -0.043, y: 0.495, z: -1}
   m_LocalScale: {x: 0.33653408, y: 0.32996196, z: 0.2801}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -82742,6 +82780,10 @@ PrefabInstance:
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: disappearanceAtQuest
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
@@ -87030,6 +87072,10 @@ PrefabInstance:
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: disappearanceAtQuest
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: interactionSavesGame
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: playables.Array.size
@@ -141165,6 +141211,10 @@ PrefabInstance:
     - target: {fileID: 2053825310474920810, guid: cf3d70849a9300546a10c7e610a6d5d8, type: 3}
       propertyPath: disappearanceAtQuest
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053825310474920810, guid: cf3d70849a9300546a10c7e610a6d5d8, type: 3}
+      propertyPath: interactionBlocksSavingGame
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2053825310474920810, guid: cf3d70849a9300546a10c7e610a6d5d8, type: 3}
       propertyPath: preFightSpeakersIndexes.Array.data[0]

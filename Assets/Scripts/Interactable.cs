@@ -6,6 +6,8 @@ public abstract class Interactable : MonoBehaviour
 {
     bool playerNearby = false;
     [SerializeField] protected bool interactionProgressesStory;
+    [SerializeField] protected bool interactionSavesGame;
+    [SerializeField] protected bool interactionBlocksSavingGame;
     public int appearanceAtQuest;
     public int disappearanceAtQuest;
 

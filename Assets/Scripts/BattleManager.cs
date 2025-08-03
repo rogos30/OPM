@@ -9,6 +9,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
@@ -72,7 +73,7 @@ public class BattleManager : MonoBehaviour
     const float defaultSkillCheckTime = 1.75f;
 
     [SerializeField] GameObject[] animationObjects;
-    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 } }; //easy, medium, hard, underground
+    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 } }; //1st act, 2nd act, 3rd act, underground
 
     Color orange = new Color(0.976f, 0.612f, 0.007f);
     int currentPlayable, currentEnemy;
@@ -80,7 +81,7 @@ public class BattleManager : MonoBehaviour
     int chosenAction, chosenSubaction, chosenTarget, currentMoveInTurn = 0, currentTurn = 0;
     int chosenSubactionPage;
     int currentPhase = 0;
-    bool acceptsInput = false, enemyIsMoving = false, handlingPhases = false, battleFinished = false;
+    bool acceptsInput = false, enemyIsMoving = false, handlingPhases = false, battleFinished = false, saveGameAfterBattle = false;
     bool skillCheckGoingRight, skillCheckAcceptsInput;
     int playablesKnockedOut = 0, enemiesKnockedOut = 0, uiIndexOffset = 0;
     int skillPerformance;
@@ -301,7 +302,7 @@ public class BattleManager : MonoBehaviour
                         case 3: //run
                             if (actions[chosenSubaction].text == "Potwierdü") //accepted to run
                             {
-                                StartCoroutine(FinishBattle(false));
+                                StartCoroutine(FinishBattle(false, true));
                                 //HandleBattleEnd(false);
                             }
                             else //didn't run
@@ -771,12 +772,12 @@ public class BattleManager : MonoBehaviour
         CountKnockedOut();
         if (playablesKnockedOut == playableCharacterList.Count && !battleFinished)
         { //player lost
-            StartCoroutine(FinishBattle(false));
+            StartCoroutine(FinishBattle(false, false));
             //HandleBattleEnd(false);
         }
         else if (enemiesKnockedOut == enemyCharacterList.Count && !battleFinished)
         { //enemy lost
-            StartCoroutine(FinishBattle(true));
+            StartCoroutine(FinishBattle(true, false));
             //HandleBattleEnd(true);
         }
         else
@@ -837,7 +838,7 @@ public class BattleManager : MonoBehaviour
                 randTarget = ChooseRandomTarget(enemyCharacterList.Cast<Character>().ToList());
                 if (randTarget == -1)
                 {
-                    StartCoroutine(FinishBattle(false));
+                    StartCoroutine(FinishBattle(false, false));
                     //HandleBattleEnd(false);
                     yield break;
                 }
@@ -853,7 +854,7 @@ public class BattleManager : MonoBehaviour
             randTarget = ChooseRandomTarget(playableCharacterList.Cast<Character>().ToList());
             if (randTarget == -1)
             {
-                StartCoroutine(FinishBattle(false));
+                StartCoroutine(FinishBattle(false, false));
                 //HandleBattleEnd(false);
                 yield break;
             }
@@ -872,9 +873,10 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void InitiateBattle(int[] playables, int[] enemies)
+    public void InitiateBattle(int[] playables, int[] enemies, bool saveGameAfterBattle)
     {
         enemySpriteIndexes.AddRange(enemies);
+        this.saveGameAfterBattle = saveGameAfterBattle;
         Debug.Log(enemySpriteIndexes[0]);
         musicSource.clip = battleMusic[enemies[0]];
         musicSource.loop = true;
@@ -946,7 +948,7 @@ public class BattleManager : MonoBehaviour
         playerMovesThisTurn = playableCharacterList[0].DefaultTurns;
     }
 
-    void HandleBattleEnd(bool playerWon)
+    void HandleBattleEnd(bool playerWon, bool playerEscaped)
     {
         battleFinished = true;
         acceptsInput = false;
@@ -974,10 +976,10 @@ public class BattleManager : MonoBehaviour
         {
 
         }
-        DialogManager.instance.onGameInfoEnd.AddListener(() => StartCoroutine(FinishBattle(playerWon)));
+        DialogManager.instance.onGameInfoEnd.AddListener(() => StartCoroutine(FinishBattle(playerWon, playerEscaped)));
     }
 
-    IEnumerator FinishBattle(bool playerWon)
+    IEnumerator FinishBattle(bool playerWon, bool playerEscaped)
     {
         battleFinished = true;
         acceptsInput = false;
@@ -1011,10 +1013,19 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.Instance.Money + " money");
 
             DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
+            if (saveGameAfterBattle)
+            {
+                GameManager.instance.SaveGame();
+            }
+        }
+        else if (playerEscaped)
+        {
+            gameInfoLines.Add("ciota");
+            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
         {
-            gameInfoLines.Add("ciota");
+            gameInfoLines.Add("gg wracasz do lobby");
             DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         playableCharacterList.Clear();
@@ -1027,9 +1038,14 @@ public class BattleManager : MonoBehaviour
             {
                 onBattleWon.Invoke();
             }
+            else if (playerEscaped)
+            {
+                //onBattleLost.Invoke();
+            }
             else
             {
-                onBattleLost.Invoke();
+                //onBattleLost.Invoke();
+                SceneManager.LoadScene("start");
             }
         });
     }

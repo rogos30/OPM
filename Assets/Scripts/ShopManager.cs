@@ -311,10 +311,11 @@ public class ShopManager : MonoBehaviour
     void ExitShop()
     {
         GameManager.instance.inGameCanvas.enabled = true;
-        ShopManager.instance.shopCanvas.enabled = false;
+        shopCanvas.enabled = false;
         player.SetActive(true);
         musicSource.Stop();
         shopCanvas.enabled = false;
+        GameManager.instance.SaveGame();
     }
 
     IEnumerator CantAfford()

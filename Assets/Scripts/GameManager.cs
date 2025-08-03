@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     readonly string[] difficultyNames = {"£atwy", "Œredni", "Trudny", "Fatalny" };
     readonly string[] showFpsNames = { "Nigdy", "W œwiecie gry", "W walce", "Zawsze" };
     [NonSerialized] public bool canPause = true;
+    [NonSerialized] public bool canSaveGame = true;
     int currentRow, maxCurrentRow, currentColumn, currentPage;
     int chosenMain, chosenInv, chosenEq;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
@@ -152,6 +153,10 @@ public class GameManager : MonoBehaviour
         maxCurrentRow = mainColumnTexts.Length;
         Time.timeScale = 0;
         pauseCanvas.enabled = true;
+        if (canSaveGame)
+        {
+            SaveGame();
+        }
     }
 
     void Unpause()
@@ -160,6 +165,10 @@ public class GameManager : MonoBehaviour
         pauseCanvas.enabled = false;
         StartCoroutine(AllowToPause());
         mainColumnTexts[currentRow].color = Color.white;
+        if (canSaveGame)
+        {
+            SaveGame();
+        }
     }
 
 
@@ -405,7 +414,6 @@ public class GameManager : MonoBehaviour
                             optionsColumn.SetActive(true);
                             break;
                         case 4: //returned to main
-
                             SceneManager.LoadScene("start");
                             break;
                     }

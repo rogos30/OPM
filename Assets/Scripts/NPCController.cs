@@ -31,12 +31,27 @@ public class NPCController : Interactable
 
         if (playables.Length > 0)
         { //battle after dialogue
-            BattleManager.instance.InitiateBattle(playables, enemies);
+            BattleManager.instance.InitiateBattle(playables, enemies, false);
             BattleManager.instance.onBattleWon.AddListener(AfterBattle);
         }
-        else if (interactionProgressesStory)
-        { //dialogue end progresses story
-            StoryManager.instance.ProgressStory();
+        else
+        {
+            if (interactionProgressesStory)
+            { //dialogue end progresses story
+                StoryManager.instance.ProgressStory();
+            }
+            if (interactionSavesGame)
+            { //dialogue end saves game
+                GameManager.instance.SaveGame();
+            }
+            if (interactionBlocksSavingGame)
+            {
+                GameManager.instance.canSaveGame = false;
+            }
+            else
+            {
+                GameManager.instance.canSaveGame = true;
+            }
         }
     }
     void AfterBattle()
@@ -49,10 +64,37 @@ public class NPCController : Interactable
             {
                 DialogManager.instance.onDialogueEnd.AddListener(StoryManager.instance.ProgressStory); //after dialogue progress story
             }
+            if (interactionSavesGame)
+            {
+                DialogManager.instance.onDialogueEnd.AddListener(GameManager.instance.SaveGame); //after dialogue save game
+            }
+            if (interactionBlocksSavingGame)
+            {
+                DialogManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = false);
+            }
+            else
+            {
+                DialogManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = true);
+            }
         }
-        else if (interactionProgressesStory)
-        { //dialogue end progresses story
-            StoryManager.instance.ProgressStory();
+        else
+        {
+            if (interactionProgressesStory)
+            { //dialogue end progresses story
+                StoryManager.instance.ProgressStory();
+            }
+            if (interactionSavesGame)
+            {
+                GameManager.instance.SaveGame();
+            }
+            if (interactionBlocksSavingGame)
+            {
+                GameManager.instance.canSaveGame = false;
+            }
+            else
+            {
+                GameManager.instance.canSaveGame = true;
+            }
         }
     }
 }
