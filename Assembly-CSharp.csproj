@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\OffensiveAttribute.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\CrowdIntimidation.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\TennisTable.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\PlayableSkill.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Item.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\Dzik.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\MultipliableAttack.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Server.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Zubrowka.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\DiscoPoloStar.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableChangeOfRules.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\Cheats.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\CrowdMotivation.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\Weapon.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacter.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Brudzynski\Balaclava.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Janek\Counterattack.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\BasketballStar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Scripts\PatrolNPCController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Kinga\StrongKinga.cs" />
@@ -190,6 +194,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDir.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\DontCare.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Observation.cs" />
@@ -212,6 +217,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\FatToast.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Fijolek\ShortTest.cs" />
     <Compile Include="Assets\Scripts\StoryManager.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Peter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Kaja\Kaja.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RotateCamera.cs" />
@@ -239,6 +245,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacter.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_Translate.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\EnemyWelenc.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\NaturalBeauty.cs" />
     <Compile Include="Assets\Scripts\GameStart.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Connection.cs" />

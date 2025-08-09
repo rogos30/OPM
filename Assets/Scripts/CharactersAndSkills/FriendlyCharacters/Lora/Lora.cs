@@ -13,12 +13,20 @@ public class Lora : FriendlyCharacter
         AccusativeName = "Lory";
         Health = MaxHealth = DefaultMaxHealth = 350;
         Skill = MaxSkill = 80;
-        Attack = DefaultAttack = 80;
+        Attack = DefaultAttack = 60;
         Defense = DefaultDefense = 30;
+        Accuracy = DefaultAccuracy = 1f;
         Turns = DefaultTurns = 2;
         Speed = 400;
+        SpriteIndex = 10;
         AbilityDescription = "Lora jest chwilowo hiperpobudzona przez kawê i ma 2 ruchy w ka¿dej turze";
         Attack attack = new Attack();
         skillSet.Add(attack);
+        DontCare dontCare = new DontCare();
+        skillSet.Add(dontCare);
+        NaturalBeauty naturalBeauty = new NaturalBeauty();
+        skillSet.Add(naturalBeauty);
+        BasketballStar basketballStar = new BasketballStar();
+        skillSet.Add(basketballStar);
     }
 }

@@ -22,24 +22,17 @@ public class Crosswords : PlayableSkill
     {
         if (skillPerformance == 0)
         {
-            return source.DativeName + " nie zaciekawia " + target.AccusativeName + " (nic dziwnego)";
+            return source.NominativeName + " nie przyci¹ga uwagi " + target.AccusativeName + "krzy¿ówkami (nic dziwnego)";
         }
-        string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
-        float defenseDebuff = Random.Range(0, 1f);
+        string finalDesc = source.NominativeName + InFightDescription;
         int turns = 3;
         if (skillPerformance == 2)
         {
-            finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
-            source.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
-            defenseDebuff *= source.criticalDamageMultiplier;
+            finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + " i zmniejszaj¹c j¹ " + target.DativeName;
+            target.ApplyDebuff((int)Character.StatusEffects.ACCURACY, turns);
         }
-        finalDesc = finalDesc + "na " + turns + " tur";
-        if (defenseDebuff > 0.75f)
-        {
-            target.ApplyDebuff((int)Character.StatusEffects.TURNS, 3);
-            finalDesc = finalDesc + " i usypiaj¹c rywala na 3 tury!";
-        }
+        source.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
+        finalDesc = finalDesc + "na " + (turns-1) + " tury";
         return finalDesc;
     }
 }

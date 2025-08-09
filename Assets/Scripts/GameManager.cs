@@ -524,18 +524,19 @@ public class GameManager : MonoBehaviour
     {
         int index = BattleManager.instance.currentPartyCharacters[currentPage];
         var currentChar = BattleManager.instance.playableCharacters[index];
+        Debug.Log(currentChar.wearablesWorn);
         int addedAttack = currentChar.GetAttackFromWearables();
         int addedDefense = currentChar.GetDefenseFromWearables();
         float accuracyModifier = currentChar.GetAccuracyFromWearables();
         float healingModifier = currentChar.GetHealingFromWearables() * currentChar.ItemEnhancementMultiplier;
-        characterSprite.sprite = DialogManager.instance.speakerSprites[BattleManager.instance.playableCharacters[currentPage].SpriteIndex];
+        characterSprite.sprite = DialogManager.instance.speakerSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
         characterInfoTexts[0].text = currentChar.NominativeName;
         characterInfoTexts[1].text = "Poziom: " + currentChar.Level;
         characterInfoTexts[2].text = "XP do nast.: " + (currentChar.XPToNextLevel - currentChar.CurrentXP);
         characterInfoTexts[3].text = "HP: " + currentChar.MaxHealth;
         characterInfoTexts[4].text = "SP: " + currentChar.MaxSkill;
         characterInfoTexts[5].text = "Atak: " + (currentChar.DefaultAttack + addedAttack);
-        characterInfoTexts[6].text = "Obrona: " + (currentChar.DefaultAttack + addedDefense);
+        characterInfoTexts[6].text = "Obrona: " + (currentChar.DefaultDefense + addedDefense);
         characterInfoTexts[7].text = "Szybkoœæ: " + currentChar.Speed;
         characterInfoTexts[8].text = "Ruchy w turze: " + currentChar.DefaultTurns;
         characterInfoTexts[9].text = "Leczenie: " + healingModifier * 100 + "%";
@@ -640,6 +641,7 @@ public class GameManager : MonoBehaviour
                 writer.WriteLine(ShopManager.instance.player.transform.position.y);
                 foreach (var character in BattleManager.instance.playableCharacters)
                 {
+                    writer.WriteLine(character.NominativeName);
                     writer.WriteLine(character.Level);
                     writer.WriteLine(character.CurrentXP);
                     foreach(var wearable in character.wearablesWorn)
@@ -655,15 +657,18 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 writer.WriteLine(ShopManager.instance.level);
+                writer.WriteLine("items");
                 foreach (var item in Inventory.Instance.items)
                 {
                     writer.WriteLine(item.Amount);
                 }
+                writer.WriteLine("wearables");
                 foreach (var wearable in Inventory.Instance.wearables)
                 {
                     writer.WriteLine(wearable.Amount);
                 }
-
+                writer.WriteLine("end");
+                writer.Close();
             }
         }
     }
@@ -693,11 +698,14 @@ public class GameManager : MonoBehaviour
 
                 foreach (var character in BattleManager.instance.playableCharacters)
                 {
+                    string characterName = reader.ReadLine();
                     int characterLevel = int.Parse(reader.ReadLine());
-                    character.Level = 1;
-                    for (int i = 1; i < characterLevel; i++)
+                    if (character.Level == 1)
                     {
-                        character.LevelUp();
+                        for (int i = 1; i < characterLevel; i++)
+                        {
+                            character.LevelUp();
+                        }
                     }
                     character.CurrentXP = int.Parse(reader.ReadLine());
                     for (int i = 0; i < character.wearablesWorn.Length; i++)
@@ -716,15 +724,18 @@ public class GameManager : MonoBehaviour
                 {
                     ShopManager.instance.PerformUpgrade();
                 }
-
+                reader.ReadLine();
                 foreach (var item in Inventory.Instance.items)
                 {
                     item.Amount = int.Parse(reader.ReadLine());
                 }
+                reader.ReadLine();
                 foreach (var wearable in Inventory.Instance.wearables)
                 {
                     wearable.Amount = int.Parse(reader.ReadLine());
                 }
+                reader.ReadLine();
+                reader.Close();
             }
         }
     }

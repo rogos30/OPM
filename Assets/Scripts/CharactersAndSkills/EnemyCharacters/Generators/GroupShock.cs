@@ -18,7 +18,7 @@ public class GroupShock : EnemySkill
     {
         if (Random.Range(0, 1f) > source.Accuracy * AccuracyMultiplier)
         {
-            return source.DativeName + " nie trafia pr¹dem " + target.AccusativeName;
+            return source.NominativeName + " nie trafia pr¹dem " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName + ", zadaj¹c ";
         int damage = (int)(source.Attack * Random.Range(0.8f, 1.2f)) - target.Defense;
@@ -36,7 +36,7 @@ public class GroupShock : EnemySkill
         {
             damage /= 2;
         }
-        finalDesc = finalDesc + damage + "obra¿eñ i parali¿uj¹c na " + (turns - 1) + " tury!";
+        finalDesc = finalDesc + damage + " obra¿eñ i parali¿uj¹c na " + (turns - 1) + " tury!";
         return finalDesc;
     }
 }

@@ -11,7 +11,7 @@ public class Counterattack : PlayableSkill
         Name = "Kontra";
         SkillDescription = "rzuca z du¿¹ si³¹ pi³k¹ w przeciwnika. Zadaje wysokie obra¿enia jednemu przeciwnikowi.";
         InFightDescription = " rzuca przeciwnikowi pi³k¹ w ³eb i zadaje mu ";
-        Cost = 200;
+        Cost = 100;
         AccuracyMultiplier = 0.75f;
         TargetIsFriendly = false;
         TargetIsSelf = false;

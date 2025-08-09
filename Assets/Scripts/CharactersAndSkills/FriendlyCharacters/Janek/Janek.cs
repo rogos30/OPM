@@ -19,7 +19,8 @@ public class Janek : FriendlyCharacter
         Accuracy = DefaultAccuracy = 1.2f;
         Turns = DefaultTurns = 1;
         Speed = 500;
-        AbilityDescription = "Janek jako kapitan zaczyna walkê z buffem do ataku, obrony i celnoœci na 3 tury";
+        SpriteIndex = 11;
+        AbilityDescription = "Janek zaczyna walkê z buffem do ataku, obrony i celnoœci na 3 tury";
         Attack attack = new Attack();
         skillSet.Add(attack);
         PerfectGoalkeeper perfectGoalkeeper = new PerfectGoalkeeper();
@@ -32,8 +33,9 @@ public class Janek : FriendlyCharacter
 
     protected override void AdditionalChangesOnReset()
     {
-        ApplyBuff((int)Character.StatusEffects.ATTACK, 3);
-        ApplyBuff((int)Character.StatusEffects.DEFENSE, 3);
-        ApplyBuff((int)Character.StatusEffects.ACCURACY, 3);
+        base.AdditionalChangesOnReset();
+        ApplyBuff((int)Character.StatusEffects.ATTACK, 4);
+        ApplyBuff((int)Character.StatusEffects.DEFENSE, 4);
+        ApplyBuff((int)Character.StatusEffects.ACCURACY, 4);
     }
 }

@@ -8,10 +8,10 @@ public class PerfectGoalkeeper : PlayableSkill
 
     public PerfectGoalkeeper()
     {
-        Name = "Perfekcyjny bramkarz";
+        Name = "Super bramkarz";
         SkillDescription = "Je¿eli ma na³o¿ony debuff na obronê, to go zdejmuje. Nastêpnie zwiêksza swoj¹ obronê na 3 tury";
         InFightDescription = " przygotowuje siê na strza³y przeciwnika na ";
-        Cost = 0.3f;
+        Cost = 0.2f;
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
@@ -31,7 +31,8 @@ public class PerfectGoalkeeper : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 5;
         }
-        finalDesc = finalDesc + turns + " tur!";
+        finalDesc = finalDesc + (turns-1) + " tury!";
+        target.ApplyBuff(1, turns);
         target.ApplyBuff(1, turns);
         return finalDesc;
     }

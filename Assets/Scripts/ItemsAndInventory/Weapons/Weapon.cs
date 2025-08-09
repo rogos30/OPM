@@ -8,6 +8,10 @@ public abstract class Weapon : Wearable
     {
         target.wearablesWorn[(int)Wearable.WEARABLES.WEAPON] = this;
         Amount--;
+        if (Amount < 0)
+        {
+            Debug.LogError("problem!");
+        }
         target.DefaultAttack += AttackAdded;
     }
 

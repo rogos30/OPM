@@ -712,7 +712,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             { //skill targets one ally
-                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[chosenTarget]);
+                FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, playableCharacterList[chosenTarget], true);
             }
         }
         else
@@ -729,11 +729,11 @@ public class BattleManager : MonoBehaviour
             { //skill targets one enemy
                 if (chosenTarget != -1)
                 {
-                    FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[chosenTarget]);
+                    FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[chosenTarget], false);
                 }
                 else
                 {
-                    FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[ChooseRandomTarget(enemyCharacterList.Cast<Character>().ToList())]);
+                    FriendlyExecuteSkill(playableCharacterList[currentPlayable], skillIndex, enemyCharacterList[ChooseRandomTarget(enemyCharacterList.Cast<Character>().ToList())], false);
                 }
             }
         }
@@ -1067,6 +1067,12 @@ public class BattleManager : MonoBehaviour
 
         character = new Brudzynski();
         playableCharacters.Add(character);
+
+        character = new Lora();
+        playableCharacters.Add(character);
+
+        character = new Janek();
+        playableCharacters.Add(character);
     }
 
     void InitializeEnemyCharacters()
@@ -1086,7 +1092,7 @@ public class BattleManager : MonoBehaviour
         character = new EnemySwietlik();
         allEnemyCharacters.Add(character);
 
-        character = new EnemyWelenc();
+        character = new EnemyWelenc(); //5
         allEnemyCharacters.Add(character);
 
         character = new Monitoring();
@@ -1101,7 +1107,7 @@ public class BattleManager : MonoBehaviour
         character = new Kinga();
         allEnemyCharacters.Add(character);
 
-        character = new StrongKinga();
+        character = new StrongKinga(); //10
         allEnemyCharacters.Add(character);
 
         character = new Klara();
@@ -1114,6 +1120,12 @@ public class BattleManager : MonoBehaviour
         allEnemyCharacters.Add(character);
 
         character = new Generator3();
+        allEnemyCharacters.Add(character);
+
+        character = new Server(); //15
+        allEnemyCharacters.Add(character);
+
+        character = new Peter();
         allEnemyCharacters.Add(character);
     }
 
@@ -1313,15 +1325,20 @@ public class BattleManager : MonoBehaviour
         onMoveFinished.Invoke();
     }
 
-    void FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target)
+    void FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target, bool targetIsFriendly)
     {
         dynamicDescriptionText.text = source.skillSet[skill].execute(source, target, skillPerformance);
         if (chosenTarget == -1)
         {
             chosenTarget = enemyCharacterList.FindIndex(x => x.Equals(target));
         }
-        animationObjects[chosenTarget].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
-        StartCoroutine(disableAnimation(chosenTarget));
+        int animationObject = chosenTarget;
+        if (targetIsFriendly)
+        {
+            animationObject = 0;
+        }
+        animationObjects[animationObject].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
+        StartCoroutine(disableAnimation(animationObject));
         UpdateHealthBarsAndIcons();
         onMoveFinished.Invoke();
     }

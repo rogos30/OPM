@@ -86,15 +86,15 @@ public class StoryManager : MonoBehaviour
         switch (currentMainQuest)
         {
             case 2:
-                //character = new Welenc();
+                //dodanie Welenca
                 BattleManager.instance.currentPartyCharacters.Add(1);
                 break;
             case 3:
-                //character = new Stasiak();
+                //dodanie Stasiaka;
                 BattleManager.instance.currentPartyCharacters.Add(2);
                 break;
             case 4:
-                //character = new Kaja();
+                //dodanie Kai
                 BattleManager.instance.currentPartyCharacters.Add(3);
                 break;
             case 5:
@@ -104,8 +104,24 @@ public class StoryManager : MonoBehaviour
                 DisableMarlboros();
                 break;
             case 11:
-                //character = new Brudzynski();
+                //dodanie Brudzyñskiego
                 BattleManager.instance.currentPartyCharacters.Add(4);
+                break;
+            case 14:
+                //przejœcie do Lory
+                BattleManager.instance.currentPartyCharacters.RemoveAll(x => x >= 0);
+                BattleManager.instance.currentPartyCharacters.Add(6); //Janek
+                BattleManager.instance.currentPartyCharacters.Add(5); //Lora
+
+                for (int i = 0; i < BattleManager.instance.currentPartyCharacters.Count; i++)
+                {
+                    int index = BattleManager.instance.currentPartyCharacters[i];
+                    while (BattleManager.instance.playableCharacters[index].Level < 12)
+                    {
+                        BattleManager.instance.playableCharacters[index].HandleLevel(1000);
+                    }
+                }
+
                 break;
         }
 
