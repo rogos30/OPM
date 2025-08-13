@@ -36,6 +36,11 @@ public class ShopManager : MonoBehaviour
                 controlsTextAddOn = ", LSHIFT - ulepszenie";
     const int maxLevel = 3;
     readonly int[] storyRequirementsForUpgrades = { 2, 3, 4};
+
+    [SerializeField] AudioClip navigationScrollSound;
+    [SerializeField] AudioClip navigationCancelSound;
+    [SerializeField] AudioClip navigationAcceptSound;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -69,10 +74,16 @@ public class ShopManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            sfxSource.clip = navigationCancelSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             ExitShop();
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             items[currentRow].color = Color.white;
             currentRow = (currentRow - 1 < 0) ? 3 : (currentRow - 1);
             items[currentRow].color = orange;
@@ -80,6 +91,9 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             items[currentRow].color = Color.white;
             currentRow = (currentRow + 1) % 4;
             items[currentRow].color = orange;
@@ -87,22 +101,37 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             amountToBuy = (amountToBuy - 1 < 0) ? 0 : (amountToBuy - 1);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             amountToBuy = (amountToBuy + 1 > maxAmountToBuy) ? maxAmountToBuy : (amountToBuy + 1);
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
+            sfxSource.clip = navigationAcceptSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             HandlePurchase();
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            sfxSource.clip = navigationAcceptSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             HandleUpgrade();
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             amountToBuy = 0;
             categories[currentColumn].color = Color.white;
             currentColumn = 0;
@@ -111,6 +140,9 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             amountToBuy = 0;
             categories[currentColumn].color = Color.white;
             currentColumn = 1;
@@ -119,6 +151,9 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             currentPage = (currentPage - 1 < 0) ? currentPage : currentPage - 1;
             pageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
             if (currentColumn == 0)
@@ -132,6 +167,9 @@ public class ShopManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             currentPage = (currentPage + 1 > ShopManager.instance.level) ? currentPage : currentPage + 1;
             pageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
             if (currentColumn == 0)

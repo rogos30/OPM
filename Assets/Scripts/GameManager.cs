@@ -59,6 +59,10 @@ public class GameManager : MonoBehaviour
     string dataDirPath;
     string dataFileName;
 
+    [SerializeField] AudioClip navigationScrollSound;
+    [SerializeField] AudioClip navigationCancelSound;
+    [SerializeField] AudioClip navigationAcceptSound;
+
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -176,6 +180,9 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            sfxSource.clip = navigationCancelSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 0: //main column
@@ -233,6 +240,9 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 0: //main column
@@ -325,6 +335,9 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 1: //settings
@@ -349,6 +362,9 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 1: //settings
@@ -373,6 +389,9 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
+            sfxSource.clip = navigationAcceptSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 0: //currently in main column
@@ -485,6 +504,9 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Q))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 3: //healing items
@@ -502,6 +524,9 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 3: //healing items

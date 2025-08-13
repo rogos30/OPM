@@ -92,6 +92,10 @@ public class BattleManager : MonoBehaviour
     Image[,] allEnemyEffectSprites = new Image[maxEnemiesInBattle, iconsPerEnemy];
 
     [SerializeField] AudioClip[] battleMusic;
+    [SerializeField] AudioClip navigationScrollSound;
+    [SerializeField] AudioClip navigationCancelSound;
+    [SerializeField] AudioClip navigationAcceptSound;
+    [SerializeField] AudioClip[] skillSounds;
     AudioSource musicSource, sfxSource;
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
     private void Awake()
@@ -179,6 +183,9 @@ public class BattleManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Return))
         {
+            sfxSource.clip = navigationAcceptSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentColumn)
             {
                 case 0: //just selected an action - entering subactions
@@ -329,6 +336,9 @@ public class BattleManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Escape))
         {
+            sfxSource.clip = navigationCancelSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             ResetCurrentRow();
             switch (currentColumn)
             {
@@ -368,6 +378,9 @@ public class BattleManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             actions[currentRow].color = Color.white;
             if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             {
@@ -418,6 +431,9 @@ public class BattleManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             ResetCurrentRow();
             if (Input.GetKeyDown(KeyCode.Q))
             {

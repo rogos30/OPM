@@ -32,6 +32,10 @@ public class GameStart : MonoBehaviour
     [SerializeField] TMP_Text[] optionValuesTexts;
     Color orange = new Color(0.976f, 0.612f, 0.007f);
 
+    [SerializeField] AudioClip navigationScrollSound;
+    [SerializeField] AudioClip navigationCancelSound;
+    [SerializeField] AudioClip navigationAcceptSound;
+
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -70,6 +74,9 @@ public class GameStart : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            sfxSource.clip = navigationCancelSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentState)
             {
                 case 0: //main view
@@ -108,6 +115,9 @@ public class GameStart : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             mainTexts[currentRow].color = Color.white;
             if (currentState == 5) //settings
             {
@@ -129,6 +139,9 @@ public class GameStart : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             if (currentState == 5) //settings
             {
                 switch (currentRow)
@@ -151,6 +164,9 @@ public class GameStart : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
+            sfxSource.clip = navigationScrollSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             if (currentState == 5) //settings
             {
                 switch (currentRow)
@@ -173,6 +189,9 @@ public class GameStart : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
+            sfxSource.clip = navigationAcceptSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
             switch (currentState)
             {
                 case 0: //currently in main view
@@ -210,7 +229,7 @@ public class GameStart : MonoBehaviour
                         case 0: //yes
 
                             string dataDirPath1 = Application.persistentDataPath;
-                            string dataFileName1 = currentRow.ToString();
+                            string dataFileName1 = chosenSaveSlot.ToString();
                             string fullPath1 = Path.Combine(dataDirPath1, dataFileName1);
                             if (File.Exists(fullPath1))
                             {

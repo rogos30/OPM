@@ -11522,6 +11522,9 @@ MonoBehaviour:
   sfxMixerGroup: {fileID: -1878258441122339714, guid: 6bcd30709f2a6f84cbe2d4befe88f080, type: 2}
   shopMusic: {fileID: 8300000, guid: dea99dea9f8275948ac513d999b1dfae, type: 3}
   level: 0
+  navigationScrollSound: {fileID: 8300000, guid: 795c4ea2ea1ffc54982c652644a64520, type: 3}
+  navigationCancelSound: {fileID: 8300000, guid: 7e58c1718e011c847949792efd486a17, type: 3}
+  navigationAcceptSound: {fileID: 8300000, guid: 22109f0391d1dd74bbc2421990670029, type: 3}
 --- !u!1 &652768706
 GameObject:
   m_ObjectHideFlags: 0
@@ -14180,6 +14183,9 @@ MonoBehaviour:
   itemDescriptionText: {fileID: 1158751999}
   itemPageText: {fileID: 1095248124}
   eqDescriptionText: {fileID: 16958896}
+  navigationScrollSound: {fileID: 8300000, guid: 795c4ea2ea1ffc54982c652644a64520, type: 3}
+  navigationCancelSound: {fileID: 8300000, guid: 7e58c1718e011c847949792efd486a17, type: 3}
+  navigationAcceptSound: {fileID: 8300000, guid: 22109f0391d1dd74bbc2421990670029, type: 3}
 --- !u!82 &786503610
 AudioSource:
   m_ObjectHideFlags: 0
@@ -82602,6 +82608,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9340476586dfa554c909719424817e9a, type: 3}
   - {fileID: 8300000, guid: fba2b4b466e898143afa5444287a6a92, type: 3}
   - {fileID: 8300000, guid: 04f0632af95719c4cbe5c27ec72e0f1e, type: 3}
+  navigationScrollSound: {fileID: 8300000, guid: 795c4ea2ea1ffc54982c652644a64520, type: 3}
+  navigationCancelSound: {fileID: 8300000, guid: 7e58c1718e011c847949792efd486a17, type: 3}
+  navigationAcceptSound: {fileID: 8300000, guid: 22109f0391d1dd74bbc2421990670029, type: 3}
+  skillSounds: []
   musicMixerGroup: {fileID: 703337894136206274, guid: 6bcd30709f2a6f84cbe2d4befe88f080, type: 2}
   sfxMixerGroup: {fileID: -1878258441122339714, guid: 6bcd30709f2a6f84cbe2d4befe88f080, type: 2}
 --- !u!82 &1655796013
