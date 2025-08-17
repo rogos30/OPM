@@ -1417,7 +1417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &76480141
 Transform:
   m_ObjectHideFlags: 0
@@ -4577,6 +4577,14 @@ PrefabInstance:
       propertyPath: disappearanceAtQuest
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5364175171235928662, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 35825f84b84d55941b84277032d610d2, type: 2}
+    - target: {fileID: 8507097192269988336, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 073412ecb3773c64bac2d3fc26c6c733, type: 3}
     - target: {fileID: 8694904778020304467, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -18.992
@@ -16675,7 +16683,7 @@ SpriteRenderer:
   m_SortingLayerID: -556481487
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c0f93968069debe45a315e278ad35e10, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c58c90415ebeed46ae900d1399f9534, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -21700,7 +21708,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1186672744
 Transform:
   m_ObjectHideFlags: 0
@@ -76450,6 +76458,10 @@ PrefabInstance:
       propertyPath: preFightSpeakersIndexes.Array.data[2]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5720170902351770839, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 775de7314628e8e4588a1465c07c2807, type: 3}
     - target: {fileID: 6663301149584002566, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.31089783
@@ -76593,7 +76605,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1358357390
 Transform:
   m_ObjectHideFlags: 0
@@ -77232,7 +77244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1386902962
 Transform:
   m_ObjectHideFlags: 0
@@ -79316,6 +79328,10 @@ PrefabInstance:
       propertyPath: preFightSpeakersIndexes.Array.data[5]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5720170902351770839, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 073412ecb3773c64bac2d3fc26c6c733, type: 3}
     - target: {fileID: 6663301149584002566, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.3246274
@@ -79771,7 +79787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1514048460
 Transform:
   m_ObjectHideFlags: 0
@@ -81091,7 +81107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1584638938
 Transform:
   m_ObjectHideFlags: 0
@@ -85939,6 +85955,14 @@ PrefabInstance:
       propertyPath: disappearanceAtQuest
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5364175171235928662, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 540c84f5049cbb54b81083f9dba0bcbc, type: 2}
+    - target: {fileID: 8507097192269988336, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b40d8cb41350463458ad95bf0312c3d0, type: 3}
     - target: {fileID: 8694904778020304467, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.189
@@ -86663,7 +86687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1905675132
 Transform:
   m_ObjectHideFlags: 0
@@ -89490,6 +89514,14 @@ PrefabInstance:
       propertyPath: disappearanceAtQuest
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5364175171235928662, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 22342b7066402dc4fa33f33affdfa2ff, type: 2}
+    - target: {fileID: 8507097192269988336, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 775de7314628e8e4588a1465c07c2807, type: 3}
     - target: {fileID: 8694904778020304467, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.56
@@ -141741,6 +141773,14 @@ PrefabInstance:
       propertyPath: disappearanceAtQuest
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5364175171235928662, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: dcc26198e5955e44a9dd99ca4cf463ea, type: 2}
+    - target: {fileID: 8507097192269988336, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2c58c90415ebeed46ae900d1399f9534, type: 3}
     - target: {fileID: 8694904778020304467, guid: 6acc1cdacdcf78542b2181c32948e14a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.205

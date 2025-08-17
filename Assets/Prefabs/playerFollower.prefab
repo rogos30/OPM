@@ -96,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 896332767314740749}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e0d5f904854e1564eb307a3dcb3414a7, type: 2}
+  m_Controller: {fileID: 9100000, guid: dcc26198e5955e44a9dd99ca4cf463ea, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -120,8 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionProgressesStory: 0
+  interactionSavesGame: 0
+  interactionBlocksSavingGame: 0
   appearanceAtQuest: 0
   disappearanceAtQuest: 2
   target: {fileID: 0}
   moveSpeed: 4
-  followCooldown: 2
