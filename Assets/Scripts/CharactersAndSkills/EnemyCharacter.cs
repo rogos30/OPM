@@ -10,6 +10,11 @@ public class EnemyCharacter : Character
     public int XPDropped { get; set; }
     public List<EnemySkill> skillSet = new List<EnemySkill>();
 
+    protected EnemyCharacter() 
+    {
+        DefaultAccuracy = 1;
+    }
+
     public void UpdateDifficulty(int difficulty)
     {
         MaxHealth = DefaultMaxHealth + difficulty * DifficultyHealthChange;

@@ -123,6 +123,14 @@ public class StoryManager : MonoBehaviour
                 }
 
                 break;
+            case 15:
+                //powrot do g³ównej ekipy
+                BattleManager.instance.currentPartyCharacters.RemoveAll(x => x >= 0);
+                BattleManager.instance.currentPartyCharacters.Add(0); //Rogos
+                BattleManager.instance.currentPartyCharacters.Add(1); //Welenc
+                BattleManager.instance.currentPartyCharacters.Add(2); //Stasiak
+                BattleManager.instance.currentPartyCharacters.Add(3); //Kaja
+                break;
         }
 
         HandleNPCs();

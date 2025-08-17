@@ -15,6 +15,7 @@ public class Capoeira : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 2;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

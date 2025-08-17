@@ -14,6 +14,7 @@ public class FrogHat : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 13;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

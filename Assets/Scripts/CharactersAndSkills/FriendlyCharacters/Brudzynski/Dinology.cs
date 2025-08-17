@@ -18,6 +18,7 @@ public class Dinology : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         AnimationId = 4;
+        SkillSoundId = 4;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

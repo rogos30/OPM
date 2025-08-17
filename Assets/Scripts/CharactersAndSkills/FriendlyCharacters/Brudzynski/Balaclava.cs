@@ -16,6 +16,7 @@ public class Balaclava : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 7;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

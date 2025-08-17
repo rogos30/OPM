@@ -18,6 +18,7 @@ public class MoraleDebuff : PlayableSkill
         MultipleTargets = true;
         TargetIsRandom = false;
         AnimationId = 4;
+        SkillSoundId = 5;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

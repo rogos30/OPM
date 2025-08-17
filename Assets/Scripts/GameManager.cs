@@ -549,7 +549,6 @@ public class GameManager : MonoBehaviour
     {
         int index = BattleManager.instance.currentPartyCharacters[currentPage];
         var currentChar = BattleManager.instance.playableCharacters[index];
-        Debug.Log(currentChar.wearablesWorn);
         int addedAttack = currentChar.GetAttackFromWearables();
         int addedDefense = currentChar.GetDefenseFromWearables();
         float accuracyModifier = currentChar.GetAccuracyFromWearables();

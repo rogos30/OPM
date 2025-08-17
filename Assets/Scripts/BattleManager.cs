@@ -1143,6 +1143,18 @@ public class BattleManager : MonoBehaviour
 
         character = new Peter();
         allEnemyCharacters.Add(character);
+
+        character = new MainBuiler();
+        allEnemyCharacters.Add(character);
+
+        character = new Builder();
+        allEnemyCharacters.Add(character);
+
+        character = new BuilderB();
+        allEnemyCharacters.Add(character);
+
+        character = new BuilderC(); //20
+        allEnemyCharacters.Add(character);
     }
 
     void RotatePlayables()
@@ -1244,6 +1256,9 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator FriendlyExecuteSkillOnEveryone(FriendlyCharacter source, int skill, List<Character> targets, bool targetIsFriendly)
     {
+        sfxSource.clip = skillSounds[source.skillSet[skill].SkillSoundId];
+        sfxSource.loop = false;
+        sfxSource.Play();
         for (int i = 0; i < targets.Count; i++)
         {
             if (!targets[i].KnockedOut)
@@ -1283,6 +1298,9 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator EnemyExecuteSkillOnEveryone(EnemyCharacter source, int skill, List<Character> targets)
     {
+        sfxSource.clip = skillSounds[source.skillSet[skill].SkillSoundId];
+        sfxSource.loop = false;
+        sfxSource.Play();
         animationObjects[0].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
         StartCoroutine(disableAnimation(0));
         for (int i = 0; i < targets.Count; i++)
@@ -1299,6 +1317,9 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator FriendlyExecuteSkillMultipleTimes(FriendlyCharacter source, int skill, List<Character> targets)
     {
+        sfxSource.clip = skillSounds[source.skillSet[skill].SkillSoundId];
+        sfxSource.loop = false;
+        sfxSource.Play();
         for (int i = 0; i < source.skillSet[skill].Repetitions; i++)
         {
             int target = ChooseRandomTarget(targets);
@@ -1325,6 +1346,9 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator EnemyExecuteSkillMultipleTimes(EnemyCharacter source, int skill, List<Character> targets)
     {
+        sfxSource.clip = skillSounds[source.skillSet[skill].SkillSoundId];
+        sfxSource.loop = false;
+        sfxSource.Play();
         for (int i = 0; i < source.skillSet[skill].Repetitions; i++)
         {
             int target = ChooseRandomTarget(targets);
@@ -1343,6 +1367,9 @@ public class BattleManager : MonoBehaviour
 
     void FriendlyExecuteSkill(FriendlyCharacter source, int skill, Character target, bool targetIsFriendly)
     {
+        sfxSource.clip = skillSounds[source.skillSet[skill].SkillSoundId];
+        sfxSource.loop = false;
+        sfxSource.Play();
         dynamicDescriptionText.text = source.skillSet[skill].execute(source, target, skillPerformance);
         if (chosenTarget == -1)
         {
@@ -1361,6 +1388,9 @@ public class BattleManager : MonoBehaviour
 
     void EnemyExecuteSkill(EnemyCharacter source, int skill, Character target)
     {
+        sfxSource.clip = skillSounds[source.skillSet[skill].SkillSoundId];
+        sfxSource.loop = false;
+        sfxSource.Play();
         dynamicDescriptionText.text = source.skillSet[skill].execute(source, target);
         animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", source.skillSet[skill].AnimationId);
         StartCoroutine(disableAnimation(animationObjects.Length - 1));
