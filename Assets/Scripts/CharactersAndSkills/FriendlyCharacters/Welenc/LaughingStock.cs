@@ -16,7 +16,7 @@ public class LaughingStock : PlayableSkill
         MultipleTargets = true;
         TargetIsRandom = false;
         AnimationId = 4;
-        SkillSoundId = 10;
+        SkillSoundId = 19;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

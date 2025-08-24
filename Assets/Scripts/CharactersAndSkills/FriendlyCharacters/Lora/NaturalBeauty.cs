@@ -15,6 +15,7 @@ public class NaturalBeauty : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         AnimationId = 4;
+        SkillSoundId = 13;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

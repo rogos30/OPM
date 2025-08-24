@@ -15,6 +15,7 @@ public class ControllerBarrage : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
+        SkillSoundId = 14;
     }
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
     {

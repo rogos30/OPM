@@ -16,6 +16,7 @@ public class Overrun : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = true;
         TargetIsRandom = false;
+        SkillSoundId = 20;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

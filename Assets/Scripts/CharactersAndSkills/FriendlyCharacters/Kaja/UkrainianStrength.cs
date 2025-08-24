@@ -14,6 +14,7 @@ public class UkrainianStrength : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 22;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

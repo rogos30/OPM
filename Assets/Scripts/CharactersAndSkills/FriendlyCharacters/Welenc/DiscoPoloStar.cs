@@ -14,7 +14,7 @@ public class DiscoPoloStar : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = true;
         TargetIsRandom = false;
-        SkillSoundId = 6;
+        SkillSoundId = 7;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

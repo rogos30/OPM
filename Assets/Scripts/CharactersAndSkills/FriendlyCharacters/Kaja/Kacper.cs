@@ -16,6 +16,7 @@ public class Kacper : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
+        SkillSoundId = 9;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

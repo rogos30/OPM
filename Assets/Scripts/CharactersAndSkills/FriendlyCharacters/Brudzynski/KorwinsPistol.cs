@@ -19,6 +19,7 @@ public class KorwinsPistol : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
+        SkillSoundId = 11;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

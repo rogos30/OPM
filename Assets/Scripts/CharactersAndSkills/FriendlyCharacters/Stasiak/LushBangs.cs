@@ -15,6 +15,7 @@ public class LushBangs : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 1;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

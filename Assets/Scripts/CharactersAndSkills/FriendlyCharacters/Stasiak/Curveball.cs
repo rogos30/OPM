@@ -18,6 +18,7 @@ public class Curveball : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         AnimationId = 4;
+        SkillSoundId = 16;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

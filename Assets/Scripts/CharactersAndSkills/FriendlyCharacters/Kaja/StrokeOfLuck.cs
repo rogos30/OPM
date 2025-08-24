@@ -18,7 +18,7 @@ public class StrokeOfLuck : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
-        SkillSoundId = 8;
+        SkillSoundId = 12;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

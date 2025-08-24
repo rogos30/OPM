@@ -23,6 +23,8 @@ public class ZahirTrip : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 23;
+
     }
 
     public void SetToGiveaway()

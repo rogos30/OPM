@@ -15,6 +15,7 @@ public class ControllerThrow : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
+        SkillSoundId = 21;
     }
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
     {

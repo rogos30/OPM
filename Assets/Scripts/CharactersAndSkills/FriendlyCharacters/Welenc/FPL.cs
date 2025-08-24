@@ -15,6 +15,7 @@ public class FPL : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
+        SkillSoundId = 5;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

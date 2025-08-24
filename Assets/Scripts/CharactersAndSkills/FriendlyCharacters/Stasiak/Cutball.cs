@@ -17,6 +17,8 @@ public class Cutball : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 16;
+
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

@@ -16,7 +16,7 @@ public class Aphrodite : PlayableSkill
         MultipleTargets = true;
         TargetIsRandom = false;
         AnimationId = 4;
-        SkillSoundId = 1;
+        SkillSoundId = 0;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
