@@ -14,6 +14,7 @@ public class Attack : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        SkillSoundId = 26;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

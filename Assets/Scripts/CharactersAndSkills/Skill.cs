@@ -22,7 +22,7 @@ public abstract class Skill
         Repetitions = 1;
         AccuracyMultiplier = 1;
         AnimationId = 1;
-        SkillSoundId = 0;
+        SkillSoundId = 26;
     }
     /*public Skill(string name, string skillDescription, string inFightDescription, float cost, int repetitions, float attackMultiplier,
         float accuracyMultiplier, float healing, bool targetIsFriendly, bool targetIsSelf, bool targetIsRandom, bool multipleTargets, int[] statusChanges)

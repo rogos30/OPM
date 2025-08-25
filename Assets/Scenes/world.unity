@@ -83547,6 +83547,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4c38ec49da6cbe340ae61c64cae30884, type: 3}
   - {fileID: 8300000, guid: 9979d335303ff1a439812b3162d66b72, type: 3}
   - {fileID: 8300000, guid: 77d80a731d8f8b541b725677a94b2158, type: 3}
+  - {fileID: 8300000, guid: cf30dd7f1bcf9204fa79edc87d701c26, type: 3}
   musicMixerGroup: {fileID: 703337894136206274, guid: 6bcd30709f2a6f84cbe2d4befe88f080, type: 2}
   sfxMixerGroup: {fileID: -1878258441122339714, guid: 6bcd30709f2a6f84cbe2d4befe88f080, type: 2}
 --- !u!82 &1655796013
