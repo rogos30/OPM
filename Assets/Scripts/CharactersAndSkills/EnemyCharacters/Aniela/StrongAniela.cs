@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrongKinga : EnemyCharacter
+public class StrongAniela : EnemyCharacter
 {
-    public StrongKinga() : base()
+    public StrongAniela() : base()
     {
-        NominativeName = "Kinga";
-        DativeName = "Kindze";
-        AccusativeName = "Kingê";
+        NominativeName = "Aniela";
+        DativeName = "Anieli";
+        AccusativeName = "Anielê";
         Health = MaxHealth = DefaultMaxHealth = 18000;
         DifficultyHealthChange = 1500;
         Attack = DefaultAttack = 350;

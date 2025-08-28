@@ -1078,16 +1078,16 @@ public class BattleManager : MonoBehaviour
         character = new Stasiak();
         playableCharacters.Add(character);
 
-        character = new Kaja();
+        character = new Maja();
         playableCharacters.Add(character);
 
-        character = new Brudzynski();
+        character = new Burzynski();
         playableCharacters.Add(character);
 
         character = new Lora();
         playableCharacters.Add(character);
 
-        character = new Janek();
+        character = new Franek();
         playableCharacters.Add(character);
     }
 
@@ -1120,13 +1120,13 @@ public class BattleManager : MonoBehaviour
         character = new Camera2();
         allEnemyCharacters.Add(character);
 
-        character = new Kinga();
+        character = new Aniela();
         allEnemyCharacters.Add(character);
 
-        character = new StrongKinga(); //10
+        character = new StrongAniela(); //10
         allEnemyCharacters.Add(character);
 
-        character = new Klara();
+        character = new Nina();
         allEnemyCharacters.Add(character);
 
         character = new Generator1();

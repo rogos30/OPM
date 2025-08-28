@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Klara : EnemyCharacter
+public class Nina : EnemyCharacter
 {
-    public Klara() : base()
+    public Nina() : base()
     {
-        NominativeName = "Klara";
-        DativeName = "Klarze";
-        AccusativeName = "Klarê";
+        NominativeName = "Nina";
+        DativeName = "Ninie";
+        AccusativeName = "Ninê";
         Health = MaxHealth = DefaultMaxHealth = 15000;
         DifficultyHealthChange = 1200;
         Attack = DefaultAttack = 400;

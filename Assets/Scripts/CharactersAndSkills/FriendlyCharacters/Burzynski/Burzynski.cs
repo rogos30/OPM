@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Brudzynski : FriendlyCharacter
+public class Burzynski : FriendlyCharacter
 {
     //specialty - has 6 skills instead of 5 and unlocks them every 3 levels instead of 5
 
-    public Brudzynski() : base()
+    public Burzynski() : base()
     {
-        NominativeName = "Brudzyñski";
-        DativeName = "Brudzyñskiemu";
-        AccusativeName = "Brudzyñskiego";
+        NominativeName = "Burzyñski";
+        DativeName = "Burzyñskiemu";
+        AccusativeName = "Burzyñskiego";
         Health = MaxHealth = DefaultMaxHealth = 450;
         Skill = MaxSkill = 100;
         Attack = DefaultAttack = 100;
@@ -20,8 +20,8 @@ public class Brudzynski : FriendlyCharacter
         Speed = 200;
         SpriteIndex = 4;
         levelsToUnlockSkill = 3;
-        AbilityDescription = "Brudzyñski ma ³¹cznie 7 umiejêtnoœci i odblokowuje je szybciej";
-        CharacterDescription = "Opis Brudzyñskiego wip";
+        AbilityDescription = "Burzyñski ma ³¹cznie 7 umiejêtnoœci i odblokowuje je szybciej";
+        CharacterDescription = "Opis Burzyñskiego wip";
         Attack attack = new Attack();
         skillSet.Add(attack);
         Balaclava balaclava = new Balaclava();

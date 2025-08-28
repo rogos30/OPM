@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.AudioSettings;
 
-public class Janek : FriendlyCharacter
+public class Franek : FriendlyCharacter
 {
     //specialty - tbd
 
-    public Janek() : base()
+    public Franek() : base()
     {
-        NominativeName = "Janek";
-        DativeName = "Jankowi";
-        AccusativeName = "Janka";
+        NominativeName = "Franek";
+        DativeName = "Frankowi";
+        AccusativeName = "Franka";
         Health = MaxHealth = DefaultMaxHealth = 400;
         Skill = MaxSkill = 80;
         Attack = DefaultAttack = 75;
@@ -20,7 +20,8 @@ public class Janek : FriendlyCharacter
         Turns = DefaultTurns = 1;
         Speed = 500;
         SpriteIndex = 11;
-        AbilityDescription = "Janek zaczyna walkê z buffem do ataku, obrony i celnoœci na 3 tury";
+        AbilityDescription = "Franek zaczyna walkê z buffem do ataku, obrony i celnoœci na 3 tury";
+        CharacterDescription = "Opis Franka wip";
         Attack attack = new Attack();
         skillSet.Add(attack);
         PerfectGoalkeeper perfectGoalkeeper = new PerfectGoalkeeper();

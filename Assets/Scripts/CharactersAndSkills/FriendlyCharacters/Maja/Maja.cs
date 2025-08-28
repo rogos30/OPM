@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kaja : FriendlyCharacter
+public class Maja : FriendlyCharacter
 {
     //specialty - items used by her have a 50% stronger effect
-    public Kaja() : base()
+    public Maja() : base()
     {
-        NominativeName = "Kaja";
-        DativeName = "Kai";
-        AccusativeName = "Kajê";
+        NominativeName = "Maja";
+        DativeName = "Mai";
+        AccusativeName = "Majê";
         Health = MaxHealth = DefaultMaxHealth = 350;
         Skill = MaxSkill = 80;
         Attack = DefaultAttack = 70;
@@ -19,8 +19,8 @@ public class Kaja : FriendlyCharacter
         Speed = 300;
         SpriteIndex = 3;
         ItemEnhancementMultiplier = 1.5f;
-        AbilityDescription = "Przedmioty u¿yte przez Kajê maj¹ o 50% zwiêkszony efekt";
-        CharacterDescription = "Opis Kai wip";
+        AbilityDescription = "Przedmioty u¿yte przez Majê maj¹ o 50% zwiêkszony efekt";
+        CharacterDescription = "Opis Mai wip";
         Attack attack = new Attack();
         skillSet.Add(attack);
         FrogThrow frogThrow = new FrogThrow();
