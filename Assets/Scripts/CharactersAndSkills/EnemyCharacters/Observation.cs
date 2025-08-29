@@ -14,6 +14,7 @@ public class Observation : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.5f;
+        SkillSoundId = 34;
     }
 
     public override string execute(EnemyCharacter source, Character target)

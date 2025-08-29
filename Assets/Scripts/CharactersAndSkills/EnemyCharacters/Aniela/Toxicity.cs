@@ -13,6 +13,7 @@ public class Toxicisity : EnemySkill
         MultipleTargets = false;
         AccuracyMultiplier = 0.8f;
         AnimationId = 4;
+        SkillSoundId = 39;
     }
 
     public override string execute(EnemyCharacter source, Character target)

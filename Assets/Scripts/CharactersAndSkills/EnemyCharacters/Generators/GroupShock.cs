@@ -12,6 +12,7 @@ public class GroupShock : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.5f;
+        SkillSoundId = 33;
     }
 
     public override string execute(EnemyCharacter source, Character target)

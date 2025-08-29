@@ -11,6 +11,7 @@ public class ShovelStrike : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
+        SkillSoundId = 26;
     }
 
     public override string execute(EnemyCharacter source, Character target)

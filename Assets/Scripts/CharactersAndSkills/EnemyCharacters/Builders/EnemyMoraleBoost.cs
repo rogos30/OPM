@@ -11,6 +11,7 @@ public class EnemyMoraleBoost : EnemySkill
         TargetIsFriendly = true;
         TargetIsSelf = false;
         MultipleTargets = true;
+        SkillSoundId = 27;
     }
 
     public override string execute(EnemyCharacter source, Character target)
