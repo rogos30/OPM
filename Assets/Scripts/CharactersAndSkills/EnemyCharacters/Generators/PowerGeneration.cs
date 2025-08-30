@@ -11,6 +11,7 @@ public class PowerGeneration : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
+        SkillSoundId = 31;
     }
 
     public override string execute(EnemyCharacter source, Character target)

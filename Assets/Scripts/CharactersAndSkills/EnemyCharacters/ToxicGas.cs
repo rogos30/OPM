@@ -14,6 +14,7 @@ public class ToxicGas : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.8f;
+        SkillSoundId = 39;
     }
 
     public override string execute(EnemyCharacter source, Character target)

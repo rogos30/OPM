@@ -12,6 +12,7 @@ public class Idiocy : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = false;
         AnimationId = 4;
+        SkillSoundId = 38;
     }
 
     public override string execute(EnemyCharacter source, Character target)

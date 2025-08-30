@@ -11,6 +11,7 @@ public class CrowdMotivation : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
+        SkillSoundId = 40;
     }
 
     public override string execute(EnemyCharacter source, Character target)

@@ -12,6 +12,7 @@ public class Grunt : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.8f;
+        SkillSoundId = 37;
     }
 
     public override string execute(EnemyCharacter source, Character target)

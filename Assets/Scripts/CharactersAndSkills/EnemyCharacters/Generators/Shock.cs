@@ -12,6 +12,7 @@ public class Shock : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = false;
         AccuracyMultiplier = 0.7f;
+        SkillSoundId = 32;
     }
 
     public override string execute(EnemyCharacter source, Character target)

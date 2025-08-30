@@ -13,6 +13,7 @@ public class Wheelbarrow : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.9f;
+        SkillSoundId = 30;
     }
 
     public override string execute(EnemyCharacter source, Character target)

@@ -11,6 +11,7 @@ public class DrinkOfTheGods : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
+        SkillSoundId = 28;
     }
 
     public override string execute(EnemyCharacter source, Character target)

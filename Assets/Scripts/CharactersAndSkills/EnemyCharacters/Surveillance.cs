@@ -14,6 +14,7 @@ public class Surveillance : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.5f;
+        SkillSoundId = 35;
     }
 
     public override string execute(EnemyCharacter source, Character target)

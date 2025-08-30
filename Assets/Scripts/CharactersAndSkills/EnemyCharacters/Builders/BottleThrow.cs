@@ -12,6 +12,7 @@ public class BottleThrow : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
+        SkillSoundId = 29;
     }
 
     public override string execute(EnemyCharacter source, Character target)
