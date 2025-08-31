@@ -37,6 +37,7 @@ public class StrokeOfLuck : PlayableSkill
             turns = 5;
             healing = Math.Min(healing * 2, 1);
         }
+        healing = (float)Math.Round(healing, 4);
         finalDesc = finalDesc + " " + healing * 100 + "% max hp i wzmacnia ";
         switch (effect)
         {

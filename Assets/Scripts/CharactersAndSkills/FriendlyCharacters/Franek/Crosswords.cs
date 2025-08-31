@@ -9,7 +9,7 @@ public class Crosswords : PlayableSkill
     public Crosswords()
     {
         Name = "Krzy¿ówki";
-        SkillDescription = "rozwi¹zuje krzy¿ówki. Zwiêksza sobie celnoœæ oraz mo¿e uœpiæ (sparali¿owaæ) dowolnego wroga.";
+        SkillDescription = "rozwi¹zuje krzy¿ówki. Zwiêksza sobie celnoœæ oraz mo¿e zmniejszyæ j¹ wrogowi.";
         InFightDescription = " rozwi¹zuje krzy¿ówki, zwiêkszaj¹c sobie celnoœæ ";
         Cost = 0.4f;
         TargetIsFriendly = false;

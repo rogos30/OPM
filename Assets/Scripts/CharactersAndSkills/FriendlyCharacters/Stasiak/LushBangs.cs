@@ -29,9 +29,9 @@ public class LushBangs : PlayableSkill
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 6;
+            turns = 5;
         }
-        finalDesc = finalDesc + " " + turns + " tur!";
+        finalDesc = finalDesc + (turns-1) + " tur!";
         target.ApplyBuff((int)Character.StatusEffects.ATTACK, turns);
         return finalDesc;
     }

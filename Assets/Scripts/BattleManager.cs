@@ -81,7 +81,7 @@ public class BattleManager : MonoBehaviour
     int chosenAction, chosenSubaction, chosenTarget, currentMoveInTurn = 0, currentTurn = 0;
     int chosenSubactionPage;
     int currentPhase = 0;
-    bool acceptsInput = false, enemyIsMoving = false, handlingPhases = false, battleFinished = false, saveGameAfterBattle = false;
+    bool acceptsInput = false, enemyIsMoving = false, battleFinished = false, saveGameAfterBattle = false;
     bool skillCheckGoingRight, skillCheckAcceptsInput;
     int playablesKnockedOut = 0, enemiesKnockedOut = 0, uiIndexOffset = 0;
     int skillPerformance;
@@ -96,6 +96,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
     [SerializeField] AudioClip[] skillSounds;
+    [SerializeField] AudioClip altBurzynskiMusic;
     AudioSource musicSource, sfxSource;
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
     private void Awake()
@@ -503,6 +504,13 @@ public class BattleManager : MonoBehaviour
     void PrintPageOfSkills()
     {
         ClearActions();
+        maxCurrentPage = (playableCharacterList[currentPlayable].UnlockedSkills - 1) / actions.Length + 1;
+        maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].UnlockedSkills - currentPage * actions.Length, actions.Length);
+        if (playableCharacterList[currentPlayable].skillSet.Count == 1) //rogos vs franek override
+        {
+            maxCurrentPage = 1;
+            maxCurrentRow = 1;
+        }
         for (int i = 0; i < actions.Length; i++)
         {
             if (currentPage * actions.Length + i < playableCharacterList[currentPlayable].UnlockedSkills)
@@ -523,8 +531,6 @@ public class BattleManager : MonoBehaviour
                 actions[i].text = "";
             }
         }
-        maxCurrentPage = (playableCharacterList[currentPlayable].UnlockedSkills - 1) / actions.Length + 1;
-        maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].UnlockedSkills - currentPage * actions.Length, actions.Length);
         actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " + playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length].SkillDescription;
     }
 
@@ -796,22 +802,15 @@ public class BattleManager : MonoBehaviour
             StartCoroutine(FinishBattle(true, false));
             //HandleBattleEnd(true);
         }
-        else
-        {
-            HandlePhases();
+        if (currentPlayable == playableCharacterList.Count ||
+            (currentEnemy < enemyCharacterList.Count && playableCharacterList[currentPlayable].Speed < enemyCharacterList[currentEnemy].Speed))
+        { //enemy moves
+            StartCoroutine(AllowEnemyToMove());
         }
-        if (!handlingPhases)
-        {
-            if (currentPlayable == playableCharacterList.Count ||
-                (currentEnemy < enemyCharacterList.Count && playableCharacterList[currentPlayable].Speed < enemyCharacterList[currentEnemy].Speed))
-            { //enemy moves
-                StartCoroutine(AllowEnemyToMove());
-            }
-            if (currentEnemy == enemyCharacterList.Count ||
-                (currentPlayable < playableCharacterList.Count && playableCharacterList[currentPlayable].Speed > enemyCharacterList[currentEnemy].Speed))
-            { //player moves
-                StartCoroutine(AllowPlayerToMove(true));
-            }
+        if (currentEnemy == enemyCharacterList.Count ||
+            (currentPlayable < playableCharacterList.Count && playableCharacterList[currentPlayable].Speed > enemyCharacterList[currentEnemy].Speed))
+        { //player moves
+            StartCoroutine(AllowPlayerToMove(true));
         }
     }
 
@@ -825,10 +824,7 @@ public class BattleManager : MonoBehaviour
             EnemyIsParalyzed(enemyCharacterList[currentEnemy]);
             return;
         }
-        for (int i = 0; i < enemyCharacterList[currentEnemy].Turns; i++)
-        {
-            StartCoroutine(PerformEnemysMove(3 * i, enemyCharacterList[currentEnemy]));
-        }
+        PerformEnemysMove(enemyCharacterList[currentEnemy]);
     }
 
     void EnemyIsParalyzed(Character source)
@@ -837,9 +833,8 @@ public class BattleManager : MonoBehaviour
         FinishEnemysMove();
     }
 
-    IEnumerator PerformEnemysMove(int delay, EnemyCharacter source)
+    void PerformEnemysMove(EnemyCharacter source)
     {
-        yield return new WaitForSeconds(delay);
         int randSkill = UnityEngine.Random.Range(0, source.skillSet.Count);
         int randTarget;
         onMoveFinished.AddListener(FinishEnemysMove);
@@ -856,7 +851,7 @@ public class BattleManager : MonoBehaviour
                 {
                     StartCoroutine(FinishBattle(false, false));
                     //HandleBattleEnd(false);
-                    yield break;
+                    return;
                 }
                 EnemyExecuteSkill(source, randSkill, enemyCharacterList[randTarget]);
             }
@@ -872,7 +867,7 @@ public class BattleManager : MonoBehaviour
             {
                 StartCoroutine(FinishBattle(false, false));
                 //HandleBattleEnd(false);
-                yield break;
+                return;
             }
             if (source.skillSet[randSkill].MultipleTargets)
             { //skill targets every playable
@@ -902,7 +897,6 @@ public class BattleManager : MonoBehaviour
         dynamicDescription.SetActive(false);
         acceptsInput = true;
         enemyIsMoving = false;
-        handlingPhases = false;
         currentEnemy = 0; currentPlayable = 0; currentRow = 0; currentColumn = 0; currentPage = 0;
         currentPhase = 0; currentTurn = 0; uiIndexOffset = 0; skillPerformance = 0;
         skillCheckTime = defaultSkillCheckTime - 0.25f * GameManager.instance.difficulty;
@@ -1108,8 +1102,7 @@ public class BattleManager : MonoBehaviour
         character = new EnemySwietlik();
         allEnemyCharacters.Add(character);
 
-        character = new EnemyWelenc(); //5
-        allEnemyCharacters.Add(character);
+        allEnemyCharacters.Add(character); //5, added twice to not change ids of enemies below
 
         character = new Monitoring();
         allEnemyCharacters.Add(character);
@@ -1154,6 +1147,18 @@ public class BattleManager : MonoBehaviour
         allEnemyCharacters.Add(character);
 
         character = new BuilderC(); //20
+        allEnemyCharacters.Add(character);
+
+        character = new Skeleton1();
+        allEnemyCharacters.Add(character);
+
+        character = new Skeleton();
+        allEnemyCharacters.Add(character);
+
+        character = new EnemyBurzynski();
+        allEnemyCharacters.Add(character);
+
+        character = new EnemyFranek();
         allEnemyCharacters.Add(character);
     }
 
@@ -1241,6 +1246,7 @@ public class BattleManager : MonoBehaviour
         actions[currentRow = 0].color = orange;
         actionDescriptionText.text = "U¿yj umiejêtnoœci";
         PrintPageOfActions();
+        HandlePhases();
     }
 
     IEnumerator AllowEnemyToMove()
@@ -1341,6 +1347,13 @@ public class BattleManager : MonoBehaviour
         {
             ((Welenc)source).IncreaseAttackMultiplier();
         }
+        else if (source is Rogos)
+        {
+            if (source.skillSet[skill].Name == "Ostrza³ padami")
+            {
+                ((ControllerBarrage)source.skillSet[skill]).SetToUseless();
+            }
+        }
         onMoveFinished.Invoke();
     }
 
@@ -1421,9 +1434,19 @@ public class BattleManager : MonoBehaviour
     void FinishEnemysMove()
     {
         onMoveFinished.RemoveAllListeners();
-        currentEnemy++;
-        FindAvailableToMove();
-        DecideNextMove();
+        CountKnockedOut();
+        if (currentMoveInTurn < enemyCharacterList[currentEnemy].Turns - 1 && playableCharacterList[currentEnemy].Turns > 0 && enemiesKnockedOut != enemyCharacterList.Count && playablesKnockedOut != playableCharacterList.Count)
+        {
+            currentMoveInTurn++;
+            StartCoroutine(AllowEnemyToMove());
+        }
+        else
+        {
+            currentMoveInTurn = 0;
+            currentEnemy++;
+            FindAvailableToMove();
+            DecideNextMove();
+        }
     }
 
     int ChooseRandomTarget(List<Character> targets)
@@ -1536,7 +1559,7 @@ public class BattleManager : MonoBehaviour
 
     void HandlePhases()
     {
-        handlingPhases = true;
+        Debug.Log("handling phases");
         switch (enemyCharacterList[0].NominativeName)
         {
             /*case "Welenc":
@@ -1560,7 +1583,6 @@ public class BattleManager : MonoBehaviour
                     int[] enemies = { 7 };
                     AddEnemyCharactersToBattle(enemies);
                     UpdateHealthBarsAndIcons();
-                    handlingPhases = false;
                     DecideNextMove();
                 }
                 if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.5f && currentPhase == 1)
@@ -1569,16 +1591,140 @@ public class BattleManager : MonoBehaviour
                     int[] enemies = { 8 };
                     AddEnemyCharactersToBattle(enemies);
                     UpdateHealthBarsAndIcons();
-                    handlingPhases = false;
                     DecideNextMove();
                 }
-                else
+                break;
+            case "Burzyñski":
+                if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.85f && currentPhase == 0)
                 {
-                    handlingPhases = false;
+                    currentPhase++;
+                    string[] lines = {
+                        "MASZ JU¯ DOŒÆ?!",
+                        "...",
+                        "Co z wolnym po Nowym Roku?",
+                        "O co chodzi³o z tym koncertem?",
+                        "GDZIE JEST LORA I GDZIE BOMBA?",
+                        "..." };
+                    int[] speakerIndexes = { 0,4,0,0,0,4 };
+                    acceptsInput = false;
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                        acceptsInput = true;
+                    });
+                    
+                }
+                if (currentPhase > 0 && currentPhase <= 3)
+                {
+                    currentPhase++;
+                }
+                if (currentPhase == 4)
+                {
+                    currentPhase++;
+                    string[] lines = {
+                        "KTO ZA TYM STOI I GDZIE JEST?!",
+                        "ODPOWIEDZ WRESZCIE!!!",
+                        "OD KIEDY TO PLANOWALIŒCIE?!",
+                        "G³upcy, wszystko w imiê wy¿szego celu. W imiê wy¿szej racji!",
+                        "Jakiego celu? Jakiej racji?!",
+                        "GDZIE...",
+                        "JEST...",
+                        "LORA?!",
+                        "Zamknij siê wreszcie" };
+                    int[] speakerIndexes = { 0, 0, 0, 4, 0, 0, 0, 0, 4 };
+                    acceptsInput = false;
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                        acceptsInput = true;
+                    });
+                }
+                if (currentPhase > 4 && currentPhase <= 6)
+                {
+                    currentPhase++;
+                }
+                if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.6f && currentPhase == 7)
+                {
+                    currentPhase++;
+                    musicSource.clip = altBurzynskiMusic;
+                    musicSource.loop = true;
+                    musicSource.Play();
+                    string[] lines = {
+                        "Ach! Poddaj siê wreszcie!",
+                        "Oboje wiemy, ¿e nic ju¿ nie zrobicie!",
+                        "Mylisz siê, wszystko jest na najlepszej drodze. W imiê wy¿szych racji!",
+                        "Przestañ siê oszukiwaæ, Kamil! Przypomnij sobie, ile razy oszukiwa³eœ te¿ mnie, kiedy byliœmy razem! Tyle obietnic, tyle k³amstw!",
+                        "Jakich k³amstw, Maju? Zawsze chcia³em dla Ciebie jak najlepiej. Kocha³em Ciê, to ty nie potrafi³aœ tego odwzajemniæ! Nigdy Ciê nie oszuka³em" };
+                    int[] speakerIndexes = { 3, 3, 4, 3, 4 };
+                    acceptsInput = false;
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                        acceptsInput = true;
+                    });
+                }
+                if (currentPhase > 7 && currentPhase <= 9)
+                {
+                    currentPhase++;
+                }
+                if (currentPhase == 10)
+                {
+                    currentPhase++;
+                    string[] lines = {
+                        "Ka¿de Twoje s³owo, kiedy byliœmy razem to k³amstwo. Nigdy nie zale¿a³o Ci na mnie, mia³eœ w g³owie tylko siebie i swoje dobro",
+                        "To samo jest teraz w roli przewodnicz¹cego. Nie potrafisz byæ nawet przez chwilê ani powa¿ny, ani szczery",
+                        "A Twoja dziecinnoœæ? Myœlisz, ¿e ten breloczek z dinozaurem dodaje Ci fajnoœci? Jak g³upia by³am...",
+                        "Przestañ, przestañ!" };
+                    int[] speakerIndexes = { 3, 3, 3, 4 };
+                    acceptsInput = false;
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                        acceptsInput = true;
+                    });
+                }
+                if (currentPhase > 10 && currentPhase <= 12)
+                {
+                    currentPhase++;
+                }
+                if (currentPhase == 13)
+                {
+                    currentPhase++;
+                    string[] lines = {
+                        "Tylko tyle pamiêtasz z naszego bycia razem? Nie pamiêtasz ¿adnych dobrych wspólnych chwil?",
+                        "Mo¿e i pamiêtam, ale nie by³o ich wiele",
+                        "Jak to niewiele? A wspólne gotowanie? Ogl¹danie Króla Lwa 2?",
+                        "Idioto, nie ogl¹da³am z Tob¹ Króla Lwa 2. Ogl¹daliœmy wtedy Auta",
+                        "Serio? A, faktycznie. Ale widzisz, nie by³o tak Ÿle. Na pewno pamiêtasz wiêcej fajnych chwil",
+                        "I jeszcze wiêcej z³ych"
+                    };
+                    int[] speakerIndexes = { 4, 3, 4, 3, 4, 3 };
+                    acceptsInput = false;
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                        acceptsInput = true;
+                    });
                 }
                 break;
-            default:
-                handlingPhases = false;
+            case "Franek":
+                if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.5f && currentPhase == 0)
+                {
+                    currentPhase++;
+                    enemyCharacterList[0].Health = (int)(0.87221f * enemyCharacterList[0].MaxHealth);
+                    enemyCharacterList[0].DefaultDefense = 99999;
+                    enemyCharacterList[0].Defense = 99999;
+
+                    playableCharacterList[0].skillSet.Clear();
+                    TheEnd theEnd = new TheEnd();
+                    playableCharacterList[0].skillSet.Add(theEnd);
+
+                    currentPhase++;
+                    string[] lines = {
+                        "Pora to zakoñczyæ" };
+                    int[] speakerIndexes = { 0 };
+                    acceptsInput = false;
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                        acceptsInput = true;
+                        UpdateHealthBarsAndIcons();
+                    });
+                }
                 break;
         }
     }
@@ -1589,7 +1735,6 @@ public class BattleManager : MonoBehaviour
         int[] enemies = { 2 };
         AddEnemyCharactersToBattle(enemies);
         UpdateHealthBarsAndIcons();
-        handlingPhases = false;
         DecideNextMove();
     }
 

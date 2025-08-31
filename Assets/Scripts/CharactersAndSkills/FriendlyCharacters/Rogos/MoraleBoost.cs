@@ -31,8 +31,8 @@ public class MoraleBoost : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 5;
         }
-        finalDesc = finalDesc + " na " + turns + " tur!";
-        target.ApplyBuff(2, turns);
+        finalDesc = finalDesc + " na " + (turns - 1) + " tury!";
+        target.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
         return finalDesc;
     }
 }

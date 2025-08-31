@@ -7,7 +7,7 @@ public class BottleThrow : EnemySkill
     public BottleThrow() : base()
     {
         Name = "Rzut butelk¹";
-        InFightDescription = " rzuca butelk¹ w ";
+        InFightDescription = " rzuca butelk¹ jak bumerangiem w ";
         Repetitions = 2;
         TargetIsFriendly = false;
         TargetIsSelf = false;

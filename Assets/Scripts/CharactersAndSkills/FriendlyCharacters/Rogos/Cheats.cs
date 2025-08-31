@@ -30,8 +30,12 @@ public class Cheats : PlayableSkill
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 6;
+            finalDesc = finalDesc + (turns - 1) + " tur!";
         }
-        finalDesc = finalDesc + (turns-1) + " tur!";
+        else
+        {
+            finalDesc = finalDesc + (turns - 1) + " tury!";
+        }
         target.ApplyBuff((int)Character.StatusEffects.TURNS, turns);
         return finalDesc;
     }

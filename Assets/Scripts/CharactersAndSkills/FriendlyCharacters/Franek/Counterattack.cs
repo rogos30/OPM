@@ -10,7 +10,7 @@ public class Counterattack : PlayableSkill
     {
         Name = "Kontra";
         SkillDescription = "rzuca z du¿¹ si³¹ pi³k¹ w przeciwnika. Zadaje wysokie obra¿enia jednemu przeciwnikowi.";
-        InFightDescription = " rzuca przeciwnikowi pi³k¹ w ³eb i zadaje mu ";
+        InFightDescription = " rzuca przeciwnikowi pi³k¹ w ³eb i zadaje ";
         Cost = 100;
         AccuracyMultiplier = 0.75f;
         TargetIsFriendly = false;
@@ -25,7 +25,7 @@ public class Counterattack : PlayableSkill
         {
             return source.DativeName + " nie wychodzi kontra";
         }
-        string finalDesc = source.NominativeName + InFightDescription;
+        string finalDesc = source.NominativeName + InFightDescription + target.DativeName + " ";
         int damage = (int)(source.Attack * 2.5f * Random.Range(0.8f, 1.2f)) - target.Defense;
         if (skillPerformance == 2)
         {

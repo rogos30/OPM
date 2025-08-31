@@ -33,8 +33,8 @@ public class PerfectGoalkeeper : PlayableSkill
             turns = 5;
         }
         finalDesc = finalDesc + (turns-1) + " tury!";
-        target.ApplyBuff(1, turns);
-        target.ApplyBuff(1, turns);
+        target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
+        target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
         return finalDesc;
     }
 }

@@ -32,8 +32,8 @@ public class Balaclava : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 5;
         }
-        finalDesc = finalDesc + turns + " tur!";
-        target.ApplyBuff(1, turns);
+        finalDesc = finalDesc + (turns-1) + " tury!";
+        target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
         return finalDesc;
     }
 }

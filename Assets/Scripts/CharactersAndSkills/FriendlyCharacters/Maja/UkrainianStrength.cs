@@ -30,9 +30,9 @@ public class UkrainianStrength : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 5;
         }
-        finalDesc = finalDesc + " " + turns + " tur!";
-        target.ApplyBuff(0, turns);
-        target.ApplyBuff(2, turns);
+        finalDesc = finalDesc + " " + (turns-1) + " tury!";
+        target.ApplyBuff((int)Character.StatusEffects.ATTACK, turns);
+        target.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
         return finalDesc;
     }
 }

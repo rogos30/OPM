@@ -10,7 +10,7 @@ public class Doubles : PlayableSkill
     {
         Name = "Debel";
         SkillDescription = "gra z kompanem debla. Przywraca sobie i kompanowi 1000hp.";
-        InFightDescription = " gra z kompanem debla, lecz¹c jego i siebie za ";
+        InFightDescription = " gra z kompanem debla, lecz¹c jemu i sobie ";
         Cost = 0.4f;
         TargetIsFriendly = true;
         TargetIsSelf = true;
@@ -26,13 +26,13 @@ public class Doubles : PlayableSkill
             return source.NominativeName + " jednak woli graæ w pojedynkê";
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int healing = 1000;
+        int healing = 600;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             healing *= source.criticalDamageMultiplier;
         }
-        finalDesc = finalDesc + " " + healing + " HP!";
+        finalDesc = finalDesc + healing + " HP!";
         source.Heal(healing);
         target.Heal(healing);
         return finalDesc;

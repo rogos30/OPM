@@ -10,7 +10,7 @@ public class Curveball : PlayableSkill
     {
         Name = "Podkrêtka";
         SkillDescription = "zagrywa przeciwnikowi podkrêcon¹ pi³eczkê. Zadaje œrednie obra¿enia i obni¿a celnoœæ wroga.";
-        InFightDescription = " zagrywa podkrêcon¹ pi³eczkê i ";
+        InFightDescription = " zagrywa podkrêcon¹ pi³eczkê, zadaj¹c ";
         Cost = 60;
         AccuracyMultiplier = 0.8f;
         TargetIsFriendly = false;
@@ -27,7 +27,7 @@ public class Curveball : PlayableSkill
         {
             return source.NominativeName + " nie trafia w pi³eczkê";
         }
-        string finalDesc = source.NominativeName + InFightDescription;
+        string finalDesc = source.NominativeName + InFightDescription + target.DativeName + " ";
         int damage = (int)(source.Attack * 0.4f * Random.Range(0.8f, 1.2f)) - target.Defense;
         int turns = 3;
         if (skillPerformance == 2)
@@ -36,8 +36,8 @@ public class Curveball : PlayableSkill
             damage *= source.criticalDamageMultiplier;
             turns = 5;
         }
-        finalDesc = finalDesc + " " + turns + " tur!";
-        target.StatusTimers[2] = -turns;
+        finalDesc = finalDesc + damage + " obra¿eñ i zmniejszaj¹c celnoœæ na " + (turns-1) + " tury!";
+        target.ApplyDebuff((int)Character.StatusEffects.ACCURACY, turns);
         target.TakeDamage(damage);
         return finalDesc;
     }

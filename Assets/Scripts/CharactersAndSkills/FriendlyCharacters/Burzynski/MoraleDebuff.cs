@@ -34,8 +34,8 @@ public class MoraleDebuff : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 5;
         }
-        finalDesc = finalDesc + " na " + turns + " tur!";
-        target.ApplyDebuff(2, turns);
+        finalDesc = finalDesc + " na " + (turns-1) + " tury!";
+        target.ApplyDebuff((int)Character.StatusEffects.ACCURACY, turns);
         return finalDesc;
     }
 }

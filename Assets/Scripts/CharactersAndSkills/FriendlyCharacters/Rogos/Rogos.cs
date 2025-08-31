@@ -63,5 +63,6 @@ public class Rogos : FriendlyCharacter
         Skill = MaxSkill;
         IsGuarding = false;
         ((ZahirTrip)skillSet[5]).SetToMission();
+        ((ControllerBarrage)skillSet[4]).SetToUsable();
     }
 }

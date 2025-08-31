@@ -6,6 +6,8 @@ public class Welenc : FriendlyCharacter
 {
     public float AttackMultiplier { get; set; }
     public const float MaxAttackMultiplier = 4f;
+    public const float MultiplierIncreaseFromSkill = 0.75f;
+    public const float MultiplierIncreaseFromGuard = 0.5f;
     public Welenc() : base()
     {
         NominativeName = "Welenc";
@@ -34,16 +36,23 @@ public class Welenc : FriendlyCharacter
         Capoeira capoeira = new Capoeira();
         skillSet.Add(capoeira);
     }
-
+    public override void StartGuard()
+    {
+        base.StartGuard();
+        IncreaseAttackMultiplier(MultiplierIncreaseFromGuard);
+    }
     public void ResetAttackMultiplier()
     {
-        AttackMultiplier = 0.5f;
+        AttackMultiplier = 0.25f;
         AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
     }
 
-    public void IncreaseAttackMultiplier()
+    public void IncreaseAttackMultiplier(float multiplierGain = MultiplierIncreaseFromSkill)
     {
-        AttackMultiplier = Mathf.Min(AttackMultiplier + 0.5f, MaxAttackMultiplier);
+        if (AttackMultiplier < MaxAttackMultiplier)
+        {
+            AttackMultiplier = Mathf.Min(AttackMultiplier + multiplierGain, MaxAttackMultiplier);
+        }
         AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
     }
 

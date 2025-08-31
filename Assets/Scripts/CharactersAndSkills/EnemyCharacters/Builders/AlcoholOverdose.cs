@@ -19,7 +19,7 @@ public class AlcoholOverdose : EnemySkill
     {
         if (Random.Range(0, 1f) > source.Accuracy * AccuracyMultiplier)
         {
-            return source.DativeName + " zaskakuj¹co nie jest toksyczna wobec " + target.AccusativeName;
+            return source.NominativeName + " nie trafia rzygiem w " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription + target.AccusativeName + ", nak³adaj¹c truciznê na ";
         int turns = 4;

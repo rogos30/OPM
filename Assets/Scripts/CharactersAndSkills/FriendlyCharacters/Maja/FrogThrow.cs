@@ -25,11 +25,12 @@ public class FrogThrow : PlayableSkill
             return source.NominativeName + " nie trafia ¿ab¹ w " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription + target.AccusativeName;
-        int damage = (int)(source.Attack * 1.33f) - target.Defense;
+        int damage = (int)(source.Attack * 1.67f) - target.Defense;
         if (skillPerformance == 2)
         {
-            finalDesc = finalDesc + ", nak³adaj¹c truciznê na 3 tury";
-            target.ApplyDebuff(3, 3);
+            int turns = 4;
+            finalDesc = finalDesc + ", nak³adaj¹c truciznê na " + (turns-1) + " tury";
+            target.ApplyDebuff((int)Character.StatusEffects.HEALTH, turns);
             AnimationId = 4;
         }
         damage = Mathf.Max(damage, 1);

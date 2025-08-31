@@ -25,7 +25,7 @@ public class Dinology : PlayableSkill
     {
         if (skillPerformance == 0)
         {
-            return source.DativeName + " nie zaciekawia " + target.AccusativeName + " (nic dziwnego)";
+            return source.DativeName + " nie zaciekawia dinozaurami " + target.AccusativeName + " (nic dziwnego)";
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
         int turns = 3;
@@ -35,7 +35,7 @@ public class Dinology : PlayableSkill
             turns = 4;
         }
         finalDesc = finalDesc + " i parali¿uje na " +  (turns-1) + " tury!";
-        target.ApplyDebuff(4, turns);
+        target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
         return finalDesc;
     }
 }

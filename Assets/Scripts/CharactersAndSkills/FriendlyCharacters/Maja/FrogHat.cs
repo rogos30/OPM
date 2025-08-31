@@ -30,9 +30,9 @@ public class FrogHat : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
             turns = 5;
         }
-        finalDesc = finalDesc + " i nak³ada na siebie obronê i regeneracjê na " + turns + " tur!";
-        target.ApplyBuff(1, turns);
-        target.ApplyBuff(3, turns);
+        finalDesc = finalDesc + " i nak³ada na siebie obronê i regeneracjê na " + (turns-1) + " tury!";
+        target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
+        target.ApplyBuff((int)Character.StatusEffects.HEALTH, turns);
         return finalDesc;
     }
 }

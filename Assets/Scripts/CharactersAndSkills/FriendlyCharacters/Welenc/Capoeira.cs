@@ -29,12 +29,12 @@ public class Capoeira : PlayableSkill
         string finalDesc = source.NominativeName + InFightDescription;
         if (skillPerformance == 2)
         {
-            finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + " ponad limit!";
+            finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + "ponad limit!";
             ((Welenc)source).MaxOutAttackMultiplier(true);
         }
         else
         {
-            finalDesc = finalDesc + " do limitu!";
+            finalDesc = finalDesc + "do limitu!";
             ((Welenc)source).MaxOutAttackMultiplier(false);
         }
         return finalDesc;

@@ -16,9 +16,9 @@ public class ZahirTrip : PlayableSkill
     {
         giveaway = false;
         Name = "Podró¿ po kebaby";
-        SkillDescription = "jedzie rowerem po kebaby. Nie bêdzie go kilka tur, ale kebaby pomog¹ wszystkim";
-        InFightDescription = " wybywa na misjê na ";
-        Cost = 0.67f;
+        SkillDescription = "jedzie rowerem po kebaby. Nie bêdzie go chwilê, ale kebaby pomog¹ wszystkim";
+        InFightDescription = " wybywa na misjê";
+        Cost = 0.45f;
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
@@ -32,8 +32,8 @@ public class ZahirTrip : PlayableSkill
         giveaway = true;
         Name = "Rozdanie kebabów";
         SkillDescription = "rozdaje dru¿ynie zdobyte kebaby. Leczy i buffuje wszystkich";
-        InFightDescription = " mówi \"bierzcie i jedzcie\" ";
-        Cost = 0.67f;
+        InFightDescription = " mówi \"bierzcie i jedzcie\", lecz¹c i mega wzmacniaj¹c ";
+        Cost = 0.45f;
         TargetIsFriendly = true;
         TargetIsSelf = false;
         MultipleTargets = true;
@@ -49,13 +49,17 @@ public class ZahirTrip : PlayableSkill
                 return source.NominativeName + " spada z rowerka";
             }
             string finalDesc = source.NominativeName + InFightDescription;
-            int turns = 2;
+            int turns = 1;
             if (skillPerformance == 2)
             {
                 finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-                turns = 1;
+                finalDesc = finalDesc + " na " + turns + " turê!";
             }
-            finalDesc = finalDesc + " " + turns + " tur!";
+            else
+            {
+                turns = 2;
+                finalDesc = finalDesc + " na " + turns + " tury!";
+            }
             target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
             target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
             SetToGiveaway();
@@ -69,16 +73,16 @@ public class ZahirTrip : PlayableSkill
                 SetToMission();
                 return source.DativeName + " rozsypa³y siê kebaby! Ju¿ nikt ich nie zje :(";
             }
-            string finalDesc = source.NominativeName + InFightDescription;
-            int turns = 2;
+            string finalDesc = source.NominativeName + InFightDescription + target.AccusativeName;
+            int turns = 3;
             int healing = 750;
             if (skillPerformance == 2)
             {
                 finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-                turns = 3;
-                healing = 1250;
+                turns = 4;
+                healing *= source.criticalDamageMultiplier;
             }
-            finalDesc = finalDesc + " " + turns + " tur!";
+            finalDesc = finalDesc + " na " + (turns - 1) + " tury!";
             for (int i = 0; i < 5; i++)
             {
                 target.ApplyBuff(i, turns);
