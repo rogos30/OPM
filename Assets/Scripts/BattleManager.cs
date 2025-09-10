@@ -27,7 +27,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Slider skillCheckSlider;
     [SerializeField] GameObject skillCheckBlueArea;
     [SerializeField] GameObject skillCheckGreenArea;
+    [SerializeField] Image background;
     [SerializeField] GameObject[] enemySprites;
+    [SerializeField] Sprite[] backgroundPhotos;
     [SerializeField] TMP_Text[] enemyNames;
     [SerializeField] TMP_Text[] characterNames;
     [SerializeField] GameObject nextCharacters;
@@ -97,10 +99,12 @@ public class BattleManager : MonoBehaviour
     [SerializeField] AudioClip navigationAcceptSound;
     [SerializeField] AudioClip[] skillSounds;
     [SerializeField] AudioClip altBurzynskiMusic;
+    [SerializeField] AudioClip[] midFightVoiceLines;
     AudioSource musicSource, sfxSource;
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
     private void Awake()
     {
+        background.gameObject.SetActive(false);
         instance = this;
         battleCanvas.enabled = false;
         InitializeFriendlyCharacters();
@@ -456,10 +460,14 @@ public class BattleManager : MonoBehaviour
                         PrintPageOfItems();
                     }
                     break;
-                case 2: //actions
+                case 2: //targets
                     if (chosenAction == 0) //skill
                     {
-                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly)
+                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom || playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
+                        {
+
+                        }
+                        else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly)
                         {
                             PrintPageOfAllies(true);
                         }
@@ -884,11 +892,12 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void InitiateBattle(int[] playables, int[] enemies, bool saveGameAfterBattle)
+    public void InitiateBattle(int[] playables, int[] enemies, int backgroundId, bool saveGameAfterBattle)
     {
+        background.gameObject.SetActive(true);
+        background.sprite = backgroundPhotos[backgroundId];
         enemySpriteIndexes.AddRange(enemies);
         this.saveGameAfterBattle = saveGameAfterBattle;
-        Debug.Log(enemySpriteIndexes[0]);
         musicSource.clip = battleMusic[enemies[0]];
         musicSource.loop = true;
         musicSource.Play();
@@ -1002,6 +1011,7 @@ public class BattleManager : MonoBehaviour
             sprite.SetActive(false);
         }
 
+        background.gameObject.SetActive(false);
         player.SetActive(true);
         player.transform.position = returnPosition;
         StoryManager.instance.HandleNPCs();
@@ -1607,7 +1617,7 @@ public class BattleManager : MonoBehaviour
                         "..." };
                     int[] speakerIndexes = { 0,4,0,0,0,4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                     });
@@ -1632,7 +1642,7 @@ public class BattleManager : MonoBehaviour
                         "Zamknij siê wreszcie" };
                     int[] speakerIndexes = { 0, 0, 0, 4, 0, 0, 0, 0, 4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                     });
@@ -1655,7 +1665,7 @@ public class BattleManager : MonoBehaviour
                         "Jakich k³amstw, Maju? Zawsze chcia³em dla Ciebie jak najlepiej. Kocha³em Ciê, to ty nie potrafi³aœ tego odwzajemniæ! Nigdy Ciê nie oszuka³em" };
                     int[] speakerIndexes = { 3, 3, 4, 3, 4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                     });
@@ -1674,7 +1684,7 @@ public class BattleManager : MonoBehaviour
                         "Przestañ, przestañ!" };
                     int[] speakerIndexes = { 3, 3, 3, 4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                     });
@@ -1696,7 +1706,7 @@ public class BattleManager : MonoBehaviour
                     };
                     int[] speakerIndexes = { 4, 3, 4, 3, 4, 3 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                     });
@@ -1719,7 +1729,7 @@ public class BattleManager : MonoBehaviour
                         "Pora to zakoñczyæ" };
                     int[] speakerIndexes = { 0 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         UpdateHealthBarsAndIcons();

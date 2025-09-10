@@ -8,9 +8,12 @@ public class NPCController : Interactable
     [SerializeField] int[] playables;
     [SerializeField] int[] enemies;
     [SerializeField] string[] preFightLines;
+    [SerializeField] AudioClip[] preFightVoiceLines;
     [SerializeField] int[] preFightSpeakersIndexes;
     [SerializeField] string[] postFightLines;
+    [SerializeField] AudioClip[] postFightVoiceLines;
     [SerializeField] int[] postFightSpeakersIndexes;
+    [SerializeField] int backgroundId;
 
 
 
@@ -20,7 +23,7 @@ public class NPCController : Interactable
         {
             DialogManager.instance.onDialogueEnd.RemoveAllListeners();
             DialogManager.instance.onDialogueEnd.AddListener(AfterFirstDialogue);
-            DialogManager.instance.StartDialogue(preFightLines, preFightSpeakersIndexes);
+            DialogManager.instance.StartDialogue(preFightLines, preFightSpeakersIndexes, preFightVoiceLines);
         }
     }
 
@@ -31,7 +34,7 @@ public class NPCController : Interactable
 
         if (playables.Length > 0)
         { //battle after dialogue
-            BattleManager.instance.InitiateBattle(playables, enemies, false);
+            BattleManager.instance.InitiateBattle(playables, enemies, backgroundId, false);
             BattleManager.instance.onBattleWon.AddListener(AfterBattle);
         }
         else
@@ -59,7 +62,7 @@ public class NPCController : Interactable
         BattleManager.instance.onBattleWon.RemoveListener(AfterBattle);
         if (postFightSpeakersIndexes.Length > 0)
         { //dialogue after battle
-            DialogManager.instance.StartDialogue(postFightLines, postFightSpeakersIndexes);
+            DialogManager.instance.StartDialogue(postFightLines, postFightSpeakersIndexes, postFightVoiceLines);
             if (interactionProgressesStory)
             {
                 DialogManager.instance.onDialogueEnd.AddListener(StoryManager.instance.ProgressStory); //after dialogue progress story

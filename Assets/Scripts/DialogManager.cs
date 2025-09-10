@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -21,13 +22,18 @@ public class DialogManager : MonoBehaviour
     const float lettersPerSecond = 40f;
     string[] lines;
     int[] speakersIndexes;
+    AudioClip[] voiceLines;
     int currentIndex;
+    AudioSource sfxSource;
+    public AudioMixerGroup sfxMixerGroup;
     // Start is called before the first frame update
     void Awake()
     {
         instance = this;
         dialogueCanvas.enabled = false;
         gameInfoCanvas.enabled = false;
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.outputAudioMixerGroup = sfxMixerGroup;
     }
 
     // Update is called once per frame
@@ -58,17 +64,19 @@ public class DialogManager : MonoBehaviour
             }
         }
     }
-    public void StartDialogue(string[] lines, int[] speakersIndexes)
+    public void StartDialogue(string[] lines, int[] speakersIndexes, AudioClip[] voiceLines)
     {
         currentIndex = -1;
         dialogueCanvas.enabled = true;
         this.lines = lines;
         this.speakersIndexes = speakersIndexes;
+        this.voiceLines = voiceLines;
         NextLine();
     }
     
     void EndDialogue()
     {
+        sfxSource.Stop();
         dialogueCanvas.enabled = false;
         onDialogueEnd.Invoke();
     }
@@ -77,10 +85,14 @@ public class DialogManager : MonoBehaviour
     {
         if (currentIndex < lines.Length - 1)
         {
+            sfxSource.Stop();
             currentIndex++;
             speakerSprite.sprite = speakerSprites[speakersIndexes[currentIndex]];
             speakersName.text = speakerNames[speakersIndexes[currentIndex]];
             dialogueText.text = "";
+            sfxSource.clip = voiceLines[currentIndex];
+            sfxSource.loop = false;
+            sfxSource.Play();
             StartCoroutine(TypeDialogue());
         }
         else

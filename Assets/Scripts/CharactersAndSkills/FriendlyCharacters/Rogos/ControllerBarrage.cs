@@ -28,10 +28,10 @@ public class ControllerBarrage : PlayableSkill
     public void SetToUseless()
     {
         wasUsed = true;
-        Name = "Ostrza³ padami (wykorzystany)";
-        SkillDescription = "przeczekuje swój ruch, bo ju¿ siê narzuca³ padami";
+        Name = "Ostrza³ padami (WYKORZYSTANY)";
+        SkillDescription = "ju¿ nie mo¿e wykorzystaæ tej umiejêtnoœci";
         InFightDescription = " odpoczywa";
-        Cost = 0;
+        Cost = 999;
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
