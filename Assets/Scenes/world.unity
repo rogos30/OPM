@@ -6646,7 +6646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Sram temu serwerowi na g\xF3wno"
+      value: Rozwalmy ten serwer
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -8100,7 +8100,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Sram temu generatorowi na g\xF3wno"
+      value: Rozwalmy ten generator
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -11167,23 +11167,23 @@ MonoBehaviour:
   questDescriptions:
   - Pobij leszcza
   - Zwerbuj Welenca
-  - Zwerbuj Stasiaka (pobij Kinge)
-  - Zwerbuj Kaje
-  - Porozmawiaj z Chrobotem
+  - Zwerbuj Stasiaka (pobij Aniele)
+  - Zwerbuj Maje
+  - Porozmawiaj z Hubotem
   - Zbierz Marlboraski
-  - Oddaj Chrobotowi Marlboraski
+  - Oddaj Hubotowi Marlboraski
   - Rozwal generator 1
   - Rozwal generator 2
   - Rozwal generator 3
-  - "Zwerbuj Brudzy\u0144skiego"
+  - "Zwerbuj Burzy\u0144skiego"
   - "Rozwal kamer\u0119"
-  - Zobacz co u Kingi
+  - Zobacz co u Anieli
   - Rozwal serwer
   - Pobij Piotrka
   - "Pobij budowla\u0144c\xF3w"
   - Pobij szkielety
-  - "Pobij Brudzy\u0144skiego"
-  - Zabij Janka
+  - "Pobij Burzy\u0144skiego"
+  - Zabij Franka
   - KONIEC GRY!!!1!
 --- !u!1 &619394800
 GameObject:
@@ -11438,7 +11438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Sram temu generatorowi na g\xF3wno"
+      value: Rozwalmy ten generator
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -13636,7 +13636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: Paruwo cho na solo
+      value: "Cieniasie chod\u017A si\u0119 bi\u0107"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[1]
@@ -13655,8 +13655,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
-      propertyPath: preFightSpeakersIndexes.Array.data[1]
+      propertyPath: preFightSpeakersIndexes.Array.data[0]
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
+      propertyPath: preFightSpeakersIndexes.Array.data[1]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightSpeakersIndexes.Array.data[0]
@@ -16807,12 +16811,11 @@ MonoBehaviour:
   playables: 
   enemies: 
   preFightLines:
-  - "Przyszed\u0142em nasra\u0107 na \u015Bwiat"
-  - (i na ciebie)
+  - "Welenc potrzebuje ci\u0119 w naszym sk\u0142adzie"
+  - "(moim sk\u0142adzie)"
   - Ok
-  - Spier... a ok :D
   preFightVoiceLines: []
-  preFightSpeakersIndexes: 00000000000000000100000000000000
+  preFightSpeakersIndexes: 000000000000000001000000
   postFightLines: []
   postFightVoiceLines: []
   postFightSpeakersIndexes: 
@@ -17388,7 +17391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Sram tym budowla\u0144com na g\xF3wno"
+      value: "Rozwalmy tych budowla\u0144c\xF3w"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -20460,7 +20463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Sram temu generatorowi na g\xF3wno"
+      value: Rozwalmy ten generator
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -21157,15 +21160,15 @@ MonoBehaviour:
   - Rogos
   - Welenc
   - Stasiak
-  - Kaja
-  - "Brudzy\u0144ski"
+  - Maja
+  - "Burzy\u0144ski"
   - Dzieciak
   - "\u015Awietlik"
-  - Chrobot
-  - Kinga
-  - Klara
+  - Hubot
+  - Aniela
+  - Nina
   - Lora
-  - Janek
+  - Franek
   - Piotrek
   sfxMixerGroup: {fileID: 0}
 --- !u!1 &1129879322
@@ -21908,7 +21911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Sram tej kamerze na g\xF3wno"
+      value: "Rozwalmy t\u0119 kamer\u0119"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -76916,11 +76919,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Kaja chod\u017A"
+      value: "Maja chod\u017A"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[1]
-      value: "Trzeba najeba\u0107 Brudzy\u0144skiemu"
+      value: "Trzeba dowali\u0107 Burzy\u0144skiemu"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[2]
@@ -79907,19 +79910,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Brudzy\u0144ski czemu nie ma wolnego"
+      value: "Burzy\u0144ski czemu nie ma wolnego"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[1]
-      value: "Brudzy\u0144ski czemu breloczek dinozaur"
+      value: "Burzy\u0144ski czemu breloczek dinozaur"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[2]
-      value: "Brudzy\u0144ski nienawidze cie zrujnowa\u0142e\u015B mi \u017Cycie"
+      value: "Burzy\u0144ski nienawidze cie zrujnowa\u0142e\u015B mi \u017Cycie"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[3]
-      value: Kaju
+      value: Maju
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[4]
@@ -79927,7 +79930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[5]
-      value: wtf
+      value: ???????
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightSpeakersIndexes.Array.size
@@ -80226,15 +80229,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: "Brudzy\u0144ski cwelu cho na solo"
+      value: "Burzy\u0144ski chod\u017A na solo"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[1]
-      value: Spierdalaj z mojej ziemi
+      value: "Wypad mi st\u0105d"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[2]
-      value: Spierdalaj z jego ziemi
+      value: "Wypad mu st\u0105d"
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[3]
@@ -84311,7 +84314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[5]
-      value: Ciota
+      value: lol
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: postFightLines.Array.data[0]
@@ -88543,11 +88546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[0]
-      value: Hej Kinia, jak tam?
+      value: Hej Aniela, jak tam?
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[1]
-      value: Macie wpierdol
+      value: Macie przewalone
       objectReference: {fileID: 0}
     - target: {fileID: 1961759176999154892, guid: 02cd363339c020243bc8b0268a8c6cdc, type: 3}
       propertyPath: preFightLines.Array.data[2]

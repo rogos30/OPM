@@ -1572,20 +1572,6 @@ public class BattleManager : MonoBehaviour
         Debug.Log("handling phases");
         switch (enemyCharacterList[0].NominativeName)
         {
-            /*case "Welenc":
-                if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth < 0.5f && currentPhase == 0)
-                {
-                    currentPhase++;
-                    string[] lines = { "Dobra, kurwa, tak nie bedzie", "Duplikuje sie i w pizdzie was mam" };
-                    int[] speakerIndexes = { 3, 3 };
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes);
-                    DialogManager.instance.onDialogueEnd.AddListener(Chuj);
-                }
-                else
-                {
-                    handlingPhases = false;
-                }
-                break;*/
             case "Monitoring":
                 if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.75f && currentPhase == 0)
                 {
@@ -1612,10 +1598,9 @@ public class BattleManager : MonoBehaviour
                         "MASZ JU¯ DOŒÆ?!",
                         "...",
                         "Co z wolnym po Nowym Roku?",
-                        "O co chodzi³o z tym koncertem?",
-                        "GDZIE JEST LORA I GDZIE BOMBA?",
+                        "O co chodzi³o z tym koncertem? GDZIE JEST LORA I GDZIE BOMBA?",
                         "..." };
-                    int[] speakerIndexes = { 0,4,0,0,0,4 };
+                    int[] speakerIndexes = { 0,4,0,0,4 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
@@ -1737,15 +1722,6 @@ public class BattleManager : MonoBehaviour
                 }
                 break;
         }
-    }
-
-    void Chuj()
-    {
-        DialogManager.instance.onDialogueEnd.RemoveListener(Chuj);
-        int[] enemies = { 2 };
-        AddEnemyCharactersToBattle(enemies);
-        UpdateHealthBarsAndIcons();
-        DecideNextMove();
     }
 
     void CountKnockedOut()

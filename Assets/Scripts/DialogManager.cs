@@ -90,9 +90,12 @@ public class DialogManager : MonoBehaviour
             speakerSprite.sprite = speakerSprites[speakersIndexes[currentIndex]];
             speakersName.text = speakerNames[speakersIndexes[currentIndex]];
             dialogueText.text = "";
-            sfxSource.clip = voiceLines[currentIndex];
-            sfxSource.loop = false;
-            sfxSource.Play();
+            if (currentIndex < voiceLines.Length)
+            {
+                sfxSource.clip = voiceLines[currentIndex];
+                sfxSource.loop = false;
+                sfxSource.Play();
+            }
             StartCoroutine(TypeDialogue());
         }
         else
