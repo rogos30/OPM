@@ -11157,6 +11157,8 @@ MonoBehaviour:
   - {fileID: 827321653}
   - {fileID: 2045089631}
   - {fileID: 624022381}
+  PatrolNPCs:
+  - {fileID: 1633639131}
   Marlboros:
   - {fileID: 7500625901588918234}
   - {fileID: 1532110486}
@@ -16155,6 +16157,10 @@ PrefabInstance:
       value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 896369030467020258, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 896369030467020258, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.486252
       objectReference: {fileID: 0}
@@ -16224,7 +16230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2897487101608658510, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
       propertyPath: hasAwarenessThresholds
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2897487101608658510, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
       propertyPath: patrolPoints.Array.data[0]
@@ -16242,6 +16248,18 @@ PrefabInstance:
       propertyPath: patrolPoints.Array.data[3]
       value: 
       objectReference: {fileID: 1175379229}
+    - target: {fileID: 2897487101608658510, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
+      propertyPath: playerInSightExtendsPatrol
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897487101608658510, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
+      propertyPath: onSpottedVoiceLine.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2897487101608658510, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
+      propertyPath: onSpottedVoiceLine.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6c8caf00c92d5234fbd286bc61dbfb79, type: 3}
     - target: {fileID: 3772421159613112213, guid: 0ff2ca7ab33ae054aa22eb184c03bdad, type: 3}
       propertyPath: m_TagString
       value: Untagged

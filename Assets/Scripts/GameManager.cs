@@ -617,6 +617,10 @@ public class GameManager : MonoBehaviour
         {
             enemy.UpdateDifficulty(difficulty);
         }
+        foreach (var patrolNpc in StoryManager.instance.PatrolNPCs)
+        {
+            patrolNpc.GetComponent<PatrolNPCController>().UpdateDifficulty(difficulty);
+        }
         PlayerPrefs.SetInt("showFPS", showFPS);
         PlayerPrefs.Save();
     }

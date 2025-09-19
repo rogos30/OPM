@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("VisionCone"))
         {
             //Debug.Log("BBBBBBBBB");
-            other.GetComponentInParent<PatrolNPCController>().isPlayerInSight = false;
+            other.GetComponentInParent<PatrolNPCController>().PlayableLeaveSight();
         }
     }
 

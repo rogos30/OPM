@@ -9,6 +9,7 @@ public class StoryManager : MonoBehaviour
     public static StoryManager instance;
     [SerializeField] TMP_Text currentQuestText;
     [SerializeField] GameObject[] NPCs;
+    [SerializeField] public GameObject[] PatrolNPCs;
     [SerializeField] GameObject[] Marlboros;
     [NonSerialized] public int currentMainQuest = 0;
     [SerializeField] string[] questDescriptions;

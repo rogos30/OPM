@@ -91,4 +91,22 @@ public class PlayerFollowerController : Interactable
     {
         return;
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("VisionCone"))
+        {
+            //Debug.Log("AAAAAAAAA");
+            other.GetComponentInParent<PatrolNPCController>().CheckIfPlayerInSight();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("VisionCone"))
+        {
+            //Debug.Log("BBBBBBBBB");
+            other.GetComponentInParent<PatrolNPCController>().PlayableLeaveSight();
+        }
+    }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PatrolNPCController : Interactable
@@ -11,11 +12,11 @@ public class PatrolNPCController : Interactable
     private const float timeBetweenAwarenessUpdates = 0.05f;
     private float currentTimeBetweenAwarenessUpdates = 0;
     private float currentCooldownTime = 0;
-    private float awareness = 0;
+    private int awareness = 0;
     private int minAwareness = 0;
+    private int awarenessIncrease;
     [SerializeField] private GameObject[] patrolPoints;
     [SerializeField] private GameObject visionCone;
-    [SerializeField] private GameObject player;
     [Range(0.5f, 10f)][SerializeField] private float moveSpeed;
     [Range(0.5f, 10f)][SerializeField] private float waitTimeAtPatrolPoint;
     [Range(0.5f, 10f)][SerializeField] private float awarenessCooldownTime;
@@ -25,7 +26,11 @@ public class PatrolNPCController : Interactable
     private bool canMove = true;
     private bool hasSetDirection = true;
     private bool isInPatrol = false;
-    public bool isPlayerInSight = false;
+    private bool isPlayerCaught = false;
+    public bool isSomeoneInSight = false;
+    int playablesInSight = 0;
+    int[] visionConeScales = { 2, 3, 4, 5 };
+    [SerializeField] AudioClip[] onSpottedVoiceLine;
 
     Animator animator;
     bool isFacingRight = false;
@@ -35,6 +40,7 @@ public class PatrolNPCController : Interactable
     {
         animator = GetComponent<Animator>();
         currentAwarenessSlider.gameObject.SetActive(false);
+        awarenessIncrease = GameManager.instance.difficulty;
     }
 
     // Update is called once per frame
@@ -49,7 +55,7 @@ public class PatrolNPCController : Interactable
         {
             HandlePatrol();
         }
-        if (isPlayerInSight)
+        if (isSomeoneInSight)
         {
             HandlePlayerInSight();
         }
@@ -63,11 +69,11 @@ public class PatrolNPCController : Interactable
     void HandlePatrol()
     {
         animator.SetInteger("isWalking", 0);
-        if (!playerInSightExtendsPatrol || !isPlayerInSight)
+        if (!playerInSightExtendsPatrol || !isSomeoneInSight)
         {
             currentWaitTime += Time.deltaTime;
         }
-        if (currentWaitTime >= waitTimeAtPatrolPoint)
+        if (currentWaitTime >= waitTimeAtPatrolPoint && !isPlayerCaught)
         {
             isInPatrol = false;
             canMove = true;
@@ -76,9 +82,28 @@ public class PatrolNPCController : Interactable
         }
     }
 
+    public void UpdateDifficulty(int difficulty)
+    {
+        Vector3 theScale = transform.localScale;
+        theScale.x = visionConeScales[difficulty];
+        theScale.y = visionConeScales[difficulty];
+        visionCone.transform.localScale = theScale;
+        awarenessIncrease = difficulty + 1;
+    }
+
     public void CheckIfPlayerInSight()
     {
-        isPlayerInSight = true;
+        playablesInSight++;
+        isSomeoneInSight = true;
+    }
+
+    public void PlayableLeaveSight()
+    {
+        playablesInSight--;
+        if (playablesInSight == 0)
+        {
+            isSomeoneInSight = false;
+        }
     }
 
     void Move()
@@ -176,13 +201,13 @@ public class PatrolNPCController : Interactable
         if (currentTimeBetweenAwarenessUpdates >= timeBetweenAwarenessUpdates)
         {
             currentAwarenessSlider.gameObject.SetActive(true);
-            awareness += (GameManager.instance.difficulty+1);
+            awareness += awarenessIncrease;
             currentAwarenessSlider.value = awareness;
             currentTimeBetweenAwarenessUpdates = 0;
         }
-        if (awareness >= 100)
+        if (awareness >= 100 && !isPlayerCaught)
         {
-            Debug.Log("Spotted! Game over!");
+            GameOver();
         }
         else if (hasAwarenessThresholds)
         {
@@ -201,12 +226,25 @@ public class PatrolNPCController : Interactable
         }
     }
 
+    void GameOver()
+    {
+        isPlayerCaught = true;
+        canMove = false;
+        string[] lines = {
+                        "Ups" };
+        int[] speakerIndexes = { 0 };
+        DialogManager.instance.StartDialogue(lines, speakerIndexes, onSpottedVoiceLine);
+        DialogManager.instance.onDialogueEnd.AddListener(() => {
+            SceneManager.LoadScene("start");
+        });
+    }
+
     void ShowDebugMessages()
     {
         if (timeBetweenAwarenessUpdates <= currentTimeBetweenAwarenessUpdates)
         {
             Debug.Log("skradanka: ");
-            Debug.Log("isPlayerInSight " + isPlayerInSight);
+            Debug.Log("isSomeoneInSight " + isSomeoneInSight);
             Debug.Log("isInPatrol " + isInPatrol);
             Debug.Log("canMove " + canMove);
             Debug.Log("currentWaitTime " + currentWaitTime);
