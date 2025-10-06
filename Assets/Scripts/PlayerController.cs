@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.instance.pauseCanvas.enabled && !DialogManager.instance.dialogueCanvas.enabled && !DialogManager.instance.gameInfoCanvas.enabled)
+        if (GameManager.instance.inGameCanvas.enabled && !DialogManager.instance.dialogueCanvas.enabled && !DialogManager.instance.gameInfoCanvas.enabled
+            && !GameManager.instance.artifactCanvas.enabled && !GameManager.instance.passwordCanvas.enabled)
         {
             isMoving = false;
             HandleInput();

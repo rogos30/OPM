@@ -18,7 +18,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] AudioClip freeRoamMusic;
 
-    public Canvas pauseCanvas, inGameCanvas;
+    public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas;
+    public Image[] passwordClues;
+    public TMP_Text passwordText;
     [SerializeField] TMP_Text gameFpsText;
     [SerializeField] TMP_Text currentLocationText;
     [SerializeField] GameObject optionsColumn;
@@ -82,6 +84,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         pauseCanvas.enabled = false;
+        artifactCanvas.enabled = false;
+        passwordCanvas.enabled = false;
         inGameCanvas.enabled = true;
         Time.timeScale = 1;
         instance = this;

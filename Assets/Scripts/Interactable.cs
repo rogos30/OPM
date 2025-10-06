@@ -11,14 +11,11 @@ public abstract class Interactable : MonoBehaviour
     public int appearanceAtQuest;
     public int disappearanceAtQuest;
 
-    private void Update()
+    protected virtual void Update()
     {
-        if (playerNearby)
+        if (canInteract())
         {
-            if (Input.GetKeyDown(KeyCode.E) && !GameManager.instance.pauseCanvas.enabled)
-            {
-                Interact();
-            }
+            Interact();
         }
     }
 
@@ -36,6 +33,13 @@ public abstract class Interactable : MonoBehaviour
         {
             playerNearby = false;
         }
+    }
+
+    protected bool canInteract()
+    {
+        return (playerNearby && GameManager.instance.inGameCanvas.enabled && !DialogManager.instance.dialogueCanvas.enabled
+            && !DialogManager.instance.gameInfoCanvas.enabled && !GameManager.instance.artifactCanvas.enabled
+            && Input.GetKeyDown(KeyCode.E) && !GameManager.instance.pauseCanvas.enabled);
     }
     public abstract void Interact();
 }

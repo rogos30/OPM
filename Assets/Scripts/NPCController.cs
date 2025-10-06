@@ -19,12 +19,9 @@ public class NPCController : Interactable
 
     public override void Interact()
     {
-        if (GameManager.instance.inGameCanvas.enabled && !DialogManager.instance.dialogueCanvas.enabled)
-        {
-            DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogManager.instance.onDialogueEnd.AddListener(AfterFirstDialogue);
-            DialogManager.instance.StartDialogue(preFightLines, preFightSpeakersIndexes, preFightVoiceLines);
-        }
+        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+        DialogManager.instance.onDialogueEnd.AddListener(AfterFirstDialogue);
+        DialogManager.instance.StartDialogue(preFightLines, preFightSpeakersIndexes, preFightVoiceLines);
     }
 
     void AfterFirstDialogue()
