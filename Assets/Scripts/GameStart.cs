@@ -23,8 +23,8 @@ public class GameStart : MonoBehaviour
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
 
     readonly string[] difficultyNames = {"£atwy", "Œredni", "Trudny", "Fatalny" };
-    readonly string[] showFpsNames = { "Nigdy", "W œwiecie gry", "W walce", "Zawsze" };
-    int currentRow, maxCurrentRow, currentState, chosenSaveSlot;
+    readonly string[] showFpsNames = { "Nigdy", "W walce", "W œwiecie gry", "Zawsze" };
+    int currentRow, minCurrentRow, maxCurrentRow, currentState, chosenSaveSlot;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     [SerializeField] TMP_Text guideText;
@@ -36,6 +36,7 @@ public class GameStart : MonoBehaviour
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
 
+    [SerializeField] GameObject mainTextArea;
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -102,6 +103,9 @@ public class GameStart : MonoBehaviour
                 case 5: //options
                     SaveSettings();
                     currentState = 0;
+                    var pos = mainTextArea.transform.position;
+                    pos.x += 100;
+                    mainTextArea.transform.position = pos;
                     PrintMainView();
                     break;
                 case 6: //exit - are you sure?
@@ -125,11 +129,11 @@ public class GameStart : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             {
-                currentRow = (currentRow + 1) % maxCurrentRow;
+                currentRow = (currentRow + 1 >= maxCurrentRow) ? (minCurrentRow) : (currentRow + 1);
             }
             else
             {
-                currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
+                currentRow = (currentRow - 1 < minCurrentRow) ? (maxCurrentRow - 1) : (currentRow - 1);
             }
             mainTexts[currentRow].color = orange;
             if (currentState == 5) //settings
@@ -209,14 +213,17 @@ public class GameStart : MonoBehaviour
                         case 2: //options
                             currentState = 5;
                             PrintSettings();
-                            optionValuesTexts[currentRow = 0].color = orange;
+                            optionValuesTexts[currentRow].color = orange;
+                            var pos = mainTextArea.transform.position;
+                            pos.x -= 100;
+                            mainTextArea.transform.position = pos;
                             break;
                         case 3: //exit
                             currentState = 6;
                             PrintYesNo();
                             break;
                     }
-                    mainTexts[currentRow = 0].color = orange;
+                    mainTexts[currentRow].color = orange;
                     break;
                 case 1: //new game slots
                     chosenSaveSlot = currentRow;
@@ -226,7 +233,7 @@ public class GameStart : MonoBehaviour
                 case 2: //new game slots - are you sure?
                     switch (currentRow)
                     {
-                        case 0: //yes
+                        case 1: //yes
 
                             string dataDirPath1 = Application.persistentDataPath;
                             string dataFileName1 = chosenSaveSlot.ToString();
@@ -238,10 +245,10 @@ public class GameStart : MonoBehaviour
                             PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
                             SceneManager.LoadScene("world");
                             break;
-                        case 1: //no
+                        case 2: //no
                             currentState = 1;
                             PrintSlots();
-                            mainTexts[currentRow = 0].color = orange;
+                            mainTexts[currentRow].color = orange;
                             break;
                     }
                     break;
@@ -259,31 +266,31 @@ public class GameStart : MonoBehaviour
                 case 4: //load game slots - are you sure?
                     switch (currentRow)
                     {
-                        case 0: //yes
+                        case 1: //yes
                             PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
                             SceneManager.LoadScene("world");
                             break;
-                        case 1: //no
+                        case 2: //no
                             currentState = 3;
                             PrintSlots();
-                            mainTexts[currentRow = 0].color = orange;
+                            mainTexts[currentRow].color = orange;
                             break;
                     }
                     break;
                 case 6:
                     switch (currentRow)
                     {
-                        case 0: //yes
+                        case 1: //yes
                             #if UNITY_EDITOR
                             UnityEditor.EditorApplication.isPlaying = false;
                             #endif
                             Application.Quit();
 
                             break;
-                        case 1: //no
+                        case 2: //no
                             currentState = 0;
                             PrintMainView();
-                            mainTexts[currentRow = 0].color = orange;
+                            mainTexts[currentRow].color = orange;
                             break;
                     }
                     break;
@@ -301,12 +308,15 @@ public class GameStart : MonoBehaviour
     void PrintYesNo()
     {
         ClearTexts();
-        mainTexts[0].text = "PotwierdŸ";
-        mainTexts[1].text = "Cofnij";
-        maxCurrentRow = 2;
+        mainTexts[1].color = orange;
+        currentRow = minCurrentRow = 1;
+        mainTexts[1].text = "PotwierdŸ";
+        mainTexts[2].text = "Cofnij";
+        maxCurrentRow = 3;
     }
     void PrintSettings()
     {
+        minCurrentRow = 0;
         ClearTexts();
         mainTexts[0].text = "G³oœnoœæ dŸwiêków";
         mainTexts[1].text = "G³oœnoœæ muzyki";
@@ -318,6 +328,7 @@ public class GameStart : MonoBehaviour
 
     void PrintSlots()
     {
+        minCurrentRow = 0;
         ClearTexts();
         mainTexts[0].text = "Slot 1";
         mainTexts[1].text = "Slot 2";
@@ -328,6 +339,7 @@ public class GameStart : MonoBehaviour
 
     void PrintMainView()
     {
+        minCurrentRow = 0;
         ClearTexts();
         mainTexts[0].text = "Nowa gra";
         mainTexts[1].text = "Wczytaj grê";
