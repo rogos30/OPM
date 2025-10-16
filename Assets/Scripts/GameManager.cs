@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
 
     readonly string[] difficultyNames = {"£atwy", "Œredni", "Trudny", "Fatalny" };
-    readonly string[] showFpsNames = { "Nigdy", "W œwiecie gry", "W walce", "Zawsze" };
+    readonly string[] showFpsNames = { "Nigdy", "Zawsze" };
     [NonSerialized] public bool canPause = true;
     [NonSerialized] public bool canSaveGame = true;
     int currentRow, maxCurrentRow, currentColumn, currentPage;
@@ -132,20 +132,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (showFPS == 1 || showFPS == 3)
-            { //freeroam or always
+            if (showFPS == 1)
+            { //always
                 gameFpsText.text = (float)frames / maxFramesTime + " fps";
-            }
-            else
-            {
-                gameFpsText.text = "";
-            }
-            if (showFPS == 2 || showFPS == 3)
-            { //battle or always
                 BattleManager.instance.battleFpsText.text = (float)frames / maxFramesTime + " fps";
             }
             else
             {
+                gameFpsText.text = "";
                 BattleManager.instance.battleFpsText.text = "";
             }
             framesTime -= maxFramesTime;
@@ -298,7 +292,7 @@ public class GameManager : MonoBehaviour
                         currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
                     }
                     inventoryItemsTexts[currentRow].color = orange;
-                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ". Masz: " +
+                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
                     break;
                 case 4: //equipment column
@@ -326,7 +320,7 @@ public class GameManager : MonoBehaviour
                     inventoryEqChangeTexts[currentRow].color = orange;
                     if (currentRow > 0)
                     {
-                        eqDescriptionText.text = Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Description + ". Masz: " +
+                        eqDescriptionText.text = Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Description + ".\n\nMasz: " +
                         Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Amount;
                     }
                     else
@@ -449,7 +443,7 @@ public class GameManager : MonoBehaviour
                             currentPage = 0;
                             PrintCurrentPageOfItems();
                             itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                            itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ". Masz: " +
+                            itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                                 Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
                             chosenInv = currentRow;
                             inventoryMainTexts[chosenInv].color = Color.red;
@@ -516,7 +510,7 @@ public class GameManager : MonoBehaviour
                 case 3: //healing items
                     currentPage = (currentPage - 1 < 0) ? currentPage : currentPage - 1;
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ". Masz: " +
+                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
                     PrintCurrentPageOfItems();
                     break;
@@ -536,7 +530,7 @@ public class GameManager : MonoBehaviour
                 case 3: //healing items
                     currentPage = (currentPage + 1 > ShopManager.instance.level) ? currentPage : currentPage + 1;
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ". Masz: " +
+                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
                     PrintCurrentPageOfItems();
                     break;

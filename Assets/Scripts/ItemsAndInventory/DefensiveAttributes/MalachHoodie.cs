@@ -6,7 +6,7 @@ public class MalachHoodie : DefensiveAttribute
 {
     public MalachHoodie()
     {
-        Name = "Bluza Ma³acha";
+        Name = "Bluza szkolna";
         Description = "Zwiêksza obronê o 15, ale zmniejsza celnoœæ o 10%";
         AttackAdded = 0;
         DefenseAdded = 15;

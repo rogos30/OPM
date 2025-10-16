@@ -7,7 +7,7 @@ public class Redbull : EnergyDrink
 {
     public Redbull()
     {
-        this.Name = "Redbull";
+        this.Name = "Red Bull";
         this.Description = "Stawia powalonych na nogi z 37.5% HP";
         this.Resurrects = true;
         this.Cost = 35;

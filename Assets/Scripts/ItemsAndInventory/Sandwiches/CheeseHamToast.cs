@@ -7,7 +7,7 @@ public class CheeseHamToast : Sandwich
     public CheeseHamToast()
     {
         Name = "Tost ser-szynka";
-        Description = "Przywraca 500hp";
+        Description = "Przywraca 500 HP";
         Resurrects = false;
         Cost = 8;
         Amount = 0;

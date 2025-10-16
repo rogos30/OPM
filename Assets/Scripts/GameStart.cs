@@ -23,7 +23,7 @@ public class GameStart : MonoBehaviour
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
 
     readonly string[] difficultyNames = {"£atwy", "Œredni", "Trudny", "Fatalny" };
-    readonly string[] showFpsNames = { "Nigdy", "W walce", "W œwiecie gry", "Zawsze" };
+    readonly string[] showFpsNames = { "Nigdy", "Zawsze" };
     int currentRow, minCurrentRow, maxCurrentRow, currentState, chosenSaveSlot;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;

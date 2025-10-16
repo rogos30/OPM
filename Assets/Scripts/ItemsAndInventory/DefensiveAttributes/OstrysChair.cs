@@ -6,7 +6,7 @@ public class OstrysChair : DefensiveAttribute
 {
     public OstrysChair()
     {
-        Name = "W¹tpliwej jakoœci fotel Ostrego";
+        Name = "W¹tpliwej jakoœci fotel Pikantnego";
         Description = "Zwiêksza obronê o 60, ale zmniejsza celnoœæ o 20%";
         AttackAdded = 0;
         DefenseAdded = 60;

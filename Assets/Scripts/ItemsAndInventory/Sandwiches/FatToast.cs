@@ -7,7 +7,7 @@ public class FatToast : Sandwich
     public FatToast()
     {
         Name = "Grubasotost";
-        Description = "Przywraca 100% hp";
+        Description = "Przywraca 100% HP";
         Resurrects = false;
         Cost = 23;
         Amount = 0;
