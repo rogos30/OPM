@@ -158,6 +158,10 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("AAAAAAAAA");
             other.GetComponentInParent<PatrolNPCController>().CheckIfPlayerInSight();
         }
+        else if (other.CompareTag("Trigger"))
+        {
+            other.GetComponent<Interactable>().Interact();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
