@@ -263,7 +263,7 @@ public class GameOverManager : MonoBehaviour
         ClearTexts();
         mainTexts[0].text = "Nowa gra";
         mainTexts[1].text = "Wczytaj grÍ";
-        mainTexts[2].text = "Wyjdü";
+        mainTexts[2].text = "Wyjdü do menu";
         maxCurrentRow = 3;
     }
 

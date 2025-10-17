@@ -1045,8 +1045,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            gameInfoLines.Add("gg wracasz do lobby");
-            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
+            SceneManager.LoadScene("gameOver");
         }
         playableCharacterList.Clear();
         enemyCharacterList.Clear();
