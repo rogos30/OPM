@@ -93,12 +93,12 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\Weapon.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
-    <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Generator1.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\EnergyDrink.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\IceCream.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
+    <Compile Include="Assets\Scripts\GameOverManager.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\CeilingPart.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\Swietlik.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Aniela\Nina.cs" />

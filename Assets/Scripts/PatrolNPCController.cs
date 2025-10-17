@@ -235,7 +235,7 @@ public class PatrolNPCController : Interactable
         int[] speakerIndexes = { 0 };
         DialogManager.instance.StartDialogue(lines, speakerIndexes, onSpottedVoiceLine);
         DialogManager.instance.onDialogueEnd.AddListener(() => {
-            SceneManager.LoadScene("start");
+            SceneManager.LoadScene("gameOver");
         });
     }
 

@@ -155,7 +155,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.DefaultCompany.Alma-Mater-Aeternum--Koncert---ycze---Edycja-In--ynierska
   buildNumber:
     Standalone: 0
     VisionOS: 0
