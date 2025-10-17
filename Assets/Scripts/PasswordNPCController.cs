@@ -56,7 +56,7 @@ public class PasswordNPCController : Interactable
                 isGuessingPassword = true;
                 GameManager.instance.passwordCanvas.enabled = true;
                 GameManager.instance.inGameCanvas.enabled = false;
-                GameManager.instance.passwordText.text = currentPassword = "Has³o:";
+                GameManager.instance.passwordText.text = currentPassword = "";
                 for (int i = 0; i < GameManager.instance.passwordClues.Length; i++)
                 {
                     if (i >= clues.Length)
