@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\MultipliableAttack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\MainBuilder.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Tracksuiter.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Zubrowka.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\DiscoPoloStar.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\TriplePunch.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyBurzynski.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Bocian.cs" />
     <Compile Include="Assets\Scripts\ShopkeeperController.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Chant.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdMotivation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Aniela\StrongAniela.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdIntimidation.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Camera\Observation.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\BaseballStrike.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\CheeseToast.cs" />
     <Compile Include="Assets\Scripts\DialogManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />

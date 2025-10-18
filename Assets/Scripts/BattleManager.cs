@@ -1169,6 +1169,18 @@ public class BattleManager : MonoBehaviour
 
         character = new EnemyFranek();
         allEnemyCharacters.Add(character);
+
+        character = new Tracksuiter("Dresiarz I", "Dresiarzowi I", "Dresiarza I"); //25
+        allEnemyCharacters.Add(character);
+
+        character = new Tracksuiter("Dresiarz II", "Dresiarzowi II", "Dresiarza II");
+        allEnemyCharacters.Add(character);
+
+        character = new Tracksuiter("Dresiarz III", "Dresiarzowi III", "Dresiarza III");
+        allEnemyCharacters.Add(character);
+
+        character = new Tracksuiter("Dresiarz IV", "Dresiarzowi IV", "Dresiarza IV");
+        allEnemyCharacters.Add(character);
     }
 
     void RotatePlayables()

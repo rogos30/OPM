@@ -22,7 +22,7 @@ public class GameOverManager : MonoBehaviour
     AudioSource musicSource, sfxSource;
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
 
-    int currentRow, minCurrentRow, maxCurrentRow, currentState, chosenSaveSlot;
+    int currentRow, minCurrentRow, maxCurrentRow, currentState;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     [SerializeField] TMP_Text guideText;
@@ -78,26 +78,14 @@ public class GameOverManager : MonoBehaviour
             switch (currentState)
             {
                 case 0: //main view
-                    currentState = 5;
+                    currentState = 2;
                     PrintYesNo();
                     break;
-                case 1: //new game slots
+                case 1: //restart - are you sure?
                     currentState = 0;
                     PrintMainView();
                     break;
-                case 2: //new game - are you sure?
-                    currentState = 1;
-                    PrintSlots();
-                    break;
-                case 3: //load game slots
-                    currentState = 0;
-                    PrintMainView();
-                    break;
-                case 4: //load game - are you sure?
-                    currentState = 3;
-                    PrintSlots();
-                    break;
-                case 5: //exit - are you sure?
+                case 2: //exit - are you sure?
                     currentState = 0;
                     PrintMainView();
                     break;
@@ -122,18 +110,6 @@ public class GameOverManager : MonoBehaviour
             }
             mainTexts[currentRow].color = orange;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-        {
-            sfxSource.clip = navigationScrollSound;
-            sfxSource.loop = false;
-            sfxSource.Play();
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-        {
-            sfxSource.clip = navigationScrollSound;
-            sfxSource.loop = false;
-            sfxSource.Play();
-        }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             sfxSource.clip = navigationAcceptSound;
@@ -145,80 +121,37 @@ public class GameOverManager : MonoBehaviour
                     mainTexts[currentRow].color = Color.white;
                     switch (currentRow)
                     {
-                        case 0: //new game
+                        case 0: //restart
                             currentState = 1;
-                            PrintSlots();
+                            PrintYesNo();
                             break;
-                        case 1: //load game
-                            currentState = 3;
-                            PrintSlots();
-                            break;
-                        case 2: //exit
-                            currentState = 5;
+                        case 1: //exit to main
+                            currentState = 2;
                             PrintYesNo();
                             break;
                     }
                     mainTexts[currentRow].color = orange;
                     break;
-                case 1: //new game slots
-                    chosenSaveSlot = currentRow;
-                    PrintYesNo();
-                    currentState = 2;
-                    break;
-                case 2: //new game slots - are you sure?
+                case 1: //load game slots - are you sure?
                     switch (currentRow)
                     {
-                        case 1: //yes
-
-                            string dataDirPath1 = Application.persistentDataPath;
-                            string dataFileName1 = chosenSaveSlot.ToString();
-                            string fullPath1 = Path.Combine(dataDirPath1, dataFileName1);
-                            if (File.Exists(fullPath1))
-                            {
-                                File.Delete(fullPath1);
-                            }
-                            PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
+                        case 0: //yes
                             SceneManager.LoadScene("world");
                             break;
-                        case 2: //no
-                            currentState = 1;
-                            PrintSlots();
+                        case 1: //no
+                            currentState = 0;
+                            PrintYesNo();
                             mainTexts[currentRow].color = orange;
                             break;
                     }
                     break;
-                case 3: //load game slots
-                    string dataDirPath = Application.persistentDataPath;
-                    string dataFileName = currentRow.ToString();
-                    string fullPath = Path.Combine(dataDirPath, dataFileName);
-                    if (File.Exists(fullPath))
-                    {
-                        chosenSaveSlot = currentRow;
-                        PrintYesNo();
-                        currentState = 4;
-                    }
-                    break;
-                case 4: //load game slots - are you sure?
+                case 2: //exit to main - are you sure?
                     switch (currentRow)
                     {
-                        case 1: //yes
-                            PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
-                            SceneManager.LoadScene("world");
-                            break;
-                        case 2: //no
-                            currentState = 3;
-                            PrintSlots();
-                            mainTexts[currentRow].color = orange;
-                            break;
-                    }
-                    break;
-                case 5:
-                    switch (currentRow)
-                    {
-                        case 1: //yes
+                        case 0: //yes
                             SceneManager.LoadScene("start");
                             break;
-                        case 2: //no
+                        case 1: //no
                             currentState = 0;
                             PrintMainView();
                             mainTexts[currentRow].color = orange;
@@ -239,32 +172,20 @@ public class GameOverManager : MonoBehaviour
     void PrintYesNo()
     {
         ClearTexts();
-        mainTexts[1].color = orange;
-        currentRow = minCurrentRow = 1;
-        mainTexts[1].text = "PotwierdŸ";
-        mainTexts[2].text = "Cofnij";
-        maxCurrentRow = 3;
-    }
-
-    void PrintSlots()
-    {
-        minCurrentRow = 0;
-        ClearTexts();
-        mainTexts[0].text = "Slot 1";
-        mainTexts[1].text = "Slot 2";
-        mainTexts[2].text = "Slot 3";
-        mainTexts[3].text = "Slot 4";
-        maxCurrentRow = 4;
+        mainTexts[0].color = orange;
+        currentRow = minCurrentRow = 0;
+        mainTexts[0].text = "PotwierdŸ";
+        mainTexts[1].text = "Cofnij";
+        maxCurrentRow = 2;
     }
 
     void PrintMainView()
     {
         minCurrentRow = 0;
         ClearTexts();
-        mainTexts[0].text = "Nowa gra";
-        mainTexts[1].text = "Wczytaj grê";
-        mainTexts[2].text = "WyjdŸ do menu";
-        maxCurrentRow = 3;
+        mainTexts[0].text = "Powtórz";
+        mainTexts[1].text = "WyjdŸ do menu";
+        maxCurrentRow = 2;
     }
 
     void UpdateGuideText()
@@ -275,29 +196,17 @@ public class GameOverManager : MonoBehaviour
                 switch (currentRow)
                 {
                     case 0:
-                        guideText.text = "Rozpocznij przygodê od pocz¹tku";
+                        guideText.text = "Wczytaj od ostatniego punktu kontrolnego";
                         break;
                     case 1:
-                        guideText.text = "Wczytaj zapisany stan gry";
-                        break;
-                    case 2:
                         guideText.text = "Wróæ do ekranu startowego";
                         break;
                 }
                 break;
-            case 1: //new game slots
-                GetInfoFromFile();
+            case 1: //load game - are you sure?
+                guideText.text = "Czy na pewno wczytaæ grê z ostatniego punktu kontrolnego?";
                 break;
-            case 2: //new game - are you sure?
-                guideText.text = "Czy na pewno rozpocz¹æ now¹ grê na miejscu zapisu " + (chosenSaveSlot + 1) + "?";
-                break;
-            case 3: //load game slots
-                GetInfoFromFile();
-                break;
-            case 4: //load game - are you sure?
-                guideText.text = "Czy na pewno wczytaæ grê z zapisu " + (chosenSaveSlot + 1) + "?";
-                break;
-            case 5: //exit game - are you sure?
+            case 2: //exit game - are you sure?
                 guideText.text = "Czy na pewno chcesz wróciæ do ekranu startowego?";
                 break;
         }
