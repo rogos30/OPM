@@ -153,6 +153,11 @@ public class PlayerController : MonoBehaviour
             StoryManager.instance.CollectMarlboro();
             other.gameObject.SetActive(false);
         }
+        else if (other.CompareTag("PonySticker"))
+        {
+            StoryManager.instance.CollectPonySticker();
+            other.gameObject.SetActive(false);
+        }
         else if (other.CompareTag("VisionCone"))
         {
             //Debug.Log("AAAAAAAAA");

@@ -36,8 +36,10 @@ public class StoryManager : MonoBehaviour
     [NonSerialized] public int currentFaceTheCheaterQuest = 0;
     [SerializeField] string[] faceTheCheaterQuestDescriptions;
 
-    int[] sideQuestLengths = new int[5];
+    public int[] sideQuestLengths = new int[5];
     bool jaronaldMentioned = false;
+
+    public bool canReturnToMainStory = true;
 
     [SerializeField] AudioClip[] additionalVoiceLines;
     void Awake()
@@ -82,6 +84,40 @@ public class StoryManager : MonoBehaviour
         foreach (var marlboro in Marlboros)
         {
             marlboro.SetActive(false);
+        }
+    }
+    public void CollectPonySticker()
+    {
+        ponyStickersCollected++;
+        if (ponyStickersCollected == PonyStickers.Length)
+        {
+            string[] lines = {
+                    "Dobra, to chyba wszystkie"
+                    };
+            int[] speakerIndexes = { 3 };
+            DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+            DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+            DialogManager.instance.onDialogueEnd.AddListener(() => {
+                ProgressSideQuest(3);
+            });
+        }
+    }
+
+    void EnablePonyStickers()
+    {
+        Debug.Log("enabling pony stickers");
+        foreach (var sticker in PonyStickers)
+        {
+            sticker.SetActive(true);
+        }
+    }
+
+    void DisablePonyStickers()
+    {
+        Debug.Log("disabling pony stickers");
+        foreach (var sticker in PonyStickers)
+        {
+            sticker.SetActive(false);
         }
     }
     public void HandleAllNPCs()
@@ -385,64 +421,60 @@ public class StoryManager : MonoBehaviour
 
     void FinishSideQuest()
     {
-        currentQuestText.text = questDescriptions[currentMainQuest];
-        HandleAllNPCs();
+        //showStoryNPCs jest true gdy gra nie jest wczytywana aka jest grana normalnie
+        if (canReturnToMainStory) //gdy gra nie jest wczytywana LUB nie jestesmy w side quescie
+        {
+            HandleAllNPCs();
+            currentQuestText.text = questDescriptions[currentMainQuest];
+        }
+        else //gry gra jest wczytywana i jestesmy w side questach
+        {
+            HandleSideQuestNPCs();
+        }
     }
 
-    public void ProgressSideQuest(int sideQuest)
+    public void ProgressSideQuest(int sideQuest, bool readDialogue = true)
     {
         DisableStoryNPCs();
         switch (sideQuest)
         {
             case 0:
-                ProgressPingPongScams();
+                ProgressPingPongScams(readDialogue);
                 break;
             case 1:
-                ProgressFollowingReferees();
+                ProgressFollowingReferees(readDialogue);
                 break;
             case 2:
-                ProgressDiversionAndSearch();
+                ProgressDiversionAndSearch(readDialogue);
                 break;
             case 3:
-                ProgressStrongStuff();
+                ProgressStrongStuff(readDialogue);
                 break;
             case 4:
-                ProgressFaceTheCheater();
+                ProgressFaceTheCheater(readDialogue);
                 break;
         }
     }
 
-    void ProgressPingPongScams()
+    void ProgressPingPongScams(bool readDialogue)
     {
         if (currentPingPongScamsQuest + 1 >= pingPongScamsQuestDescriptions.Length)
         {
-            if (jaronaldMentioned)
-            {
-                string[] lines = {
-                    "Czekajcie! Jaronald... Gdzieœ s³ysza³em to imiê.",
-                    "To nie on by³ zaznaczony na liœcie zawodników turnieju?",
-                    "Cholera.",
-                    "Trzeba daæ znaæ Matiemu.",
-                    "Napisa³em do niego, ¿eby na niego uwa¿a³."
-            };
-                int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
-            }
-            else
-            {
-                jaronaldMentioned = true;
-            }
             currentPingPongScamsQuest++;
             FinishSideQuest();
         }
         else
         {
-            currentQuestText.text = pingPongScamsQuestDescriptions[++currentPingPongScamsQuest];
+            currentPingPongScamsQuest++;
+            if (canReturnToMainStory)
+            {
+                currentQuestText.text = pingPongScamsQuestDescriptions[currentPingPongScamsQuest];
+            }
             HandleSideQuestNPCs(0);
         }
     }
 
-    void ProgressFollowingReferees()
+    void ProgressFollowingReferees(bool readDialogue)
     {
         if (currentFollowingRefereesQuest + 1 >= followingRefereesQuestDescriptions.Length)
         {
@@ -451,7 +483,11 @@ public class StoryManager : MonoBehaviour
         }
         else
         {
-            currentQuestText.text = followingRefereesQuestDescriptions[++currentFollowingRefereesQuest];
+            currentFollowingRefereesQuest++;
+            if (canReturnToMainStory)
+            {
+                currentQuestText.text = followingRefereesQuestDescriptions[currentFollowingRefereesQuest];
+            }
             switch (currentFollowingRefereesQuest)
             {
                 case 1:
@@ -462,21 +498,24 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    void ProgressDiversionAndSearch()
+    void ProgressDiversionAndSearch(bool readDialogue)
     {
         if (currentDiversionAndSearchQuest + 1 >= diversionAndSearchQuestDescriptions.Length)
         {
             if (jaronaldMentioned)
             {
-                string[] lines = {
+                if (readDialogue)
+                {
+                    string[] lines = {
                     "Czekajcie! Jaronald... Gdzieœ s³ysza³em to imiê.",
                     "To nie o nim mówili dresiarze?",
                     "Cholera.",
                     "Trzeba daæ znaæ Matiemu.",
                     "Napisa³em do niego, ¿eby na niego uwa¿a³."
-            };
-                int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                };
+                    int[] speakerIndexes = { 1, 0, 2, 3, 0 };
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                }
             }
             else
             {
@@ -487,26 +526,33 @@ public class StoryManager : MonoBehaviour
         }
         else
         {
-            currentQuestText.text = diversionAndSearchQuestDescriptions[++currentDiversionAndSearchQuest];
+            currentDiversionAndSearchQuest++;
+            if (canReturnToMainStory)
+            {
+                currentQuestText.text = diversionAndSearchQuestDescriptions[currentDiversionAndSearchQuest];
+            }
             HandleSideQuestNPCs(2);
         }
     }
 
-    void ProgressStrongStuff()
+    void ProgressStrongStuff(bool readDialogue)
     {
         if (currentStrongStuffQuest + 1 >= strongStuffQuestDescriptions.Length)
         {
             if (jaronaldMentioned)
             {
-                string[] lines = {
+                if (readDialogue)
+                {
+                    string[] lines = {
                     "Czekajcie! Jaronald... Gdzieœ s³ysza³em to imiê.",
                     "To nie on by³ zaznaczony na liœcie zawodników turnieju?",
                     "Cholera.",
                     "Trzeba daæ znaæ Matiemu.",
                     "Napisa³em do niego, ¿eby na niego uwa¿a³."
-            };
-                int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                };
+                    int[] speakerIndexes = { 1, 0, 2, 3, 0 };
+                    DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                }
             }
             else
             {
@@ -517,12 +563,37 @@ public class StoryManager : MonoBehaviour
         }
         else
         {
-            currentQuestText.text = strongStuffQuestDescriptions[++currentStrongStuffQuest];
+            currentStrongStuffQuest++;
+            if (canReturnToMainStory)
+            {
+                currentQuestText.text = strongStuffQuestDescriptions[currentStrongStuffQuest];
+            }
+
+            switch (currentStrongStuffQuest)
+            {
+                case 2:
+                    EnablePonyStickers();
+                    break;
+                case 4:
+                    DisablePonyStickers();
+                    if (readDialogue)
+                    {
+                        string[] lines = {
+                            "Ej, Wy! Co to ma kurna byæ, co?!",
+                            "Oho..."
+                        };
+                        int[] speakerIndexes = { 19, 0 };
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                    }
+                    
+                    break;
+            }
             HandleSideQuestNPCs(3);
         }
     }
 
-    void ProgressFaceTheCheater()
+    void ProgressFaceTheCheater(bool readDialogue)
     {
         if (currentFaceTheCheaterQuest + 1 >= faceTheCheaterQuestDescriptions.Length)
         {
@@ -531,7 +602,11 @@ public class StoryManager : MonoBehaviour
         }
         else
         {
-            currentQuestText.text = faceTheCheaterQuestDescriptions[++currentFaceTheCheaterQuest];
+            currentFaceTheCheaterQuest++;
+            if (canReturnToMainStory)
+            {
+                currentQuestText.text = faceTheCheaterQuestDescriptions[currentFaceTheCheaterQuest];
+            }
             HandleSideQuestNPCs(4);
         }
     }

@@ -8,6 +8,8 @@ TagManager:
   - Marlboro
   - VisionCone
   - PatrolNPC
+  - Trigger
+  - PonySticker
   layers:
   - Default
   - TransparentFX

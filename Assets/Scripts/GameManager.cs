@@ -662,6 +662,11 @@ public class GameManager : MonoBehaviour
             {
                 writer.WriteLine(StoryManager.instance.currentMainQuest);
                 writer.WriteLine(DateTime.Today.Day + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
+                writer.WriteLine(StoryManager.instance.currentPingPongScamsQuest);
+                writer.WriteLine(StoryManager.instance.currentFollowingRefereesQuest);
+                writer.WriteLine(StoryManager.instance.currentDiversionAndSearchQuest);
+                writer.WriteLine(StoryManager.instance.currentStrongStuffQuest);
+                writer.WriteLine(StoryManager.instance.currentFaceTheCheaterQuest);
                 writer.WriteLine(Inventory.Instance.Money);
                 writer.WriteLine(ShopManager.instance.player.transform.position.x);
                 writer.WriteLine(ShopManager.instance.player.transform.position.y);
@@ -715,6 +720,58 @@ public class GameManager : MonoBehaviour
                 }
 
                 string date = reader.ReadLine();
+
+                int currentPingPongScamsQuest = int.Parse(reader.ReadLine());
+                StoryManager.instance.currentPingPongScamsQuest = 0;
+                for (int i = 0; i < currentPingPongScamsQuest; i++)
+                {
+                    StoryManager.instance.ProgressSideQuest(0, false);
+                }
+                if (currentPingPongScamsQuest < StoryManager.instance.sideQuestLengths[0] && currentPingPongScamsQuest != 0)
+                {
+                    StoryManager.instance.canReturnToMainStory = false;
+                }
+
+                int currentFollowingRefereesQuest = int.Parse(reader.ReadLine());
+                StoryManager.instance.currentFollowingRefereesQuest = 0;
+                for (int i = 0; i < currentFollowingRefereesQuest; i++)
+                {
+                    StoryManager.instance.ProgressSideQuest(1, false);
+                }
+                if (currentFollowingRefereesQuest < StoryManager.instance.sideQuestLengths[1] && currentFollowingRefereesQuest != 0)
+                {
+                    StoryManager.instance.canReturnToMainStory = false;
+                }
+
+                int currentDiversionAndSearchQuest = int.Parse(reader.ReadLine());
+                StoryManager.instance.currentDiversionAndSearchQuest = 0;
+                for (int i = 0; i < currentDiversionAndSearchQuest; i++)
+                {
+                    StoryManager.instance.ProgressSideQuest(2, false);
+                }
+                if (currentDiversionAndSearchQuest < StoryManager.instance.sideQuestLengths[2] && currentDiversionAndSearchQuest != 0)
+                {
+                    StoryManager.instance.canReturnToMainStory = false;
+                }
+
+                int currentStrongStuffQuest = int.Parse(reader.ReadLine());
+                StoryManager.instance.currentStrongStuffQuest = 0;
+                for (int i = 0; i < currentStrongStuffQuest; i++)
+                {
+                    StoryManager.instance.ProgressSideQuest(3, false);
+                }
+                if (currentStrongStuffQuest < StoryManager.instance.sideQuestLengths[3] && currentStrongStuffQuest != 0)
+                {
+                    StoryManager.instance.canReturnToMainStory = false;
+                }
+
+                int currentFaceTheCheaterQuest = int.Parse(reader.ReadLine());
+                StoryManager.instance.currentFaceTheCheaterQuest = 0;
+                for (int i = 0; i < currentFaceTheCheaterQuest; i++)
+                {
+                    StoryManager.instance.ProgressSideQuest(4, false);
+                }
+                StoryManager.instance.canReturnToMainStory = true;
 
                 Inventory.Instance.Money = int.Parse(reader.ReadLine());
 

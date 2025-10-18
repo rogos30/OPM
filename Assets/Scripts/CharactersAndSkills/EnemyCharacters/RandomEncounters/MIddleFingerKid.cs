@@ -19,7 +19,7 @@ public class MiddleFingerKid : EnemyCharacter
         Defense = DefaultDefense = 15;
         Accuracy = DefaultAccuracy = 0.85f;
         Turns = DefaultTurns = 1;
-        Speed = 400;
+        Speed = 450;
         MoneyDropped = 20;
         XPDropped = 200;
         EnemyAttack attack = new EnemyAttack();
