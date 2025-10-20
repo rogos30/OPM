@@ -8,6 +8,8 @@ public class PlayerFollowerController : Interactable
 {
     [SerializeField] private Transform target;
     [Range(0.5f, 10f)][SerializeField] private float moveSpeed;
+    public float distanceFromTarget = 1.5f;
+    public float delay = 0.5f;
 
     Animator animator;
     bool isFacingRight = false;
@@ -27,8 +29,8 @@ public class PlayerFollowerController : Interactable
 
     IEnumerator MoveDelayed(Transform target)
     {
-        yield return new WaitForSeconds(0.5f);
-        if (Vector2.Distance(transform.position, target.position) >= 1.5f)
+        yield return new WaitForSeconds(delay);
+        if (Vector2.Distance(transform.position, target.position) >= distanceFromTarget)
         {
             Vector2 difference = target.position - transform.position;
             double angle = Math.Abs(Math.Atan(difference.x / difference.y) * 180/Math.PI);
@@ -41,7 +43,14 @@ public class PlayerFollowerController : Interactable
             {
                 MoveVertical(difference.y >= 0);
             }
-            transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, target.position) > 5)
+            {
+                transform.position = target.position;
+            }
+            else
+            {
+                transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+            }
         }
         else
         {
@@ -98,6 +107,20 @@ public class PlayerFollowerController : Interactable
         {
             //Debug.Log("AAAAAAAAA");
             other.GetComponentInParent<PatrolNPCController>().CheckIfPlayerInSight();
+        }
+        else if (other.CompareTag("PursuitKillZone"))
+        {
+            other.GetComponentInParent<PatrolNPCController>().killZoneEngaged = true;
+        }
+        else if (other.CompareTag("Marlboro"))
+        {
+            StoryManager.instance.CollectMarlboro();
+            other.gameObject.SetActive(false);
+        }
+        else if (other.CompareTag("PonySticker"))
+        {
+            StoryManager.instance.CollectPonySticker();
+            other.gameObject.SetActive(false);
         }
     }
 

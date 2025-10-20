@@ -158,6 +158,17 @@ public class StoryManager : MonoBehaviour
                 trigger.SetActive(false);
             }
         }
+        foreach (var npc in PatrolNPCs)
+        {
+            if (currentMainQuest >= npc.GetComponent<Interactable>().appearanceAtQuest && currentMainQuest < npc.GetComponent<Interactable>().disappearanceAtQuest)
+            {
+                npc.SetActive(true);
+            }
+            else
+            {
+                npc.SetActive(false);
+            }
+        }
     }
 
     public void DisableStoryNPCs()

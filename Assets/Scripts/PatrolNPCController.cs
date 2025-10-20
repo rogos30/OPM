@@ -8,29 +8,37 @@ using UnityEngine.UI;
 public class PatrolNPCController : Interactable
 {
     [SerializeField] private Slider currentAwarenessSlider;
-    private float currentWaitTime = 0;
-    private const float timeBetweenAwarenessUpdates = 0.05f;
-    private float currentTimeBetweenAwarenessUpdates = 0;
-    private float currentCooldownTime = 0;
-    private int awareness = 0;
-    private int minAwareness = 0;
-    private int awarenessIncrease;
+    float currentWaitTime = 0;
+    const float timeBetweenAwarenessUpdates = 0.05f;
+    float currentTimeBetweenAwarenessUpdates = 0;
+    float currentCooldownTime = 0;
+    int awareness = 0;
+    int minAwareness = 0;
+    int awarenessIncrease;
     [SerializeField] private GameObject[] patrolPoints;
     [SerializeField] private GameObject visionCone;
-    [Range(0.5f, 10f)][SerializeField] private float moveSpeed;
-    [Range(0.5f, 10f)][SerializeField] private float waitTimeAtPatrolPoint;
-    [Range(0.5f, 10f)][SerializeField] private float awarenessCooldownTime;
-    [SerializeField] private bool playerInSightExtendsPatrol;
-    [SerializeField] private bool hasAwarenessThresholds;
-    private int currentPatrolPoint = 0;
-    private bool canMove = true;
-    private bool hasSetDirection = true;
-    private bool isInPatrol = false;
-    private bool isPlayerCaught = false;
-    public bool isSomeoneInSight = false;
+    [SerializeField] private GameObject pursuitKillZone;
+    [Range(0.5f, 10f)][SerializeField] float moveSpeed;
+    [Range(0, 10f)][SerializeField] float waitTimeAtPatrolPoint;
+    [Range(0, 10f)][SerializeField] float awarenessCooldownTime;
+    [Range(5f, 30f)][SerializeField] float distanceToEscape;
+    [SerializeField] GameObject player;
+    [SerializeField] bool loopsPath;
+    [SerializeField] bool hasKillZone;
+    [SerializeField] bool playerInSightExtendsPatrol;
+    [SerializeField] bool hasAwarenessThresholds;
+    int currentPatrolPoint = 0;
+    bool canMove = true;
+    bool hasSetDirection = true;
+    bool isInPatrol = false;
+    bool isPlayerCaught = false;
+    bool isSomeoneInSight = false;
+    public bool killZoneEngaged = false;
     int playablesInSight = 0;
     int[] visionConeScales = { 2, 3, 4, 5 };
-    [SerializeField] AudioClip[] onSpottedVoiceLine;
+    float distance;
+    float playerSpeed;
+    [SerializeField] AudioClip[] onFailVoiceLine;
 
     Animator animator;
     bool isFacingRight = false;
@@ -41,6 +49,18 @@ public class PatrolNPCController : Interactable
         animator = GetComponent<Animator>();
         currentAwarenessSlider.gameObject.SetActive(false);
         awarenessIncrease = GameManager.instance.difficulty;
+        if (!loopsPath)
+        {
+            visionCone.SetActive(false);
+        }
+        if (hasKillZone)
+        {
+            pursuitKillZone.SetActive(true);
+        }
+        if (player != null)
+        {
+            playerSpeed = player.GetComponent<PlayerController>().moveSpeed;
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +82,22 @@ public class PatrolNPCController : Interactable
         else
         {
             HandlePlayerOutOfSight();
+        }
+        if (!loopsPath)
+        {
+            distance = Vector2.Distance(transform.position, player.transform.position);
+            if (distance >= distanceToEscape)
+            {
+                GameOver();
+            }
+            else if (distanceToEscape - distance < 5)
+            {
+                GameManager.instance.targetIsEscapingText.gameObject.SetActive(true);
+            }
+            else
+            {
+                GameManager.instance.targetIsEscapingText.gameObject.SetActive(false);
+            }
         }
         //ShowDebugMessages();
     }
@@ -110,13 +146,52 @@ public class PatrolNPCController : Interactable
     {
         if (Vector2.Distance(patrolPoints[currentPatrolPoint].transform.position, transform.position) < 0.1f)
         {
+            if (!loopsPath)
+            {
+                if (currentPatrolPoint + 1 == patrolPoints.Length)
+                {
+                    if (interactionProgressesStory)
+                    {
+                        StoryManager.instance.ProgressStory();
+                    }
+                    if (interactionSavesGame)
+                    {
+                        GameManager.instance.SaveGame();
+                    }
+                    if (interactionBlocksSavingGame)
+                    {
+                        GameManager.instance.canSaveGame = false;
+                    }
+                    else
+                    {
+                        GameManager.instance.canSaveGame = true;
+                    }
+                }
+            }
             currentPatrolPoint = (currentPatrolPoint + 1) % patrolPoints.Length;
             isInPatrol = true;
             canMove = false;
         }
         if (canMove)
         {
-            transform.position = Vector2.MoveTowards(transform.position, patrolPoints[currentPatrolPoint].transform.position, moveSpeed * Time.deltaTime);
+            float speed;
+            if (hasKillZone)
+            { //chases player
+                speed = distance > 10 ? playerSpeed + 1 : moveSpeed;
+            }
+            else
+            { //runs from player
+                speed = distance < 4 ? playerSpeed + 1 : moveSpeed;
+            } 
+            if (killZoneEngaged)
+            {
+                speed = 10;
+                transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            }
+            else
+            {
+                transform.position = Vector2.MoveTowards(transform.position, patrolPoints[currentPatrolPoint].transform.position, speed * Time.deltaTime);
+            }
             if (!hasSetDirection)
             {
                 if (Math.Abs(patrolPoints[currentPatrolPoint].transform.position.y - transform.position.y) <= 0.2f)
@@ -139,6 +214,7 @@ public class PatrolNPCController : Interactable
         if (right)
         {
             visionCone.transform.eulerAngles = new Vector3(0, 0, -90);
+            pursuitKillZone.transform.eulerAngles = new Vector3(0, 0, -90);
             if (!isFacingRight)
             {
                 Flip();
@@ -148,6 +224,7 @@ public class PatrolNPCController : Interactable
         {
 
             visionCone.transform.eulerAngles = new Vector3(0, 0, 90);
+            pursuitKillZone.transform.eulerAngles = new Vector3(0, 0, 90);
             if (isFacingRight)
             {
                 Flip();
@@ -169,6 +246,7 @@ public class PatrolNPCController : Interactable
             animator.SetInteger("isWalking", 2);
         }
         visionCone.transform.rotation = rotation;
+        pursuitKillZone.transform.rotation = rotation;
     }
 
     void Flip()
@@ -226,14 +304,14 @@ public class PatrolNPCController : Interactable
         }
     }
 
-    void GameOver()
+    public void GameOver()
     {
         isPlayerCaught = true;
         canMove = false;
         string[] lines = {
-                        "Ups" };
+                        "Niech to!" };
         int[] speakerIndexes = { 0 };
-        DialogManager.instance.StartDialogue(lines, speakerIndexes, onSpottedVoiceLine);
+        DialogManager.instance.StartDialogue(lines, speakerIndexes, onFailVoiceLine);
         DialogManager.instance.onDialogueEnd.AddListener(() => {
             SceneManager.LoadScene("gameOver");
         });

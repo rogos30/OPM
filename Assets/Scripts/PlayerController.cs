@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    float moveSpeed = 4;
+    public float moveSpeed = 4;
     float timeToFight;
     Animator animator;
     bool isFacingRight = false, isMoving = false;
@@ -36,24 +36,33 @@ public class PlayerController : MonoBehaviour
                 InitiateRandomEncounter();
             }
         }
+        else
+        {
+            animator.SetInteger("isWalking", 0);
+        }
     }
 
     void HandleInput()
     {
+        bool pressedMovementKey = false;
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
+            pressedMovementKey = true;
             MoveHorizontal(true);
         }
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
+            pressedMovementKey = true;
             MoveHorizontal(false);
         }
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
+            pressedMovementKey = true;
             MoveVertical(true);
         }
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
+            pressedMovementKey = true;
             MoveVertical(false);
         }
         if (Input.GetKeyDown(KeyCode.P))
@@ -90,7 +99,7 @@ public class PlayerController : MonoBehaviour
                 GameManager.instance.Pause();
             }
         }
-        if (!Input.anyKey)
+        if (!pressedMovementKey)
         {
             animator.SetInteger("isWalking", 0);
         }
@@ -166,6 +175,14 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Trigger"))
         {
             other.GetComponent<Interactable>().Interact();
+        }
+        else if (other.CompareTag("PursuitKillZone"))
+        {
+            other.GetComponentInParent<PatrolNPCController>().killZoneEngaged = true;
+        }
+        else if (other.CompareTag("PursuitNPC"))
+        {
+            other.GetComponentInParent<PatrolNPCController>().GameOver();
         }
     }
 

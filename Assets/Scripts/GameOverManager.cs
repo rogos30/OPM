@@ -140,7 +140,7 @@ public class GameOverManager : MonoBehaviour
                             break;
                         case 1: //no
                             currentState = 0;
-                            PrintYesNo();
+                            PrintMainView();
                             mainTexts[currentRow].color = orange;
                             break;
                     }

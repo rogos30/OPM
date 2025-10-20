@@ -10,6 +10,8 @@ TagManager:
   - PatrolNPC
   - Trigger
   - PonySticker
+  - PursuitKillZone
+  - PursuitNPC
   layers:
   - Default
   - TransparentFX

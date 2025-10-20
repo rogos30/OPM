@@ -20,7 +20,7 @@ public class BattleManager : MonoBehaviour
     Vector2 returnPosition, battlePosition = new Vector2(1000, 0);
     [SerializeField] GameObject player;
 
-    public UnityEvent onBattleWon, onBattleLost;
+    public UnityEvent onBattleWon;
     public UnityEvent onSkillCheckFinished, onMoveFinished;
     public static BattleManager instance;
     [SerializeField] Canvas battleCanvas;
@@ -1040,7 +1040,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (playerEscaped)
         {
-            gameInfoLines.Add("ciota");
+            gameInfoLines.Add("Ucieczka zakoñczona sukcesem");
             DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
@@ -1059,6 +1059,8 @@ public class BattleManager : MonoBehaviour
             }
             else if (playerEscaped)
             {
+                Debug.Log("to sie wykonalo");
+                onBattleWon.RemoveAllListeners();
                 //onBattleLost.Invoke();
             }
             else
@@ -1066,6 +1068,7 @@ public class BattleManager : MonoBehaviour
                 //onBattleLost.Invoke();
                 SceneManager.LoadScene("start");
             }
+            DialogManager.instance.onGameInfoEnd.RemoveAllListeners();
         });
     }
 

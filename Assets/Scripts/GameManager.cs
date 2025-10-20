@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject inventoryEquipmentColumn;
     [SerializeField] GameObject inventoryEqChangeColumn;
     [SerializeField] GameObject characterInfoColumn;
+    public TMP_Text targetIsEscapingText;
     [SerializeField] Image characterSprite;
 
     [SerializeField] AudioMixer mixer;
