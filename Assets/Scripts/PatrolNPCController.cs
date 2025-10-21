@@ -86,9 +86,10 @@ public class PatrolNPCController : Interactable
         if (!loopsPath)
         {
             distance = Vector2.Distance(transform.position, player.transform.position);
-            if (distance >= distanceToEscape)
+            if (distance >= distanceToEscape && !isPlayerCaught)
             {
                 GameOver();
+                isPlayerCaught = true;
             }
             else if (distanceToEscape - distance < 5)
             {
