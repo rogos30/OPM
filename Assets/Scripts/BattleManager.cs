@@ -71,7 +71,7 @@ public class BattleManager : MonoBehaviour
 
     const int maxCharactersInBattle = 5, iconsPerPlayable = 6;
     const int maxEnemiesInBattle = 4, iconsPerEnemy = 5;
-    const int guardSpBoost = 20, skillCheckSliderWidth = 500;
+    const int skillCheckSliderWidth = 500;
     const float defaultSkillCheckTime = 1.75f;
 
     [SerializeField] GameObject[] animationObjects;
@@ -358,7 +358,7 @@ public class BattleManager : MonoBehaviour
                             actionDescriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration + "% SP";
                             break;
                         case 3: //run
                             actionDescriptionText.text = "Ucieknij z walki";
@@ -408,7 +408,7 @@ public class BattleManager : MonoBehaviour
                             actionDescriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + guardSpBoost + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration + "% SP";
                             break;
                         case 3: //run
                             actionDescriptionText.text = "Ucieknij z walki";
@@ -1152,19 +1152,19 @@ public class BattleManager : MonoBehaviour
         character = new MainBuiler();
         allEnemyCharacters.Add(character);
 
-        character = new Builder();
+        character = new Builder("Budowniczy A", "Budowniczemu A", "Budowniczego A");
         allEnemyCharacters.Add(character);
 
-        character = new BuilderB();
+        character = new Builder("Budowniczy B", "Budowniczemu B", "Budowniczego B");
         allEnemyCharacters.Add(character);
 
-        character = new BuilderC(); //20
+        character = new Builder("Budowniczy C", "Budowniczemu C", "Budowniczego C"); //20
         allEnemyCharacters.Add(character);
 
-        character = new Skeleton1();
+        character = new Skeleton("Szkielet - wojownik", "Szkieletowi - wojownikowi", "Szkieleta - wojownika");
         allEnemyCharacters.Add(character);
 
-        character = new Skeleton();
+        character = new Skeleton("Szkielet - ¿o³nierz", "Szkieletowi - ¿o³nierzowi", "Szkieleta - ¿o³nierza");
         allEnemyCharacters.Add(character);
 
         character = new EnemyBurzynski();

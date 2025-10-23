@@ -10,14 +10,14 @@ public class EnemyFranek : EnemyCharacter
         DativeName = "Frankowi";
         AccusativeName = "Franka";
         Health = MaxHealth = DefaultMaxHealth = 50000;
-        DifficultyHealthChange = 15000;
-        Attack = DefaultAttack = 350;
-        DifficultyAttackChange = 150;
+        DifficultyHealthChange = 50000;
+        Attack = DefaultAttack = 550;
+        DifficultyAttackChange = 250;
         Defense = DefaultDefense = 100;
         Turns = DefaultTurns = 2;
         Speed = 350;
         MoneyDropped = 5000;
-        XPDropped = 500;
+        XPDropped = 50000;
 
         EnemyAttack enemyAttack = new EnemyAttack();
         skillSet.Add(enemyAttack);

@@ -9,7 +9,7 @@ public class Doubles : PlayableSkill
     public Doubles()
     {
         Name = "Debel";
-        SkillDescription = "gra z kompanem debla. Przywraca sobie i kompanowi 1000hp.";
+        SkillDescription = "gra z kompanem debla. Przywraca sobie i kompanowi 600hp.";
         InFightDescription = " gra z kompanem debla, lecz¹c jemu i sobie ";
         Cost = 0.4f;
         TargetIsFriendly = true;

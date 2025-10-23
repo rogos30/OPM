@@ -12,9 +12,9 @@ public class AngryGirl : EnemyCharacter
         DativeName = "Wkurzonej lasce";
         AccusativeName = "Wkurzonej laski";
         Health = MaxHealth = DefaultMaxHealth = 175;
-        DifficultyHealthChange = 25;
-        Attack = DefaultAttack = 45;
-        DifficultyAttackChange = 10;
+        DifficultyHealthChange = 40;
+        Attack = DefaultAttack = 65;
+        DifficultyAttackChange = 20;
         Defense = DefaultDefense = 15;
         Accuracy = DefaultAccuracy = 0.95f;
         Turns = DefaultTurns = 1;

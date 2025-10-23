@@ -400,6 +400,10 @@ public class StoryManager : MonoBehaviour
             case 11:
                 //dodanie Brudzyñskiego
                 BattleManager.instance.currentPartyCharacters.Add(4);
+                while (BattleManager.instance.playableCharacters[4].Level < 8)
+                {
+                    BattleManager.instance.playableCharacters[4].HandleLevel(500);
+                }
                 break;
             case 14:
                 //przejœcie do Lory

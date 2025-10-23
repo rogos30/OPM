@@ -14,9 +14,9 @@ public class OffendedKid : EnemyCharacter
         DativeName = "Dzieciakowi z fochem";
         AccusativeName = "Dzieciaka z fochem";
         Health = MaxHealth = DefaultMaxHealth = 200;
-        DifficultyHealthChange = 20;
-        Attack = DefaultAttack = 55;
-        DifficultyAttackChange = 15;
+        DifficultyHealthChange = 40;
+        Attack = DefaultAttack = 80;
+        DifficultyAttackChange = 25;
         Defense = DefaultDefense = 20;
         Accuracy = DefaultAccuracy = 0.85f;
         Turns = DefaultTurns = 1;

@@ -18,6 +18,7 @@ public class Rogos : FriendlyCharacter
         Attack = DefaultAttack = 80;
         Defense = DefaultDefense = 30;
         Accuracy = DefaultAccuracy = 0.95f;
+        guardSPRestoration = 0.4f;
         Turns = DefaultTurns = 1;
         Speed = 600;
         SpriteIndex = 0;
@@ -42,7 +43,7 @@ public class Rogos : FriendlyCharacter
     {
         GuardTimer = 2;
         IsGuarding = true;
-        RestoreSkill(0.4f);
+        RestoreSkill(guardSPRestoration);
         HealingMultiplier = 1.5f;
     }
 

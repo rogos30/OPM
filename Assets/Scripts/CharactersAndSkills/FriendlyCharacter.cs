@@ -5,8 +5,9 @@ using UnityEngine;
 public class FriendlyCharacter : Character
 {
     const float statIncreaseFactor = 1.1f;
-    const int requiredXPincrease = 500;
+    const int requiredXPincrease = 250;
     public const float guardDamageMultiplier = 0.5f;
+    public float guardSPRestoration = 0.2f;
     protected int levelsToUnlockSkill = 5;
 
     public int Skill { get; set; }
@@ -110,7 +111,7 @@ public class FriendlyCharacter : Character
     virtual public void StartGuard()
     {
         IsGuarding = true;
-        RestoreSkill(0.2f);
+        RestoreSkill(guardSPRestoration);
         HealingMultiplier = 1.5f;
     }
 

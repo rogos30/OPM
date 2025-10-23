@@ -6,8 +6,8 @@ public class Welenc : FriendlyCharacter
 {
     public float AttackMultiplier { get; set; }
     public const float MaxAttackMultiplier = 4f;
-    public const float MultiplierIncreaseFromSkill = 0.75f;
-    public const float MultiplierIncreaseFromGuard = 0.5f;
+    public const float MultiplierIncreaseFromSkill = 1.25f;
+    public const float MultiplierIncreaseFromGuard = 0.75f;
     public Welenc() : base()
     {
         NominativeName = "Welenc";

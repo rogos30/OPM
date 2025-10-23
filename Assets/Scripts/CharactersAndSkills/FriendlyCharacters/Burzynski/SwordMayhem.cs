@@ -10,7 +10,7 @@ public class SwordMayhem : PlayableSkill
     {
         Name = "Sza³ szabli";
         SkillDescription = "wykonuje 3 mocne ciêcia w losowych przeciwników.";
-        InFightDescription = " wykonuje 3 mocne ciêcia ";
+        InFightDescription = " wykonuje 3 mocne ciêcia, zadaj¹c ";
         Cost = 0.5f;
         Repetitions = 3;
         AccuracyMultiplier = 0.9f;

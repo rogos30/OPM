@@ -14,9 +14,9 @@ public class IndianKid : EnemyCharacter
         DativeName = "Hinduskiemu dzieciakowi";
         AccusativeName = "Hinduskiego dzieciaka";
         Health = MaxHealth = DefaultMaxHealth = 150;
-        DifficultyHealthChange = 30;
-        Attack = DefaultAttack = 60;
-        DifficultyAttackChange = 20;
+        DifficultyHealthChange = 35;
+        Attack = DefaultAttack = 90;
+        DifficultyAttackChange = 30;
         Defense = DefaultDefense = 15;
         Accuracy = DefaultAccuracy = 0.9f;
         Turns = DefaultTurns = 1;

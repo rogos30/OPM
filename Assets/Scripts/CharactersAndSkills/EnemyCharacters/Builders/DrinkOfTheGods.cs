@@ -20,7 +20,7 @@ public class DrinkOfTheGods : EnemySkill
         {
             return source.NominativeName + " rozlewa wódeczkê";
         }
-        string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
+        string finalDesc = source.NominativeName + InFightDescription + target.DativeName + " ";
         int healing = (int)(source.MaxHealth / 15 * Random.Range(0.8f, 1.2f));
         int turns = 3;
         if (Random.Range(0, 1f) < criticalChance)
