@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Generator1 : EnemyCharacter
 {
-
     public Generator1() : base()
     {
         NominativeName = "Generator wuefistów";
         DativeName = "Generatorowi wuefistów";
         AccusativeName = "Generator wuefistów";
-        Health = MaxHealth = DefaultMaxHealth = 2000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 2000;
         DifficultyHealthChange = 1000;
-        Attack = DefaultAttack = 150;
+        Attack = DefaultAttack = BaseAttack = 150;
         DifficultyAttackChange = 50;
-        Defense = DefaultDefense = 40;
-        Accuracy = DefaultAccuracy = 0.90f;
-        Turns = DefaultTurns = 1;
+        Defense = DefaultDefense = BaseDefense = 40;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.90f;
+        Turns = DefaultTurns = BaseTurns = 1;
         Speed = 250;
         MoneyDropped = 100;
         XPDropped = 5000;

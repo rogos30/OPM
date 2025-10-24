@@ -94,8 +94,6 @@ public class GameManager : MonoBehaviour
         musicSource.outputAudioMixerGroup = musicMixerGroup;
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.outputAudioMixerGroup = sfxMixerGroup;
-        Inventory.Instance.InitializeItems();
-        Inventory.Instance.InitializeWearables();
     }
 
     // Update is called once per frame
@@ -293,8 +291,8 @@ public class GameManager : MonoBehaviour
                         currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
                     }
                     inventoryItemsTexts[currentRow].color = orange;
-                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
-                        Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
+                    itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
+                        Inventory.instance.items[currentPage * 4 + currentRow].Amount;
                     break;
                 case 4: //equipment column
                     inventoryEquipmentTexts[currentRow].color = Color.white;
@@ -321,8 +319,8 @@ public class GameManager : MonoBehaviour
                     inventoryEqChangeTexts[currentRow].color = orange;
                     if (currentRow > 0)
                     {
-                        eqDescriptionText.text = Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Description + ".\n\nMasz: " +
-                        Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Amount;
+                        eqDescriptionText.text = Inventory.instance.wearables[(currentRow - 1) * 4 + chosenEq].Description + ".\n\nMasz: " +
+                        Inventory.instance.wearables[(currentRow - 1) * 4 + chosenEq].Amount;
                     }
                     else
                     {
@@ -444,8 +442,8 @@ public class GameManager : MonoBehaviour
                             currentPage = 0;
                             PrintCurrentPageOfItems();
                             itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                            itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
-                                Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
+                            itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
+                                Inventory.instance.items[currentPage * 4 + currentRow].Amount;
                             chosenInv = currentRow;
                             inventoryMainTexts[chosenInv].color = Color.red;
                             inventoryItemsTexts[currentRow = 0].color = orange;
@@ -482,13 +480,13 @@ public class GameManager : MonoBehaviour
                             }
                             break;
                         default: //replacing current equipment
-                            if (Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].Amount > 0)
+                            if (Inventory.instance.wearables[(currentRow - 1) * 4 + chosenEq].Amount > 0)
                             {
                                 if (BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq] != null)
                                 { //is currently wearing something
                                     BattleManager.instance.playableCharacters[chosenInv - 1].wearablesWorn[chosenEq].TakeOff(BattleManager.instance.playableCharacters[chosenInv - 1]);
                                 }
-                                Inventory.Instance.wearables[(currentRow - 1) * 4 + chosenEq].PutOn(BattleManager.instance.playableCharacters[chosenInv - 1]);
+                                Inventory.instance.wearables[(currentRow - 1) * 4 + chosenEq].PutOn(BattleManager.instance.playableCharacters[chosenInv - 1]);
                             }
                             break;
                     }
@@ -511,8 +509,8 @@ public class GameManager : MonoBehaviour
                 case 3: //healing items
                     currentPage = (currentPage - 1 < 0) ? currentPage : currentPage - 1;
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
-                        Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
+                    itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
+                        Inventory.instance.items[currentPage * 4 + currentRow].Amount;
                     PrintCurrentPageOfItems();
                     break;
                 case 6: //char info items
@@ -531,8 +529,8 @@ public class GameManager : MonoBehaviour
                 case 3: //healing items
                     currentPage = (currentPage + 1 > ShopManager.instance.level) ? currentPage : currentPage + 1;
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                    itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
-                        Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
+                    itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
+                        Inventory.instance.items[currentPage * 4 + currentRow].Amount;
                     PrintCurrentPageOfItems();
                     break;
                 case 6:
@@ -548,23 +546,26 @@ public class GameManager : MonoBehaviour
     {
         int index = BattleManager.instance.currentPartyCharacters[currentPage];
         var currentChar = BattleManager.instance.playableCharacters[index];
-        int addedAttack = currentChar.GetAttackFromWearables();
-        int addedDefense = currentChar.GetDefenseFromWearables();
         float accuracyModifier = currentChar.GetAccuracyFromWearables();
-        float healingModifier = currentChar.GetHealingFromWearables() * currentChar.ItemEnhancementMultiplier;
+        float healingModifier = currentChar.GetHealingFromWearables();
         characterSprite.sprite = DialogManager.instance.speakerSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
         characterInfoTexts[0].text = currentChar.NominativeName;
         characterInfoTexts[1].text = "Poziom: " + currentChar.Level;
         characterInfoTexts[2].text = "XP do nast.: " + (currentChar.XPToNextLevel - currentChar.CurrentXP);
         characterInfoTexts[3].text = "HP: " + currentChar.MaxHealth;
         characterInfoTexts[4].text = "SP: " + currentChar.MaxSkill;
-        characterInfoTexts[5].text = "Atak: " + (currentChar.DefaultAttack + addedAttack);
-        characterInfoTexts[6].text = "Obrona: " + (currentChar.DefaultDefense + addedDefense);
+        characterInfoTexts[5].text = "Atak: " + currentChar.DefaultAttack;
+        characterInfoTexts[6].text = "Obrona: " + currentChar.DefaultDefense;
         characterInfoTexts[7].text = "Szybkoœæ: " + currentChar.Speed;
         characterInfoTexts[8].text = "Ruchy w turze: " + currentChar.DefaultTurns;
-        characterInfoTexts[9].text = "Leczenie: " + healingModifier * 100 + "%";
+        characterInfoTexts[9].text = "Lecz. otrz.: " + healingModifier * 100 + "%";
         characterInfoTexts[10].text = "Celnoœæ: " + currentChar.DefaultAccuracy * accuracyModifier * 100 + "%";
-        characterInfoTexts[11].text = "Opis: " + currentChar.CharacterDescription;
+        string desc = "Ma na sobie: ";
+        foreach (var wearable in currentChar.wearablesWorn)
+        {
+            if (wearable != null) desc += wearable.Name + ", ";
+        }
+        characterInfoTexts[11].text = "Opis: " + desc;
     }
 
     void LoadSettings()
@@ -635,7 +636,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < inventoryItemsTexts.Length; i++)
         {
-            inventoryItemsTexts[i].text = Inventory.Instance.items[currentPage * 4 + i].Name;
+            inventoryItemsTexts[i].text = Inventory.instance.items[currentPage * 4 + i].Name;
         }
     }
 
@@ -643,7 +644,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 1; i < maxCurrentRow; i++)
         {
-            inventoryEqChangeTexts[i].text = Inventory.Instance.wearables[(i-1) * 4 + chosenEq].Name;
+            inventoryEqChangeTexts[i].text = Inventory.instance.wearables[(i-1) * 4 + chosenEq].Name;
         }
     }
 
@@ -668,7 +669,7 @@ public class GameManager : MonoBehaviour
                 writer.WriteLine(StoryManager.instance.currentDiversionAndSearchQuest);
                 writer.WriteLine(StoryManager.instance.currentStrongStuffQuest);
                 writer.WriteLine(StoryManager.instance.currentFaceTheCheaterQuest);
-                writer.WriteLine(Inventory.Instance.Money);
+                writer.WriteLine(Inventory.instance.money);
                 writer.WriteLine(ShopManager.instance.player.transform.position.x);
                 writer.WriteLine(ShopManager.instance.player.transform.position.y);
                 foreach (var character in BattleManager.instance.playableCharacters)
@@ -690,12 +691,12 @@ public class GameManager : MonoBehaviour
                 }
                 writer.WriteLine(ShopManager.instance.level);
                 writer.WriteLine("items");
-                foreach (var item in Inventory.Instance.items)
+                foreach (var item in Inventory.instance.items)
                 {
                     writer.WriteLine(item.Amount);
                 }
                 writer.WriteLine("wearables");
-                foreach (var wearable in Inventory.Instance.wearables)
+                foreach (var wearable in Inventory.instance.wearables)
                 {
                     writer.WriteLine(wearable.Amount);
                 }
@@ -717,7 +718,7 @@ public class GameManager : MonoBehaviour
                 StoryManager.instance.currentMainQuest = 0;
                 for (int i = 0; i < currentMainQuest; i++)
                 {
-                    StoryManager.instance.ProgressStory();
+                    StoryManager.instance.ProgressStory(false);
                 }
 
                 string date = reader.ReadLine();
@@ -774,7 +775,7 @@ public class GameManager : MonoBehaviour
                 }
                 StoryManager.instance.canReturnToMainStory = true;
 
-                Inventory.Instance.Money = int.Parse(reader.ReadLine());
+                Inventory.instance.money = int.Parse(reader.ReadLine());
 
                 float playerX = float.Parse(reader.ReadLine());
                 float playerY = float.Parse(reader.ReadLine());
@@ -797,7 +798,7 @@ public class GameManager : MonoBehaviour
                         int wearableId = int.Parse(reader.ReadLine());
                         if (wearableId != -1)
                         {
-                            Inventory.Instance.wearables[wearableId].PutOn(character);
+                            Inventory.instance.wearables[wearableId].PutOn(character);
                         }
                     }
                 }
@@ -809,12 +810,12 @@ public class GameManager : MonoBehaviour
                     ShopManager.instance.PerformUpgrade();
                 }
                 reader.ReadLine();
-                foreach (var item in Inventory.Instance.items)
+                foreach (var item in Inventory.instance.items)
                 {
                     item.Amount = int.Parse(reader.ReadLine());
                 }
                 reader.ReadLine();
-                foreach (var wearable in Inventory.Instance.wearables)
+                foreach (var wearable in Inventory.instance.wearables)
                 {
                     wearable.Amount = int.Parse(reader.ReadLine());
                 }

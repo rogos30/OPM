@@ -10,11 +10,13 @@ public class Stasiak : FriendlyCharacter
         NominativeName = "Stasiak";
         DativeName = "Stasiakowi";
         AccusativeName = "Stasiaka";
-        Health = MaxHealth = DefaultMaxHealth = 450;
+
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 450;
         Skill = MaxSkill = 100;
-        Attack = DefaultAttack = 110;
-        Defense = DefaultDefense = 30;
-        Accuracy = DefaultAccuracy = 1;
+        Attack = DefaultAttack = BaseAttack = 110;
+        Defense = DefaultDefense = BaseDefense = 30;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1;
+
         Turns = DefaultTurns = 1;
         Speed = 400;
         SpriteIndex = 2;

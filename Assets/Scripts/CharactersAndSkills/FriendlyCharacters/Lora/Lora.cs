@@ -11,11 +11,12 @@ public class Lora : FriendlyCharacter
         NominativeName = "Lora";
         DativeName = "Lorze";
         AccusativeName = "Lory";
-        Health = MaxHealth = DefaultMaxHealth = 350;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 350;
         Skill = MaxSkill = 80;
-        Attack = DefaultAttack = 60;
-        Defense = DefaultDefense = 30;
-        Accuracy = DefaultAccuracy = 1f;
+        Attack = DefaultAttack = BaseAttack = 60;
+        Defense = DefaultDefense = BaseDefense = 30;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
+
         Turns = DefaultTurns = 2;
         Speed = 400;
         SpriteIndex = 10;

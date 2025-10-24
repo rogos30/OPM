@@ -9,13 +9,13 @@ public class Aniela : EnemyCharacter
         NominativeName = "Aniela";
         DativeName = "Anieli";
         AccusativeName = "Anielê";
-        Health = MaxHealth = DefaultMaxHealth = 500;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 500;
         DifficultyHealthChange = 500;
-        Attack = DefaultAttack = 120;
+        Attack = DefaultAttack = BaseAttack = 120;
         DifficultyAttackChange = 60;
-        Defense = DefaultDefense = 45;
-        Accuracy = DefaultAccuracy = 0.9f;
-        Turns = DefaultTurns = 1;
+        Defense = DefaultDefense = BaseDefense = 45;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.9f;
+        Turns = DefaultTurns = BaseTurns = 1;
         Speed = 450;
         MoneyDropped = 50;
         XPDropped = 1500;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StoryManager : MonoBehaviour
@@ -372,7 +373,7 @@ public class StoryManager : MonoBehaviour
 
 
 
-    public void ProgressStory()
+    public void ProgressStory(bool readDialogue = true)
     {
         Debug.Log("progressing story");
         currentQuestText.text = questDescriptions[++currentMainQuest];
@@ -430,7 +431,18 @@ public class StoryManager : MonoBehaviour
                 BattleManager.instance.currentPartyCharacters.Add(3); //Kaja
                 break;
         }
-
+        if (readDialogue)
+        {
+            foreach (int i in ShopManager.instance.storyRequirementsForUpgrades)
+            {
+                if (i == currentMainQuest)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("Ulepszenie sklepu dostêpne");
+                    DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
+            }
+        }
         HandleAllNPCs();
     }
 

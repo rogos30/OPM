@@ -13,11 +13,11 @@ public class Rogos : FriendlyCharacter
         NominativeName = "Rogos";
         DativeName = "Rogosowi";
         AccusativeName = "Rogosa";
-        Health = MaxHealth = DefaultMaxHealth = 400;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 400;
         Skill = MaxSkill = 100;
-        Attack = DefaultAttack = 80;
-        Defense = DefaultDefense = 30;
-        Accuracy = DefaultAccuracy = 0.95f;
+        Attack = DefaultAttack = BaseAttack = 80;
+        Defense = DefaultDefense = BaseDefense = 30;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.95f;
         guardSPRestoration = 0.4f;
         Turns = DefaultTurns = 1;
         Speed = 600;

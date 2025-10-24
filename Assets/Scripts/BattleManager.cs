@@ -288,7 +288,7 @@ public class BattleManager : MonoBehaviour
                             }
                             break;
                         case 1: //item
-                            if (Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Amount > 0)
+                            if (Inventory.instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Amount > 0)
                             {
                                 if (chosenSubaction == 2) //resurrects
                                 {
@@ -303,7 +303,7 @@ public class BattleManager : MonoBehaviour
                             else
                             {
                                 currentPage = chosenSubactionPage;
-                                actionDescriptionText.text = Inventory.Instance.items[currentPage * actions.Length + currentRow].Description;
+                                actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length + currentRow].Description;
                             }
                             break;
                         case 2: //guard
@@ -365,7 +365,7 @@ public class BattleManager : MonoBehaviour
                             actionDescriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration * 100 + "% SP";
                             break;
                         case 3: //run
                             actionDescriptionText.text = "Ucieknij z walki";
@@ -415,7 +415,7 @@ public class BattleManager : MonoBehaviour
                             actionDescriptionText.text = "U¿yj przedmiotu";
                             break;
                         case 2: //guard
-                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration * 100 + "% SP";
                             break;
                         case 3: //run
                             actionDescriptionText.text = "Ucieknij z walki";
@@ -430,7 +430,7 @@ public class BattleManager : MonoBehaviour
                             playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + currentRow].SkillDescription;
                             break;
                         case 1: //item
-                            actionDescriptionText.text = Inventory.Instance.items[currentPage * actions.Length + currentRow].Description;
+                            actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length + currentRow].Description;
                             break;
                         default:
                             actionDescriptionText.text = "";
@@ -485,7 +485,7 @@ public class BattleManager : MonoBehaviour
                     }
                     else //item
                     {
-                        if (Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Resurrects)
+                        if (Inventory.instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Resurrects)
                         {
                             PrintPageOfAllies(false);
                         }
@@ -560,12 +560,12 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < actions.Length; i++)
         {
-            actions[i].text = Inventory.Instance.items[currentPage * actions.Length + i].Name + " ("
-                + Inventory.Instance.items[currentPage * actions.Length + i].Amount + ")"; ;
+            actions[i].text = Inventory.instance.items[currentPage * actions.Length + i].Name + " ("
+                + Inventory.instance.items[currentPage * actions.Length + i].Amount + ")"; ;
         }
         maxCurrentRow = actions.Length;
         maxCurrentPage = ShopManager.instance.level + 1;
-        actionDescriptionText.text = Inventory.Instance.items[currentPage * actions.Length].Description;
+        actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length].Description;
     }
     void PrintYesNo()
     {
@@ -707,7 +707,7 @@ public class BattleManager : MonoBehaviour
         { //item
             dynamicDescription.SetActive(true);
             //actionDescriptionMenu.SetActive(false);
-            dynamicDescriptionText.text = Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[chosenTarget]);
+            dynamicDescriptionText.text = Inventory.instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[chosenTarget]);
             animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 5);
             StartCoroutine(disableAnimation(animationObjects.Length - 1));
             UpdateHealthBarsAndIcons();
@@ -992,9 +992,9 @@ public class BattleManager : MonoBehaviour
             {
                 gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
             }
-            Inventory.Instance.Money += moneyEarned;
+            Inventory.instance.money += moneyEarned;
             gameInfoLines.Add("Zarabiasz " + moneyEarned + " PLN!");
-            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.Instance.Money + " money");
+            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.instance.money + " money");
 
             DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
@@ -1036,8 +1036,8 @@ public class BattleManager : MonoBehaviour
             {
                 gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
             }
-            Inventory.Instance.Money += moneyEarned;
-            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.Instance.Money + " money");
+            Inventory.instance.money += moneyEarned;
+            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.instance.money + " money");
 
             DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
             if (saveGameAfterBattle)

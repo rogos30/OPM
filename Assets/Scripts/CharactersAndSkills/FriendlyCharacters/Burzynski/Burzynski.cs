@@ -11,11 +11,11 @@ public class Burzynski : FriendlyCharacter
         NominativeName = "Burzyñski";
         DativeName = "Burzyñskiemu";
         AccusativeName = "Burzyñskiego";
-        Health = MaxHealth = DefaultMaxHealth = 450;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 450;
         Skill = MaxSkill = 100;
-        Attack = DefaultAttack = 100;
-        Defense = DefaultDefense = 30;
-        Accuracy = DefaultAccuracy = 0.8f;
+        Attack = DefaultAttack = BaseAttack = 100;
+        Defense = DefaultDefense = BaseDefense = 30;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.8f;
         Turns = DefaultTurns = 1;
         Speed = 200;
         SpriteIndex = 4;

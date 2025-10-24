@@ -13,11 +13,13 @@ public class Welenc : FriendlyCharacter
         NominativeName = "Welenc";
         DativeName = "Welencowi";
         AccusativeName = "Welenca";
-        Health = MaxHealth = DefaultMaxHealth = 450;
+
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 450;
         Skill = MaxSkill = 110;
-        Attack = DefaultAttack = 80;
-        Defense = DefaultDefense = 30;
-        Accuracy = DefaultAccuracy = 1;
+        Attack = DefaultAttack = BaseAttack = 80;
+        Defense = DefaultDefense = BaseDefense = 30;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1;
+
         Turns = DefaultTurns = 1;
         Speed = 500;
         SpriteIndex = 1;

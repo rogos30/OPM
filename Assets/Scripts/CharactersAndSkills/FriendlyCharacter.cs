@@ -134,10 +134,10 @@ public class FriendlyCharacter : Character
         MaxHealth = (int)(MaxHealth * statIncreaseFactor);
         MaxSkill = (int)(MaxSkill * statIncreaseFactor);
         DefaultAttack -= GetAttackFromWearables();
-        DefaultAttack = (int)(DefaultAttack * statIncreaseFactor);
+        DefaultAttack = (int)(BaseAttack * Mathf.Pow(statIncreaseFactor, Level - 1));
         DefaultAttack += GetAttackFromWearables();
         DefaultDefense -= GetDefenseFromWearables();
-        DefaultDefense = (int)(DefaultDefense * statIncreaseFactor);
+        DefaultDefense = (int)(BaseDefense * Mathf.Pow(statIncreaseFactor, Level - 1));
         DefaultDefense += GetDefenseFromWearables();
         CurrentXP -= XPToNextLevel;
         XPToNextLevel = 500 + (Level - 1) * requiredXPincrease;

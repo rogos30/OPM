@@ -9,12 +9,13 @@ public class EnemyFranek : EnemyCharacter
         NominativeName = "Franek";
         DativeName = "Frankowi";
         AccusativeName = "Franka";
-        Health = MaxHealth = DefaultMaxHealth = 50000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 50000;
         DifficultyHealthChange = 50000;
-        Attack = DefaultAttack = 550;
-        DifficultyAttackChange = 250;
-        Defense = DefaultDefense = 100;
-        Turns = DefaultTurns = 2;
+        Attack = DefaultAttack = BaseAttack = 400;
+        DifficultyAttackChange = 150;
+        Defense = DefaultDefense = BaseDefense = 100;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
+        Turns = DefaultTurns = BaseTurns = 2;
         Speed = 350;
         MoneyDropped = 5000;
         XPDropped = 50000;

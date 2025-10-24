@@ -10,11 +10,11 @@ public class Maja : FriendlyCharacter
         NominativeName = "Maja";
         DativeName = "Mai";
         AccusativeName = "Majê";
-        Health = MaxHealth = DefaultMaxHealth = 350;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 350;
         Skill = MaxSkill = 80;
-        Attack = DefaultAttack = 70;
-        Defense = DefaultDefense = 30;
-        Accuracy = DefaultAccuracy = 0.9f;
+        Attack = DefaultAttack = BaseAttack = 70;
+        Defense = DefaultDefense = BaseDefense = 30;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.9f;
         Turns = DefaultTurns = 1;
         Speed = 300;
         SpriteIndex = 3;

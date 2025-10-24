@@ -12,11 +12,13 @@ public class Franek : FriendlyCharacter
         NominativeName = "Franek";
         DativeName = "Frankowi";
         AccusativeName = "Franka";
-        Health = MaxHealth = DefaultMaxHealth = 400;
+
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 400;
         Skill = MaxSkill = 80;
-        Attack = DefaultAttack = 75;
-        Defense = DefaultDefense = 50;
-        Accuracy = DefaultAccuracy = 1.2f;
+        Attack = DefaultAttack = BaseAttack = 75;
+        Defense = DefaultDefense = BaseDefense = 50;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1.2f;
+
         Turns = DefaultTurns = 1;
         Speed = 500;
         SpriteIndex = 11;

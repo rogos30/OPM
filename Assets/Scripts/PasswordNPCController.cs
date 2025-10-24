@@ -94,7 +94,7 @@ public class PasswordNPCController : Interactable
         DialogManager.instance.StartDialogue(postPasswordLines, postPasswordSpeakersIndexes, postPasswordVoiceLines);
         if (interactionProgressesStory)
         {
-            DialogManager.instance.onDialogueEnd.AddListener(StoryManager.instance.ProgressStory); //after dialogue progress story
+            DialogManager.instance.onDialogueEnd.AddListener(() => StoryManager.instance.ProgressStory()); //after dialogue progress story
         }
         if (interactionSavesGame)
         {

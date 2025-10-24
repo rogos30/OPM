@@ -2,30 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory
+public class Inventory : MonoBehaviour
 {
-    private static Inventory instance;
-    public static Inventory Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new Inventory();
-            }
-            return instance;
-        }
-    }
-
-    public int Money { get; set; } = 50;
-    public List<Item> items;
-    public List<Wearable> wearables;
+    public static Inventory instance;
+    public int money;
+    public List<Item> items = new List<Item>();
+    public List<Wearable> wearables = new List<Wearable>();
     public readonly int maxOwnedItems = 99;
 
-    public Inventory()
+    private void Awake()
     {
-        items = new List<Item>();
-        wearables = new List<Wearable>();
+        money = 50;
+        InitializeItems();
+        InitializeWearables();
+        instance = this;
     }
 
     public int AvailableItems()

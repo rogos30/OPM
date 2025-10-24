@@ -67,8 +67,8 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Inventory.Instance.Money += 1000;
-            Debug.Log(Inventory.Instance.Money);
+            Inventory.instance.money += 1000;
+            Debug.Log(Inventory.instance.money);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {

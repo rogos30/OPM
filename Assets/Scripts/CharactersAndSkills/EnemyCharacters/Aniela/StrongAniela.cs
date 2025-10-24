@@ -9,12 +9,13 @@ public class StrongAniela : EnemyCharacter
         NominativeName = "Aniela";
         DativeName = "Anieli";
         AccusativeName = "Anielê";
-        Health = MaxHealth = DefaultMaxHealth = 6000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 6000;
         DifficultyHealthChange = 3000;
-        Attack = DefaultAttack = 375;
-        DifficultyAttackChange = 150;
-        Defense = DefaultDefense = 90;
-        Turns = DefaultTurns = 1;
+        Attack = DefaultAttack = BaseAttack = 275;
+        DifficultyAttackChange = 125;
+        Defense = DefaultDefense = BaseDefense = 90;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
+        Turns = DefaultTurns = BaseTurns = 1;
         Speed = 450;
         MoneyDropped = 200;
         XPDropped = 7500;

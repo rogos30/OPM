@@ -35,7 +35,7 @@ public class ShopManager : MonoBehaviour
     const string defaultControlsText = "W/S - nawigacja, A/D - iloœæ, Z/X - kategoria, Q/E - strona\r\nENTER - zakup, ESC - wyjœcie",
                 controlsTextAddOn = ", LSHIFT - ulepszenie";
     const int maxLevel = 3;
-    readonly int[] storyRequirementsForUpgrades = { 2, 3, 4};
+    readonly public int[] storyRequirementsForUpgrades = { 7, 11, 19};
 
     [SerializeField] AudioClip navigationScrollSound;
     [SerializeField] AudioClip navigationCancelSound;
@@ -185,17 +185,17 @@ public class ShopManager : MonoBehaviour
         {
             if (currentColumn == 0)
             {
-                maxAmountToBuy = Inventory.Instance.maxOwnedItems - Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
-                paymentText.text = amountToBuy + " x " + Inventory.Instance.items[currentPage * 4 + currentRow].Cost + "PLN = " +
-                    amountToBuy * Inventory.Instance.items[currentPage * 4 + currentRow].Cost + "PLN";
-                itemDescriptionText.text = Inventory.Instance.items[currentPage * 4 + currentRow].Description + ". Masz: " + Inventory.Instance.items[currentPage * 4 + currentRow].Amount;
+                maxAmountToBuy = Inventory.instance.maxOwnedItems - Inventory.instance.items[currentPage * 4 + currentRow].Amount;
+                paymentText.text = amountToBuy + " x " + Inventory.instance.items[currentPage * 4 + currentRow].Cost + "PLN = " +
+                    amountToBuy * Inventory.instance.items[currentPage * 4 + currentRow].Cost + "PLN";
+                itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ". Masz: " + Inventory.instance.items[currentPage * 4 + currentRow].Amount;
             }
             else
             {
-                maxAmountToBuy = Inventory.Instance.maxOwnedItems - Inventory.Instance.wearables[currentPage * 4 + currentRow].Amount;
-                paymentText.text = amountToBuy + " x " + Inventory.Instance.wearables[currentPage * 4 + currentRow].Cost + "PLN = " +
-                    amountToBuy * Inventory.Instance.wearables[currentPage * 4 + currentRow].Cost + "PLN";
-                itemDescriptionText.text = Inventory.Instance.wearables[currentPage * 4 + currentRow].Description + ". Masz: " + Inventory.Instance.wearables[currentPage * 4 + currentRow].Amount;
+                maxAmountToBuy = Inventory.instance.maxOwnedItems - Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
+                paymentText.text = amountToBuy + " x " + Inventory.instance.wearables[currentPage * 4 + currentRow].Cost + "PLN = " +
+                    amountToBuy * Inventory.instance.wearables[currentPage * 4 + currentRow].Cost + "PLN";
+                itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ". Masz: " + Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
             }
         }
     }
@@ -215,7 +215,7 @@ public class ShopManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             warningCanvas.enabled = false;
-            Inventory.Instance.Money -= upgradeCosts[level];
+            Inventory.instance.money -= upgradeCosts[level];
             PerformUpgrade();
         }
     }
@@ -224,7 +224,7 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            items[i].text = Inventory.Instance.items[currentPage * 4 + i].Name + "\r\n(koszt: " + Inventory.Instance.items[currentPage * 4 + i].Cost + "PLN)";
+            items[i].text = Inventory.instance.items[currentPage * 4 + i].Name + "\r\n(koszt: " + Inventory.instance.items[currentPage * 4 + i].Cost + "PLN)";
         }
     }
 
@@ -232,7 +232,7 @@ public class ShopManager : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            items[i].text = Inventory.Instance.wearables[currentPage * 4 + i].Name + "\r\n(koszt: " + Inventory.Instance.wearables[currentPage * 4 + i].Cost + "PLN)";
+            items[i].text = Inventory.instance.wearables[currentPage * 4 + i].Name + "\r\n(koszt: " + Inventory.instance.wearables[currentPage * 4 + i].Cost + "PLN)";
         }
     }
 
@@ -240,10 +240,10 @@ public class ShopManager : MonoBehaviour
     {
         if (currentColumn == 0)
         {
-            if (Inventory.Instance.Money >= amountToBuy * Inventory.Instance.items[currentPage * 4 + currentRow].Cost)
+            if (Inventory.instance.money >= amountToBuy * Inventory.instance.items[currentPage * 4 + currentRow].Cost)
             {
-                Inventory.Instance.Money -= amountToBuy * Inventory.Instance.items[currentPage * 4 + currentRow].Cost;
-                Inventory.Instance.items[currentPage * 4 + currentRow].Add(amountToBuy);
+                Inventory.instance.money -= amountToBuy * Inventory.instance.items[currentPage * 4 + currentRow].Cost;
+                Inventory.instance.items[currentPage * 4 + currentRow].Add(amountToBuy);
             }
             else
             {
@@ -252,24 +252,24 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            if (Inventory.Instance.Money >= amountToBuy * Inventory.Instance.wearables[currentPage * 4 + currentRow].Cost)
+            if (Inventory.instance.money >= amountToBuy * Inventory.instance.wearables[currentPage * 4 + currentRow].Cost)
             {
-                Inventory.Instance.Money -= amountToBuy * Inventory.Instance.wearables[currentPage * 4 + currentRow].Cost;
-                Inventory.Instance.wearables[currentPage * 4 + currentRow].Add(amountToBuy);
+                Inventory.instance.money -= amountToBuy * Inventory.instance.wearables[currentPage * 4 + currentRow].Cost;
+                Inventory.instance.wearables[currentPage * 4 + currentRow].Add(amountToBuy);
             }
             else
             {
                 StartCoroutine(CantAfford());
             }
         }
-        moneyText.text = "Kasa: " + Inventory.Instance.Money + " PLN";
+        moneyText.text = "Kasa: " + Inventory.instance.money + " PLN";
     }
 
     void HandleUpgrade()
     {
         if (level < maxLevel && StoryManager.instance.currentMainQuest >= storyRequirementsForUpgrades[level])
         {
-            if (Inventory.Instance.Money >= upgradeCosts[level])
+            if (Inventory.instance.money >= upgradeCosts[level])
             {
                 EnableWarningCanvas();
             }
@@ -283,7 +283,7 @@ public class ShopManager : MonoBehaviour
     public void PerformUpgrade()
     {
         level++;
-        moneyText.text = "Kasa: " + Inventory.Instance.Money + " PLN";
+        moneyText.text = "Kasa: " + Inventory.instance.money + " PLN";
         pageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
         controlsText.text = defaultControlsText;
         if (level < maxLevel && StoryManager.instance.currentMainQuest >= storyRequirementsForUpgrades[level])
@@ -319,14 +319,14 @@ public class ShopManager : MonoBehaviour
         musicSource.Play();
         player.SetActive(false);
         PrintItems();
-        moneyText.text = "Kasa: " + Inventory.Instance.Money + " PLN";
+        moneyText.text = "Kasa: " + Inventory.instance.money + " PLN";
         shopLevelText.text = "Poziom: " + (level + 1) + " / " + (maxLevel + 1);
         amountToBuy = 0;
         items[currentRow].color = Color.white;
         currentRow = 0;
         currentPage = 0;
         items[currentRow].color = orange;
-        paymentText.text = "0 x " + Inventory.Instance.items[currentRow].Cost + "PLN = 0 PLN";
+        paymentText.text = "0 x " + Inventory.instance.items[currentRow].Cost + "PLN = 0 PLN";
         currentColumn = 0;
         categories[0].color = Color.red;
         categories[1].color = Color.white;

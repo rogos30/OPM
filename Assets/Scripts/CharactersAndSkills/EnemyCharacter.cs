@@ -17,8 +17,8 @@ public class EnemyCharacter : Character
 
     public void UpdateDifficulty(int difficulty)
     {
-        MaxHealth = DefaultMaxHealth + difficulty * DifficultyHealthChange;
-        Attack = DefaultAttack + difficulty * DifficultyAttackChange;
+        MaxHealth = DefaultMaxHealth = BaseMaxHealth + difficulty * DifficultyHealthChange;
+        Attack = DefaultAttack = BaseAttack + difficulty * DifficultyAttackChange;
     }
 
     public override void HandleTimers()
