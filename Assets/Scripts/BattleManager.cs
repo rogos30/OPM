@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Sprite[] backgroundPhotos;
     [SerializeField] TMP_Text[] enemyNames;
     [SerializeField] TMP_Text[] characterNames;
-    [SerializeField] GameObject nextCharacters;
+    [SerializeField] GameObject[] nextCharacters;
     [SerializeField] TMP_Text[] charAnnouncementTexts;
     [SerializeField] Sprite[] effectSprites;
     [SerializeField] Image[] playerEffectSprites;
@@ -166,9 +166,13 @@ public class BattleManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Tab) && playableCharacterList.Count > 1)
         {
-            nextCharacters.SetActive(true);
-            characterDescriptionText.transform.parent.gameObject.SetActive(false);
-            actionDescriptionText.transform.parent.gameObject.SetActive(false);
+            for (int i = 0; i < playableCharacterList.Count - 1; i++)
+            {
+                nextCharacters[i].SetActive(true);
+            }
+            
+            //characterDescriptionText.transform.parent.gameObject.SetActive(false);
+            actionDescriptionText.transform.parent.parent.gameObject.SetActive(false);
             //characterDescriptionText.gameObject.SetActive(false);
             //actionDescriptionText.gameObject.SetActive(false);
 
@@ -176,11 +180,14 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            nextCharacters.SetActive(false);
+            foreach (var nextCharacter in nextCharacters)
+            {
+                nextCharacter.SetActive(false);
+            }
             //characterDescriptionText.gameObject.SetActive(true);
             //actionDescriptionText.gameObject.SetActive(true);
-            characterDescriptionText.transform.parent.gameObject.SetActive(true);
-            actionDescriptionText.transform.parent.gameObject.SetActive(true);
+            //characterDescriptionText.transform.parent.gameObject.SetActive(true);
+            actionDescriptionText.transform.parent.parent.gameObject.SetActive(true);
         }
     }
 
@@ -688,7 +695,7 @@ public class BattleManager : MonoBehaviour
         if (chosenAction == 2)
         { //guard
             dynamicDescription.SetActive(true);
-            actionDescriptionMenu.SetActive(false);
+            //actionDescriptionMenu.SetActive(false);
             dynamicDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " broni siê!";
             playableCharacterList[currentPlayable].StartGuard();
             animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 2);
@@ -699,7 +706,7 @@ public class BattleManager : MonoBehaviour
         else if (chosenAction == 1)
         { //item
             dynamicDescription.SetActive(true);
-            actionDescriptionMenu.SetActive(false);
+            //actionDescriptionMenu.SetActive(false);
             dynamicDescriptionText.text = Inventory.Instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[chosenTarget]);
             animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 5);
             StartCoroutine(disableAnimation(animationObjects.Length - 1));
@@ -720,7 +727,7 @@ public class BattleManager : MonoBehaviour
         int skillIndex = chosenSubactionPage * actions.Length + chosenSubaction;
         float cost = playableCharacterList[currentPlayable].skillSet[skillIndex].Cost;
         dynamicDescription.SetActive(true);
-        actionDescriptionMenu.SetActive(false);
+        //actionDescriptionMenu.SetActive(false);
         if (cost > 1 || cost == 0)
         {
             playableCharacterList[currentPlayable].DepleteSkill((int)cost);
@@ -1263,7 +1270,7 @@ public class BattleManager : MonoBehaviour
             playerMovesThisTurn = playableCharacterList[currentPlayable].Turns;
         }
         dynamicDescription.SetActive(false);
-        actionDescriptionMenu.SetActive(true);
+        //actionDescriptionMenu.SetActive(true);
         acceptsInput = true;
         currentColumn = 0;
         RidUIofColor();

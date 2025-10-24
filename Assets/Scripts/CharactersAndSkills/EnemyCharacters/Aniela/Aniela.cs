@@ -18,7 +18,7 @@ public class Aniela : EnemyCharacter
         Turns = DefaultTurns = 1;
         Speed = 450;
         MoneyDropped = 50;
-        XPDropped = 1550;
+        XPDropped = 1500;
         EnemyAttack attack = new EnemyAttack();
         skillSet.Add(attack);
         skillSet.Add(attack);
