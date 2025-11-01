@@ -23,7 +23,7 @@ public class Welenc : FriendlyCharacter
         Turns = DefaultTurns = 1;
         Speed = 500;
         SpriteIndex = 1;
-        AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
+        SetAbilityDescription();
         CharacterDescription = "Opis Welenca wip";
         MultipliableAttack attack = new MultipliableAttack();
         skillSet.Add(attack);
@@ -46,7 +46,7 @@ public class Welenc : FriendlyCharacter
     public void ResetAttackMultiplier()
     {
         AttackMultiplier = 0.25f;
-        AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
+        SetAbilityDescription();
     }
 
     public void IncreaseAttackMultiplier(float multiplierGain = MultiplierIncreaseFromSkill)
@@ -55,7 +55,7 @@ public class Welenc : FriendlyCharacter
         {
             AttackMultiplier = Mathf.Min(AttackMultiplier + multiplierGain, MaxAttackMultiplier);
         }
-        AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
+        SetAbilityDescription();
     }
 
     public void MaxOutAttackMultiplier(bool overcharge)
@@ -65,7 +65,12 @@ public class Welenc : FriendlyCharacter
         {
             AttackMultiplier += 1;
         }
-        AbilityDescription = "Welenca podstawowy atak jest modyfikowany o mno¿nik. Mno¿nik zwiêksza siê za ka¿dego u¿ytego skilla. Obecnie: x" + AttackMultiplier;
+        SetAbilityDescription();
+    }
+
+    void SetAbilityDescription()
+    {
+        AbilityDescription = "Podstawowy atak Welenca jest wzmacniany za ka¿d¹ u¿yt¹ umiejêtnoœæ i gardê. Obecnie: x" + AttackMultiplier;
     }
 
     protected override void AdditionalChangesOnReset()

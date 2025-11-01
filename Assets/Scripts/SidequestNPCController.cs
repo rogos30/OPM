@@ -16,6 +16,7 @@ public class SidequestNPCController : Interactable
     [SerializeField] string[] postFightLines;
     [SerializeField] AudioClip[] postFightVoiceLines;
     [SerializeField] int[] postFightSpeakersIndexes;
+    [SerializeField] bool canRunFromFight;
     [SerializeField] int backgroundId;
 
 
@@ -53,7 +54,7 @@ public class SidequestNPCController : Interactable
 
         if (playables.Length > 0)
         { //battle after dialogue
-            BattleManager.instance.InitiateBattle(playables, enemies, backgroundId, false);
+            BattleManager.instance.InitiateBattle(playables, enemies, backgroundId, false, canRunFromFight);
             BattleManager.instance.onBattleWon.AddListener(AfterBattle);
         }
         else

@@ -234,6 +234,6 @@ public class PlayerController : MonoBehaviour
                 enemies[j++] = BattleManager.instance.randomEncounterEnemyIndexes[currentArea, i];
             }
         }
-        BattleManager.instance.InitiateBattle(playables, enemies, 0, true);
+        BattleManager.instance.InitiateBattle(playables, enemies, 0, true, true);
     }
 }

@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,13 +83,13 @@ public class BattleManager : MonoBehaviour
     int chosenAction, chosenSubaction, chosenTarget, currentMoveInTurn = 0, currentTurn = 0;
     int chosenSubactionPage;
     int currentPhase = 0;
-    bool acceptsInput = false, enemyIsMoving = false, battleFinished = false, saveGameAfterBattle = false;
+    bool acceptsInput = false, enemyIsMoving = false, battleFinished = false, saveGameAfterBattle = false, canRun;
     bool skillCheckGoingRight, skillCheckAcceptsInput;
     int playablesKnockedOut = 0, enemiesKnockedOut = 0, uiIndexOffset = 0;
     int skillPerformance;
     int playerMovesThisTurn;
     float skillCheckTime = defaultSkillCheckTime, defaultBlueAreaScale, defaultGreenAreaScale;
-    Vector3 defaultTextScale;
+    Vector3 defaultSkillTextScale, defaultActionTextScale;
     Image[,] allEffectSprites = new Image[maxCharactersInBattle, iconsPerPlayable];
     Image[,] allEnemyEffectSprites = new Image[maxEnemiesInBattle, iconsPerEnemy];
 
@@ -113,7 +113,8 @@ public class BattleManager : MonoBehaviour
         musicSource.outputAudioMixerGroup = musicMixerGroup;
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.outputAudioMixerGroup = sfxMixerGroup;
-        defaultTextScale = characterSkillTexts[currentPlayable].transform.localScale;
+        defaultSkillTextScale = characterSkillTexts[currentPlayable].transform.localScale;
+        defaultActionTextScale = actionDescriptionText.transform.localScale;
         defaultBlueAreaScale = skillCheckBlueArea.transform.localScale.x;
         defaultGreenAreaScale = skillCheckGreenArea.transform.localScale.x;
         for (int i = 0; i < iconsPerPlayable; i++)
@@ -208,15 +209,31 @@ public class BattleManager : MonoBehaviour
                     { //what action has been selected
                         case 0: //skill
                             PrintPageOfSkills();
+                            ResetCurrentRow();
                             break;
                         case 1: //item
                             PrintPageOfItems();
+                            ResetCurrentRow();
                             break;
-                        default: //guard or run
+                        case 2: //guard
+                            actionDescriptionText.text = "Na pewno podnieÅ›Ä‡ gardÄ™?";
                             PrintYesNo();
+                            ResetCurrentRow();
+                            break;
+                        case 3: //run
+                            if (canRun)
+                            {
+                                actionDescriptionText.text = "Na pewno sprÃ³bowaÄ‡ uciec?";
+                                PrintYesNo();
+                                ResetCurrentRow();
+                            }
+                            else
+                            {
+                                StartCoroutine(CannotRun());
+                                currentColumn = 0;
+                            }
                             break;
                     }
-                    ResetCurrentRow();
                     break;
                 case 1: //just selected a subaction - entering targets (most likely)
                     chosenSubaction = currentRow;
@@ -307,7 +324,7 @@ public class BattleManager : MonoBehaviour
                             }
                             break;
                         case 2: //guard
-                            if (actions[chosenSubaction].text == "PotwierdŸ") //accepted to guard
+                            if (actions[chosenSubaction].text == "PotwierdÅº") //accepted to guard
                             {
                                 HandlePlayersMove();
                                 maxCurrentRow = 4;
@@ -315,18 +332,30 @@ public class BattleManager : MonoBehaviour
                             else //didn't guard
                             {
                                 currentColumn--;
+                                PrintPageOfActions();
+                                actionDescriptionText.text = "UÅ¼yj umiejÄ™tnoÅ›ci";
                                 maxCurrentRow = 4;
                             }
                             break;
                         case 3: //run
-                            if (actions[chosenSubaction].text == "PotwierdŸ") //accepted to run
+                            if (actions[chosenSubaction].text == "PotwierdÅº") //accepted to run
                             {
-                                StartCoroutine(FinishBattle(false, true));
+                                if (GetChanceToRun() >= UnityEngine.Random.Range(0, 1f))
+                                {
+                                    StartCoroutine(FinishBattle(false, true));
+                                }
+                                else
+                                {
+                                    HandlePlayersMove();
+                                    maxCurrentRow = 4;
+                                }
                                 //HandleBattleEnd(false);
                             }
                             else //didn't run
                             {
                                 currentColumn--;
+                                PrintPageOfActions();
+                                actionDescriptionText.text = "UÅ¼yj umiejÄ™tnoÅ›ci";
                                 maxCurrentRow = 4;
                             }
                             break;
@@ -359,16 +388,23 @@ public class BattleManager : MonoBehaviour
                     switch (currentRow)
                     {
                         case 0: //skill
-                            actionDescriptionText.text = "U¿yj umiejêtnoœci";
+                            actionDescriptionText.text = "UÅ¼yj umiejÄ™tnoÅ›ci";
                             break;
                         case 1: //item
-                            actionDescriptionText.text = "U¿yj przedmiotu";
+                            actionDescriptionText.text = "UÅ¼yj przedmiotu";
                             break;
                         case 2: //guard
-                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration * 100 + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obraÅ¼eÅ„, wiÄ™cej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration * 100 + "% SP";
                             break;
                         case 3: //run
-                            actionDescriptionText.text = "Ucieknij z walki";
+                            if (canRun)
+                            {
+                                actionDescriptionText.text = "SprÃ³buj uciec z walki. Masz " + GetChanceToRun() * 100 + "% szans na ucieczkÄ™.";
+                            }
+                            else
+                            {
+                                actionDescriptionText.text = "Z tej walki nie ma ucieczki";
+                            }
                             break;
                     }
                     break;
@@ -409,16 +445,23 @@ public class BattleManager : MonoBehaviour
                     switch (currentRow)
                     {
                         case 0: //skill
-                            actionDescriptionText.text = "U¿yj umiejêtnoœci";
+                            actionDescriptionText.text = "UÅ¼yj umiejÄ™tnoÅ›ci";
                             break;
                         case 1: //item
-                            actionDescriptionText.text = "U¿yj przedmiotu";
+                            actionDescriptionText.text = "UÅ¼yj przedmiotu";
                             break;
                         case 2: //guard
-                            actionDescriptionText.text = "Otrzymuj mniej obra¿eñ, wiêcej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration * 100 + "% SP";
+                            actionDescriptionText.text = "Otrzymuj mniej obraÅ¼eÅ„, wiÄ™cej leczenia i " + playableCharacterList[currentPlayable].guardSPRestoration * 100 + "% SP";
                             break;
                         case 3: //run
-                            actionDescriptionText.text = "Ucieknij z walki";
+                            if (canRun)
+                            {
+                                actionDescriptionText.text = "SprÃ³buj uciec z walki. Masz " + GetChanceToRun() * 100 + "% szans na ucieczkÄ™.";
+                            }
+                            else
+                            {
+                                actionDescriptionText.text = "Z tej walki nie ma ucieczki";
+                            }
                             break;
                     }
                     break;
@@ -431,9 +474,6 @@ public class BattleManager : MonoBehaviour
                             break;
                         case 1: //item
                             actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length + currentRow].Description;
-                            break;
-                        default:
-                            actionDescriptionText.text = "";
                             break;
                     }
                     break;
@@ -509,7 +549,7 @@ public class BattleManager : MonoBehaviour
 
     void PrintPageOfActions()
     {
-        actions[0].text = "Umiejêtnoœæ";
+        actions[0].text = "UmiejÄ™tnoÅ›Ä‡";
         actions[1].text = "Przedmiot";
         actions[2].text = "Garda";
         actions[3].text = "Ucieczka";
@@ -570,7 +610,7 @@ public class BattleManager : MonoBehaviour
     void PrintYesNo()
     {
         ClearActions();
-        actions[0].text = "PotwierdŸ";
+        actions[0].text = "PotwierdÅº";
         actions[1].text = "Cofnij";
         maxCurrentRow = 2;
         maxCurrentPage = 1;
@@ -692,11 +732,17 @@ public class BattleManager : MonoBehaviour
     {
         uiIndexOffset = 0;
         acceptsInput = false;
-        if (chosenAction == 2)
+        if (chosenAction == 3)
+        { //failed run
+            dynamicDescription.SetActive(true);
+            dynamicDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " prÃ³buje uciec z walki, ale bez skutku!";
+            UpdateHealthBarsAndIcons();
+            FinishPlayersMove();
+        }
+        else if (chosenAction == 2)
         { //guard
             dynamicDescription.SetActive(true);
-            //actionDescriptionMenu.SetActive(false);
-            dynamicDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " broni siê!";
+            dynamicDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " broni siÄ™!";
             playableCharacterList[currentPlayable].StartGuard();
             animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 2);
             StartCoroutine(disableAnimation(animationObjects.Length - 1));
@@ -706,7 +752,6 @@ public class BattleManager : MonoBehaviour
         else if (chosenAction == 1)
         { //item
             dynamicDescription.SetActive(true);
-            //actionDescriptionMenu.SetActive(false);
             dynamicDescriptionText.text = Inventory.instance.items[chosenSubactionPage * actions.Length + chosenSubaction].Use(playableCharacterList[currentPlayable], playableCharacterList[chosenTarget]);
             animationObjects[animationObjects.Length - 1].GetComponent<Animator>().SetInteger("animation", 5);
             StartCoroutine(disableAnimation(animationObjects.Length - 1));
@@ -844,7 +889,7 @@ public class BattleManager : MonoBehaviour
 
     void EnemyIsParalyzed(Character source)
     {
-        dynamicDescriptionText.text = source.NominativeName + " nie mo¿e siê ruszyæ!";
+        dynamicDescriptionText.text = source.NominativeName + " nie moÅ¼e siÄ™ ruszyÄ‡!";
         FinishEnemysMove();
     }
 
@@ -899,12 +944,13 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void InitiateBattle(int[] playables, int[] enemies, int backgroundId, bool saveGameAfterBattle)
+    public void InitiateBattle(int[] playables, int[] enemies, int backgroundId, bool saveGameAfterBattle, bool canRun)
     {
         background.gameObject.SetActive(true);
         background.sprite = backgroundPhotos[backgroundId];
         enemySpriteIndexes.AddRange(enemies);
         this.saveGameAfterBattle = saveGameAfterBattle;
+        this.canRun = canRun;
         musicSource.clip = battleMusic[enemies[0]];
         musicSource.loop = true;
         musicSource.Play();
@@ -949,7 +995,7 @@ public class BattleManager : MonoBehaviour
             }
         }
         PrintPageOfActions();
-        actionDescriptionText.text = "U¿yj umiejêtnoœci";
+        actionDescriptionText.text = "UÅ¼yj umiejÄ™tnoÅ›ci";
         actions[0].color = orange;
 
         for (int i = 0; i < playables.Length; i++) //show what's necessary
@@ -987,7 +1033,7 @@ public class BattleManager : MonoBehaviour
                 xpEarned += enemyCharacterList[i].XPDropped;
                 moneyEarned += enemyCharacterList[i].MoneyDropped;
             }
-            gameInfoLines.Add("Zdobywasz " + xpEarned + " doœwiadczenia!");
+            gameInfoLines.Add("Zdobywasz " + xpEarned + " doÅ›wiadczenia!");
             for (int i = 0; i < playableCharacterList.Count; i++)
             {
                 gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
@@ -1031,7 +1077,7 @@ public class BattleManager : MonoBehaviour
                 xpEarned += enemyCharacterList[i].XPDropped;
                 moneyEarned += enemyCharacterList[i].MoneyDropped;
             }
-            gameInfoLines.Add("Zdobywasz " + xpEarned + " punktów doœwiadczenia!\n" + "Zarabiasz " + moneyEarned + " PLN!");
+            gameInfoLines.Add("Zdobywasz " + xpEarned + " punktÃ³w doÅ›wiadczenia!\n" + "Zarabiasz " + moneyEarned + " PLN!");
             for (int i = 0; i < playableCharacterList.Count; i++)
             {
                 gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
@@ -1047,7 +1093,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (playerEscaped)
         {
-            gameInfoLines.Add("Ucieczka zakoñczona sukcesem");
+            gameInfoLines.Add("Ucieczka zakoÅ„czona sukcesem");
             DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
@@ -1171,7 +1217,7 @@ public class BattleManager : MonoBehaviour
         character = new Skeleton("Szkielet - wojownik", "Szkieletowi - wojownikowi", "Szkieleta - wojownika");
         allEnemyCharacters.Add(character);
 
-        character = new Skeleton("Szkielet - ¿o³nierz", "Szkieletowi - ¿o³nierzowi", "Szkieleta - ¿o³nierza");
+        character = new Skeleton("Szkielet - Å¼oÅ‚nierz", "Szkieletowi - Å¼oÅ‚nierzowi", "Szkieleta - Å¼oÅ‚nierza");
         allEnemyCharacters.Add(character);
 
         character = new EnemyBurzynski();
@@ -1250,7 +1296,20 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         characterSkillTexts[0].color = Color.white;
-        characterSkillTexts[0].transform.localScale = defaultTextScale;
+        characterSkillTexts[0].transform.localScale = defaultSkillTextScale;
+    }
+
+    IEnumerator CannotRun()
+    {
+        actionDescriptionText.color = Color.red;
+        actionDescriptionText.transform.localScale = defaultActionTextScale * 1.2f;
+        acceptsInput = false;
+
+        yield return new WaitForSeconds(0.4f);
+
+        acceptsInput = true;
+        actionDescriptionText.color = Color.white;
+        actionDescriptionText.transform.localScale = defaultActionTextScale;
     }
 
 
@@ -1275,7 +1334,7 @@ public class BattleManager : MonoBehaviour
         currentColumn = 0;
         RidUIofColor();
         actions[currentRow = 0].color = orange;
-        actionDescriptionText.text = "U¿yj umiejêtnoœci";
+        actionDescriptionText.text = "UÅ¼yj umiejÄ™tnoÅ›ci";
         PrintPageOfActions();
         HandlePhases();
     }
@@ -1325,7 +1384,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (source is Rogos)
         {
-            if (source.skillSet[skill].Name == "Rozdanie kebabów")
+            if (source.skillSet[skill].Name == "Rozdanie kebabÃ³w")
             {
                 ((ZahirTrip)source.skillSet[skill]).SetToMission();
             }
@@ -1380,7 +1439,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (source is Rogos)
         {
-            if (source.skillSet[skill].Name == "Ostrza³ padami")
+            if (source.skillSet[skill].Name == "OstrzaÅ‚ padami")
             {
                 ((ControllerBarrage)source.skillSet[skill]).SetToUseless();
             }
@@ -1611,21 +1670,22 @@ public class BattleManager : MonoBehaviour
                     DecideNextMove();
                 }
                 break;
-            case "Burzyñski":
+            case "BurzyÅ„ski":
                 if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.85f && currentPhase == 0)
                 {
                     currentPhase++;
                     string[] lines = {
-                        "MASZ JU¯ DOŒÆ?!",
+                        "MASZ JUÅ» DOÅšÄ†?!",
                         "...",
                         "Co z wolnym po Nowym Roku?",
-                        "O co chodzi³o z tym koncertem? GDZIE JEST LORA I GDZIE BOMBA?",
+                        "O co chodziÅ‚o z tym koncertem? GDZIE JEST LORA I GDZIE BOMBA?",
                         "..." };
                     int[] speakerIndexes = { 0,4,0,0,4 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                     
                 }
@@ -1639,18 +1699,19 @@ public class BattleManager : MonoBehaviour
                     string[] lines = {
                         "KTO ZA TYM STOI I GDZIE JEST?!",
                         "ODPOWIEDZ WRESZCIE!!!",
-                        "OD KIEDY TO PLANOWALIŒCIE?!",
-                        "G³upcy, wszystko w imiê wy¿szego celu. W imiê wy¿szej racji!",
+                        "OD KIEDY TO PLANOWALIÅšCIE?!",
+                        "GÅ‚upcy, wszystko w imiÄ™ wyÅ¼szego celu. W imiÄ™ wyÅ¼szej racji!",
                         "Jakiego celu? Jakiej racji?!",
                         "GDZIE...",
                         "JEST...",
                         "LORA?!",
-                        "Zamknij siê wreszcie" };
+                        "Zamknij siÄ™ wreszcie" };
                     int[] speakerIndexes = { 0, 0, 0, 4, 0, 0, 0, 0, 4 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 if (currentPhase > 4 && currentPhase <= 6)
@@ -1664,16 +1725,17 @@ public class BattleManager : MonoBehaviour
                     musicSource.loop = true;
                     musicSource.Play();
                     string[] lines = {
-                        "Ach! Poddaj siê wreszcie!",
-                        "Oboje wiemy, ¿e nic ju¿ nie zrobicie!",
-                        "Mylisz siê, wszystko jest na najlepszej drodze. W imiê wy¿szych racji!",
-                        "Przestañ siê oszukiwaæ, Kamil! Przypomnij sobie, ile razy oszukiwa³eœ te¿ mnie, kiedy byliœmy razem! Tyle obietnic, tyle k³amstw!",
-                        "Jakich k³amstw, Maju? Zawsze chcia³em dla Ciebie jak najlepiej. Kocha³em Ciê, to ty nie potrafi³aœ tego odwzajemniæ! Nigdy Ciê nie oszuka³em" };
+                        "Ach! Poddaj siÄ™ wreszcie!",
+                        "Oboje wiemy, Å¼e nic juÅ¼ nie zrobicie!",
+                        "Mylisz siÄ™, wszystko jest na najlepszej drodze. W imiÄ™ wyÅ¼szych racji!",
+                        "PrzestaÅ„ siÄ™ oszukiwaÄ‡, Kamil! Przypomnij sobie, ile razy oszukiwaÅ‚eÅ› teÅ¼ mnie, kiedy byliÅ›my razem! Tyle obietnic, tyle kÅ‚amstw!",
+                        "Jakich kÅ‚amstw, Maju? Zawsze chciaÅ‚em dla Ciebie jak najlepiej. KochaÅ‚em CiÄ™, to ty nie potrafiÅ‚aÅ› tego odwzajemniÄ‡! Nigdy CiÄ™ nie oszukaÅ‚em" };
                     int[] speakerIndexes = { 3, 3, 4, 3, 4 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 if (currentPhase > 7 && currentPhase <= 9)
@@ -1684,15 +1746,16 @@ public class BattleManager : MonoBehaviour
                 {
                     currentPhase++;
                     string[] lines = {
-                        "Ka¿de Twoje s³owo, kiedy byliœmy razem to k³amstwo. Nigdy nie zale¿a³o Ci na mnie, mia³eœ w g³owie tylko siebie i swoje dobro",
-                        "To samo jest teraz w roli przewodnicz¹cego. Nie potrafisz byæ nawet przez chwilê ani powa¿ny, ani szczery",
-                        "A Twoja dziecinnoœæ? Myœlisz, ¿e ten breloczek z dinozaurem dodaje Ci fajnoœci? Jak g³upia by³am...",
-                        "Przestañ, przestañ!" };
+                        "KaÅ¼de Twoje sÅ‚owo, kiedy byliÅ›my razem to kÅ‚amstwo. Nigdy nie zaleÅ¼aÅ‚o Ci na mnie, miaÅ‚eÅ› w gÅ‚owie tylko siebie i swoje dobro",
+                        "To samo jest teraz w roli przewodniczÄ…cego. Nie potrafisz byÄ‡ nawet przez chwilÄ™ ani powaÅ¼ny, ani szczery",
+                        "A Twoja dziecinnoÅ›Ä‡? MyÅ›lisz, Å¼e ten breloczek z dinozaurem dodaje Ci fajnoÅ›ci? Jak gÅ‚upia byÅ‚am...",
+                        "PrzestaÅ„, przestaÅ„!" };
                     int[] speakerIndexes = { 3, 3, 3, 4 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 if (currentPhase > 10 && currentPhase <= 12)
@@ -1703,18 +1766,19 @@ public class BattleManager : MonoBehaviour
                 {
                     currentPhase++;
                     string[] lines = {
-                        "Tylko tyle pamiêtasz z naszego bycia razem? Nie pamiêtasz ¿adnych dobrych wspólnych chwil?",
-                        "Mo¿e i pamiêtam, ale nie by³o ich wiele",
-                        "Jak to niewiele? A wspólne gotowanie? Ogl¹danie Króla Lwa 2?",
-                        "Idioto, nie ogl¹da³am z Tob¹ Króla Lwa 2. Ogl¹daliœmy wtedy Auta",
-                        "Serio? A, faktycznie. Ale widzisz, nie by³o tak Ÿle. Na pewno pamiêtasz wiêcej fajnych chwil",
-                        "I jeszcze wiêcej z³ych"
+                        "Tylko tyle pamiÄ™tasz z naszego bycia razem? Nie pamiÄ™tasz Å¼adnych dobrych wspÃ³lnych chwil?",
+                        "MoÅ¼e i pamiÄ™tam, ale nie byÅ‚o ich wiele",
+                        "Jak to niewiele? A wspÃ³lne gotowanie? OglÄ…danie KrÃ³la Lwa 2?",
+                        "Idioto, nie oglÄ…daÅ‚am z TobÄ… KrÃ³la Lwa 2. OglÄ…daliÅ›my wtedy Auta",
+                        "Serio? A, faktycznie. Ale widzisz, nie byÅ‚o tak Åºle. Na pewno pamiÄ™tasz wiÄ™cej fajnych chwil",
+                        "I jeszcze wiÄ™cej zÅ‚ych"
                     };
                     int[] speakerIndexes = { 4, 3, 4, 3, 4, 3 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 break;
@@ -1732,13 +1796,14 @@ public class BattleManager : MonoBehaviour
 
                     currentPhase++;
                     string[] lines = {
-                        "Pora to zakoñczyæ" };
+                        "Pora to zakoÅ„czyÄ‡" };
                     int[] speakerIndexes = { 0 };
                     acceptsInput = false;
                     DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
                     DialogManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         UpdateHealthBarsAndIcons();
+                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 break;
@@ -1764,6 +1829,18 @@ public class BattleManager : MonoBehaviour
                 //enemySprites[i].SetActive(false);
             }
         }
+    }
+
+    float GetChanceToRun()
+    {
+        float sumHealth = 0;
+        float sumMaxHealth = 0;
+        foreach (var character in playableCharacterList)
+        {
+            sumHealth += character.Health;
+            sumMaxHealth += character.MaxHealth;
+        }
+        return (float)Math.Round(sumHealth / sumMaxHealth, 4);
     }
 
     IEnumerator disableAnimation(int index)
