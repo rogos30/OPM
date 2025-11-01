@@ -48,7 +48,7 @@ public class PatrolNPCController : Interactable
     {
         animator = GetComponent<Animator>();
         currentAwarenessSlider.gameObject.SetActive(false);
-        awarenessIncrease = GameManager.instance.difficulty;
+        awarenessIncrease = GameManager.instance.difficulty + 1;
         if (!loopsPath)
         {
             visionCone.SetActive(false);

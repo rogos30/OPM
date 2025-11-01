@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class AngryGirl : EnemyCharacter
 {
-    //character = new EnemyCharacter("Wkurzona laska", 175, 25, 45, 10, 15, 0.95f, 1, 275, 20, 200, skills);
-
     public AngryGirl()
     {
         NominativeName = "Wkurzona laska";
         DativeName = "Wkurzonej lasce";
         AccusativeName = "Wkurzonej laski";
-        Health = MaxHealth = DefaultMaxHealth = 175;
-        DifficultyHealthChange = 40;
-        Attack = DefaultAttack = 65;
-        DifficultyAttackChange = 20;
-        Defense = DefaultDefense = 15;
-        Accuracy = DefaultAccuracy = 0.95f;
-        Turns = DefaultTurns = 1;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 200;
+        DifficultyHealthChange = 50;
+        Attack = DefaultAttack = BaseAttack = 75;
+        DifficultyAttackChange = 30;
+        Defense = DefaultDefense = BaseDefense = 15;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.95f;
+        Turns = DefaultTurns = BaseTurns = 1;
         Speed = 275;
         MoneyDropped = 20;
         XPDropped = 200;

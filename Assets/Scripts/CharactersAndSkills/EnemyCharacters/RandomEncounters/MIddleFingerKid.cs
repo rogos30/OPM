@@ -12,10 +12,10 @@ public class MiddleFingerKid : EnemyCharacter
         DativeName = "Ch³opakowi z fakerem";
         AccusativeName = "Ch³opaka z fakerem";
 
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 225;
-        DifficultyHealthChange = 55;
-        Attack = DefaultAttack = BaseAttack = 75;
-        DifficultyAttackChange = 25;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 250;
+        DifficultyHealthChange = 75;
+        Attack = DefaultAttack = BaseAttack = 90;
+        DifficultyAttackChange = 35;
         Defense = DefaultDefense = BaseDefense = 15;
         Accuracy = DefaultAccuracy = BaseAccuracy = 0.85f;
         Turns = DefaultTurns = BaseTurns = 1;

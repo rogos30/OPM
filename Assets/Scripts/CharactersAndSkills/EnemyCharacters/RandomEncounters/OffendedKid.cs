@@ -5,21 +5,18 @@ using UnityEngine.TextCore.Text;
 
 public class OffendedKid : EnemyCharacter
 {
-    // Start is called before the first frame update
     public OffendedKid()
     {
-        //character = new EnemyCharacter("Dzieciak z fochem", 200, 20, 55, 15, 20, 0.85f, 1, 250, 15, 250, skills);
-
         NominativeName = "Dzieciak z fochem";
         DativeName = "Dzieciakowi z fochem";
         AccusativeName = "Dzieciaka z fochem";
-        Health = MaxHealth = DefaultMaxHealth = 200;
-        DifficultyHealthChange = 40;
-        Attack = DefaultAttack = 80;
-        DifficultyAttackChange = 25;
-        Defense = DefaultDefense = 20;
-        Accuracy = DefaultAccuracy = 0.85f;
-        Turns = DefaultTurns = 1;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 225;
+        DifficultyHealthChange = 65;
+        Attack = DefaultAttack = BaseAttack = 100;
+        DifficultyAttackChange = 40;
+        Defense = DefaultDefense = BaseDefense = 20;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 0.85f;
+        Turns = DefaultTurns = BaseTurns = 1;
         Speed = 250;
         MoneyDropped = 15;
         XPDropped = 250;
