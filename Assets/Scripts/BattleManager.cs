@@ -102,6 +102,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] AudioClip[] midFightVoiceLines;
     AudioSource musicSource, sfxSource;
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
+
+    Vector3[] defaultEnemyScales = new Vector3[4];
     private void Awake()
     {
         background.gameObject.SetActive(false);
@@ -289,6 +291,7 @@ public class BattleManager : MonoBehaviour
                                     maxCurrentRow = 1;
                                     maxCurrentPage = 1;
                                     actions[0].text = "Wszyscy";
+                                    HighlightTarget(0, true);
                                 }
                                 else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom)
                                 { //random enemy is a target
@@ -296,11 +299,14 @@ public class BattleManager : MonoBehaviour
                                     maxCurrentRow = 1;
                                     maxCurrentPage = 1;
                                     actions[0].text = "Losowo";
+                                    HighlightTarget(0, true);
                                 }
                                 else
                                 { //one enemy is a target
                                     PrintPageOfEnemies();
+                                    HighlightTarget(0);
                                 }
+
                                 currentColumn++;
                             }
                             break;
@@ -368,6 +374,7 @@ public class BattleManager : MonoBehaviour
                     { //if not an enemy, then an ally (or all enemies which does not matter)
                         chosenTarget = playableCharacterList.FindIndex(x => x.NominativeName.Equals(actions[currentRow].text));
                     }
+                    UnhighlightTarget(0, true);
 
                     currentColumn++;
                     HandlePlayersMove();
@@ -414,6 +421,7 @@ public class BattleManager : MonoBehaviour
                     {
                         case 0: //skill
                             PrintPageOfSkills();
+                            UnhighlightTarget(0, true);
                             break;
                         case 1: //item
                             PrintPageOfItems();
@@ -430,6 +438,7 @@ public class BattleManager : MonoBehaviour
             sfxSource.loop = false;
             sfxSource.Play();
             actions[currentRow].color = Color.white;
+            int previousRow = currentRow;
             if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             {
                 currentRow = (currentRow + 1) % maxCurrentRow;
@@ -478,6 +487,20 @@ public class BattleManager : MonoBehaviour
                     }
                     break;
                 case 2: //targets
+                    if (chosenAction == 0 && !playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly
+                        && !playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsSelf)
+                    { //chosen a skill that targets enemies
+                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom ||
+                            playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
+                        { //highlight all enemies
+                            HighlightTarget(0, true);
+                        }
+                        else
+                        { //highlight currently selected enemy
+                            UnhighlightTarget(previousRow);
+                            HighlightTarget(currentRow);
+                        }
+                    }
                     break;
             }
         }
@@ -895,6 +918,7 @@ public class BattleManager : MonoBehaviour
 
     void PerformEnemysMove(EnemyCharacter source)
     {
+        StartCoroutine(ShowEnemyWhoMoved(currentEnemy));
         int randSkill = UnityEngine.Random.Range(0, source.skillSet.Count);
         int randTarget;
         onMoveFinished.AddListener(FinishEnemysMove);
@@ -1012,6 +1036,7 @@ public class BattleManager : MonoBehaviour
             allEnemyCharacters[enemies[i]].Reset();
             enemyCharacterList.Add(allEnemyCharacters[enemies[i]]);
             enemySprites[enemies[i]].SetActive(true);
+            defaultEnemyScales[i] = enemySprites[enemies[i]].transform.localScale;
             enemyNames[i].text = enemyCharacterList[i].NominativeName;
             enemyHealthBars[i].gameObject.SetActive(true);
         }
@@ -1317,6 +1342,18 @@ public class BattleManager : MonoBehaviour
 
         characterSkillTexts[0].color = Color.white;
         characterSkillTexts[0].transform.localScale = defaultSkillTextScale;
+    }
+
+    IEnumerator ShowEnemyWhoMoved(int index)
+    {
+        Vector3 newScale = defaultEnemyScales[index];
+        newScale.x *= 1.2f;
+        newScale.y *= 1.2f;
+        enemySprites[enemySpriteIndexes[index]].transform.localScale = newScale;
+
+        yield return new WaitForSeconds(0.4f);
+
+        enemySprites[enemySpriteIndexes[index]].transform.localScale = defaultEnemyScales[index];
     }
 
     IEnumerator CannotRun()
@@ -1768,7 +1805,7 @@ public class BattleManager : MonoBehaviour
                     string[] lines = {
                         "Każde Twoje słowo, kiedy byliśmy razem to kłamstwo. Nigdy nie zależało Ci na mnie, miałeś w głowie tylko siebie i swoje dobro",
                         "To samo jest teraz w roli przewodniczącego. Nie potrafisz być nawet przez chwilę ani poważny, ani szczery",
-                        "A Twoja dziecinność? Myślisz, że ten breloczek z dinozaurem dodaje Ci fajności? Jak głupia byłam...",
+                        "A Twoja dziecinność? Myślisz, że ten breloczek z dinozaurem dodaje Ci fajności? Jak głupupia byłam...",
                         "Przestań, przestań!" };
                     int[] speakerIndexes = { 3, 3, 3, 4 };
                     acceptsInput = false;
@@ -1861,6 +1898,36 @@ public class BattleManager : MonoBehaviour
             sumMaxHealth += character.MaxHealth;
         }
         return (float)Math.Round(sumHealth / sumMaxHealth, 4);
+    }
+
+    void UnhighlightTarget(int index, bool allEnemies = false)
+    {
+        if (allEnemies)
+        {
+            for (int i=0; i < enemySpriteIndexes.Count; i++)
+            {
+                enemySprites[enemySpriteIndexes[i]].GetComponent<SpriteRenderer>().color = Color.white;
+            }
+        }
+        else
+        {
+            enemySprites[enemySpriteIndexes[index]].GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+    void HighlightTarget(int index, bool allEnemies = false)
+    {
+        if (allEnemies)
+        {
+            for (int i = 0; i < enemySpriteIndexes.Count; i++)
+            {
+                enemySprites[enemySpriteIndexes[i]].GetComponent<SpriteRenderer>().color = orange;
+            }
+        }
+        else
+        {
+            enemySprites[enemySpriteIndexes[index]].GetComponent<SpriteRenderer>().color = orange;
+        }
     }
 
     IEnumerator disableAnimation(int index)
