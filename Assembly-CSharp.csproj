@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\Weapon.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Jaronald\Jaronald.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Generator1.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\EnergyDrink.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Aniela\Nina.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Tracksuiters\Chant.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightFlicker.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Bombel\Bombel.cs" />
     <Compile Include="Assets\Scripts\TriggerController.cs" />
     <Compile Include="Assets\Scripts\ShopManager.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\Builder.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableTriplePunch.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Attack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\GroupShock.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Bombel\BadJoke.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Drink.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\Character.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\Peter.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\CheeseChickenToast.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemySkill.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Bombel\BombelAttack.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\Necklace.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Swietlik\EnemySwietlik.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\EnemyAttack.cs" />
@@ -170,6 +174,7 @@
     <Compile Include="Assets\Scripts\ShopkeeperController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdMotivation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Aniela\StrongAniela.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Jaronald\EnemyCheats.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdIntimidation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnenyPerfectGoalkeeper.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\Algida.cs" />
@@ -177,6 +182,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\TankStance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Jaronald\EnemyCutball.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\BasketballStar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Scripts\PatrolNPCController.cs" />
@@ -213,6 +219,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Skeletons\Staredown.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\Wheelbarrow.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Bombel\BombelCurveball.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TeleType.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\DontCare.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Rogos\TheEnd.cs" />
@@ -253,6 +260,7 @@
     <Compile Include="Assets\Scripts\PasswordNPCController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Franek\PerfectGoalkeeper.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\BienkowskasRemains.cs" />
+    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Bombel\BombelCutball.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\DribbleThrow.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Generators\Shock.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Tracksuiters\BaseballStrike.cs" />

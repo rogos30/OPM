@@ -7,7 +7,7 @@ public class Toxicisity : EnemySkill
     public Toxicisity() : base()
     {
         Name = "Toksycznoœæ";
-        InFightDescription = " jest tak toksyczna, ¿e nak³ada truciznê na ";
+        InFightDescription = " wykazuje tak¹ toksycznoœæ, ¿e nak³ada truciznê na ";
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;

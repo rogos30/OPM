@@ -1142,12 +1142,29 @@ public class BattleManager : MonoBehaviour
 
         character = new Burzynski();
         playableCharacters.Add(character);
+        while (playableCharacters[4].Level < 8)
+        {
+            playableCharacters[4].HandleLevel(500);
+        }
 
         character = new Lora();
         playableCharacters.Add(character);
 
         character = new Franek();
         playableCharacters.Add(character);
+
+        while (playableCharacters[5].Level < 12)
+        {
+            playableCharacters[5].HandleLevel(1000);
+            playableCharacters[6].HandleLevel(1000);
+        }
+
+        character = new Bombel();
+        playableCharacters.Add(character);
+        while (playableCharacters[7].Level < 16)
+        {
+            playableCharacters[7].HandleLevel(1000);
+        }
     }
 
     void InitializeEnemyCharacters()
@@ -1236,6 +1253,9 @@ public class BattleManager : MonoBehaviour
         allEnemyCharacters.Add(character);
 
         character = new Tracksuiter("Dresiarz IV", "Dresiarzowi IV", "Dresiarza IV");
+        allEnemyCharacters.Add(character);
+
+        character = new Jaronald();
         allEnemyCharacters.Add(character);
     }
 

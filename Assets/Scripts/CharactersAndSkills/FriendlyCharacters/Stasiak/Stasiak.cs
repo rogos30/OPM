@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Stasiak : FriendlyCharacter
 {
-    //specialty - cricital hits deal 3x the damage instead of 2x
     public Stasiak() : base()
     {
         NominativeName = "Stasiak";

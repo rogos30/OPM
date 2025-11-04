@@ -25,5 +25,9 @@ public class Peter : EnemyCharacter
         skillSet.Add(triplePunch);
         HeavyPunch heavyPunch = new HeavyPunch();
         skillSet.Add(heavyPunch);
+        CrowdIntimidation crowdIntimidation = new CrowdIntimidation();
+        skillSet.Add(crowdIntimidation);
+        CrowdMotivation crowdMotivation = new CrowdMotivation();
+        skillSet.Add(crowdMotivation);
     }
 }
