@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     bool isFacingRight = false, isMoving = false;
     int currentArea = 0;
+    [SerializeField] bool allowRandomEncounters = false;
 
     [SerializeField] GameObject interactionPrompt;
     void Start()
@@ -26,7 +27,7 @@ public class PlayerController : MonoBehaviour
         {
             isMoving = false;
             HandleInput();
-            if (isMoving)
+            if (isMoving && allowRandomEncounters)
             {
                 timeToFight -= Time.deltaTime;
             }
@@ -105,6 +106,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void AllowRandomEncounters()
+    {
+        allowRandomEncounters = true;
+        ResetTimeToRandomEcounter();
+    }
+
+    public void PreventRandomEncounters()
+    {
+        allowRandomEncounters = false;
+    }
+
     void Flip()
     {
         isFacingRight = !isFacingRight;
@@ -133,6 +145,10 @@ public class PlayerController : MonoBehaviour
             transform.Translate(-moveSpeed * Time.deltaTime, 0.0f, 0.0f, Space.World);
         }
         animator.SetInteger("isWalking", 3);
+
+        var pos = transform.position;
+        pos.z = pos.y;
+        transform.position = pos;
         isMoving = true;
     }
 
@@ -148,6 +164,9 @@ public class PlayerController : MonoBehaviour
             transform.Translate(0.0f, -moveSpeed * Time.deltaTime, 0.0f, Space.World);
             animator.SetInteger("isWalking", 2);
         }
+        var pos = transform.position;
+        pos.z = pos.y;
+        transform.position = pos;
         isMoving = true;
     }
 

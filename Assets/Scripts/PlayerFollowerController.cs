@@ -25,6 +25,9 @@ public class PlayerFollowerController : Interactable
     void Update()
     {
         StartCoroutine(MoveDelayed(target));
+        var pos = transform.position;
+        pos.z = pos.y;
+        transform.position = pos;
     }
 
     IEnumerator MoveDelayed(Transform target)
@@ -49,7 +52,7 @@ public class PlayerFollowerController : Interactable
             }
             else
             {
-                transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
             }
         }
         else
