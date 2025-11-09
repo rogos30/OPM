@@ -6,7 +6,7 @@ public class DivorcePapers : OffensiveAttribute
 {
     public DivorcePapers()
     {
-        Name = "Papiery rozwodowe Przedlackiego";
+        Name = "Oblana kartkówka";
         Description = "Zwiêksza atak o 240, ale zmniejsza przyjmowane leczenie o 25%";
         AttackAdded = 240;
         DefenseAdded = 00;

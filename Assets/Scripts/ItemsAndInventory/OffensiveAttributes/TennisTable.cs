@@ -6,7 +6,7 @@ public class TennisTable : OffensiveAttribute
 {
     public TennisTable()
     {
-        Name = "Stó³ do pingla";
+        Name = "Stó³ do ping ponga";
         Description = "Zwiêksza atak o 120, ale zmniejsza przyjmowane leczenie o 20%";
         AttackAdded = 120;
         DefenseAdded = 00;

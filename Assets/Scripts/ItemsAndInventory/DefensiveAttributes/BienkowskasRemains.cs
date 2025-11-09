@@ -6,7 +6,7 @@ public class BienkowskasRemains : DefensiveAttribute
 {
     public BienkowskasRemains()
     {
-        Name = "Wpó³ zgni³e szcz¹tki Bieñskowskiej";
+        Name = "Pêk kabli elektrotechnika";
         Description = "Zwiêksza obronê o 120, ale zmniejsza celnoœæ o 25%";
         AttackAdded = 0;
         DefenseAdded = 120;

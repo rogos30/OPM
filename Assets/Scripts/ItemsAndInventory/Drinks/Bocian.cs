@@ -6,7 +6,7 @@ public class Bocian : Drink
 {
     public Bocian()
     {
-        this.Name = "Bocian";
+        this.Name = "Woda dodatkowo utleniona";
         this.Description = "Odnawia 150 SP";
         this.Resurrects = false;
         this.Cost = 13;

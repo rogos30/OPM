@@ -6,7 +6,7 @@ public class Zubrowka : Drink
 {
     public Zubrowka()
     {
-        this.Name = "¯ubrówka";
+        this.Name = "Woda z kranu";
         this.Description = "Odnawia 60 SP";
         this.Resurrects = false;
         this.Cost = 5;
