@@ -11,6 +11,9 @@ public class ArtifactController : Interactable
     [SerializeField] int[] speakersIndexes;
     bool canLeave = false;
     public bool wasSeen = false;
+    [SerializeField] bool disappearAfterInteraction;
+    public string artifactName;
+    public string description;
 
     protected override void Update()
     {
@@ -39,6 +42,10 @@ public class ArtifactController : Interactable
     {
         GameManager.instance.artifactCanvas.enabled = false;
         wasSeen = true;
+        if (disappearAfterInteraction)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     IEnumerator startDialogueDelayed()
