@@ -13,5 +13,6 @@ public class Magnum : IceCream
         this.Cost = 15;
         this.Amount = 0;
         EffectImmunity = 1;
+        Id = 7;
     }
 }

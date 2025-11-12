@@ -53,7 +53,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text[] optionValuesTexts;
     [SerializeField] TMP_Text[] inventoryMainTexts;
     [SerializeField] TMP_Text[] inventoryBrowseTexts;
+    [SerializeField] TMP_Text inventoryBrowseTitle;
     [SerializeField] TMP_Text[] inventoryEqCategoryTexts;
+    [SerializeField] TMP_Text inventoryEqCategoryDescriptionText;
     [SerializeField] TMP_Text[] inventoryEqChangeTexts;
     [SerializeField] TMP_Text[] characterInfoTexts;
     [SerializeField] TMP_Text[] characterStatsTexts;
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip navigationAcceptSound;
 
     [SerializeField] GameObject[] artifacts;
+    [SerializeField] Sprite emptySprite;
 
     private void Start()
     {
@@ -237,9 +240,10 @@ public class GameManager : MonoBehaviour
                 case (int)PauseState.CHARACTER_INFO:
                     characterInfoColumn.SetActive(false);
                     currentColumn = (int)PauseState.MAIN;
-                    mainColumnTexts[currentRow].color = Color.white;
+                    characterInfoTexts[currentRow].color = Color.white;
                     currentRow = chosenMain;
                     mainColumnTexts[currentRow].color = orange;
+                    maxCurrentRow = mainColumnTexts.Length;
                     break;
                 case (int)PauseState.CHARACTER_STATS:
                     characterStatsColumn.SetActive(false);
@@ -261,6 +265,14 @@ public class GameManager : MonoBehaviour
                     currentRow = chosenEqCategory;
                     inventoryEqCategoryTexts[currentRow].color = orange;
                     maxCurrentRow = inventoryEqCategoryTexts.Length;
+                    if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow] != null)
+                    {
+                        inventoryEqCategoryDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow].Name;
+                    }
+                    else
+                    {
+                        inventoryEqCategoryDescriptionText.text = "Brak";
+                    }
                     break;
             }
         }
@@ -323,6 +335,7 @@ public class GameManager : MonoBehaviour
                     inventoryBrowseTexts[currentRow].color = orange;
                     itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.items[currentPage * 4 + currentRow].Amount;
+                    itemImage.sprite = Inventory.instance.itemsImages[Inventory.instance.items[currentPage * 4 + currentRow].Id];
                     break;
                 case (int)PauseState.INVENTORY_WEARABLES: //equipment column
                     inventoryBrowseTexts[currentRow].color = Color.white;
@@ -351,10 +364,12 @@ public class GameManager : MonoBehaviour
                     if (artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().wasSeen)
                     {
                         itemDescriptionText.text = artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().description;
+                        itemImage.sprite = artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().artifact;
                     }
                     else
                     {
                         itemDescriptionText.text = "???";
+                        itemImage.sprite = emptySprite;
                     }
                     inventoryBrowseTexts[currentRow].color = orange;
                     break;
@@ -381,6 +396,14 @@ public class GameManager : MonoBehaviour
                         currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
                     }
                     inventoryEqCategoryTexts[currentRow].color = orange;
+                    if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow] != null)
+                    {
+                        inventoryEqCategoryDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow].Name;
+                    }
+                    else
+                    {
+                        inventoryEqCategoryDescriptionText.text = "Brak";
+                    }
                     break;
                 case (int)PauseState.CHARACTER_EQ_CHANGE: //eq change column
                     inventoryEqChangeTexts[currentRow].color = Color.white;
@@ -510,26 +533,28 @@ public class GameManager : MonoBehaviour
                             currentColumn = (int)PauseState.INVENTORY_HEALING;
                             currentPage = 0;
                             PrintCurrentPageOfItems();
-                            itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                            itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
-                                Inventory.instance.items[currentPage * 4 + currentRow].Amount;
                             chosenInv = currentRow;
                             inventoryMainTexts[chosenInv].color = Color.red;
-                            inventoryBrowseTexts[currentRow = 0].color = orange;
+                            inventoryBrowseTexts[currentRow = 0].color = orange; itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
+                            itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
+                                Inventory.instance.items[currentPage * 4 + currentRow].Amount;
                             maxCurrentRow = inventoryBrowseTexts.Length;
+                            itemImage.sprite = Inventory.instance.itemsImages[Inventory.instance.items[currentPage * 4 + currentRow].Id];
+                            inventoryBrowseTitle.text = "PRZEDMIOTY LECZ¥CE";
                             inventoryItemsColumn.SetActive(true);
                             break;
                         case 1: //wearables
                             currentColumn = (int)PauseState.INVENTORY_WEARABLES;
                             currentPage = 0;
                             PrintCurrentPageOfWearables();
-                            itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
-                            itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
-                                Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
                             chosenInv = currentRow;
                             inventoryMainTexts[chosenInv].color = Color.red;
                             inventoryBrowseTexts[currentRow = 0].color = orange;
+                            itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
+                            itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
+                                Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
                             maxCurrentRow = inventoryBrowseTexts.Length;
+                            inventoryBrowseTitle.text = "WYPOSA¯ENIE";
                             inventoryItemsColumn.SetActive(true);
                             break;
                         case 2: //artifacts
@@ -543,12 +568,15 @@ public class GameManager : MonoBehaviour
                             if (artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().wasSeen)
                             {
                                 itemDescriptionText.text = artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().description;
+                                itemImage.sprite = artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().artifact;
                             }
                             else
                             {
                                 itemDescriptionText.text = "???";
+                                itemImage.sprite = emptySprite;
                             }
                             maxCurrentRow = inventoryBrowseTexts.Length;
+                            inventoryBrowseTitle.text = "ARTEFAKTY";
                             inventoryItemsColumn.SetActive(true);
                             break;
                         /*default: //character's equipment
@@ -578,8 +606,15 @@ public class GameManager : MonoBehaviour
                             inventoryEqCategoryTexts[currentRow = 0].color = orange;
                             maxCurrentRow = inventoryEqCategoryTexts.Length;
                             inventoryEqCategoryColumn.SetActive(true);
-                            PrintAvailableEquipment();
                             eqDescriptionText.text = "";
+                            if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow] != null)
+                            {
+                                inventoryEqCategoryDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow].Name;
+                            }
+                            else
+                            {
+                                inventoryEqCategoryDescriptionText.text = "Brak";
+                            }
                             break;
                         case 2: //character skill tree
                             break;
@@ -592,6 +627,8 @@ public class GameManager : MonoBehaviour
                     inventoryEqChangeTexts[currentRow = 0].color = orange;
                     maxCurrentRow = inventoryEqChangeTexts.Length - 1;
                     inventoryEqChangeColumn.SetActive(true);
+                    eqDescriptionText.text = "";
+                    PrintAvailableEquipment();
                     break;
                 case (int)PauseState.CHARACTER_EQ_CHANGE:
                     switch (currentRow)
@@ -599,6 +636,7 @@ public class GameManager : MonoBehaviour
                         case 0: //taking off equipment
                             if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[chosenEqCategory] != null)
                             {
+                                Debug.Log("zdejmuje");
                                 BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[chosenEqCategory].TakeOff(BattleManager.instance.playableCharacters[chosenChar]);
                             }
                             break;
@@ -617,8 +655,16 @@ public class GameManager : MonoBehaviour
                     currentColumn = (int)PauseState.CHARACTER_EQ_CATEGORY;
                     inventoryEqChangeTexts[currentRow].color = Color.white;
                     currentRow = chosenEqCategory;
-                    inventoryEqChangeTexts[currentRow].color = orange;
+                    inventoryEqCategoryTexts[currentRow].color = orange;
                     maxCurrentRow = inventoryEqCategoryTexts.Length;
+                    if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow] != null)
+                    {
+                        inventoryEqCategoryDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow].Name;
+                    }
+                    else
+                    {
+                        inventoryEqCategoryDescriptionText.text = "Brak";
+                    }
                     break;
             }
         }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ArtifactController : Interactable
 {
-    [SerializeField] Sprite artifact;
+    public Sprite artifact;
     [SerializeField] string[] lines;
     [SerializeField] AudioClip[] voiceLines;
     [SerializeField] int[] speakersIndexes;

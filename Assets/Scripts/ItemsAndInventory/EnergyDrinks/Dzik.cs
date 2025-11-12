@@ -13,5 +13,6 @@ public class Dzik : EnergyDrink
         this.Cost = 75;
         this.Amount = 0;
         HealthRestored = 0.67f;
+        Id = 14;
     }
 }

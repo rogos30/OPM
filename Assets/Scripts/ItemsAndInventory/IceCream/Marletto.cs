@@ -13,5 +13,6 @@ public class Marletto : IceCream
         this.Cost = 35;
         this.Amount = 0;
         EffectImmunity = 3;
+        Id = 15;
     }
 }

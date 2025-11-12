@@ -6,6 +6,7 @@ public abstract class Item
     public bool Resurrects { get; set; }
     public int Amount { get; set; }
     public int Cost { get; set; }
+    public int Id { get; set; }
 
     public void Add(int amount)
     {

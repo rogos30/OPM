@@ -73,7 +73,6 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\MultipliableAttack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\MainBuilder.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
-    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Zubrowka.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\DiscoPoloStar.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\TriplePunch.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Surveillance.cs" />
@@ -164,20 +163,19 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\Peter.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\CheeseChickenToast.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemySkill.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\Koktajlowe.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Bombel\BombelAttack.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\Necklace.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Swietlik\EnemySwietlik.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableAttack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyBurzynski.cs" />
-    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Bocian.cs" />
     <Compile Include="Assets\Scripts\ShopkeeperController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdMotivation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Aniela\StrongAniela.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Jaronald\EnemyCheats.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdIntimidation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnenyPerfectGoalkeeper.cs" />
-    <Compile Include="Assets\Scripts\ItemsAndInventory\IceCream\Algida.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyShitMonologue.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\TankStance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
@@ -191,11 +189,13 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\Skill.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\IcebergWater.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnemyCrosswords.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\LushBangs.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\Aphrodite.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\DiamondSword.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Server\ToxicGas.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\IceWater.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Stasiak\Curveball.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\AlcoholOverdose.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\FatumBox.cs" />
@@ -241,10 +241,10 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\Armor\LeatherArmor.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\Redbull.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Wearable.cs" />
-    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Wyjebongo.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\FatToast.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Burzynski\Burzynski.cs" />
     <Compile Include="Assets\Scripts\StoryManager.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\TapWater.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RotateCamera.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Maja\UkrainianStrength.cs" />
@@ -271,6 +271,7 @@
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\StoneSword.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Inventory.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Rainwater.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\AngryGirl.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\ShovelStrike.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Maja\StrokeOfLuck.cs" />
@@ -285,7 +286,6 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Connection.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Franek\Counterattack.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
-    <Compile Include="Assets\Scripts\ItemsAndInventory\Drinks\Stock.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

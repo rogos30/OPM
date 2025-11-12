@@ -12,5 +12,6 @@ public class FatToast : Sandwich
         Cost = 23;
         Amount = 0;
         HealthRestored = 1;
+        Id = 12;
     }
 }

@@ -13,5 +13,6 @@ public class Redbull : EnergyDrink
         this.Cost = 35;
         this.Amount = 0;
         HealthRestored = 0.375f;
+        Id = 6;
     }
 }

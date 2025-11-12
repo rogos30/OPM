@@ -8,10 +8,11 @@ public class BigMilk : IceCream
     public BigMilk()
     {
         this.Name = "BigMilk";
-        this.Description = "Usuwa negatywne efekty i broni przed nimi przez 2 tury";
+        this.Description = "Usuwa negatywne efekty";
         this.Resurrects = false;
-        this.Cost = 25;
+        this.Cost = 5;
         this.Amount = 0;
-        EffectImmunity = 2;
+        EffectImmunity = 0;
+        Id = 3;
     }
 }

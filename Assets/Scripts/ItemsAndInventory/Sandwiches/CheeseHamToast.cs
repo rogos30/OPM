@@ -12,5 +12,6 @@ public class CheeseHamToast : Sandwich
         Cost = 8;
         Amount = 0;
         HealthRestored = 500;
+        Id = 4;
     }
 }

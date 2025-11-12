@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Inventory : MonoBehaviour
     public List<Wearable> wearables = new List<Wearable>();
     public readonly int maxOwnedItems = 99;
 
+    public Sprite[] itemsImages;
+    public Sprite[] wearablesImages;
+
     private void Awake()
     {
         money = 50;
@@ -18,38 +22,25 @@ public class Inventory : MonoBehaviour
         instance = this;
     }
 
-    public int AvailableItems()
-    {
-        int result = 0;
-        for (int i=0; i<items.Count; i++)
-        {
-            if (items[i].Amount > 0)
-            {
-                result++;
-            }
-        }
-        return result;
-    }
-
     public void InitializeItems()
     {
         Item item = new CheeseToast(); items.Add(item);
-        item = new Zubrowka(); items.Add(item);
+        item = new Rainwater(); items.Add(item);
         item = new Tiger(); items.Add(item);
-        item = new Algida(); items.Add(item);
+        item = new BigMilk(); items.Add(item);
 
         item = new CheeseHamToast(); items.Add(item);
-        item = new Bocian(); items.Add(item);
+        item = new TapWater(); items.Add(item);
         item = new Redbull(); items.Add(item);
         item = new Magnum(); items.Add(item);
 
         item = new CheeseChickenToast(); items.Add(item);
-        item = new Stock(); items.Add(item);
+        item = new IceWater(); items.Add(item);
         item = new Monster(); items.Add(item);
-        item = new BigMilk(); items.Add(item);
+        item = new Koktajlowe(); items.Add(item);
 
         item = new FatToast(); items.Add(item);
-        item = new Wyjebongo(); items.Add(item);
+        item = new IcebergWater(); items.Add(item);
         item = new Dzik(); items.Add(item);
         item = new Marletto(); items.Add(item);
     }

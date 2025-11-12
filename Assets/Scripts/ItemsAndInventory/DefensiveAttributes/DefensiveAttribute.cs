@@ -14,7 +14,7 @@ public abstract class DefensiveAttribute : Wearable
 
     public override void TakeOff(FriendlyCharacter target)
     {
-        target.wearablesWorn[(int)Wearable.WEARABLES.DEFENSIVE] = this;
+        target.wearablesWorn[(int)Wearable.WEARABLES.DEFENSIVE] = null;
         Amount++;
         target.DefaultAccuracy /= AccuracyMultiplier;
         target.DefaultDefense -= DefenseAdded;

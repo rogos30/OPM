@@ -13,5 +13,6 @@ public class Monster : EnergyDrink
         this.Cost = 55;
         this.Amount = 0;
         HealthRestored = 0.5f;
+        Id = 10;
     }
 }
