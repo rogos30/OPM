@@ -58,13 +58,9 @@ public class Welenc : FriendlyCharacter
         SetAbilityDescription();
     }
 
-    public void MaxOutAttackMultiplier(bool overcharge)
+    public void MaxOutAttackMultiplier(int overcharge)
     {
-        AttackMultiplier = MaxAttackMultiplier;
-        if (overcharge)
-        {
-            AttackMultiplier += 1;
-        }
+        AttackMultiplier = MaxAttackMultiplier + overcharge;
         SetAbilityDescription();
     }
 

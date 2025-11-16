@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PerfectGoalkeeper : PlayableSkill
 {
-    //* Perfekcyjny bramkarz – Je¿eli ma na³o¿ony debuff na obronê, to go zdejmuje. Nastêpnie zwiêksza swoj¹ obronê na 3 tury.
-
     public PerfectGoalkeeper()
     {
         Name = "Super bramkarz";
@@ -17,6 +15,7 @@ public class PerfectGoalkeeper : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 9;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -36,5 +35,9 @@ public class PerfectGoalkeeper : PlayableSkill
         target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
         target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

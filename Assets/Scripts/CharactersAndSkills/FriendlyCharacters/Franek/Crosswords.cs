@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Crosswords : PlayableSkill
 {
-    //* Krzy¿ówki - rozwi¹zuje krzy¿ówki. Zwiêksza sobie celnoœæ oraz mo¿e uœpiæ (sparali¿owaæ) dowolnego wroga.
-
     public Crosswords()
     {
         Name = "Krzy¿ówki";
@@ -16,6 +14,7 @@ public class Crosswords : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -34,5 +33,9 @@ public class Crosswords : PlayableSkill
         source.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
         finalDesc = finalDesc + "na " + (turns-1) + " tury";
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

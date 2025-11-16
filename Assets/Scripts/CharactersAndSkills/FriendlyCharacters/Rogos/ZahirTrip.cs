@@ -7,8 +7,15 @@ using UnityEngine;
 public class ZahirTrip : PlayableSkill
 {
     bool giveaway = false;
+    int defaultTripTurns = 2;
+    int defaultKebabHealing = 500;
     public ZahirTrip()
     {
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 8, 8, 8 };
+        tokensToUpgrades = new List<int> { 2, 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Skróæ czas podró¿y", "Zwiêksz leczenie z kebabów"};
+        upgradeDescriptions = new List<string> { "Pierwsze u¿ycie wysy³a po kebaby, a drugie rozdaje je dru¿ynie, wzmacniaj¹c j¹", "2 -> 1 tura", "500 -> 750 HP" };
         SetToMission();
     }
 
@@ -49,15 +56,22 @@ public class ZahirTrip : PlayableSkill
                 return source.NominativeName + " spada z rowerka";
             }
             string finalDesc = source.NominativeName + InFightDescription;
-            int turns = 1;
+            int turns = defaultTripTurns;
             if (skillPerformance == 2)
             {
-                finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-                finalDesc = finalDesc + " na " + turns + " turê!";
+                finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + " na " + turns;
+                if (turns == 1)
+                {
+                    finalDesc = finalDesc + " turê!";
+                }
+                else
+                {
+                    finalDesc = finalDesc + " tury!";
+                }
             }
             else
             {
-                turns = 2;
+                turns = defaultTripTurns + 1;
                 finalDesc = finalDesc + " na " + turns + " tury!";
             }
             target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
@@ -75,7 +89,7 @@ public class ZahirTrip : PlayableSkill
             }
             string finalDesc = source.NominativeName + InFightDescription + target.AccusativeName;
             int turns = 3;
-            int healing = 750;
+            int healing = defaultKebabHealing;
             if (skillPerformance == 2)
             {
                 finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
@@ -90,5 +104,21 @@ public class ZahirTrip : PlayableSkill
             target.Heal(healing);
             return finalDesc;
         }
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            defaultTripTurns = 1;
+        }
+        if (Level == 2)
+        {
+            defaultKebabHealing = 750;
+        }
+        Level++;
     }
 }

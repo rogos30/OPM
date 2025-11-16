@@ -16,6 +16,7 @@ public class ElectionPromise : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = true;
         TargetIsRandom = false;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -51,5 +52,9 @@ public class ElectionPromise : PlayableSkill
         }
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

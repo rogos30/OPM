@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Counterattack : PlayableSkill
 {
-    //* Kontra – Rzuca z du¿¹ si³¹ pi³k¹ w przeciwnika. Zadaje wysokie obra¿enia jednemu przeciwnikowi.
-
     public Counterattack()
     {
         Name = "Kontra";
@@ -17,6 +15,7 @@ public class Counterattack : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -35,5 +34,9 @@ public class Counterattack : PlayableSkill
         finalDesc = finalDesc + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

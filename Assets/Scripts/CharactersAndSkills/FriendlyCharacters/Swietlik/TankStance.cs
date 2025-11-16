@@ -16,6 +16,7 @@ public class TankStance : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -35,5 +36,9 @@ public class TankStance : PlayableSkill
         target.ApplyBuff(1, turns);
         ((Swietlik)source).ReduceBetrayal();
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

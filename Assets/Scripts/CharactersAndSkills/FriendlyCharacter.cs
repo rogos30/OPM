@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FriendlyCharacter : Character
 {
-    const float statIncreaseFactor = 1.1f;
+    const float statIncreaseFactor = 1.35f;
     const int requiredXPincrease = 250;
     public const float guardDamageMultiplier = 0.5f;
     public float guardSPRestoration = 0.2f;
@@ -17,6 +17,7 @@ public class FriendlyCharacter : Character
     public int XPToNextLevel { get; set; }
     public int UnlockedSkills { get; set; }
     public int SpriteIndex { get; set; }
+    public int UpgradeTokens { get; set; }
     public bool IsGuarding { get; set; }
     public float HealingMultiplier {  get; set; }
     public float ItemEnhancementMultiplier {  get; set; }
@@ -34,6 +35,7 @@ public class FriendlyCharacter : Character
         UnlockedSkills = 2;
         ItemEnhancementMultiplier = 1;
         HealingMultiplier = 1;
+        UpgradeTokens = 1;
         KnockedOut = false;
         IsGuarding = false;
         for (int i = 0; i < wearablesWorn.Length; i++)
@@ -124,12 +126,13 @@ public class FriendlyCharacter : Character
     public string LevelUp()
     {
         Level++;
+        UpgradeTokens++;
         string result = NominativeName + " osi¹ga poziom " + Level;
-        if (Level % levelsToUnlockSkill == 0 && UnlockedSkills < skillSet.Count)
+        /*if (Level % levelsToUnlockSkill == 0 && UnlockedSkills < skillSet.Count)
         {
             UnlockedSkills++;
             result += " i odblokowuje umiejêtnoœæ " + skillSet[UnlockedSkills-1].Name;
-        }
+        }*/
         result += "\n";
         MaxHealth = (int)(MaxHealth * statIncreaseFactor);
         MaxSkill = (int)(MaxSkill * statIncreaseFactor);
@@ -143,6 +146,18 @@ public class FriendlyCharacter : Character
         XPToNextLevel = 500 + (Level - 1) * requiredXPincrease;
         Debug.Log(NominativeName + " reached level " + Level);
         return result;
+    }
+
+    public void Upgrade()
+    {
+        MaxHealth = (int)(MaxHealth * statIncreaseFactor);
+        MaxSkill = (int)(MaxSkill * statIncreaseFactor);
+        DefaultAttack -= GetAttackFromWearables();
+        DefaultAttack = (int)(BaseAttack * Mathf.Pow(statIncreaseFactor, Level - 1));
+        DefaultAttack += GetAttackFromWearables();
+        DefaultDefense -= GetDefenseFromWearables();
+        DefaultDefense = (int)(BaseDefense * Mathf.Pow(statIncreaseFactor, Level - 1));
+        DefaultDefense += GetDefenseFromWearables();
     }
 
     public int GetAttackFromWearables()

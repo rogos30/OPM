@@ -15,6 +15,11 @@ public class FrogHat : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 25;
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 2, 4 };
+        tokensToUpgrades = new List<int> { 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci"};
+        upgradeDescriptions = new List<string> { "Zwiêksza sobie obronê i nadaje regeneracjê", "120 -> 90 SP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -34,5 +39,17 @@ public class FrogHat : PlayableSkill
         target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
         target.ApplyBuff((int)Character.StatusEffects.HEALTH, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            Cost = 90;
+        }
+        Level++;
     }
 }

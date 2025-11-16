@@ -15,6 +15,7 @@ public class BadJoke : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 24;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -41,5 +42,10 @@ public class BadJoke : PlayableSkill
         target.ApplyBuff((int)Character.StatusEffects.ACCURACY, accuracyTurns);
         finalDesc = finalDesc + (attackTurns - 1) + ", jednoczeœnie os³abiaj¹c swoj¹ celnoœæ na " + (accuracyTurns-1) + " tury!";
         return finalDesc;
+    }
+
+    public override void upgrade()
+    {
+        return;
     }
 }

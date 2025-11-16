@@ -30,4 +30,9 @@ public class TheEnd : PlayableSkill
         target.TakeDamage(damage);
         return finalDesc;
     }
+
+    public override void upgrade()
+    {
+        return;
+    }
 }

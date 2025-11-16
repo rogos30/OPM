@@ -15,6 +15,7 @@ public class BombelAttack : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 26;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -40,5 +41,10 @@ public class BombelAttack : PlayableSkill
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         return finalDesc;
+    }
+
+    public override void upgrade()
+    {
+        return;
     }
 }

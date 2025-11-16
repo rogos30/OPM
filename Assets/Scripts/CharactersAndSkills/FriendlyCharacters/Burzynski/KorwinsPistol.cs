@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class KorwinsPistol : PlayableSkill
 {
-    //skill = new Skill("Sza³ szabli", "wykonuje 3 mocne ciêcia w losowych przeciwników", "wykonuje 3 mocne ciêcia", 0.5f, 3, 1.75f, 0.9f, 0, false, false, true, false, statusEffects);
-
     public KorwinsPistol()
     {
-        Name = "Pistolet Korwina";
-        SkillDescription = "pos³uguje siê broni¹ krula w celu rozprawienia siê z komunistami.";
+        Name = "Pistolet Krula";
+        SkillDescription = "pos³uguje siê broni¹ Krula w celu rozprawienia siê z komunistami.";
         InFightDescription = " stawia kres lewactwu i zadaje ";
-        Cost = 240f;
+        Cost = 240;
         Repetitions = 3;
         AccuracyMultiplier = 1f;
         AnimationId = 7;
@@ -20,6 +18,11 @@ public class KorwinsPistol : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = true;
         SkillSoundId = 11;
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 1, 1, 12 };
+        tokensToUpgrades = new List<int> { 3, 1, 3 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz celnoœæ umiejêtnoœci", "Strzel wiêksz¹ iloœci¹ pocisków" };
+        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia kilka razy losowym przeciwnikom", "+10% celnoœci", "3 -> 4 strza³y" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -40,5 +43,21 @@ public class KorwinsPistol : PlayableSkill
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            AccuracyMultiplier = 1.1f;
+        }
+        if (Level == 2)
+        {
+            Repetitions = 4;
+        }
+        Level++;
     }
 }

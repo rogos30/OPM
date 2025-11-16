@@ -15,6 +15,7 @@ public class DontCare : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 24;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -69,5 +70,9 @@ public class DontCare : PlayableSkill
         }
         finalDesc = finalDesc + " na " + (turns - 1) + " tury!";
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

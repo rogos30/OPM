@@ -11,12 +11,17 @@ public class Kacper : PlayableSkill
         SkillDescription = "jest ponownie przyæmiewana przez swojego brata, który losowo rozdaje sojusznikom SP.";
         InFightDescription = " patrzy jak jej brat odnawia ";
         Cost = 0;
-        Repetitions = 10;
+        Repetitions = 8;
         TargetIsFriendly = true;
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
         SkillSoundId = 9;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 5, 7 };
+        tokensToUpgrades = new List<int> { 2, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz iloœæ rozdañ SP" };
+        upgradeDescriptions = new List<string> { "Losowo rozdaje sojusznikom SP", "8 -> 10 rozdañ" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -35,5 +40,17 @@ public class Kacper : PlayableSkill
         finalDesc = finalDesc + " " + sp * 100 + "% SP";
         ((FriendlyCharacter)target).RestoreSkill(sp);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            Repetitions = 10;
+        }
+        Level++;
     }
 }

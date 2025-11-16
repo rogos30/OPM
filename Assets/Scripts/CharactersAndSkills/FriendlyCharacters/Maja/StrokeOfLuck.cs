@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class StrokeOfLuck : PlayableSkill
 {
-    //skill = new Skill("£ut szczêœcia", "leczy losowego kompana za ca³e jego hp", "odnawia ca³e zdrowie", 175, 1, 0, 0.75f, 1, true, false, true, false, statusEffects);
-
+    float minHealing = 0.25f;
     public StrokeOfLuck()
     {
         Name = "£ut szczêœcia";
@@ -19,6 +18,11 @@ public class StrokeOfLuck : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 12;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 3, 6 };
+        tokensToUpgrades = new List<int> { 2, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz minimalne leczenie" };
+        upgradeDescriptions = new List<string> { "Przywraca kompanowi losow¹ czêœæ hp i wzmacnia losow¹ statystykê", "25% -> 50% maxHP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -30,7 +34,7 @@ public class StrokeOfLuck : PlayableSkill
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
         int turns = 3;
         int effect = UnityEngine.Random.Range(0, 5);
-        float healing = UnityEngine.Random.Range(0.25f, 0.6f);
+        float healing = UnityEngine.Random.Range(minHealing, 0.8f);
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
@@ -60,5 +64,17 @@ public class StrokeOfLuck : PlayableSkill
         target.ApplyBuff(effect, turns);
         target.Heal(healing);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            minHealing = 0.5f;
+        }
+        Level++;
     }
 }

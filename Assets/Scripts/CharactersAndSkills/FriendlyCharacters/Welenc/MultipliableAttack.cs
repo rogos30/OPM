@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MultipliableAttack : PlayableSkill
 {
-    public MultipliableAttack()
+    public MultipliableAttack() : base()
     {
         Name = "Atak";
         SkillDescription = "wyprowadza zwyk³y cios. Moc zale¿na od mno¿nika";
@@ -37,5 +37,10 @@ public class MultipliableAttack : PlayableSkill
         target.TakeDamage(damage);
         ((Welenc)source).ResetAttackMultiplier();
         return finalDesc;
+    }
+
+    public override void upgrade()
+    {
+        return;
     }
 }

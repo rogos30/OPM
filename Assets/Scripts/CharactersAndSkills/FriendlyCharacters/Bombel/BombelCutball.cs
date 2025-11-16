@@ -16,7 +16,7 @@ public class BombelCutball : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 16;
-
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -42,5 +42,9 @@ public class BombelCutball : PlayableSkill
         finalDesc = finalDesc + damage + " obra¿eñ!";
         target.TakeDamage(damage);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

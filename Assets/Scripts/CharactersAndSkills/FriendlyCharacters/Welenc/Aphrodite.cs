@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class Aphrodite : PlayableSkill
 {
-    // Start is called before the first frame update
-    public Aphrodite()
+    public Aphrodite() : base()
     {
         Name = "Afrodyta";
         SkillDescription = "przebiera siê za babê, zniechêcaj¹c przeciwników do mocnych ciosów";
         InFightDescription = " zmniejsza atak ";
-        Cost = 0.33f;
+        Cost = 0.35f;
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = true;
         TargetIsRandom = false;
         AnimationId = 4;
         SkillSoundId = 0;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 3, 4 };
+        tokensToUpgrades = new List<int> { 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci"};
+        upgradeDescriptions = new List<string> { "Zmniejsza atak przeciwników", "35% -> 25% maxSP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -35,5 +39,17 @@ public class Aphrodite : PlayableSkill
         finalDesc = finalDesc + " na " + (turns-1) + " tury!";
         target.ApplyDebuff((int)Character.StatusEffects.ATTACK, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            Cost = 0.25f;
+        }
+        Level++;
     }
 }

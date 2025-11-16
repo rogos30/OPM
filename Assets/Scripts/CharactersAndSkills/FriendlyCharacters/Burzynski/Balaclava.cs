@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class Balaclava : PlayableSkill
 {
-    //skill = new Skill("Kominiarka", "zak³ada kominiarkê, zwiêkszaj¹c sobie obronê", "zak³ada kominiarkê", 35, 1, 0, 1, 0, false, true, false, false, statusEffects);
-
+    int defaultTurns = 3;
     public Balaclava()
     {
         Name = "Kominiarka";
         SkillDescription = "zak³ada kominiarkê, zwiêkszaj¹c sobie obronê.";
         InFightDescription = " zak³ada kominiarkê i zwiêksza sobie obronê na ";
-        Cost = 35;
+        Cost = 50;
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 10;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 1, 1 };
+        tokensToUpgrades = new List<int> { 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wyd³u¿ czas trwania efektu umiejêtnoœci" };
+        upgradeDescriptions = new List<string> { "Zwiêksza sobie obronê na kilka tur", "2 -> 3 tury" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -26,14 +30,26 @@ public class Balaclava : PlayableSkill
             return source.DativeName + " nie udaje siê za³o¿yæ kominiarki.";
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int turns = 3;
+        int turns = defaultTurns;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
+            turns = defaultTurns + 2;
         }
         finalDesc = finalDesc + (turns-1) + " tury!";
         target.ApplyBuff((int)Character.StatusEffects.DEFENSE, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            defaultTurns = 4;
+        }
+        Level++;
     }
 }

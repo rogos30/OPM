@@ -12,7 +12,8 @@ using static UnityEditor.Progress;
 using static UnityEngine.GraphicsBuffer;
 
 
-public enum PauseState { MAIN, SETTINGS, INVENTORY_MAIN, INVENTORY_HEALING, INVENTORY_WEARABLES, INVENTORY_ARTIFACTS, CHARACTER_INFO, CHARACTER_STATS, CHARACTER_EQ_CATEGORY, CHARACTER_EQ_CHANGE }
+public enum PauseState { MAIN, SETTINGS, INVENTORY_MAIN, INVENTORY_HEALING, INVENTORY_WEARABLES, INVENTORY_ARTIFACTS,
+    CHARACTER_INFO, CHARACTER_STATS, CHARACTER_EQ_CATEGORY, CHARACTER_EQ_CHANGE, CHARACTER_SKILL_TREE }
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -30,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject inventoryEqChangeColumn;
     [SerializeField] GameObject characterInfoColumn;
     [SerializeField] GameObject characterStatsColumn;
+    [SerializeField] GameObject characterSkillTreeColumn;
+    public Image[] skillTreeIconBorders;
+    public Image[] skillTreeIcons;
     public TMP_Text targetIsEscapingText;
     [SerializeField] Image characterSprite;
     [SerializeField] TMP_Text characterNameText;
@@ -59,6 +63,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text[] inventoryEqChangeTexts;
     [SerializeField] TMP_Text[] characterInfoTexts;
     [SerializeField] TMP_Text[] characterStatsTexts;
+    [SerializeField] TMP_Text[] characterSkillTreeTexts;
+    [SerializeField] TMP_Text characterSkillTreeDescriptionText;
+    [SerializeField] TMP_Text characterSkillTreeCurrencyText;
     [SerializeField] TMP_Text itemDescriptionText;
     [SerializeField] TMP_Text itemPageText;
     [SerializeField] TMP_Text eqDescriptionText;
@@ -256,7 +263,7 @@ public class GameManager : MonoBehaviour
                     inventoryEqCategoryTexts[currentRow].color = Color.white;
                     currentRow = chosenCharOption;
                     characterInfoTexts[currentRow].color = orange;
-                    maxCurrentRow = 3;
+                    maxCurrentRow = characterInfoTexts.Length;
                     break;
                 case (int)PauseState.CHARACTER_EQ_CHANGE:
                     inventoryEqChangeColumn.SetActive(false);
@@ -273,6 +280,14 @@ public class GameManager : MonoBehaviour
                     {
                         inventoryEqCategoryDescriptionText.text = "Brak";
                     }
+                    break;
+                case (int)PauseState.CHARACTER_SKILL_TREE:
+                    characterStatsColumn.SetActive(false);
+                    currentColumn = (int)PauseState.CHARACTER_INFO;
+                    characterSkillTreeTexts[currentRow].color = Color.white;
+                    currentRow = chosenCharOption;
+                    characterInfoTexts[currentRow].color = orange;
+                    maxCurrentRow = characterInfoTexts.Length;
                     break;
             }
         }
@@ -425,6 +440,19 @@ public class GameManager : MonoBehaviour
                     {
                         eqDescriptionText.text = "";
                     }
+                    break;
+                case (int)PauseState.CHARACTER_SKILL_TREE:
+                    characterSkillTreeTexts[currentRow].color = Color.white;
+                    if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+                    {
+                        currentRow = (currentRow + 1) % maxCurrentRow;
+                    }
+                    else
+                    {
+                        currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
+                    }
+                    characterSkillTreeTexts[currentRow].color = orange;
+                    characterSkillTreeDescriptionText.text = "TODO";
                     break;
             }
         }
@@ -617,6 +645,16 @@ public class GameManager : MonoBehaviour
                             }
                             break;
                         case 2: //character skill tree
+                            currentColumn = (int)PauseState.CHARACTER_SKILL_TREE;
+                            chosenCharOption = currentRow;
+                            chosenChar = currentPage;
+                            characterInfoTexts[chosenCharOption].color = Color.red;
+                            characterSkillTreeTexts[currentRow = 0].color = orange;
+                            maxCurrentRow = characterSkillTreeTexts.Length;
+                            characterSkillTreeColumn.SetActive(true);
+                            PrintUpgrades();
+                            characterSkillTreeDescriptionText.text = "TODO";
+                            characterSkillTreeCurrencyText.text = "Poziom postaci: " + BattleManager.instance.playableCharacters[chosenChar].Level + "\n Dostêpne tokeny: " + BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens;
                             break;
                     }
                     break;
@@ -666,6 +704,9 @@ public class GameManager : MonoBehaviour
                         inventoryEqCategoryDescriptionText.text = "Brak";
                     }
                     break;
+                case (int)PauseState.CHARACTER_SKILL_TREE:
+                    //TODO
+                    break;
             }
         }
         else if (Input.GetKeyDown(KeyCode.Q))
@@ -705,6 +746,11 @@ public class GameManager : MonoBehaviour
                 case (int)PauseState.CHARACTER_INFO:
                     currentPage = (currentPage - 1 < 0) ? currentPage : currentPage - 1;
                     PrintCharInfo();
+                    break;
+                case (int)PauseState.CHARACTER_SKILL_TREE:
+                    currentPage = (currentPage - 1 < 0) ? currentPage : currentPage - 1;
+                    PrintUpgrades();
+                    characterSkillTreeDescriptionText.text = "TODO";
                     break;
             }
         }
@@ -746,7 +792,11 @@ public class GameManager : MonoBehaviour
                     currentPage = (currentPage + 1 >= BattleManager.instance.currentPartyCharacters.Count) ? currentPage : currentPage + 1;
                     PrintCharInfo();
                     break;
-
+                case (int)PauseState.CHARACTER_SKILL_TREE:
+                    currentPage = (currentPage + 1 >= 6) ? currentPage : currentPage + 1;
+                    PrintUpgrades();
+                    characterSkillTreeDescriptionText.text = "TODO";
+                    break;
             }
         }
     }
@@ -774,6 +824,14 @@ public class GameManager : MonoBehaviour
         characterStatsTexts[7].text = "Ruchy w turze: " + currentChar.DefaultTurns;
         characterStatsTexts[8].text = "Lecz. otrz.: " + healingModifier * 100 + "%";
         characterStatsTexts[9].text = "Celnoœæ: " + currentChar.DefaultAccuracy * accuracyModifier * 100 + "%";
+    }
+
+    void PrintUpgrades()
+    {
+        foreach (var t in characterSkillTreeTexts)
+        {
+            t.text = "TODO";
+        }
     }
 
     void PrintCharInfo()

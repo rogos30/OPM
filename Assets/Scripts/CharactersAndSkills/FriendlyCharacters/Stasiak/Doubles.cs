@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Doubles : PlayableSkill
 {
-    //skill = new Skill("Debel", "gra z kompanem debla. Przywraca sobie i kompanowi 1000hp.", "gra z kompanem debla", 0.4f, 1, 0, 1, 1000, true, true, false, false, statusEffects);
-
+    int defaultHealing = 500;
     public Doubles()
     {
         Name = "Debel";
@@ -17,6 +16,11 @@ public class Doubles : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 16;
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 3, 6, 8 };
+        tokensToUpgrades = new List<int> { 2, 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz leczenie umiejêtnoœci¹", "Zwiêksz leczenie umiejêtnoœci¹" };
+        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 2 razy", "500 -> 750 HP", "750 -> 1000 HP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -26,7 +30,7 @@ public class Doubles : PlayableSkill
             return source.NominativeName + " jednak woli graæ w pojedynkê";
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int healing = 600;
+        int healing = defaultHealing;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
@@ -36,5 +40,21 @@ public class Doubles : PlayableSkill
         source.Heal(healing);
         target.Heal(healing);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            defaultHealing = 750;
+        }
+        if (Level == 2)
+        {
+            defaultHealing = 1000;
+        }
+        Level++;
     }
 }

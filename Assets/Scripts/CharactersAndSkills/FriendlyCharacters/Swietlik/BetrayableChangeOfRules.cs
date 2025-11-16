@@ -15,6 +15,7 @@ public class BetrayableChangeOfRules : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -53,5 +54,9 @@ public class BetrayableChangeOfRules : PlayableSkill
         finalDesc = finalDesc + " na " + turns + " tur!";
         target.ApplyDebuff(4, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

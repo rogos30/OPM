@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cheats : PlayableSkill
 {
+    int defaultTurns = 3;
 
     public Cheats()
     {
@@ -16,6 +17,11 @@ public class Cheats : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 3;
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 4, 6, 8};
+        tokensToUpgrades = new List<int> { 1, 1, 2 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ Cheaty", "Zmniejsz koszt umiejêtnoœci Cheaty", "Wyd³u¿ czas trwania umiejêtnoœci Cheaty" };
+        upgradeDescriptions = new List<string> { "Daje dodatkowy ruch w turze na kilka tur", "40% -> 30% max SP", "2 -> 3 tury" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -25,11 +31,11 @@ public class Cheats : PlayableSkill
             return source.NominativeName + " wpisuje niedzia³aj¹ce kody";
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int turns = 4;
+        int turns = defaultTurns;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 6;
+            turns = defaultTurns + 2;
             finalDesc = finalDesc + (turns - 1) + " tur!";
         }
         else
@@ -38,5 +44,22 @@ public class Cheats : PlayableSkill
         }
         target.ApplyBuff((int)Character.StatusEffects.TURNS, turns);
         return finalDesc;
+    }
+
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            Cost = 0.3f;
+        }
+        if (Level == 2)
+        {
+            defaultTurns = 4;
+        }
+        Level++;
     }
 }

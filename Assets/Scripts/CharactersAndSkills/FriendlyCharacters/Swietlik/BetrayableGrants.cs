@@ -16,6 +16,7 @@ public class BetrayableGrants : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -56,5 +57,9 @@ public class BetrayableGrants : PlayableSkill
         target.ApplyDebuff(3, turns);
         ((Swietlik)source).ResetBetrayal();
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

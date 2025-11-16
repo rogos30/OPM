@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Capoeira : PlayableSkill
 {
-    // Start is called before the first frame update
-    public Capoeira()
+    int overcharge = 1;
+    public Capoeira() : base()
     {
         Name = "Capoeira";
         SkillDescription = "tañczy capoeirê, ³aduj¹c mno¿nik ataku do pe³na (" + Welenc.MaxAttackMultiplier + ")";
@@ -16,6 +16,11 @@ public class Capoeira : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 2;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 7, 9 };
+        tokensToUpgrades = new List<int> { 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wzmocnij trafienie krytyczne"};
+        upgradeDescriptions = new List<string> { "Zwiêksza swój mno¿nik ataku", "Trafienie krytyczne zwiêksza mno¿nik o 2 ponad limit" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -30,13 +35,25 @@ public class Capoeira : PlayableSkill
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + "ponad limit!";
-            ((Welenc)source).MaxOutAttackMultiplier(true);
+            ((Welenc)source).MaxOutAttackMultiplier(overcharge);
         }
         else
         {
             finalDesc = finalDesc + "do limitu!";
-            ((Welenc)source).MaxOutAttackMultiplier(false);
+            ((Welenc)source).MaxOutAttackMultiplier(0);
         }
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            overcharge = 2;
+        }
+        Level++;
     }
 }

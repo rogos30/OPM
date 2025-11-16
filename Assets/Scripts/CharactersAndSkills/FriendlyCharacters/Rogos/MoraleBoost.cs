@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoraleBoost : PlayableSkill
-{ //skill = new Skill("Podbicie morale", "zwiêksza morale w dru¿ynie, zwiêkszaj¹c celnoœæ sojusznikom", "zwiêksza celnoœæ", 50, 1, 0, 1, 0, true, false, false, true, statusEffects);
+{
+    int defaultTurns = 2;
 
     public MoraleBoost() : base()
     {
@@ -16,6 +17,11 @@ public class MoraleBoost : PlayableSkill
         MultipleTargets = true;
         TargetIsRandom = false;
         SkillSoundId = 17;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 4, 5 };
+        tokensToUpgrades = new List<int> { 1, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wyd³u¿ czas trwania umiejêtnoœci " + Name };
+        upgradeDescriptions = new List<string> { "Zwiêksza celnoœæ dru¿yny na kilka tur", "1 -> 2 tury" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -25,14 +31,26 @@ public class MoraleBoost : PlayableSkill
             return source.DativeName + " nie udaje siê pocieszyæ dru¿yny";
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
-        int turns = 3;
+        int turns = defaultTurns;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
+            turns = defaultTurns + 2;
         }
         finalDesc = finalDesc + " na " + (turns - 1) + " tury!";
         target.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            defaultTurns = 3;
+        }
+        Level++;
     }
 }

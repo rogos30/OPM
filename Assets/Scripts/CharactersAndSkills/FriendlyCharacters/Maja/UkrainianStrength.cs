@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UkrainianStrength : PlayableSkill
 {
+    int defaultTurns = 3;
     public UkrainianStrength()
     {
         Name = "Ukraiñska moc";
@@ -15,6 +16,11 @@ public class UkrainianStrength : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 22;
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 6, 8, 11 };
+        tokensToUpgrades = new List<int> { 2, 2, 2 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz czas trwania efektu umiejêtnoœci", "Zmniejsz koszt umiejêtnoœci" };
+        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 2 razy", "2 -> 3 tury", "40% -> 33% maxSP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -24,15 +30,31 @@ public class UkrainianStrength : PlayableSkill
             return source.DativeName + " nie udaje siê obudziæ swojej ukraiñskiej mocy";
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int turns = 3;
+        int turns = defaultTurns;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
+            turns = defaultTurns + 1;
         }
         finalDesc = finalDesc + " " + (turns-1) + " tury!";
         target.ApplyBuff((int)Character.StatusEffects.ATTACK, turns);
         target.ApplyBuff((int)Character.StatusEffects.ACCURACY, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            defaultTurns = 4;
+        }
+        if (Level == 2)
+        {
+            Cost = 0.33f;
+        }
+        Level++;
     }
 }

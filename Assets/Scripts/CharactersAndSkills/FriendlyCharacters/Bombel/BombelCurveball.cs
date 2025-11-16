@@ -17,6 +17,7 @@ public class BombelCurveball : PlayableSkill
         TargetIsRandom = false;
         AnimationId = 4;
         SkillSoundId = 16;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -44,5 +45,9 @@ public class BombelCurveball : PlayableSkill
         target.ApplyDebuff((int)Character.StatusEffects.ACCURACY, turns);
         target.TakeDamage(damage);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

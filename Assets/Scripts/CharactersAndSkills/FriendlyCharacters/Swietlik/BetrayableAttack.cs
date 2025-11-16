@@ -14,6 +14,7 @@ public class BetrayableAttack : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = false;
+        IsUnlocked = true;
 }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -74,5 +75,9 @@ public class BetrayableAttack : PlayableSkill
             damage /= 2;
         }
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

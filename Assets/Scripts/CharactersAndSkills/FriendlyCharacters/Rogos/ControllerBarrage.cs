@@ -8,14 +8,20 @@ public class ControllerBarrage : PlayableSkill
     public ControllerBarrage()
     {
         SetToUsable();
+        Level = 0;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 10, 10 };
+        tokensToUpgrades = new List<int> { 4, 1, };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci " + Name };
+        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 6 razy. Mo¿na u¿yc tylko raz w walce", "100% -> 90% maxSP"};
     }
     public void SetToUsable()
     {
         wasUsed = false;
         Name = "Ostrza³ padami";
-        SkillDescription = "rzuca 3 padami jak bumerangami. Zadaje spore obra¿enia 6 razy. Mo¿na u¿yæ raz w walce";
+        SkillDescription = "rzuca 3 padami jak bumerangami. Zadaje spore obra¿enia 6 razy. Mo¿na u¿yæ tylko raz w walce";
         InFightDescription = " rzuca padami i zadaje ";
-        Cost = 0.95f;
+        Cost = 1f;
         Repetitions = 6;
         TargetIsFriendly = false;
         TargetIsSelf = false;
@@ -62,6 +68,18 @@ public class ControllerBarrage : PlayableSkill
             string finalDesc = source.NominativeName + InFightDescription;
             return finalDesc;
         }
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            Cost = 0.9f;
+        }
+        Level++;
     }
 
 }

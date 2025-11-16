@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Dinology : PlayableSkill
 {
-    //skill = new Skill("Dinologia", "zanudza przeciwnika ciekawostkami o dinozaurach. Ciê¿ko trafiæ, ale parali¿uje.", "opowiada o dinozaurach", 0.35f, 1, 0, 0.5f, 0, false, false, false, false, statusEffects);
-
     public Dinology()
     {
         Name = "Dinologia";
@@ -19,6 +17,11 @@ public class Dinology : PlayableSkill
         TargetIsRandom = false;
         AnimationId = 4;
         SkillSoundId = 4;
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 1, 1 };
+        tokensToUpgrades = new List<int> { 2, 1 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci" };
+        upgradeDescriptions = new List<string> { "Parali¿uje wybrany cel, ale ciê¿ko trafiæ", "35% -> 30% maxSP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -37,5 +40,17 @@ public class Dinology : PlayableSkill
         finalDesc = finalDesc + " i parali¿uje na " +  (turns-1) + " tury!";
         target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            Cost = 0.3f;
+        }
+        Level++;
     }
 }

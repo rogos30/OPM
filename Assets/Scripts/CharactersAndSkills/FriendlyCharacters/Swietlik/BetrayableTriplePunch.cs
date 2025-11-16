@@ -17,6 +17,7 @@ public class BetrayableTriplePunch : PlayableSkill
         TargetIsSelf = false;
         MultipleTargets = false;
         TargetIsRandom = true;
+        IsUnlocked = true;
     }
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
     {
@@ -70,5 +71,9 @@ public class BetrayableTriplePunch : PlayableSkill
         }
         finalDesc = finalDesc + " " + damage + " obra¿eñ!";
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

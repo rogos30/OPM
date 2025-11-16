@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class MoraleDebuff : PlayableSkill
 {
-    //skill = new Skill("Zepsucie morale", "demotywuje rywali, zmniejszaj¹c im celnoœæ", "zmniejsza celnoœæ", 110, 1, 0, 0.75f, 0, false, false, false, true, statusEffects);
-
+    int defaultTurns = 3;
     public MoraleDebuff() : base()
     {
-        Name = "Gówniany monolog";
+        Name = "Przemowa do ludu";
         SkillDescription = "jako Cesarz Kibla bierze siê za demotywacjê przeciwników";
         InFightDescription = " zmniejsza celnoœæ ";
         Cost = 110;
@@ -19,6 +18,11 @@ public class MoraleDebuff : PlayableSkill
         TargetIsRandom = false;
         AnimationId = 4;
         SkillSoundId = 5;
+        MaxLevel = 3;
+        levelsToUpgrades = new List<int> { 1, 1, 12 };
+        tokensToUpgrades = new List<int> { 2, 1, 2 };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wyd³u¿ czas trwania efektu umiejêtnoœci" };
+        upgradeDescriptions = new List<string> { "Zmniejsza celnoœæ wszystkim przeciwnikom", "2 -> 3 tury"};
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -28,14 +32,26 @@ public class MoraleDebuff : PlayableSkill
             return source.DativeName + "nie udaje siê zdemotywowaæ przeciwników.";
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
-        int turns = 3;
+        int turns = defaultTurns;
         if (skillPerformance == 2)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 5;
+            turns = defaultTurns + 2;
         }
         finalDesc = finalDesc + " na " + (turns-1) + " tury!";
         target.ApplyDebuff((int)Character.StatusEffects.ACCURACY, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        if (Level == 0)
+        {
+            IsUnlocked = true;
+        }
+        if (Level == 1)
+        {
+            defaultTurns = 4;
+        }
+        Level++;
     }
 }

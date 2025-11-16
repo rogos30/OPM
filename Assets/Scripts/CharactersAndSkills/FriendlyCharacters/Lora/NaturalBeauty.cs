@@ -16,6 +16,7 @@ public class NaturalBeauty : PlayableSkill
         TargetIsRandom = false;
         AnimationId = 4;
         SkillSoundId = 13;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -34,5 +35,9 @@ public class NaturalBeauty : PlayableSkill
         finalDesc = finalDesc + " na " + (turns - 1) + " tury!";
         target.ApplyDebuff((int)Character.StatusEffects.DEFENSE, turns);
         return finalDesc;
+    }
+    public override void upgrade()
+    {
+        return;
     }
 }

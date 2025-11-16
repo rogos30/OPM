@@ -81,7 +81,6 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\MIddleFingerKid.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Monitoring.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Burzynski\Balaclava.cs" />
-    <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Burzynski\SwordMayhem.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Maja\Kacper.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnemyCounterattack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableChangeOfRules.cs" />
