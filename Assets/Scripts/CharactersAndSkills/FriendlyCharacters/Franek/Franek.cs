@@ -19,6 +19,7 @@ public class Franek : FriendlyCharacter
         Defense = DefaultDefense = BaseDefense = 50;
         Accuracy = DefaultAccuracy = BaseAccuracy = 1.2f;
 
+        CanBeUpgraded = false;
         Turns = DefaultTurns = 1;
         Speed = 500;
         SpriteIndex = 11;

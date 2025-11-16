@@ -22,7 +22,7 @@ public class FPL : PlayableSkill
         levelsToUpgrades = new List<int> { 6, 8, 10 };
         tokensToUpgrades = new List<int> { 1, 2, 2 };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz obra¿enia i celnoœæ umiejêtnoœci", "Wzmocnij trafienia krytyczne" };
-        upgradeDescriptions = new List<string> { "Zmniejsza atak przeciwników", "+25% obra¿eñ, +20% celnoœci", "Trafienia krytyczne parali¿uj¹ cel na 1 turê" };
+        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia losowemu przeciwnikowi", "+25% obra¿eñ, +20% celnoœci", "Trafienia krytyczne parali¿uj¹ cel na 1 turê" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

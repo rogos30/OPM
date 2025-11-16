@@ -244,16 +244,16 @@ public class BattleManager : MonoBehaviour
                     switch (chosenAction)
                     { //what action has been selected
                         case 0: //skill
-                            if ((playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost > playableCharacterList[currentPlayable].Skill &&
-                                playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost > 1) ||
-                                ((int)(playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost * playableCharacterList[currentPlayable].MaxSkill) > playableCharacterList[currentPlayable].Skill &&
-                                playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].Cost <= 1))
+                            if ((playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].Cost > playableCharacterList[currentPlayable].Skill &&
+                                playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].Cost > 1) ||
+                                ((int)(playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].Cost * playableCharacterList[currentPlayable].MaxSkill) > playableCharacterList[currentPlayable].Skill &&
+                                playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].Cost <= 1))
                             { //too expensive to use
                                 StartCoroutine(TooLittleSkillToUse());
                             }
-                            else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly)
+                            else if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsFriendly)
                             {
-                                if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
+                                if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].MultipleTargets)
                                 { //every ally is a target
                                     ClearActions();
                                     maxCurrentRow = 1;
@@ -261,7 +261,7 @@ public class BattleManager : MonoBehaviour
                                     actions[0].text = "Wszyscy";
                                     currentColumn++;
                                 }
-                                else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom)
+                                else if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsRandom)
                                 {
                                     ClearActions();
                                     maxCurrentRow = 1;
@@ -275,7 +275,7 @@ public class BattleManager : MonoBehaviour
                                     currentColumn++;
                                 }
                             }
-                            else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsSelf)
+                            else if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsSelf)
                             { //target is self
                                 ClearActions();
                                 maxCurrentRow = 1;
@@ -285,7 +285,7 @@ public class BattleManager : MonoBehaviour
                             }
                             else
                             { //targets are alive enemies
-                                if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
+                                if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].MultipleTargets)
                                 { //every enemy is a target
                                     ClearActions();
                                     maxCurrentRow = 1;
@@ -293,7 +293,7 @@ public class BattleManager : MonoBehaviour
                                     actions[0].text = "Wszyscy";
                                     HighlightTarget(0, true);
                                 }
-                                else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom)
+                                else if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsRandom)
                                 { //random enemy is a target
                                     ClearActions();
                                     maxCurrentRow = 1;
@@ -315,7 +315,16 @@ public class BattleManager : MonoBehaviour
                             {
                                 if (chosenSubaction == 2) //resurrects
                                 {
-                                    PrintPageOfAllies(false);
+                                    if (playablesKnockedOut == 0)
+                                    {
+                                        currentPage = chosenSubactionPage;
+                                        actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length].Description;
+                                        currentColumn--;
+                                    }
+                                    else
+                                    {
+                                        PrintPageOfAllies(false);
+                                    }
                                 }
                                 else
                                 {
@@ -326,7 +335,7 @@ public class BattleManager : MonoBehaviour
                             else
                             {
                                 currentPage = chosenSubactionPage;
-                                actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length + currentRow].Description;
+                                actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length].Description;
                             }
                             break;
                         case 2: //guard
@@ -479,7 +488,7 @@ public class BattleManager : MonoBehaviour
                     {
                         case 0: //skill
                             actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " +
-                            playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + currentRow].SkillDescription;
+                            playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(true)].SkillDescription;
                             break;
                         case 1: //item
                             actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length + currentRow].Description;
@@ -487,11 +496,11 @@ public class BattleManager : MonoBehaviour
                     }
                     break;
                 case 2: //targets
-                    if (chosenAction == 0 && !playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly
-                        && !playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsSelf)
+                    if (chosenAction == 0 && !playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsFriendly
+                        && !playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsSelf)
                     { //chosen a skill that targets enemies
-                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom ||
-                            playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
+                        if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsRandom ||
+                            playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].MultipleTargets)
                         { //highlight all enemies
                             HighlightTarget(0, true);
                         }
@@ -533,11 +542,11 @@ public class BattleManager : MonoBehaviour
                 case 2: //targets
                     if (chosenAction == 0) //skill
                     {
-                        if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsRandom || playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].MultipleTargets)
+                        if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsRandom || playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].MultipleTargets)
                         {
 
                         }
-                        else if (playableCharacterList[currentPlayable].skillSet[chosenSubactionPage * actions.Length + chosenSubaction].TargetIsFriendly)
+                        else if (playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(false)].TargetIsFriendly)
                         {
                             PrintPageOfAllies(true);
                         }
@@ -582,16 +591,16 @@ public class BattleManager : MonoBehaviour
     void PrintPageOfSkills()
     {
         ClearActions();
-        maxCurrentPage = (playableCharacterList[currentPlayable].UnlockedSkills - 1) / actions.Length + 1;
-        maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].UnlockedSkills - currentPage * actions.Length, actions.Length);
+        maxCurrentPage = (playableCharacterList[currentPlayable].GetUnlockedSkills() - 1) / actions.Length + 1;
+        maxCurrentRow = Mathf.Min(playableCharacterList[currentPlayable].GetUnlockedSkills() - currentPage * actions.Length, actions.Length);
         if (playableCharacterList[currentPlayable].skillSet.Count == 1) //rogos vs franek override
         {
             maxCurrentPage = 1;
             maxCurrentRow = 1;
         }
-        for (int i = 0; i < actions.Length; i++)
+        /*for (int i = 0; i < actions.Length; i++)
         {
-            if (currentPage * actions.Length + i < playableCharacterList[currentPlayable].UnlockedSkills)
+            if (currentPage * actions.Length + i < playableCharacterList[currentPlayable].GetUnlockedSkills())
             {
                 float cost = 0;
                 if (playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost > 1)
@@ -608,8 +617,64 @@ public class BattleManager : MonoBehaviour
             {
                 actions[i].text = "";
             }
+        }*/
+        int textIndex = 0, skillsToSkip = currentPage * actions.Length;
+        for (int i = 0; i < playableCharacterList[currentPlayable].skillSet.Count; i++)
+        {
+            if (textIndex < actions.Length)
+            {
+                if (playableCharacterList[currentPlayable].skillSet[i].IsUnlocked)
+                {
+                    if (i < skillsToSkip)
+                    {
+                        continue;
+                    }
+                    float cost = 0;
+                    if (playableCharacterList[currentPlayable].skillSet[i].Cost > 1)
+                    {
+                        cost = playableCharacterList[currentPlayable].skillSet[i].Cost;
+                    }
+                    else
+                    {
+                        cost = (int)(playableCharacterList[currentPlayable].skillSet[i].Cost * playableCharacterList[currentPlayable].MaxSkill);
+                    }
+                    actions[textIndex++].text = playableCharacterList[currentPlayable].skillSet[i].Name + " (" + cost + ")";
+                }
+            }
+            else
+            {
+                break;
+            }
         }
-        actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " + playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length].SkillDescription;
+        actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " + playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(true)].SkillDescription;
+    }
+
+    int GetSkillsRealId(bool skillIsBeingChosen)
+    {
+        int row, page;
+        if (skillIsBeingChosen)
+        {
+            row = currentRow;
+            page = currentPage;
+        }
+        else
+        {
+            row = chosenSubaction;
+            page = chosenSubactionPage;
+        }
+        int skipped = page * actions.Length;
+        for (int i = 0; i < playableCharacterList[currentPlayable].skillSet.Count; i++)
+        {
+            if (!playableCharacterList[currentPlayable].skillSet[i].IsUnlocked)
+            {
+                skipped++;
+            }
+            if (i - skipped == row)
+            {
+                break;
+            }
+        }
+        return row + skipped;
     }
 
     void ResetCurrentRow()
@@ -783,7 +848,8 @@ public class BattleManager : MonoBehaviour
         }
         else // skill
         {
-            int skillIndex = chosenSubactionPage * actions.Length + chosenSubaction;
+            int skillIndex = GetSkillsRealId(false);
+            Debug.Log("1 -----> " + skillIndex);
             HandleSkillCheck(currentPlayable, skillIndex);
             onSkillCheckFinished.AddListener(PerformPlayersMove);
         }
@@ -792,7 +858,9 @@ public class BattleManager : MonoBehaviour
     void PerformPlayersMove()
     {
         onSkillCheckFinished.RemoveAllListeners();
-        int skillIndex = chosenSubactionPage * actions.Length + chosenSubaction;
+        //int skillIndex = chosenSubactionPage * actions.Length + chosenSubaction;
+        int skillIndex = GetSkillsRealId(false);
+        Debug.Log("2 -----> " + skillIndex);
         float cost = playableCharacterList[currentPlayable].skillSet[skillIndex].Cost;
         dynamicDescription.SetActive(true);
         //actionDescriptionMenu.SetActive(false);
@@ -1045,37 +1113,6 @@ public class BattleManager : MonoBehaviour
         playerMovesThisTurn = playableCharacterList[0].DefaultTurns;
     }
 
-    void HandleBattleEnd(bool playerWon, bool playerEscaped)
-    {
-        battleFinished = true;
-        acceptsInput = false;
-        List<string> gameInfoLines = new List<string>();
-        if (playerWon)
-        {
-            int xpEarned = 0, moneyEarned = 0;
-            for (int i = 0; i < enemyCharacterList.Count; i++)
-            {
-                xpEarned += enemyCharacterList[i].XPDropped;
-                moneyEarned += enemyCharacterList[i].MoneyDropped;
-            }
-            gameInfoLines.Add("Zdobywasz " + xpEarned + " doświadczenia!");
-            for (int i = 0; i < playableCharacterList.Count; i++)
-            {
-                gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
-            }
-            Inventory.instance.money += moneyEarned;
-            gameInfoLines.Add("Zarabiasz " + moneyEarned + " PLN!");
-            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.instance.money + " money");
-
-            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
-        }
-        else
-        {
-
-        }
-        DialogManager.instance.onGameInfoEnd.AddListener(() => StartCoroutine(FinishBattle(playerWon, playerEscaped)));
-    }
-
     IEnumerator FinishBattle(bool playerWon, bool playerEscaped)
     {
         battleFinished = true;
@@ -1105,7 +1142,8 @@ public class BattleManager : MonoBehaviour
             gameInfoLines.Add("Zdobywasz " + xpEarned + " punktów doświadczenia!\n" + "Zarabiasz " + moneyEarned + " PLN!");
             for (int i = 0; i < playableCharacterList.Count; i++)
             {
-                gameInfoLines.AddRange(playableCharacterList[i].HandleLevel(xpEarned));
+                string newText = playableCharacterList[i].HandleLevel(xpEarned);
+                if (!newText.Equals("")) gameInfoLines.Add(newText);
             }
             Inventory.instance.money += moneyEarned;
             Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.instance.money + " money");
@@ -1174,21 +1212,19 @@ public class BattleManager : MonoBehaviour
 
         character = new Lora();
         playableCharacters.Add(character);
-
         character = new Franek();
         playableCharacters.Add(character);
-
-        while (playableCharacters[5].Level < 12)
+        for (int i = 0; i < 4; i++)
         {
-            playableCharacters[5].HandleLevel(1000);
-            playableCharacters[6].HandleLevel(1000);
+            playableCharacters[5].Upgrade();
+            playableCharacters[6].Upgrade();
         }
 
         character = new Bombel();
         playableCharacters.Add(character);
-        while (playableCharacters[7].Level < 16)
+        for (int i = 0; i < 5; i++)
         {
-            playableCharacters[7].HandleLevel(1000);
+            playableCharacters[7].Upgrade();
         }
     }
 

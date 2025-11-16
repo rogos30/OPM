@@ -16,6 +16,7 @@ public class Bombel : FriendlyCharacter
         Defense = DefaultDefense = BaseDefense = 30;
         Accuracy = DefaultAccuracy = BaseAccuracy = 0.95f;
 
+        CanBeUpgraded = false;
         Turns = DefaultTurns = 1;
         Speed = 400;
         SpriteIndex = 13;

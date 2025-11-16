@@ -15,7 +15,7 @@ public class FrogHat : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 25;
-        MaxLevel = 3;
+        MaxLevel = 2;
         levelsToUpgrades = new List<int> { 2, 4 };
         tokensToUpgrades = new List<int> { 1, 1 };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci"};

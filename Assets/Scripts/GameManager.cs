@@ -5,6 +5,7 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool canPause = true;
     [NonSerialized] public bool canSaveGame = true;
     int currentRow, maxCurrentRow, currentColumn, currentPage;
-    int chosenMain, chosenInv, chosenChar, chosenCharOption, chosenEqCategory;
+    int chosenMain, chosenInv, chosenChar, chosenCharOption, chosenEqCategory, chosenPage;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     int frames;
@@ -65,7 +66,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text[] characterStatsTexts;
     [SerializeField] TMP_Text[] characterSkillTreeTexts;
     [SerializeField] TMP_Text characterSkillTreeDescriptionText;
-    [SerializeField] TMP_Text characterSkillTreeCurrencyText;
+    [SerializeField] TMP_Text characterSkillTreeRequirementsText;
     [SerializeField] TMP_Text itemDescriptionText;
     [SerializeField] TMP_Text itemPageText;
     [SerializeField] TMP_Text eqDescriptionText;
@@ -81,6 +82,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject[] artifacts;
     [SerializeField] Sprite emptySprite;
+
+    Vector3 defaultUpgradeRequirementsTextScale;
 
     private void Start()
     {
@@ -111,6 +114,7 @@ public class GameManager : MonoBehaviour
         musicSource.outputAudioMixerGroup = musicMixerGroup;
         sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.outputAudioMixerGroup = sfxMixerGroup;
+        defaultUpgradeRequirementsTextScale = characterSkillTreeRequirementsText.transform.localScale;
     }
 
     // Update is called once per frame
@@ -282,10 +286,12 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case (int)PauseState.CHARACTER_SKILL_TREE:
-                    characterStatsColumn.SetActive(false);
+                    characterSkillTreeColumn.SetActive(false);
                     currentColumn = (int)PauseState.CHARACTER_INFO;
                     characterSkillTreeTexts[currentRow].color = Color.white;
+                    skillTreeIconBorders[currentPage].color = Color.white;
                     currentRow = chosenCharOption;
+                    currentPage = chosenPage;
                     characterInfoTexts[currentRow].color = orange;
                     maxCurrentRow = characterInfoTexts.Length;
                     break;
@@ -452,7 +458,7 @@ public class GameManager : MonoBehaviour
                         currentRow = (currentRow - 1 < 0) ? (maxCurrentRow - 1) : (currentRow - 1);
                     }
                     characterSkillTreeTexts[currentRow].color = orange;
-                    characterSkillTreeDescriptionText.text = "TODO";
+                    PrintUpgradeDescription();
                     break;
             }
         }
@@ -624,12 +630,12 @@ public class GameManager : MonoBehaviour
                             currentColumn = (int)PauseState.CHARACTER_STATS;
                             characterInfoTexts[currentRow].color = Color.red;
                             characterStatsColumn.SetActive(true);
-                            PrintCharStats(currentPage);
+                            PrintCharStats(BattleManager.instance.currentPartyCharacters[currentPage]);
                             break;
                         case 1: //character eq category
                             currentColumn = (int)PauseState.CHARACTER_EQ_CATEGORY;
                             chosenCharOption = currentRow;
-                            chosenChar = currentPage;
+                            chosenChar = BattleManager.instance.currentPartyCharacters[currentPage];
                             characterInfoTexts[chosenCharOption].color = Color.red;
                             inventoryEqCategoryTexts[currentRow = 0].color = orange;
                             maxCurrentRow = inventoryEqCategoryTexts.Length;
@@ -645,16 +651,23 @@ public class GameManager : MonoBehaviour
                             }
                             break;
                         case 2: //character skill tree
-                            currentColumn = (int)PauseState.CHARACTER_SKILL_TREE;
-                            chosenCharOption = currentRow;
-                            chosenChar = currentPage;
-                            characterInfoTexts[chosenCharOption].color = Color.red;
-                            characterSkillTreeTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = characterSkillTreeTexts.Length;
-                            characterSkillTreeColumn.SetActive(true);
-                            PrintUpgrades();
-                            characterSkillTreeDescriptionText.text = "TODO";
-                            characterSkillTreeCurrencyText.text = "Poziom postaci: " + BattleManager.instance.playableCharacters[chosenChar].Level + "\n Dostêpne tokeny: " + BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens;
+                            if (BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[chosenChar]].CanBeUpgraded)
+                            {
+                                currentColumn = (int)PauseState.CHARACTER_SKILL_TREE;
+                                chosenCharOption = currentRow;
+                                chosenChar = BattleManager.instance.currentPartyCharacters[currentPage];
+                                chosenPage = currentPage;
+                                characterInfoTexts[chosenCharOption].color = Color.red;
+                                characterSkillTreeTexts[currentRow = 0].color = orange;
+                                skillTreeIconBorders[currentPage = 0].color = orange;
+                                maxCurrentRow = BattleManager.instance.playableCharacters[chosenChar].UpgradeLevel + 1;
+                                characterSkillTreeColumn.SetActive(true);
+                                PrintUpgrades();
+                                characterSkillTreeDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].upgradeDescription;
+                                characterSkillTreeRequirementsText.text =
+                                    "Wymagane:\nPoziom: " + BattleManager.instance.playableCharacters[chosenChar].Level + " / " + BattleManager.instance.playableCharacters[chosenChar].levelsToUpgrades[0]
+                                    + "\n Tokeny: " + BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens + " / " + BattleManager.instance.playableCharacters[chosenChar].tokensToUpgrades[0];
+                            }
                             break;
                     }
                     break;
@@ -705,7 +718,52 @@ public class GameManager : MonoBehaviour
                     }
                     break;
                 case (int)PauseState.CHARACTER_SKILL_TREE:
-                    //TODO
+                    if (currentPage == 0)
+                    { //upgrade character's stats
+                        if (currentRow == maxCurrentRow - 1)
+                        {
+                            if (BattleManager.instance.playableCharacters[chosenChar].Level >= BattleManager.instance.playableCharacters[chosenChar].levelsToUpgrades[currentRow] &&
+                            BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens >= BattleManager.instance.playableCharacters[chosenChar].tokensToUpgrades[currentRow])
+                            {
+                                BattleManager.instance.playableCharacters[chosenChar].Upgrade();
+                                BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens -= BattleManager.instance.playableCharacters[chosenChar].tokensToUpgrades[currentRow];
+                                PrintUpgrades();
+                                PrintUpgradeDescription();
+                                if (BattleManager.instance.playableCharacters[chosenChar].UpgradeLevel < BattleManager.instance.playableCharacters[chosenChar].MaxUpgradeLevel)
+                                {
+                                    maxCurrentRow++;
+                                }
+                            }
+                            else
+                            {
+                                StartCoroutine(CantAffordToUpgrade());
+                            }
+                        }
+                        
+                        
+                    }
+                    else
+                    { //upgrade character's skill
+                        if (currentRow == maxCurrentRow - 1)
+                        {
+                            if (BattleManager.instance.playableCharacters[chosenChar].Level >= BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].levelsToUpgrades[currentRow] &&
+                            BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens >= BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].tokensToUpgrades[currentRow])
+                            {
+                                BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].upgrade();
+                                BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens -= BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].tokensToUpgrades[currentRow];
+                                PrintUpgrades();
+                                PrintUpgradeDescription();
+                                if (BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].Level < BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].MaxLevel)
+                                {
+                                    maxCurrentRow++;
+                                }
+                            }
+                            else
+                            {
+                                StartCoroutine(CantAffordToUpgrade());
+                            }
+                        }
+                    }  
                     break;
             }
         }
@@ -748,9 +806,22 @@ public class GameManager : MonoBehaviour
                     PrintCharInfo();
                     break;
                 case (int)PauseState.CHARACTER_SKILL_TREE:
+                    skillTreeIconBorders[currentPage].color = Color.white;
                     currentPage = (currentPage - 1 < 0) ? currentPage : currentPage - 1;
+                    skillTreeIconBorders[currentPage].color = orange;
+                    if (currentPage == 0)
+                    {
+                        maxCurrentRow = BattleManager.instance.playableCharacters[chosenChar].UpgradeLevel + 1;
+                    }
+                    else
+                    {
+                        maxCurrentRow = BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].Level + 1;
+                    }
+                    characterSkillTreeTexts[currentRow].color = Color.white;
+                    currentRow = 0;
+                    characterSkillTreeTexts[currentRow].color = orange;
                     PrintUpgrades();
-                    characterSkillTreeDescriptionText.text = "TODO";
+                    PrintUpgradeDescription();
                     break;
             }
         }
@@ -773,7 +844,7 @@ public class GameManager : MonoBehaviour
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
                     itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
-                    PrintCurrentPageOfItems();
+                    PrintCurrentPageOfWearables();
                     break;
                 case (int)PauseState.INVENTORY_ARTIFACTS:
                     currentPage = (currentPage + 1 > ((artifacts.Length - 1) / 4 + 1)) ? currentPage : currentPage + 1;
@@ -793,9 +864,22 @@ public class GameManager : MonoBehaviour
                     PrintCharInfo();
                     break;
                 case (int)PauseState.CHARACTER_SKILL_TREE:
+                    skillTreeIconBorders[currentPage].color = Color.white;
                     currentPage = (currentPage + 1 >= 6) ? currentPage : currentPage + 1;
+                    skillTreeIconBorders[currentPage].color = orange;
+                    if (currentPage == 0)
+                    {
+                        maxCurrentRow = BattleManager.instance.playableCharacters[chosenChar].UpgradeLevel + 1;
+                    }
+                    else
+                    {
+                        maxCurrentRow = BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].Level + 1;
+                    }
+                    characterSkillTreeTexts[currentRow].color = Color.white;
+                    currentRow = 0;
+                    characterSkillTreeTexts[currentRow].color = orange;
                     PrintUpgrades();
-                    characterSkillTreeDescriptionText.text = "TODO";
+                    PrintUpgradeDescription();
                     break;
             }
         }
@@ -830,13 +914,75 @@ public class GameManager : MonoBehaviour
     {
         foreach (var t in characterSkillTreeTexts)
         {
-            t.text = "TODO";
+            t.text = "";
+            var c = t.color;
+            c.a = 1;
+            t.color = c;
+        }
+        if (currentPage == 0)
+        {
+            for (int i = 0; i < BattleManager.instance.playableCharacters[chosenChar].MaxUpgradeLevel; i++)
+            {
+                characterSkillTreeTexts[i].text = BattleManager.instance.playableCharacters[chosenChar].upgradeName;
+                if (i > BattleManager.instance.playableCharacters[chosenChar].UpgradeLevel)
+                {
+                    var transparent = characterSkillTreeTexts[i].color;
+                    transparent.a = 0.1f;
+                    characterSkillTreeTexts[i].color = transparent;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].MaxLevel; i++)
+            {
+                characterSkillTreeTexts[i].text = BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].upgradeNames[i];
+                if (i > BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].Level)
+                {
+                    var transparent = characterSkillTreeTexts[i].color;
+                    transparent.a = 0.1f;
+                    characterSkillTreeTexts[i].color = transparent;
+                }
+            }
+        }
+    }
+
+    void PrintUpgradeDescription()
+    {
+        if (currentPage == 0)
+        {
+            characterSkillTreeDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].upgradeDescription;
+            if (currentRow < BattleManager.instance.playableCharacters[chosenChar].UpgradeLevel)
+            {
+                characterSkillTreeRequirementsText.text = "ULEPSZONO";
+            }
+            else
+            {
+                characterSkillTreeRequirementsText.text =
+                "Wymagane:\nPoziom: " + BattleManager.instance.playableCharacters[chosenChar].Level + " / " + BattleManager.instance.playableCharacters[chosenChar].levelsToUpgrades[currentRow]
+                + "\n Tokeny: " + BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens + " / " + BattleManager.instance.playableCharacters[chosenChar].tokensToUpgrades[currentRow];
+            }
+            
+        }
+        else
+        {
+            characterSkillTreeDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].upgradeDescriptions[currentRow];
+            if (currentRow < BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].Level)
+            {
+                characterSkillTreeRequirementsText.text = "ULEPSZONO";
+            }
+            else
+            {
+                characterSkillTreeRequirementsText.text =
+                    "Wymagane:\nPoziom: " + BattleManager.instance.playableCharacters[chosenChar].Level + " / " + BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].levelsToUpgrades[currentRow]
+                    + "\n Tokeny: " + BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens + " / " + BattleManager.instance.playableCharacters[chosenChar].skillSet[currentPage].tokensToUpgrades[currentRow];
+            }
         }
     }
 
     void PrintCharInfo()
     {
-        var currentChar = BattleManager.instance.playableCharacters[currentPage];
+        var currentChar = BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]];
         characterNameText.text = currentChar.NominativeName;
         characterSprite.sprite = DialogManager.instance.speakerSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
     }
@@ -948,6 +1094,20 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         canPause = true;
+    }
+
+    IEnumerator CantAffordToUpgrade()
+    {
+        characterSkillTreeRequirementsText.color = Color.red;
+        Vector3 newScale = characterSkillTreeRequirementsText.transform.localScale;
+        newScale.x *= 1.2f;
+        newScale.y *= 1.2f;
+        characterSkillTreeRequirementsText.transform.localScale = newScale;
+
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        characterSkillTreeRequirementsText.color = Color.white;
+        characterSkillTreeRequirementsText.transform.localScale = defaultUpgradeRequirementsTextScale;
     }
 
     public void SaveGame()

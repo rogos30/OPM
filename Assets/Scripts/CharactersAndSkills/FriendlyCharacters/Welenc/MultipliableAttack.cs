@@ -15,6 +15,7 @@ public class MultipliableAttack : PlayableSkill
         MultipleTargets = false;
         TargetIsRandom = false;
         SkillSoundId = 26;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

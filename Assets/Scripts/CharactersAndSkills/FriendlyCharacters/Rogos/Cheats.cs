@@ -20,7 +20,7 @@ public class Cheats : PlayableSkill
         MaxLevel = 3;
         levelsToUpgrades = new List<int> { 4, 6, 8};
         tokensToUpgrades = new List<int> { 1, 1, 2 };
-        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ Cheaty", "Zmniejsz koszt umiejêtnoœci Cheaty", "Wyd³u¿ czas trwania umiejêtnoœci Cheaty" };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci", "Wyd³u¿ czas trwania umiejêtnoœci" };
         upgradeDescriptions = new List<string> { "Daje dodatkowy ruch w turze na kilka tur", "40% -> 30% max SP", "2 -> 3 tury" };
     }
 

@@ -20,7 +20,7 @@ public class MoraleBoost : PlayableSkill
         MaxLevel = 2;
         levelsToUpgrades = new List<int> { 4, 5 };
         tokensToUpgrades = new List<int> { 1, 1 };
-        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wyd³u¿ czas trwania umiejêtnoœci " + Name };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wyd³u¿ czas trwania umiejêtnoœci"};
         upgradeDescriptions = new List<string> { "Zwiêksza celnoœæ dru¿yny na kilka tur", "1 -> 2 tury" };
     }
 

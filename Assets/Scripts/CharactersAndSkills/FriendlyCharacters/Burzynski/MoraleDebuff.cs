@@ -18,9 +18,9 @@ public class MoraleDebuff : PlayableSkill
         TargetIsRandom = false;
         AnimationId = 4;
         SkillSoundId = 5;
-        MaxLevel = 3;
-        levelsToUpgrades = new List<int> { 1, 1, 12 };
-        tokensToUpgrades = new List<int> { 2, 1, 2 };
+        MaxLevel = 2;
+        levelsToUpgrades = new List<int> { 1, 12 };
+        tokensToUpgrades = new List<int> { 2, 1, };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Wyd³u¿ czas trwania efektu umiejêtnoœci" };
         upgradeDescriptions = new List<string> { "Zmniejsza celnoœæ wszystkim przeciwnikom", "2 -> 3 tury"};
     }

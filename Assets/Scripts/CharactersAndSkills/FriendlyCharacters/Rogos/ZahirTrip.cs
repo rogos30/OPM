@@ -14,7 +14,7 @@ public class ZahirTrip : PlayableSkill
         MaxLevel = 3;
         levelsToUpgrades = new List<int> { 8, 8, 8 };
         tokensToUpgrades = new List<int> { 2, 1, 1 };
-        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Skróæ czas podró¿y", "Zwiêksz leczenie z kebabów"};
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ Podró¿ po kebaby", "Skróæ czas podró¿y", "Zwiêksz leczenie z kebabów"};
         upgradeDescriptions = new List<string> { "Pierwsze u¿ycie wysy³a po kebaby, a drugie rozdaje je dru¿ynie, wzmacniaj¹c j¹", "2 -> 1 tura", "500 -> 750 HP" };
         SetToMission();
     }

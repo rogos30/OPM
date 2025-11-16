@@ -15,7 +15,6 @@ public class FriendlyCharacter : Character
     public int Level { get; set; }
     public int CurrentXP { get; set; }
     public int XPToNextLevel { get; set; }
-    public int UnlockedSkills { get; set; }
     public int SpriteIndex { get; set; }
     public int UpgradeTokens { get; set; }
     public bool IsGuarding { get; set; }
@@ -23,6 +22,13 @@ public class FriendlyCharacter : Character
     public float ItemEnhancementMultiplier {  get; set; }
     public string AbilityDescription { get; set; }
     public string CharacterDescription { get; set; }
+    public bool CanBeUpgraded { get; set; }
+    public int UpgradeLevel { get; set; }
+    public int MaxUpgradeLevel { get; set; }
+    public List<int> levelsToUpgrades;
+    public List<int> tokensToUpgrades;
+    public string upgradeName;
+    public string upgradeDescription;
     public List<PlayableSkill> skillSet = new List<PlayableSkill>();
     public Wearable[] wearablesWorn = new Wearable[4];
 
@@ -32,12 +38,18 @@ public class FriendlyCharacter : Character
         Level = 1;
         CurrentXP = 0;
         XPToNextLevel = 500;
-        UnlockedSkills = 2;
         ItemEnhancementMultiplier = 1;
         HealingMultiplier = 1;
         UpgradeTokens = 1;
+        UpgradeLevel = 0;
+        MaxUpgradeLevel = 6;
         KnockedOut = false;
         IsGuarding = false;
+        CanBeUpgraded = true;
+        levelsToUpgrades = new List<int> { 3, 6, 9, 12, 15, 18 };
+        tokensToUpgrades = new List<int> { 1, 1, 1, 1, 1, 1 };
+        upgradeName = "Zwiêksz statystyki " + AccusativeName;
+        upgradeDescription = "+35% ataku\n+35% obrony\n+35% maxHP\n+35%maxSP" ;
         for (int i = 0; i < wearablesWorn.Length; i++)
         {
             wearablesWorn[i] = null;
@@ -68,14 +80,19 @@ public class FriendlyCharacter : Character
         }
     }
 
-    public List<string> HandleLevel(int exp)
+    public string HandleLevel(int exp)
     {
-
         CurrentXP += exp;
-        List<string> charInfoLog = new List<string>();
+        string charInfoLog = "";
+        int tokensGained = 0;
         while (CurrentXP >= XPToNextLevel && Level < 20)
         {
-            charInfoLog.Add(LevelUp());
+            tokensGained++;
+            charInfoLog = charInfoLog + LevelUp();
+        }
+        if (tokensGained > 0)
+        {
+            charInfoLog += "\n" + NominativeName + " zdobywa " + tokensGained + " tokenów ulepszeñ!";
         }
         return charInfoLog;
     }
@@ -127,21 +144,21 @@ public class FriendlyCharacter : Character
     {
         Level++;
         UpgradeTokens++;
-        string result = NominativeName + " osi¹ga poziom " + Level;
+        string result = NominativeName + " osi¹ga poziom " + Level + "\n";
         /*if (Level % levelsToUnlockSkill == 0 && UnlockedSkills < skillSet.Count)
         {
             UnlockedSkills++;
             result += " i odblokowuje umiejêtnoœæ " + skillSet[UnlockedSkills-1].Name;
         }*/
-        result += "\n";
-        MaxHealth = (int)(MaxHealth * statIncreaseFactor);
+        //result += "\n";
+        /*MaxHealth = (int)(MaxHealth * statIncreaseFactor);
         MaxSkill = (int)(MaxSkill * statIncreaseFactor);
         DefaultAttack -= GetAttackFromWearables();
         DefaultAttack = (int)(BaseAttack * Mathf.Pow(statIncreaseFactor, Level - 1));
         DefaultAttack += GetAttackFromWearables();
         DefaultDefense -= GetDefenseFromWearables();
         DefaultDefense = (int)(BaseDefense * Mathf.Pow(statIncreaseFactor, Level - 1));
-        DefaultDefense += GetDefenseFromWearables();
+        DefaultDefense += GetDefenseFromWearables();*/
         CurrentXP -= XPToNextLevel;
         XPToNextLevel = 500 + (Level - 1) * requiredXPincrease;
         Debug.Log(NominativeName + " reached level " + Level);
@@ -150,13 +167,14 @@ public class FriendlyCharacter : Character
 
     public void Upgrade()
     {
+        UpgradeLevel++;
         MaxHealth = (int)(MaxHealth * statIncreaseFactor);
         MaxSkill = (int)(MaxSkill * statIncreaseFactor);
         DefaultAttack -= GetAttackFromWearables();
-        DefaultAttack = (int)(BaseAttack * Mathf.Pow(statIncreaseFactor, Level - 1));
+        DefaultAttack = (int)(BaseAttack * Mathf.Pow(statIncreaseFactor, UpgradeLevel));
         DefaultAttack += GetAttackFromWearables();
         DefaultDefense -= GetDefenseFromWearables();
-        DefaultDefense = (int)(BaseDefense * Mathf.Pow(statIncreaseFactor, Level - 1));
+        DefaultDefense = (int)(BaseDefense * Mathf.Pow(statIncreaseFactor, UpgradeLevel));
         DefaultDefense += GetDefenseFromWearables();
     }
 
@@ -226,5 +244,15 @@ public class FriendlyCharacter : Character
     public virtual void OnItemUsed(Item item)
     {
 
+    }
+
+    public int GetUnlockedSkills()
+    {
+        int result = 0;
+        foreach (var skill in skillSet)
+        {
+            if (skill.IsUnlocked) result++;
+        }
+        return result;
     }
 }

@@ -9,12 +9,15 @@ public class Skeleton : EnemyCharacter
         NominativeName = "Szkielet - ¿o³nierz";
         DativeName = "Szkieletowi - ¿o³nierzowi";
         AccusativeName = "Szkieleta - ¿o³nierza";
-        Health = MaxHealth = DefaultMaxHealth = 8000;
-        DifficultyHealthChange = 4000;
-        Attack = DefaultAttack = 550;
+
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 10000;
+        DifficultyHealthChange = 5000;
+        Attack = DefaultAttack = BaseAttack = 550;
         DifficultyAttackChange = 250;
-        Defense = DefaultDefense = 90;
-        Turns = DefaultTurns = 1;
+        Defense = DefaultDefense = BaseDefense = 90;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
+        Turns = DefaultTurns = BaseTurns = 1;
+
         Speed = 350;
         MoneyDropped = 500;
         XPDropped = 5000;
@@ -33,12 +36,13 @@ public class Skeleton : EnemyCharacter
         NominativeName = nameN;
         DativeName = nameD;
         AccusativeName = nameA;
-        Health = MaxHealth = DefaultMaxHealth = 10000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 10000;
         DifficultyHealthChange = 5000;
-        Attack = DefaultAttack = 550;
+        Attack = DefaultAttack = BaseAttack = 550;
         DifficultyAttackChange = 250;
-        Defense = DefaultDefense = 90;
-        Turns = DefaultTurns = 1;
+        Defense = DefaultDefense = BaseDefense = 90;
+        Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
+        Turns = DefaultTurns = BaseTurns = 1;
         Speed = 350;
         MoneyDropped = 5000;
         XPDropped = 500;

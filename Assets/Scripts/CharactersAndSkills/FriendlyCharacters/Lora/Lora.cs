@@ -17,6 +17,7 @@ public class Lora : FriendlyCharacter
         Defense = DefaultDefense = BaseDefense = 30;
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
 
+        CanBeUpgraded = false;
         Turns = DefaultTurns = 2;
         Speed = 400;
         SpriteIndex = 10;

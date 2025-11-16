@@ -8,7 +8,7 @@ public class Doubles : PlayableSkill
     public Doubles()
     {
         Name = "Debel";
-        SkillDescription = "gra z kompanem debla. Przywraca sobie i kompanowi 600hp.";
+        SkillDescription = "gra z kompanem debla. Przywraca sobie i kompanowi trochê zdrowia.";
         InFightDescription = " gra z kompanem debla, lecz¹c jemu i sobie ";
         Cost = 0.4f;
         TargetIsFriendly = true;
@@ -20,7 +20,7 @@ public class Doubles : PlayableSkill
         levelsToUpgrades = new List<int> { 3, 6, 8 };
         tokensToUpgrades = new List<int> { 2, 1, 1 };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz leczenie umiejêtnoœci¹", "Zwiêksz leczenie umiejêtnoœci¹" };
-        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 2 razy", "500 -> 750 HP", "750 -> 1000 HP" };
+        upgradeDescriptions = new List<string> { "Przywraca sobie i kompanowi zdrowie", "500 -> 750 HP", "750 -> 1000 HP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

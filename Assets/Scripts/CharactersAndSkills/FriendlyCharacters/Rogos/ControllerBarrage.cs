@@ -5,6 +5,7 @@ using UnityEngine;
 public class ControllerBarrage : PlayableSkill
 {
     bool wasUsed = false;
+    float cost = 1f;
     public ControllerBarrage()
     {
         SetToUsable();
@@ -12,7 +13,7 @@ public class ControllerBarrage : PlayableSkill
         MaxLevel = 2;
         levelsToUpgrades = new List<int> { 10, 10 };
         tokensToUpgrades = new List<int> { 4, 1, };
-        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci " + Name };
+        upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci" };
         upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 6 razy. Mo¿na u¿yc tylko raz w walce", "100% -> 90% maxSP"};
     }
     public void SetToUsable()
@@ -21,7 +22,7 @@ public class ControllerBarrage : PlayableSkill
         Name = "Ostrza³ padami";
         SkillDescription = "rzuca 3 padami jak bumerangami. Zadaje spore obra¿enia 6 razy. Mo¿na u¿yæ tylko raz w walce";
         InFightDescription = " rzuca padami i zadaje ";
-        Cost = 1f;
+        Cost = cost;
         Repetitions = 6;
         TargetIsFriendly = false;
         TargetIsSelf = false;
@@ -77,7 +78,7 @@ public class ControllerBarrage : PlayableSkill
         }
         if (Level == 1)
         {
-            Cost = 0.9f;
+            cost = 0.9f;
         }
         Level++;
     }
