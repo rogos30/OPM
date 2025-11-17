@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
@@ -1133,6 +1134,12 @@ public class GameManager : MonoBehaviour
                     writer.WriteLine(character.NominativeName);
                     writer.WriteLine(character.Level);
                     writer.WriteLine(character.CurrentXP);
+                    writer.WriteLine(character.UpgradeLevel);
+                    writer.WriteLine(character.UpgradeTokens);
+                    foreach(var skill in character.skillSet)
+                    {
+                        writer.WriteLine(skill.Level);
+                    }
                     foreach(var wearable in character.wearablesWorn)
                     {
                         if (wearable != null)
@@ -1253,6 +1260,22 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     character.CurrentXP = int.Parse(reader.ReadLine());
+                    int upgradeLevel = int.Parse(reader.ReadLine());
+                    for (int i = 0; i < upgradeLevel; i++)
+                    {
+                        character.Upgrade();
+                    }
+                    character.UpgradeTokens = int.Parse(reader.ReadLine());
+
+                    foreach (var skill in character.skillSet)
+                    {
+                        int level = int.Parse(reader.ReadLine());
+                        for (int i = 0; i <  level; i++)
+                        {
+                            skill.upgrade();
+                        }
+                    }
+
                     for (int i = 0; i < character.wearablesWorn.Length; i++)
                     {
                         int wearableId = int.Parse(reader.ReadLine());
