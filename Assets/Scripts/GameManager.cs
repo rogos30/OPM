@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text itemPageText;
     [SerializeField] TMP_Text eqDescriptionText;
     [SerializeField] Image itemImage;
+    
     Color orange = new Color(0.976f, 0.612f, 0.007f);
 
     string dataDirPath;
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Sprite emptySprite;
 
     Vector3 defaultUpgradeRequirementsTextScale;
-
+    [SerializeField] Sprite[] upgradeSprites;
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -372,6 +373,7 @@ public class GameManager : MonoBehaviour
                     inventoryBrowseTexts[currentRow].color = orange;
                     itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
+                    itemImage.sprite = Inventory.instance.wearablesImages[Inventory.instance.wearables[currentPage * 4 + currentRow].Id];
                     break;
                 case (int)PauseState.INVENTORY_ARTIFACTS:
                     inventoryBrowseTexts[currentRow].color = Color.white;
@@ -589,6 +591,7 @@ public class GameManager : MonoBehaviour
                             itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                                 Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
                             maxCurrentRow = inventoryBrowseTexts.Length;
+                            itemImage.sprite = Inventory.instance.wearablesImages[Inventory.instance.wearables[currentPage * 4 + currentRow].Id];
                             inventoryBrowseTitle.text = "WYPOSA¯ENIE";
                             inventoryItemsColumn.SetActive(true);
                             break;
@@ -668,6 +671,11 @@ public class GameManager : MonoBehaviour
                                 characterSkillTreeRequirementsText.text =
                                     "Wymagane:\nPoziom: " + BattleManager.instance.playableCharacters[chosenChar].Level + " / " + BattleManager.instance.playableCharacters[chosenChar].levelsToUpgrades[0]
                                     + "\n Tokeny: " + BattleManager.instance.playableCharacters[chosenChar].UpgradeTokens + " / " + BattleManager.instance.playableCharacters[chosenChar].tokensToUpgrades[0];
+                                skillTreeIcons[0].sprite = upgradeSprites[upgradeSprites.Length - 1];
+                                for (int i = 1; i < skillTreeIcons.Length; i++)
+                                {
+                                    skillTreeIcons[i].sprite = upgradeSprites[chosenChar * 5 + i - 1];
+                                }
                             }
                             break;
                     }
@@ -780,6 +788,7 @@ public class GameManager : MonoBehaviour
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
                     itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.items[currentPage * 4 + currentRow].Amount;
+                    itemImage.sprite = Inventory.instance.itemsImages[Inventory.instance.items[currentPage * 4 + currentRow].Id];
                     PrintCurrentPageOfItems();
                     break;
                 case (int)PauseState.INVENTORY_WEARABLES:
@@ -787,6 +796,7 @@ public class GameManager : MonoBehaviour
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
                     itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
+                    itemImage.sprite = Inventory.instance.wearablesImages[Inventory.instance.wearables[currentPage * 4 + currentRow].Id];
                     PrintCurrentPageOfWearables();
                     break;
                 case (int)PauseState.INVENTORY_ARTIFACTS:
@@ -838,6 +848,7 @@ public class GameManager : MonoBehaviour
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
                     itemDescriptionText.text = Inventory.instance.items[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.items[currentPage * 4 + currentRow].Amount;
+                    itemImage.sprite = Inventory.instance.itemsImages[Inventory.instance.items[currentPage * 4 + currentRow].Id];
                     PrintCurrentPageOfItems();
                     break;
                 case (int)PauseState.INVENTORY_WEARABLES:
@@ -845,6 +856,7 @@ public class GameManager : MonoBehaviour
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
                     itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
+                    itemImage.sprite = Inventory.instance.wearablesImages[Inventory.instance.wearables[currentPage * 4 + currentRow].Id];
                     PrintCurrentPageOfWearables();
                     break;
                 case (int)PauseState.INVENTORY_ARTIFACTS:

@@ -48,22 +48,22 @@ public class Inventory : MonoBehaviour
     {
         Wearable item = new WoodenSword(); wearables.Add(item);
         item = new LeatherArmor(); wearables.Add(item);
-        item = new MalachHoodie(); wearables.Add(item);
+        item = new SchoolHoodie(); wearables.Add(item);
         item = new FatumBox(); wearables.Add(item);
 
         item = new StoneSword(); wearables.Add(item);
         item = new ChainmailArmor(); wearables.Add(item);
         item = new Necklace(); wearables.Add(item);
-        item = new CeilingPart(); wearables.Add(item);
+        item = new FriendMarkedNotebook(); wearables.Add(item);
 
         item = new IronSword(); wearables.Add(item);
         item = new IronArmor(); wearables.Add(item);
-        item = new OstrysChair(); wearables.Add(item);
+        item = new KwasnysChair(); wearables.Add(item);
         item = new TennisTable(); wearables.Add(item);
 
         item = new DiamondSword(); wearables.Add(item);
         item = new DiamondArmor(); wearables.Add(item);
-        item = new BienkowskasRemains(); wearables.Add(item);
-        item = new DivorcePapers(); wearables.Add(item);
+        item = new CarycasSpeech(); wearables.Add(item);
+        item = new FailedTest(); wearables.Add(item);
     }
 }
