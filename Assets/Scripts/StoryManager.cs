@@ -96,9 +96,9 @@ public class StoryManager : MonoBehaviour
                     "Dobra, to chyba wszystkie"
                     };
             int[] speakerIndexes = { 3 };
-            DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
-            DialogManager.instance.onDialogueEnd.AddListener(() => {
+            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+            DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+            DialogueManager.instance.onDialogueEnd.AddListener(() => {
                 ProgressSideQuest(3);
             });
         }
@@ -426,7 +426,7 @@ public class StoryManager : MonoBehaviour
                 {
                     List<string> gameInfoLines = new List<string>();
                     gameInfoLines.Add("Ulepszenie sklepu dostêpne");
-                    DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
             }
         }
@@ -528,7 +528,7 @@ public class StoryManager : MonoBehaviour
                     "Napisa³em do niego, ¿eby na niego uwa¿a³."
                 };
                     int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
                 }
             }
             else
@@ -565,7 +565,7 @@ public class StoryManager : MonoBehaviour
                     "Napisa³em do niego, ¿eby na niego uwa¿a³."
                 };
                     int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
                 }
             }
             else
@@ -597,8 +597,8 @@ public class StoryManager : MonoBehaviour
                             "Oho..."
                         };
                         int[] speakerIndexes = { 19, 0 };
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-                        DialogManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
                     }
                     
                     break;

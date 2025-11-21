@@ -312,8 +312,8 @@ public class PatrolNPCController : Interactable
         string[] lines = {
                         "Niech to!" };
         int[] speakerIndexes = { 0 };
-        DialogManager.instance.StartDialogue(lines, speakerIndexes, onFailVoiceLine);
-        DialogManager.instance.onDialogueEnd.AddListener(() => {
+        DialogueManager.instance.StartDialogue(lines, speakerIndexes, onFailVoiceLine);
+        DialogueManager.instance.onDialogueEnd.AddListener(() => {
             SceneManager.LoadScene("gameOver");
         });
     }

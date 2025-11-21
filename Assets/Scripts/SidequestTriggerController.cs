@@ -13,15 +13,15 @@ public class SidequestTriggerController : Interactable
     {
         if (lines.Length > 0)
         {
-            DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogManager.instance.onDialogueEnd.AddListener(AfterDialogue);
-            DialogManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
+            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+            DialogueManager.instance.onDialogueEnd.AddListener(AfterDialogue);
+            DialogueManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
         }
     }
 
     void AfterDialogue()
     {
-        DialogManager.instance.onDialogueEnd.RemoveListener(AfterDialogue);
+        DialogueManager.instance.onDialogueEnd.RemoveListener(AfterDialogue);
 
         if (interactionProgressesStory)
         { //dialogue end progresses story

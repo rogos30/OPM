@@ -211,10 +211,10 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Camera\Observation.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Sandwiches\CheeseToast.cs" />
-    <Compile Include="Assets\Scripts\DialogManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\Scripts\SidequestTriggerController.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Armor\IronArmor.cs" />
+    <Compile Include="Assets\Scripts\DialogueManager.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDir.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Skeletons\Staredown.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\Wheelbarrow.cs" />

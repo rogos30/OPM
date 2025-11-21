@@ -23,9 +23,9 @@ public class SidequestNPCController : Interactable
 
     public override void Interact()
     {
-        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-        DialogManager.instance.onDialogueEnd.AddListener(AfterFirstDialogue);
-        DialogManager.instance.StartDialogue(preFightLines, preFightSpeakersIndexes, preFightVoiceLines);
+        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+        DialogueManager.instance.onDialogueEnd.AddListener(AfterFirstDialogue);
+        DialogueManager.instance.StartDialogue(preFightLines, preFightSpeakersIndexes, preFightVoiceLines);
     }
 
     public int GetProgressInSidequest()
@@ -49,7 +49,7 @@ public class SidequestNPCController : Interactable
 
     void AfterFirstDialogue()
     {
-        DialogManager.instance.onDialogueEnd.RemoveListener(AfterFirstDialogue);
+        DialogueManager.instance.onDialogueEnd.RemoveListener(AfterFirstDialogue);
         BattleManager.instance.onBattleWon.RemoveAllListeners();
 
         if (playables.Length > 0)
@@ -82,22 +82,22 @@ public class SidequestNPCController : Interactable
         BattleManager.instance.onBattleWon.RemoveListener(AfterBattle);
         if (postFightSpeakersIndexes.Length > 0)
         { //dialogue after battle
-            DialogManager.instance.StartDialogue(postFightLines, postFightSpeakersIndexes, postFightVoiceLines);
+            DialogueManager.instance.StartDialogue(postFightLines, postFightSpeakersIndexes, postFightVoiceLines);
             if (interactionProgressesStory)
             {
-                DialogManager.instance.onDialogueEnd.AddListener(() => StoryManager.instance.ProgressSideQuest(sideQuestId)); //after dialogue progress story
+                DialogueManager.instance.onDialogueEnd.AddListener(() => StoryManager.instance.ProgressSideQuest(sideQuestId)); //after dialogue progress story
             }
             if (interactionSavesGame)
             {
-                DialogManager.instance.onDialogueEnd.AddListener(GameManager.instance.SaveGame); //after dialogue save game
+                DialogueManager.instance.onDialogueEnd.AddListener(GameManager.instance.SaveGame); //after dialogue save game
             }
             if (interactionBlocksSavingGame)
             {
-                DialogManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = false);
+                DialogueManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = false);
             }
             else
             {
-                DialogManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = true);
+                DialogueManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = true);
             }
         }
         else

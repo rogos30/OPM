@@ -51,9 +51,9 @@ public class ArtifactController : Interactable
     IEnumerator startDialogueDelayed()
     {
         yield return new WaitForSeconds(1.25f);
-        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-        DialogManager.instance.onDialogueEnd.AddListener(() => { StartCoroutine(allowToLeave()); });
-        DialogManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
+        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+        DialogueManager.instance.onDialogueEnd.AddListener(() => { StartCoroutine(allowToLeave()); });
+        DialogueManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
     }
 
     IEnumerator allowToLeave()

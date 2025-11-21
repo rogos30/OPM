@@ -997,7 +997,7 @@ public class GameManager : MonoBehaviour
     {
         var currentChar = BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]];
         characterNameText.text = currentChar.NominativeName;
-        characterSprite.sprite = DialogManager.instance.speakerSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
+        characterSprite.sprite = DialogueManager.instance.speakerSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
     }
 
     void LoadSettings()

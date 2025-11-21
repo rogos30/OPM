@@ -51,8 +51,8 @@ public class PasswordNPCController : Interactable
         }
         if (cluesVisited == clueObjects.Length)
         { //start password guessing
-            DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogManager.instance.onDialogueEnd.AddListener(() => {
+            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+            DialogueManager.instance.onDialogueEnd.AddListener(() => {
                 isGuessingPassword = true;
                 GameManager.instance.passwordCanvas.enabled = true;
                 GameManager.instance.inGameCanvas.enabled = false;
@@ -71,12 +71,12 @@ public class PasswordNPCController : Interactable
                     }
                 }
             });
-            DialogManager.instance.StartDialogue(postCluesLines, postCluesSpeakersIndexes, postCluesVoiceLines);
+            DialogueManager.instance.StartDialogue(postCluesLines, postCluesSpeakersIndexes, postCluesVoiceLines);
         }
         else
         { //cant start password guessing yet
-            DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogManager.instance.StartDialogue(preCluesLines, preCluesSpeakersIndexes, preCluesVoiceLines);
+            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+            DialogueManager.instance.StartDialogue(preCluesLines, preCluesSpeakersIndexes, preCluesVoiceLines);
         }
         
     }
@@ -90,23 +90,23 @@ public class PasswordNPCController : Interactable
 
     void FinalizeAndExit()
     {
-        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
-        DialogManager.instance.StartDialogue(postPasswordLines, postPasswordSpeakersIndexes, postPasswordVoiceLines);
+        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+        DialogueManager.instance.StartDialogue(postPasswordLines, postPasswordSpeakersIndexes, postPasswordVoiceLines);
         if (interactionProgressesStory)
         {
-            DialogManager.instance.onDialogueEnd.AddListener(() => StoryManager.instance.ProgressStory()); //after dialogue progress story
+            DialogueManager.instance.onDialogueEnd.AddListener(() => StoryManager.instance.ProgressStory()); //after dialogue progress story
         }
         if (interactionSavesGame)
         {
-            DialogManager.instance.onDialogueEnd.AddListener(GameManager.instance.SaveGame); //after dialogue save game
+            DialogueManager.instance.onDialogueEnd.AddListener(GameManager.instance.SaveGame); //after dialogue save game
         }
         if (interactionBlocksSavingGame)
         {
-            DialogManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = false);
+            DialogueManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = false);
         }
         else
         {
-            DialogManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = true);
+            DialogueManager.instance.onDialogueEnd.AddListener(() => GameManager.instance.canSaveGame = true);
         }
         Exit();
     }

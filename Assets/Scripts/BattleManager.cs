@@ -1097,7 +1097,7 @@ public class BattleManager : MonoBehaviour
             characterNames[i].text = playableCharacterList[i].NominativeName;
             characterHealthBars[i].gameObject.SetActive(true);
             characterSkillBars[i].gameObject.SetActive(true);
-            playableCharactersSprites[i].sprite = DialogManager.instance.speakerSprites[playableCharacterList[i].SpriteIndex];
+            playableCharactersSprites[i].sprite = DialogueManager.instance.speakerSprites[playableCharacterList[i].SpriteIndex];
         }
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -1148,7 +1148,7 @@ public class BattleManager : MonoBehaviour
             Inventory.instance.money += moneyEarned;
             Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.instance.money + " money");
 
-            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
+            DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
             if (saveGameAfterBattle)
             {
                 GameManager.instance.SaveGame();
@@ -1157,7 +1157,7 @@ public class BattleManager : MonoBehaviour
         else if (playerEscaped)
         {
             gameInfoLines.Add("Ucieczka zakończona sukcesem");
-            DialogManager.instance.StartGameInfo(gameInfoLines.ToArray());
+            DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
         {
@@ -1167,7 +1167,7 @@ public class BattleManager : MonoBehaviour
         enemyCharacterList.Clear();
         enemySpriteIndexes.Clear();
         StopAllCoroutines();
-        DialogManager.instance.onGameInfoEnd.AddListener(() => {
+        DialogueManager.instance.onGameInfoEnd.AddListener(() => {
             GameManager.instance.inGameCanvas.enabled = true;
             if (playerWon)
             {
@@ -1184,7 +1184,7 @@ public class BattleManager : MonoBehaviour
                 //onBattleLost.Invoke();
                 SceneManager.LoadScene("start");
             }
-            DialogManager.instance.onGameInfoEnd.RemoveAllListeners();
+            DialogueManager.instance.onGameInfoEnd.RemoveAllListeners();
         });
     }
 
@@ -1335,7 +1335,7 @@ public class BattleManager : MonoBehaviour
             characterSkillBars[i].value = (float)(playableCharacterList[index].Skill / (float)playableCharacterList[index].MaxSkill);
             characterHealthTexts[i].text = playableCharacterList[index].Health + " / " + playableCharacterList[index].MaxHealth;
             characterSkillTexts[i].text = playableCharacterList[index].Skill + " / " + playableCharacterList[index].MaxSkill;
-            playableCharactersSprites[i].sprite = DialogManager.instance.speakerSprites[playableCharacterList[index].SpriteIndex];
+            playableCharactersSprites[i].sprite = DialogueManager.instance.speakerSprites[playableCharacterList[index].SpriteIndex];
             if (playableCharacterList[index].IsGuarding)
             {
                 allEffectSprites[i, 0].sprite = effectSprites[0];
@@ -1775,10 +1775,10 @@ public class BattleManager : MonoBehaviour
                         "..." };
                     int[] speakerIndexes = { 0,4,0,0,4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
-                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                     
                 }
@@ -1801,10 +1801,10 @@ public class BattleManager : MonoBehaviour
                         "Zamknij się wreszcie" };
                     int[] speakerIndexes = { 0, 0, 0, 4, 0, 0, 0, 0, 4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
-                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 if (currentPhase > 4 && currentPhase <= 6)
@@ -1825,10 +1825,10 @@ public class BattleManager : MonoBehaviour
                         "Jakich kłamstw, Maju? Zawsze chciałem dla Ciebie jak najlepiej. Kochałem Cię, to ty nie potrafiłaś tego odwzajemnić! Nigdy Cię nie oszukałem" };
                     int[] speakerIndexes = { 3, 3, 4, 3, 4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
-                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 if (currentPhase > 7 && currentPhase <= 9)
@@ -1845,10 +1845,10 @@ public class BattleManager : MonoBehaviour
                         "Przestań, przestań!" };
                     int[] speakerIndexes = { 3, 3, 3, 4 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
-                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 if (currentPhase > 10 && currentPhase <= 12)
@@ -1868,10 +1868,10 @@ public class BattleManager : MonoBehaviour
                     };
                     int[] speakerIndexes = { 4, 3, 4, 3, 4, 3 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
-                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 break;
@@ -1892,11 +1892,11 @@ public class BattleManager : MonoBehaviour
                         "Pora to zakończyć" };
                     int[] speakerIndexes = { 0 };
                     acceptsInput = false;
-                    DialogManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
-                    DialogManager.instance.onDialogueEnd.AddListener(() => {
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         UpdateHealthBarsAndIcons();
-                        DialogManager.instance.onDialogueEnd.RemoveAllListeners();
+                        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                     });
                 }
                 break;
