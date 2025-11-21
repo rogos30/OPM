@@ -925,7 +925,7 @@ public class BattleManager : MonoBehaviour
             }
             currentPlayable++;
             uiIndexOffset++;
-            if (currentPlayable < playableCharacterList.Count) RotatePlayables();
+            //if (currentPlayable < playableCharacterList.Count) RotatePlayables();
         }
         while (currentEnemy < enemyCharacterList.Count && enemyCharacterList[currentEnemy].KnockedOut)
         {//find next enemy that can move or go beyond the list
