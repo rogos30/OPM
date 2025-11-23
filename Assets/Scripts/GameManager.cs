@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip navigationScrollSound;
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
+    [SerializeField] AudioClip actionForbiddenSound;
 
     [SerializeField] GameObject[] artifacts;
     [SerializeField] Sprite emptySprite;
@@ -257,6 +258,10 @@ public class GameManager : MonoBehaviour
                     currentRow = chosenMain;
                     mainColumnTexts[currentRow].color = orange;
                     maxCurrentRow = mainColumnTexts.Length;
+                    if (canSaveGame)
+                    {
+                        SaveGame();
+                    }
                     break;
                 case (int)PauseState.CHARACTER_STATS:
                     characterStatsColumn.SetActive(false);
@@ -677,6 +682,12 @@ public class GameManager : MonoBehaviour
                                     skillTreeIcons[i].sprite = upgradeSprites[chosenChar * 5 + i - 1];
                                 }
                             }
+                            else
+                            {
+                                sfxSource.clip = actionForbiddenSound;
+                                sfxSource.loop = false;
+                                sfxSource.Play();
+                            }
                             break;
                     }
                     break;
@@ -870,7 +881,7 @@ public class GameManager : MonoBehaviour
                     {
                         itemDescriptionText.text = "???";
                     }
-                    PrintCurrentPageOfItems();
+                    PrintCurrentPageOfArtifacts();
                     break;
                 case (int)PauseState.CHARACTER_INFO:
                     currentPage = (currentPage + 1 >= BattleManager.instance.currentPartyCharacters.Count) ? currentPage : currentPage + 1;
@@ -1116,6 +1127,10 @@ public class GameManager : MonoBehaviour
         newScale.x *= 1.2f;
         newScale.y *= 1.2f;
         characterSkillTreeRequirementsText.transform.localScale = newScale;
+
+        sfxSource.clip = actionForbiddenSound;
+        sfxSource.loop = false;
+        sfxSource.Play();
 
         yield return new WaitForSecondsRealtime(0.2f);
 

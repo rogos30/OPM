@@ -20,7 +20,7 @@ public class EnemyHealing : EnemySkill
             return source.NominativeName + " nie trafia leczeniem w " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription;
-        int healing = 100;
+        int healing = (int)(source.Attack * 1.5f);
         if (Random.Range(0, 1f) < criticalChance)
         {
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;

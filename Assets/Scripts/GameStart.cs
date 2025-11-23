@@ -35,6 +35,7 @@ public class GameStart : MonoBehaviour
     [SerializeField] AudioClip navigationScrollSound;
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
+    [SerializeField] AudioClip actionForbiddenSound;
 
     [SerializeField] GameObject mainTextArea;
     private void Start()
@@ -262,7 +263,13 @@ public class GameStart : MonoBehaviour
                         PrintYesNo();
                         currentState = 4;
                     }
-                    break;
+                    else
+                    {
+                        sfxSource.clip = actionForbiddenSound;
+                        sfxSource.loop = false;
+                        sfxSource.Play();
+                    }
+                        break;
                 case 4: //load game slots - are you sure?
                     switch (currentRow)
                     {

@@ -92,7 +92,18 @@ public class FriendlyCharacter : Character
         }
         if (tokensGained > 0)
         {
-            charInfoLog += "\n" + NominativeName + " zdobywa " + tokensGained + " tokenów ulepszeñ!";
+            if (tokensGained == 1)
+            {
+                charInfoLog += "\n" + NominativeName + " zdobywa " + tokensGained + " token ulepszeñ!";
+            }
+            else if (tokensGained <= 4)
+            {
+                charInfoLog += "\n" + NominativeName + " zdobywa " + tokensGained + " tokeny ulepszeñ!";
+            }
+            else
+            {
+                charInfoLog += "\n" + NominativeName + " zdobywa " + tokensGained + " tokenów ulepszeñ!";
+            }
         }
         return charInfoLog;
     }

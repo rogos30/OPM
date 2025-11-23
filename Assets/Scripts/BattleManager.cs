@@ -75,7 +75,7 @@ public class BattleManager : MonoBehaviour
     const float defaultSkillCheckTime = 1.75f;
 
     [SerializeField] GameObject[] animationObjects;
-    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 }, { 0, 1, 2, 3 } }; //1st act, 2nd act, 3rd act, underground
+    public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 34, 35, 36, 37 }, { 30, 31, 32, 33 } }; //1st act, 2nd act, underground
 
     Color orange = new Color(0.976f, 0.612f, 0.007f);
     int currentPlayable, currentEnemy;
@@ -97,6 +97,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] AudioClip navigationScrollSound;
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
+    [SerializeField] AudioClip actionForbiddenSound;
     [SerializeField] AudioClip[] skillSounds;
     [SerializeField] AudioClip altBurzynskiMusic;
     [SerializeField] AudioClip[] midFightVoiceLines;
@@ -320,6 +321,10 @@ public class BattleManager : MonoBehaviour
                                         currentPage = chosenSubactionPage;
                                         actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length].Description;
                                         currentColumn--;
+
+                                        sfxSource.clip = actionForbiddenSound;
+                                        sfxSource.loop = false;
+                                        sfxSource.Play();
                                     }
                                     else
                                     {
@@ -639,6 +644,10 @@ public class BattleManager : MonoBehaviour
                         cost = (int)(playableCharacterList[currentPlayable].skillSet[i].Cost * playableCharacterList[currentPlayable].MaxSkill);
                     }
                     actions[textIndex++].text = playableCharacterList[currentPlayable].skillSet[i].Name + " (" + cost + ")";
+                }
+                else
+                {
+                    skillsToSkip++;
                 }
             }
             else
@@ -1318,6 +1327,30 @@ public class BattleManager : MonoBehaviour
 
         character = new Jaronald();
         allEnemyCharacters.Add(character);
+
+        character = new Bat(); //30
+        allEnemyCharacters.Add(character);
+
+        character = new Rat();
+        allEnemyCharacters.Add(character);
+
+        character = new Spider();
+        allEnemyCharacters.Add(character);
+
+        character = new FlySwarm();
+        allEnemyCharacters.Add(character);
+
+        character = new MiddleFingerKidBuffed();
+        allEnemyCharacters.Add(character);
+
+        character = new ShirtKidBuffed(); //35
+        allEnemyCharacters.Add(character);
+
+        character = new AngryGirlBuffed();
+        allEnemyCharacters.Add(character);
+
+        character = new OffendedKidBuffed();
+        allEnemyCharacters.Add(character);
     }
 
     void RotatePlayables()
@@ -1374,6 +1407,10 @@ public class BattleManager : MonoBehaviour
         characterSkillTexts[0].color = Color.red;
         characterSkillTexts[0].transform.localScale = Vector3.one;
 
+        sfxSource.clip = actionForbiddenSound;
+        sfxSource.loop = false;
+        sfxSource.Play();
+
         yield return new WaitForSeconds(0.2f);
 
         characterSkillTexts[0].color = Color.white;
@@ -1397,6 +1434,10 @@ public class BattleManager : MonoBehaviour
         actionDescriptionText.color = Color.red;
         actionDescriptionText.transform.localScale = defaultActionTextScale * 1.2f;
         acceptsInput = false;
+
+        sfxSource.clip = actionForbiddenSound;
+        sfxSource.loop = false;
+        sfxSource.Play();
 
         yield return new WaitForSeconds(0.4f);
 

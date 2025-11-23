@@ -439,6 +439,7 @@ MonoBehaviour:
   navigationScrollSound: {fileID: 8300000, guid: 795c4ea2ea1ffc54982c652644a64520, type: 3}
   navigationCancelSound: {fileID: 8300000, guid: 4fe729c51679dec459a5bf8a67e878f4, type: 3}
   navigationAcceptSound: {fileID: 8300000, guid: 22109f0391d1dd74bbc2421990670029, type: 3}
+  actionForbiddenSound: {fileID: 8300000, guid: 7c22613cb954ab24dbeb2b5ebe106342, type: 3}
   mainTextArea: {fileID: 1177571159}
 --- !u!4 &265899854
 Transform:

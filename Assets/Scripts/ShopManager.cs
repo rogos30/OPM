@@ -22,6 +22,8 @@ public class ShopManager : MonoBehaviour
     public Canvas warningCanvas;
     public TMP_Text warningText;
 
+    Vector3 upgradeTextDefaultScale;
+
 
     [SerializeField] AudioMixer mixer;
     AudioSource musicSource, sfxSource;
@@ -31,7 +33,7 @@ public class ShopManager : MonoBehaviour
     Color orange = new Color(0.976f, 0.612f, 0.007f);
     int currentColumn, currentRow, amountToBuy, maxAmountToBuy, currentPage;
     public int level;
-    readonly int[] upgradeCosts = { 500, 2000, 5000 };
+    readonly int[] upgradeCosts = { 100, 250, 500 };
     const string defaultControlsText = "W/S - nawigacja, A/D - iloœæ, Z/X - kategoria, Q/E - strona\r\nENTER - zakup, ESC - wyjœcie",
                 controlsTextAddOn = ", LSHIFT - ulepszenie";
     const int maxLevel = 3;
@@ -40,6 +42,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] AudioClip navigationScrollSound;
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
+    [SerializeField] AudioClip actionForbiddenSound;
 
     // Start is called before the first frame update
     private void Awake()
@@ -51,6 +54,7 @@ public class ShopManager : MonoBehaviour
         sfxSource.outputAudioMixerGroup = sfxMixerGroup;
         shopCanvas.enabled = false;
         warningCanvas.enabled = false;
+        upgradeTextDefaultScale = upgradeText.transform.localScale;
         level = 0;
     }
 
@@ -278,6 +282,13 @@ public class ShopManager : MonoBehaviour
                 StartCoroutine(CantAfford());
             }
         }
+        else
+        {
+            StartCoroutine(NotEnoughStoryProgress());
+            sfxSource.clip = actionForbiddenSound;
+            sfxSource.loop = false;
+            sfxSource.Play();
+        }
     }
 
     public void PerformUpgrade()
@@ -297,9 +308,9 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            upgradeText.text = "Osi¹gniêto maksymalny poziom";
+            upgradeText.text = "Osi¹gniêto maksymalny poziom sklepu";
         }
-        shopLevelText.text = "Poziom: " + (level + 1) + " / " + (maxLevel + 1);
+        shopLevelText.text = "Poziom sklepu: " + (level + 1) + " / " + (maxLevel + 1);
         if (currentColumn == 0)
         {
             PrintItems();
@@ -320,7 +331,7 @@ public class ShopManager : MonoBehaviour
         player.SetActive(false);
         PrintItems();
         moneyText.text = "Kasa: " + Inventory.instance.money + " PLN";
-        shopLevelText.text = "Poziom: " + (level + 1) + " / " + (maxLevel + 1);
+        shopLevelText.text = "Poziom sklepu: " + (level + 1) + " / " + (maxLevel + 1);
         amountToBuy = 0;
         items[currentRow].color = Color.white;
         currentRow = 0;
@@ -342,7 +353,7 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            upgradeText.text = "Osi¹gniêto maksymalny poziom";
+            upgradeText.text = "Osi¹gniêto maksymalny poziom sklepu";
         }
     }
 
@@ -361,9 +372,31 @@ public class ShopManager : MonoBehaviour
         moneyText.color = Color.red;
         moneyText.transform.localScale = new Vector3(1.25f, 1.25f);
 
+        sfxSource.clip = actionForbiddenSound;
+        sfxSource.loop = false;
+        sfxSource.Play();
+
         yield return new WaitForSeconds(0.2f);
 
         moneyText.color = Color.white;
         moneyText.transform.localScale = Vector3.one;
+    }
+
+    IEnumerator NotEnoughStoryProgress()
+    {
+        upgradeText.color = Color.red;
+        Vector3 newScale = upgradeTextDefaultScale;
+        newScale.x *= 1.15f;
+        newScale.y *= 1.15f;
+        upgradeText.transform.localScale = newScale;
+
+        sfxSource.clip = actionForbiddenSound;
+        sfxSource.loop = false;
+        sfxSource.Play();
+
+        yield return new WaitForSeconds(0.2f);
+
+        upgradeText.color = Color.white;
+        upgradeText.transform.localScale = upgradeTextDefaultScale;
     }
 }

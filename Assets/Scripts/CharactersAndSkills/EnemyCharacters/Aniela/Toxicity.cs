@@ -20,7 +20,7 @@ public class Toxicisity : EnemySkill
     {
         if (Random.Range(0, 1f) > source.Accuracy * AccuracyMultiplier)
         {
-            return source.DativeName + " zaskakuj¹co nie jest toksyczna wobec " + target.AccusativeName;
+            return source.NominativeName + " zaskakuj¹co nie wykazuje toksycznoœci wobec " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription + target.AccusativeName + " na ";
         int turns = 4;
