@@ -11,9 +11,9 @@ using static Unity.VisualScripting.Member;
 using static UnityEngine.GraphicsBuffer;
 
 
-public class GameStart : MonoBehaviour
+public class GameStartManager : MonoBehaviour
 {
-    public static GameStart instance;
+    public static GameStartManager instance;
     [SerializeField] AudioClip backgroundMusic;
 
     public Canvas mainCanvas;

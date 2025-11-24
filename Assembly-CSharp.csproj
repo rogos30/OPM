@@ -80,6 +80,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\NPCController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Monitoring.cs" />
+    <Compile Include="Assets\Scripts\GameStartManager.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Burzynski\Balaclava.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Maja\Kacper.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnemyCounterattack.cs" />
@@ -292,7 +293,6 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Maja\Maja.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Camera\Camera1.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\NaturalBeauty.cs" />
-    <Compile Include="Assets\Scripts\GameStart.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Connection.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Franek\Counterattack.cs" />
