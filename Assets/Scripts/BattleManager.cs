@@ -1223,7 +1223,7 @@ public class BattleManager : MonoBehaviour
         playableCharacters.Add(character);
         character = new Franek();
         playableCharacters.Add(character);
-        for (int i = 0; i < 4; i++)
+        while (playableCharacters[5].UpgradeLevel < 4)
         {
             playableCharacters[5].Upgrade();
             playableCharacters[6].Upgrade();
@@ -1231,7 +1231,7 @@ public class BattleManager : MonoBehaviour
 
         character = new Bombel();
         playableCharacters.Add(character);
-        for (int i = 0; i < 5; i++)
+        while (playableCharacters[7].UpgradeLevel < 5)
         {
             playableCharacters[7].Upgrade();
         }
