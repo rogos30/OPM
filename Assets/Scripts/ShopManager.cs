@@ -43,6 +43,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] AudioClip navigationCancelSound;
     [SerializeField] AudioClip navigationAcceptSound;
     [SerializeField] AudioClip actionForbiddenSound;
+    [SerializeField] AudioClip purchaseSound;
 
     // Start is called before the first frame update
     private void Awake()
@@ -248,6 +249,10 @@ public class ShopManager : MonoBehaviour
             {
                 Inventory.instance.money -= amountToBuy * Inventory.instance.items[currentPage * 4 + currentRow].Cost;
                 Inventory.instance.items[currentPage * 4 + currentRow].Add(amountToBuy);
+
+                sfxSource.clip = purchaseSound;
+                sfxSource.loop = false;
+                sfxSource.Play();
             }
             else
             {
@@ -260,6 +265,10 @@ public class ShopManager : MonoBehaviour
             {
                 Inventory.instance.money -= amountToBuy * Inventory.instance.wearables[currentPage * 4 + currentRow].Cost;
                 Inventory.instance.wearables[currentPage * 4 + currentRow].Add(amountToBuy);
+
+                sfxSource.clip = purchaseSound;
+                sfxSource.loop = false;
+                sfxSource.Play();
             }
             else
             {

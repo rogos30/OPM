@@ -21,7 +21,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] AudioClip freeRoamMusic;
 
-    public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas;
+    public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas, lockpickCanvas;
+    public GameObject movingLockpick;
+    public Slider skillCheckSlider;
+    public GameObject skillCheckGreenArea;
     public Image[] passwordClues;
     public TMP_Text passwordText;
     [SerializeField] TMP_Text gameFpsText;
@@ -110,6 +113,7 @@ public class GameManager : MonoBehaviour
         pauseCanvas.enabled = false;
         artifactCanvas.enabled = false;
         passwordCanvas.enabled = false;
+        lockpickCanvas.enabled = false;
         inGameCanvas.enabled = true;
         Time.timeScale = 1;
         instance = this;
@@ -123,7 +127,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pauseCanvas.enabled || inGameCanvas.enabled)
+        if (pauseCanvas.enabled || inGameCanvas.enabled || passwordCanvas.enabled || lockpickCanvas.enabled || artifactCanvas.enabled)
         {
             if (pauseCanvas.enabled)
             {
