@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] AudioClip freeRoamMusic;
 
-    public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas, lockpickCanvas;
+    public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas, lockpickCanvas, fadeToBlackCanvas;
+    [SerializeField] Image blackImage;
     public GameObject movingLockpick;
     public Slider skillCheckSlider;
     public GameObject skillCheckGreenArea;
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
         artifactCanvas.enabled = false;
         passwordCanvas.enabled = false;
         lockpickCanvas.enabled = false;
+        fadeToBlackCanvas.enabled = false;
         inGameCanvas.enabled = true;
         Time.timeScale = 1;
         instance = this;
@@ -1140,6 +1142,53 @@ public class GameManager : MonoBehaviour
 
         characterSkillTreeRequirementsText.color = Color.white;
         characterSkillTreeRequirementsText.transform.localScale = defaultUpgradeRequirementsTextScale;
+    }
+
+    public IEnumerator FadeToBlack()
+    {
+        fadeToBlackCanvas.enabled = true;
+        float transitionTime = 0.2f;
+        float blackoutTime = 0.3f;
+        /*while (blackImage.color.a != 0)
+        {
+            Color newColor = blackImage.color;
+            newColor.a -= Time.deltaTime / transitionTime;
+            blackImage.color = newColor;
+            yield return null;
+
+
+        }*/
+
+        float time = 0.0f;
+        while (time < transitionTime)
+        {
+            blackImage.color = Color.Lerp(new Color(0,0,0,0), new Color(0, 0, 0, 1), time / transitionTime);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        blackImage.color = new Color(0, 0, 0, 1);
+
+        yield return new WaitForSeconds(blackoutTime);
+
+
+        /*while (blackImage.color.a != 1)
+         {
+             Color newColor = blackImage.color;
+             newColor.a += Time.deltaTime / transitionTime;
+             blackImage.color = newColor;
+             yield return null;
+         }*/
+
+        time = 0.0f;
+        while (time < transitionTime)
+        {
+            blackImage.color = Color.Lerp(new Color(0, 0, 0, 1), new Color(0, 0, 0, 0), time / transitionTime);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        blackImage.color = new Color(0, 0, 0, 0);
+
+        fadeToBlackCanvas.enabled = false;
     }
 
     public void SaveGame()

@@ -12,6 +12,7 @@ TagManager:
   - PonySticker
   - PursuitKillZone
   - PursuitNPC
+  - Teleport
   layers:
   - Default
   - TransparentFX

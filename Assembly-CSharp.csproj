@@ -183,6 +183,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Jaronald\EnemyCheats.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdIntimidation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnenyPerfectGoalkeeper.cs" />
+    <Compile Include="Assets\Scripts\TeleportController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyShitMonologue.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\TankStance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />

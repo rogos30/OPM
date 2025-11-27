@@ -203,6 +203,17 @@ public class PlayerController : MonoBehaviour
         {
             other.GetComponentInParent<PatrolNPCController>().GameOver();
         }
+        else if (other.CompareTag("Teleport"))
+        {
+            if (other.GetComponent<TeleportController>().isAutomatic)
+            {
+                other.GetComponent<TeleportController>().Interact();
+            }
+            else
+            {
+                interactionPrompt.SetActive(true);
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -220,8 +231,8 @@ public class PlayerController : MonoBehaviour
 
     void ResetTimeToRandomEcounter()
     {
-        //timeToFight = Random.Range(25, 40);
-        timeToFight = Random.Range(5, 10);
+        timeToFight = Random.Range(35, 50);
+        //timeToFight = Random.Range(5, 10);
     }
 
     void InitiateRandomEncounter()

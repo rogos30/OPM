@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    bool playerNearby = false;
+    protected bool playerNearby = false;
     [SerializeField] protected bool interactionProgressesStory;
     [SerializeField] protected bool interactionSavesGame;
     [SerializeField] protected bool interactionBlocksSavingGame;
