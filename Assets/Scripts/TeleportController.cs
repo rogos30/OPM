@@ -7,16 +7,7 @@ public class TeleportController : Interactable
     public bool isAutomatic;
     [SerializeField] Transform destination;
     [SerializeField] Transform player;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    [SerializeField] string newLocationName;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -29,7 +20,7 @@ public class TeleportController : Interactable
             else
             {
                 playerNearby = true;
-            } 
+            }
         }
     }
 
@@ -50,6 +41,7 @@ public class TeleportController : Interactable
     IEnumerator TeleportDelayed()
     {
         yield return new WaitForSeconds(0.3f);
+        if (newLocationName != "") GameManager.instance.currentLocationText.text = newLocationName;
         player.position = destination.position;
     }
 }

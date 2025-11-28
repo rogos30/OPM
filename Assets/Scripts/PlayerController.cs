@@ -216,6 +216,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("LocationTrigger"))
+        {
+            GameManager.instance.currentLocationText.text = other.GetComponent<LocationChangeTriggerController>().newLocationName;
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("NPC"))
@@ -226,6 +234,10 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("BBBBBBBBB");
             other.GetComponentInParent<PatrolNPCController>().PlayableLeaveSight();
+        }
+        else if (other.CompareTag("Teleport"))
+        {
+            interactionPrompt.SetActive(false);
         }
     }
 

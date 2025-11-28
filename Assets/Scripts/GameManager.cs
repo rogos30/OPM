@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public Image[] passwordClues;
     public TMP_Text passwordText;
     [SerializeField] TMP_Text gameFpsText;
-    [SerializeField] TMP_Text currentLocationText;
+    public TMP_Text currentLocationText;
     [SerializeField] GameObject optionsColumn;
     [SerializeField] GameObject inventoryMainColumn;
     [SerializeField] GameObject inventoryItemsColumn;
