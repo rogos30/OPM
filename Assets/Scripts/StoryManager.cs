@@ -315,58 +315,75 @@ public class StoryManager : MonoBehaviour
         foreach (var trigger in sideQuestTriggers)
         {
             var sqtrigger = trigger.GetComponent<SidequestTriggerController>();
-            switch (sqtrigger.sideQuestId)
+            if (sqtrigger.appearsBasedOnMainStoryProgress)
             {
-                case 0:
-                    if (currentPingPongScamsQuest >= sqtrigger.appearanceAtQuest && currentPingPongScamsQuest < sqtrigger.disappearanceAtQuest)
-                    {
-                        trigger.SetActive(true);
-                    }
-                    else
-                    {
-                        trigger.SetActive(false);
-                    }
-                    break;
-                case 1:
-                    if (currentFollowingRefereesQuest >= sqtrigger.appearanceAtQuest && currentFollowingRefereesQuest < sqtrigger.disappearanceAtQuest)
-                    {
-                        trigger.SetActive(true);
-                    }
-                    else
-                    {
-                        trigger.SetActive(false);
-                    }
-                    break;
-                case 2:
-                    if (currentDiversionAndSearchQuest >= sqtrigger.appearanceAtQuest && currentDiversionAndSearchQuest < sqtrigger.disappearanceAtQuest)
-                    {
-                        trigger.SetActive(true);
-                    }
-                    else
-                    {
-                        trigger.SetActive(false);
-                    }
-                    break;
-                case 3:
-                    if (currentStrongStuffQuest >= sqtrigger.appearanceAtQuest && currentStrongStuffQuest < sqtrigger.disappearanceAtQuest)
-                    {
-                        trigger.SetActive(true);
-                    }
-                    else
-                    {
-                        trigger.SetActive(false);
-                    }
-                    break;
-                case 4:
-                    if (currentFaceTheCheaterQuest >= sqtrigger.appearanceAtQuest && currentFaceTheCheaterQuest < sqtrigger.disappearanceAtQuest)
-                    {
-                        trigger.SetActive(true);
-                    }
-                    else
-                    {
-                        trigger.SetActive(false);
-                    }
-                    break;
+                if (currentMainQuest >= sqtrigger.appearanceAtQuest && currentMainQuest < sqtrigger.disappearanceAtQuest && sqtrigger.GetProgressInSidequest() == 0
+                    && (!sqtrigger.appearsBasedOnOtherSideStoryProgress || sqtrigger.appearsBasedOnOtherSideStoryProgress && IsSideQuestCompleted(sqtrigger.otherSideQuestRequiredId))
+                    && (sqtrigger.sideQuestId == sideQuestId || sideQuestId == -1))
+                {
+                    trigger.SetActive(true);
+                }
+                else
+                {
+                    trigger.SetActive(false);
+                }
+            }
+            else
+            {
+                switch (sqtrigger.sideQuestId)
+                {
+
+                    case 0:
+                        if (currentPingPongScamsQuest >= sqtrigger.appearanceAtQuest && currentPingPongScamsQuest < sqtrigger.disappearanceAtQuest)
+                        {
+                            trigger.SetActive(true);
+                        }
+                        else
+                        {
+                            trigger.SetActive(false);
+                        }
+                        break;
+                    case 1:
+                        if (currentFollowingRefereesQuest >= sqtrigger.appearanceAtQuest && currentFollowingRefereesQuest < sqtrigger.disappearanceAtQuest)
+                        {
+                            trigger.SetActive(true);
+                        }
+                        else
+                        {
+                            trigger.SetActive(false);
+                        }
+                        break;
+                    case 2:
+                        if (currentDiversionAndSearchQuest >= sqtrigger.appearanceAtQuest && currentDiversionAndSearchQuest < sqtrigger.disappearanceAtQuest)
+                        {
+                            trigger.SetActive(true);
+                        }
+                        else
+                        {
+                            trigger.SetActive(false);
+                        }
+                        break;
+                    case 3:
+                        if (currentStrongStuffQuest >= sqtrigger.appearanceAtQuest && currentStrongStuffQuest < sqtrigger.disappearanceAtQuest)
+                        {
+                            trigger.SetActive(true);
+                        }
+                        else
+                        {
+                            trigger.SetActive(false);
+                        }
+                        break;
+                    case 4:
+                        if (currentFaceTheCheaterQuest >= sqtrigger.appearanceAtQuest && currentFaceTheCheaterQuest < sqtrigger.disappearanceAtQuest)
+                        {
+                            trigger.SetActive(true);
+                        }
+                        else
+                        {
+                            trigger.SetActive(false);
+                        }
+                        break;
+                }
             }
         }
     }
