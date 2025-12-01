@@ -8,6 +8,8 @@ public class TeleportController : Interactable
     [SerializeField] Transform destination;
     [SerializeField] Transform player;
     [SerializeField] string newLocationName;
+    [SerializeField] AudioClip newMusic;
+    [SerializeField] bool changeToFreeroamMusic;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -41,6 +43,16 @@ public class TeleportController : Interactable
     IEnumerator TeleportDelayed()
     {
         yield return new WaitForSeconds(0.3f);
+        if (newMusic != null)
+        {
+            GameManager.instance.musicSource.clip = newMusic;
+            GameManager.instance.musicSource.loop = true;
+            GameManager.instance.musicSource.Play();
+        }
+        else if (changeToFreeroamMusic)
+        {
+            GameManager.instance.PlayFreeroamMusic();
+        }
         if (newLocationName != "") GameManager.instance.currentLocationText.text = newLocationName;
         player.position = destination.position;
     }

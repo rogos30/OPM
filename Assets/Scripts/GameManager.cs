@@ -19,7 +19,7 @@ public enum PauseState { MAIN, SETTINGS, INVENTORY_MAIN, INVENTORY_HEALING, INVE
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    [SerializeField] AudioClip freeRoamMusic;
+    [SerializeField] AudioClip[] freeRoamMusic;
 
     public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas, lockpickCanvas, fadeToBlackCanvas;
     [SerializeField] Image blackImage;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text characterNameText;
 
     [SerializeField] AudioMixer mixer;
-    AudioSource musicSource, sfxSource;
+    [NonSerialized] public AudioSource musicSource, sfxSource;
     public AudioMixerGroup musicMixerGroup, sfxMixerGroup;
 
     readonly string[] difficultyNames = {"£atwy", "Œredni", "Trudny", "Fatalny" };
@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
     int chosenMain, chosenInv, chosenChar, chosenCharOption, chosenEqCategory, chosenPage;
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
+    [NonSerialized] public int currentFreeroamMusicStage = 0;
+    List<int>[] freeroamMusicIds = { };
     int frames;
     float framesTime = 0f, maxFramesTime = 0.5f;
     [SerializeField] TMP_Text[] mainColumnTexts;
@@ -107,7 +109,14 @@ public class GameManager : MonoBehaviour
             LoadGame();
         }
         HandleArtifacts();
-
+        freeroamMusicIds[0] = new List<int> { 0 }; //beginning
+        freeroamMusicIds[1] = new List<int> { 1 }; //start of recruitment
+        freeroamMusicIds[2] = new List<int> { 0, 1 };
+        freeroamMusicIds[3] = new List<int> { 2 }; //working with Burzynski
+        freeroamMusicIds[4] = new List<int> { 0, 1, 2 }; //working with Burzynski
+        freeroamMusicIds[5] = new List<int> { 3 }; //outside
+        freeroamMusicIds[6] = new List<int> { 4 }; //underground
+        freeroamMusicIds[7] = new List<int> { 0, 1, 2 }; //return to school
     }
     private void Awake()
     {
@@ -141,15 +150,21 @@ public class GameManager : MonoBehaviour
             }
             if (!musicSource.isPlaying)
             {
-                musicSource.clip = freeRoamMusic;
-                musicSource.loop = true;
-                musicSource.Play();
+                PlayFreeroamMusic();
             }
         }
         else
         {
             musicSource.Stop();
         }
+    }
+
+    public void PlayFreeroamMusic()
+    {
+        int musicId = UnityEngine.Random.Range(0, freeroamMusicIds[currentFreeroamMusicStage].Count); //select a random track from current stage
+        musicSource.clip = freeRoamMusic[musicId];
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     public void CountFPS()
