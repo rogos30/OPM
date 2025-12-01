@@ -243,8 +243,8 @@ public class PlayerController : MonoBehaviour
 
     void ResetTimeToRandomEcounter()
     {
-        timeToFight = Random.Range(35, 50);
-        //timeToFight = Random.Range(5, 10);
+        //timeToFight = Random.Range(35, 50);
+        timeToFight = Random.Range(5, 10);
     }
 
     void InitiateRandomEncounter()

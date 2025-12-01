@@ -13,21 +13,20 @@ public class PlayerFollowerController : Interactable
 
     Animator animator;
     bool isFacingRight = false;
+    float timeWithNoMovement;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
-        transform.position = target.position;   
+        transform.position = target.position;
+        timeWithNoMovement = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
         StartCoroutine(MoveDelayed(target));
-        var pos = transform.position;
-        pos.z = pos.y;
-        transform.position = pos;
     }
 
     IEnumerator MoveDelayed(Transform target)
@@ -35,6 +34,7 @@ public class PlayerFollowerController : Interactable
         yield return new WaitForSeconds(delay);
         if (Vector2.Distance(transform.position, target.position) >= distanceFromTarget)
         {
+            timeWithNoMovement = 0f;
             Vector2 difference = target.position - transform.position;
             double angle = Math.Abs(Math.Atan(difference.x / difference.y) * 180/Math.PI);
             //Debug.Log(angle);
@@ -52,12 +52,18 @@ public class PlayerFollowerController : Interactable
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+                Vector3 newPos = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+                newPos.z = newPos.y;
+                transform.position = newPos;
             }
         }
         else
         {
-            animator.SetInteger("isWalking", 0);
+            timeWithNoMovement += Time.deltaTime;
+            if (timeWithNoMovement >= 0.15f)
+            {
+                animator.SetInteger("isWalking", 0);
+            }
         }
     }
     void MoveHorizontal(bool right)

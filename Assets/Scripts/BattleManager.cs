@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
 {
     Vector2 returnPosition, battlePosition = new Vector2(1000, 0);
     [SerializeField] GameObject player;
+    [SerializeField] Camera cam;
 
     public UnityEvent onBattleWon;
     public UnityEvent onSkillCheckFinished, onMoveFinished;
@@ -1047,6 +1048,7 @@ public class BattleManager : MonoBehaviour
 
     public void InitiateBattle(int[] playables, int[] enemies, int backgroundId, bool saveGameAfterBattle, bool canRun)
     {
+        cam.orthographicSize = 5;
         background.gameObject.SetActive(true);
         background.sprite = backgroundPhotos[backgroundId];
         enemySpriteIndexes.AddRange(enemies);
@@ -1130,6 +1132,7 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
         musicSource.Stop();
+        cam.orthographicSize = 3.5f;
         foreach (var sprite in enemySprites)
         {
             sprite.SetActive(false);
