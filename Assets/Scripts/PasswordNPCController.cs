@@ -29,6 +29,7 @@ public class PasswordNPCController : Interactable
 
     string currentPassword = "";
     bool isGuessingPassword = false;
+    [SerializeField] AudioClip failSound;
 
     protected override void Update()
     {
@@ -53,7 +54,7 @@ public class PasswordNPCController : Interactable
         { //start password guessing
             DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
             DialogueManager.instance.onDialogueEnd.AddListener(() => {
-                isGuessingPassword = true;
+                StartCoroutine(AllowToGuess());
                 GameManager.instance.passwordCanvas.enabled = true;
                 GameManager.instance.inGameCanvas.enabled = false;
                 GameManager.instance.passwordText.text = currentPassword = "";
@@ -120,7 +121,10 @@ public class PasswordNPCController : Interactable
                 FinalizeAndExit();
             }
             else
-            {
+            { //fail
+                GameManager.instance.sfxSource.clip = failSound;
+                GameManager.instance.sfxSource.loop = false;
+                GameManager.instance.sfxSource.Play();
                 Exit();
             }
         }
@@ -152,6 +156,12 @@ public class PasswordNPCController : Interactable
         }
     }
 
+    IEnumerator AllowToGuess()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isGuessingPassword = true;
+    }
+
     char GetLetterPressed()
     {
         if (Input.GetKeyDown(KeyCode.A)) return 'a';
@@ -181,5 +191,5 @@ public class PasswordNPCController : Interactable
         if (Input.GetKeyDown(KeyCode.Y)) return 'y';
         if (Input.GetKeyDown(KeyCode.Z)) return 'z';
         return ' ';
-    } 
+    }
 }

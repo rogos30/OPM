@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     [NonSerialized] public int currentFreeroamMusicStage = 0;
-    List<int>[] freeroamMusicIds = { };
+    List<int>[] freeroamMusicIds;
     int frames;
     float framesTime = 0f, maxFramesTime = 0.5f;
     [SerializeField] TMP_Text[] mainColumnTexts;
@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             LoadGame();
         }
         HandleArtifacts();
+        freeroamMusicIds = new List<int>[8];
         freeroamMusicIds[0] = new List<int> { 0 }; //beginning
         freeroamMusicIds[1] = new List<int> { 1 }; //start of recruitment
         freeroamMusicIds[2] = new List<int> { 0, 1 };

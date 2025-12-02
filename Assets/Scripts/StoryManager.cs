@@ -10,6 +10,7 @@ public class StoryManager : MonoBehaviour
     public static StoryManager instance;
     [SerializeField] TMP_Text currentQuestText;
     [SerializeField] GameObject[] storyNPCs;
+    [SerializeField] GameObject[] storyTeleports;
     [SerializeField] GameObject[] sideQuestNPCs;
     [SerializeField] GameObject[] followerNPCs;
     [SerializeField] GameObject[] storyTriggers;
@@ -124,6 +125,7 @@ public class StoryManager : MonoBehaviour
     public void HandleAllNPCs()
     {
         HandleStoryNPCs();
+        HandleStoryTeleports();
         HandleFollowerNPCs();
         HandleSideQuestNPCs();
     }
@@ -131,6 +133,7 @@ public class StoryManager : MonoBehaviour
     public void DisableAllNPCs()
     {
         DisableStoryNPCs();
+        DisableStoryTeleports();
         DisableSideQuestNPCs();
         DisableFollowerNPCs();
     }
@@ -181,6 +184,29 @@ public class StoryManager : MonoBehaviour
         foreach(var trigger in storyTriggers)
         {
             trigger.SetActive(false);
+        }
+    }
+
+    public void HandleStoryTeleports()
+    {
+        foreach (var tp in storyTeleports)
+        {
+            if (currentMainQuest >= tp.GetComponent<Interactable>().appearanceAtQuest && currentMainQuest < tp.GetComponent<Interactable>().disappearanceAtQuest)
+            {
+                tp.SetActive(true);
+            }
+            else
+            {
+                tp.SetActive(false);
+            }
+        }
+    }
+
+    public void DisableStoryTeleports()
+    {
+        foreach (var tp in storyTeleports)
+        {
+            tp.SetActive(false);
         }
     }
 
