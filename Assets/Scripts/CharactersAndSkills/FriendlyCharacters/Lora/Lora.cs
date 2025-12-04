@@ -20,7 +20,7 @@ public class Lora : FriendlyCharacter
         CanBeUpgraded = false;
         Turns = DefaultTurns = 2;
         Speed = 400;
-        SpriteIndex = 10;
+        SpriteIndex = 6;
         AbilityDescription = "Lora jest chwilowo hiperpobudzona przez kawê i ma 2 ruchy w ka¿dej turze";
         Attack attack = new Attack();
         skillSet.Add(attack);

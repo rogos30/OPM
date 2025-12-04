@@ -37,7 +37,7 @@ public class ShopManager : MonoBehaviour
     const string defaultControlsText = "W/S - nawigacja, A/D - iloœæ, Z/X - kategoria, Q/E - strona\r\nENTER - zakup, ESC - wyjœcie",
                 controlsTextAddOn = ", LSHIFT - ulepszenie";
     const int maxLevel = 3;
-    readonly public int[] storyRequirementsForUpgrades = { 7, 11, 19};
+    readonly public int[] storyRequirementsForUpgrades = { 33, 49, 82};
 
     [SerializeField] AudioClip navigationScrollSound;
     [SerializeField] AudioClip navigationCancelSound;

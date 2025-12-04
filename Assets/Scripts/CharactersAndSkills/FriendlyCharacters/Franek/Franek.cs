@@ -22,7 +22,7 @@ public class Franek : FriendlyCharacter
         CanBeUpgraded = false;
         Turns = DefaultTurns = 1;
         Speed = 500;
-        SpriteIndex = 11;
+        SpriteIndex = 5;
         AbilityDescription = "Franek zaczyna walkê z buffem do ataku, obrony i celnoœci na 3 tury";
         CharacterDescription = "Opis Franka wip";
         Attack attack = new Attack();

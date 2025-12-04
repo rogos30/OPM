@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class PatrolNPCController : Interactable
 {
@@ -48,7 +49,7 @@ public class PatrolNPCController : Interactable
     {
         animator = GetComponent<Animator>();
         currentAwarenessSlider.gameObject.SetActive(false);
-        awarenessIncrease = GameManager.instance.difficulty + 1;
+        SetAwarenessIncrease(GameManager.instance.difficulty);
         if (!loopsPath)
         {
             visionCone.SetActive(false);
@@ -125,7 +126,12 @@ public class PatrolNPCController : Interactable
         theScale.x = visionConeScales[difficulty];
         theScale.y = visionConeScales[difficulty];
         visionCone.transform.localScale = theScale;
-        awarenessIncrease = difficulty + 1;
+        SetAwarenessIncrease(difficulty);
+    }
+
+    void SetAwarenessIncrease(int difficulty)
+    {
+        awarenessIncrease = difficulty + 3;
     }
 
     public void CheckIfPlayerInSight()
@@ -187,11 +193,15 @@ public class PatrolNPCController : Interactable
             if (killZoneEngaged)
             {
                 speed = 10;
-                transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+                Vector3 newPos = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+                newPos.z = newPos.y;
+                transform.position = newPos;
             }
             else
             {
-                transform.position = Vector2.MoveTowards(transform.position, patrolPoints[currentPatrolPoint].transform.position, speed * Time.deltaTime);
+                Vector3 newPos = Vector2.MoveTowards(transform.position, patrolPoints[currentPatrolPoint].transform.position, moveSpeed * Time.deltaTime);
+                newPos.z = newPos.y;
+                transform.position = newPos;
             }
             if (!hasSetDirection)
             {
@@ -214,22 +224,21 @@ public class PatrolNPCController : Interactable
     {
         if (right)
         {
-            visionCone.transform.eulerAngles = new Vector3(0, 0, -90);
-            pursuitKillZone.transform.eulerAngles = new Vector3(0, 0, -90);
             if (!isFacingRight)
             {
                 Flip();
             }
+            visionCone.transform.eulerAngles = new Vector3(0, 0, 90);
+            pursuitKillZone.transform.eulerAngles = new Vector3(0, 0, 90);
         }
         else
         {
-
-            visionCone.transform.eulerAngles = new Vector3(0, 0, 90);
-            pursuitKillZone.transform.eulerAngles = new Vector3(0, 0, 90);
             if (isFacingRight)
             {
                 Flip();
             }
+            visionCone.transform.eulerAngles = new Vector3(0, 0, -90);
+            pursuitKillZone.transform.eulerAngles = new Vector3(0, 0, -90);
         }
         animator.SetInteger("isWalking", 3);
     }

@@ -11,12 +11,9 @@ public class TriggerController : Interactable
     public override void Interact()
     {
         Debug.Log("interacting");
-        if (lines.Length > 0)
-        {
-            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogueManager.instance.onDialogueEnd.AddListener(AfterDialogue);
-            DialogueManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
-        }
+        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+        DialogueManager.instance.onDialogueEnd.AddListener(AfterDialogue);
+        DialogueManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
     }
 
     void AfterDialogue()

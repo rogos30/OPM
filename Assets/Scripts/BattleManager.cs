@@ -30,6 +30,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject skillCheckGreenArea;
     [SerializeField] Image background;
     [SerializeField] GameObject[] enemySprites;
+    [SerializeField] Sprite[] playableCharactersPhotos;
     [SerializeField] Sprite[] backgroundPhotos;
     [SerializeField] TMP_Text[] enemyNames;
     [SerializeField] TMP_Text[] characterNames;
@@ -1108,7 +1109,8 @@ public class BattleManager : MonoBehaviour
             characterNames[i].text = playableCharacterList[i].NominativeName;
             characterHealthBars[i].gameObject.SetActive(true);
             characterSkillBars[i].gameObject.SetActive(true);
-            playableCharactersSprites[i].sprite = DialogueManager.instance.speakerSprites[playableCharacterList[i].SpriteIndex];
+            //playableCharactersSprites[i].sprite = DialogueManager.instance.speakerSprites[playableCharacterList[i].SpriteIndex];
+            playableCharactersSprites[i].sprite = playableCharactersPhotos[playableCharacterList[i].SpriteIndex];
         }
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -1371,7 +1373,8 @@ public class BattleManager : MonoBehaviour
             characterSkillBars[i].value = (float)(playableCharacterList[index].Skill / (float)playableCharacterList[index].MaxSkill);
             characterHealthTexts[i].text = playableCharacterList[index].Health + " / " + playableCharacterList[index].MaxHealth;
             characterSkillTexts[i].text = playableCharacterList[index].Skill + " / " + playableCharacterList[index].MaxSkill;
-            playableCharactersSprites[i].sprite = DialogueManager.instance.speakerSprites[playableCharacterList[index].SpriteIndex];
+            //playableCharactersSprites[i].sprite = DialogueManager.instance.speakerSprites[playableCharacterList[index].SpriteIndex];
+            playableCharactersSprites[i].sprite = playableCharactersPhotos[playableCharacterList[index].SpriteIndex];
             if (playableCharacterList[index].IsGuarding)
             {
                 allEffectSprites[i, 0].sprite = effectSprites[0];

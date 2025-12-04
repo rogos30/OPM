@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerFollowerController : Interactable
 {
     [SerializeField] private Transform target;
-    [Range(0.5f, 10f)][SerializeField] private float moveSpeed;
-    public float distanceFromTarget = 1.5f;
+    [Range(0.5f, 10f)][SerializeField] public float moveSpeed;
+    public float distanceFromTarget;
     public float delay = 0.5f;
 
     Animator animator;

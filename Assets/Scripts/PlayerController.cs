@@ -8,14 +8,19 @@ public class PlayerController : MonoBehaviour
     [Range(0, 10f)]public float moveSpeed = 4;
     float timeToFight;
     Animator animator;
+    [SerializeField] RuntimeAnimatorController[] controllers;
     bool isFacingRight = false, isMoving = false;
     int currentArea = 0;
     [SerializeField] bool allowRandomEncounters = false;
 
     [SerializeField] GameObject interactionPrompt;
-    void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+
+    void Start()
+    {
         ResetTimeToRandomEcounter();
         interactionPrompt.SetActive(false);
     }
@@ -104,6 +109,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetInteger("isWalking", 0);
         }
+    }
+
+    public void ChangeAnimator(int animatorId)
+    {
+        animator.runtimeAnimatorController = controllers[animatorId];
     }
 
     public void AllowRandomEncounters()
@@ -243,8 +253,8 @@ public class PlayerController : MonoBehaviour
 
     void ResetTimeToRandomEcounter()
     {
-        //timeToFight = Random.Range(35, 50);
-        timeToFight = Random.Range(5, 10);
+        timeToFight = Random.Range(35, 50);
+        //timeToFight = Random.Range(5, 10);
     }
 
     void InitiateRandomEncounter()

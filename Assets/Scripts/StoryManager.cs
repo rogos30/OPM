@@ -8,6 +8,7 @@ using UnityEngine;
 public class StoryManager : MonoBehaviour
 {
     public static StoryManager instance;
+    [SerializeField] PlayerController player;
     [SerializeField] TMP_Text currentQuestText;
     [SerializeField] GameObject[] storyNPCs;
     [SerializeField] GameObject[] storyTeleports;
@@ -64,8 +65,7 @@ public class StoryManager : MonoBehaviour
 
     public void CollectMarlboro()
     {
-        marlborosCollected++;
-        if (marlborosCollected == Marlboros.Length)
+        if (marlborosCollected++ == Marlboros.Length)
         {
             ProgressStory();
         }
@@ -222,18 +222,6 @@ public class StoryManager : MonoBehaviour
             {
                 npc.SetActive(false);
             }
-        }
-    }
-
-    public void DisableSideQuestNPCs()
-    {
-        foreach(var npc in sideQuestNPCs)
-        {
-            npc.SetActive(false);
-        }
-        foreach (var trigger in sideQuestTriggers)
-        {
-            trigger.SetActive(false);
         }
     }
 
@@ -414,7 +402,35 @@ public class StoryManager : MonoBehaviour
         }
     }
 
+    public void DisableSideQuestNPCs()
+    {
+        foreach (var npc in sideQuestNPCs)
+        {
+            npc.SetActive(false);
+        }
+        foreach (var trigger in sideQuestTriggers)
+        {
+            trigger.SetActive(false);
+        }
+    }
 
+    void AdjustFollowerNPCsDistance(bool keepClose)
+    {
+        Debug.Log("to sie dzieje naprawde");
+        float distance;
+        if (keepClose)
+        {
+            distance = 0.4f;
+        }
+        else
+        {
+            distance = 1.2f;
+        }
+        foreach (var npc in followerNPCs)
+        {
+            npc.GetComponent<PlayerFollowerController>().distanceFromTarget = distance;
+        }
+    }
 
     public void ProgressStory(bool readDialogue = true)
     {
@@ -424,35 +440,48 @@ public class StoryManager : MonoBehaviour
         switch (currentMainQuest)
         {
             case 2:
+                //zdjecie kurtki
+                player.ChangeAnimator(1);
+                break;
+            case 9:
                 //dodanie Welenca
                 BattleManager.instance.currentPartyCharacters.Add(1);
                 break;
-            case 3:
+            case 19:
                 //dodanie Stasiaka;
                 BattleManager.instance.currentPartyCharacters.Add(2);
+                player.AllowRandomEncounters();
                 break;
-            case 4:
-                //dodanie Kai
+            case 24:
+                //dodanie Mai
                 BattleManager.instance.currentPartyCharacters.Add(3);
                 break;
-            case 5:
+            case 27:
+                //skradanka elektrotechnik
+                AdjustFollowerNPCsDistance(true);
+                break;
+            case 29:
+                //koniec skradanki elektrotechnik
+                AdjustFollowerNPCsDistance(false);
+                break;
+            case 30:
                 EnableMarlboros();
                 break;
-            case 6:
+            case 31:
                 DisableMarlboros();
                 break;
-            case 11:
+            case 47:
                 //dodanie Brudzyñskiego
                 BattleManager.instance.currentPartyCharacters.Add(4);
                 break;
-            case 14:
+            case 57:
                 //przejœcie do Lory
                 BattleManager.instance.currentPartyCharacters.RemoveAll(x => x >= 0);
                 BattleManager.instance.currentPartyCharacters.Add(6); //Janek
                 BattleManager.instance.currentPartyCharacters.Add(5); //Lora
 
                 break;
-            case 15:
+            case 999:
                 //powrot do g³ównej ekipy
                 BattleManager.instance.currentPartyCharacters.RemoveAll(x => x >= 0);
                 BattleManager.instance.currentPartyCharacters.Add(0); //Rogos
