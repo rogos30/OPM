@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
     public void PlayFreeroamMusic()
     {
         int musicId = UnityEngine.Random.Range(0, freeroamMusicIds[currentFreeroamMusicStage].Count); //select a random track from current stage
-        musicSource.clip = freeRoamMusic[musicId];
+        musicSource.clip = freeRoamMusic[freeroamMusicIds[currentFreeroamMusicStage][musicId]];
         musicSource.loop = true;
         musicSource.Play();
     }

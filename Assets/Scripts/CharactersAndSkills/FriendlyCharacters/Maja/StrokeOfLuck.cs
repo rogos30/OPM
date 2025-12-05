@@ -11,7 +11,7 @@ public class StrokeOfLuck : PlayableSkill
         Name = "£ut szczêœcia";
         SkillDescription = "przywraca wybranemu kompanowi losow¹ czêœæ jego hp oraz buffuje losow¹ statystykê.";
         InFightDescription = " przywraca ";
-        Cost = 175;
+        Cost = 0.6f;
         AccuracyMultiplier = 0.75f;
         TargetIsFriendly = true;
         TargetIsSelf = false;
@@ -22,7 +22,7 @@ public class StrokeOfLuck : PlayableSkill
         levelsToUpgrades = new List<int> { 3, 6 };
         tokensToUpgrades = new List<int> { 2, 1 };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz minimalne leczenie" };
-        upgradeDescriptions = new List<string> { "Przywraca kompanowi losow¹ czêœæ hp i wzmacnia losow¹ statystykê", "25% -> 50% maxHP" };
+        upgradeDescriptions = new List<string> { "Przywraca kompanowi losow¹ czêœæ hp i wzmacnia losow¹ statystykê", "25% -> 35% maxHP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)
@@ -73,7 +73,7 @@ public class StrokeOfLuck : PlayableSkill
         }
         if (Level == 1)
         {
-            minHealing = 0.5f;
+            minHealing = 0.35f;
         }
         Level++;
     }

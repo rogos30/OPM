@@ -416,7 +416,6 @@ public class StoryManager : MonoBehaviour
 
     void AdjustFollowerNPCsDistance(bool keepClose)
     {
-        Debug.Log("to sie dzieje naprawde");
         float distance;
         if (keepClose)
         {
@@ -432,7 +431,7 @@ public class StoryManager : MonoBehaviour
         }
     }
 
-    public void ProgressStory(bool readDialogue = true)
+    public void ProgressStory(bool isPlayingGameNormally = true)
     {
         Debug.Log("progressing story");
         currentQuestText.text = questDescriptions[++currentMainQuest];
@@ -446,6 +445,12 @@ public class StoryManager : MonoBehaviour
             case 9:
                 //dodanie Welenca
                 BattleManager.instance.currentPartyCharacters.Add(1);
+                GameManager.instance.currentFreeroamMusicStage = 1;
+                if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
+                break;
+            case 10:
+                GameManager.instance.currentFreeroamMusicStage = 2;
+                if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
                 break;
             case 19:
                 //dodanie Stasiaka;
@@ -470,9 +475,32 @@ public class StoryManager : MonoBehaviour
             case 31:
                 DisableMarlboros();
                 break;
+            case 34:
+                //Maja zostaje pod lazienka
+                BattleManager.instance.currentPartyCharacters.Remove(3);
+                break;
+            case 36:
+                //Maja wraca do druzyny
+                BattleManager.instance.currentPartyCharacters.Add(3);
+                break;
             case 47:
                 //dodanie Brudzyñskiego
                 BattleManager.instance.currentPartyCharacters.Add(4);
+                if (isPlayingGameNormally)
+                {
+                    while (BattleManager.instance.playableCharacters[4].Level < 8)
+                    {
+                        BattleManager.instance.playableCharacters[4].HandleLevel(500);
+                    }
+                }
+                break;
+            case 51:
+                GameManager.instance.currentFreeroamMusicStage = 3;
+                if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
+                break;
+            case 52:
+                GameManager.instance.currentFreeroamMusicStage = 4;
+                if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
                 break;
             case 57:
                 //przejœcie do Lory
@@ -490,7 +518,7 @@ public class StoryManager : MonoBehaviour
                 BattleManager.instance.currentPartyCharacters.Add(3); //Kaja
                 break;
         }
-        if (readDialogue)
+        if (isPlayingGameNormally)
         {
             foreach (int i in ShopManager.instance.storyRequirementsForUpgrades)
             {

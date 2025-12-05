@@ -1219,10 +1219,6 @@ public class BattleManager : MonoBehaviour
 
         character = new Burzynski();
         playableCharacters.Add(character);
-        while (playableCharacters[4].Level < 8)
-        {
-            playableCharacters[4].HandleLevel(500);
-        }
 
         character = new Lora();
         playableCharacters.Add(character);

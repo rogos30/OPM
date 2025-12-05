@@ -84,7 +84,7 @@ public class PatrolNPCController : Interactable
         {
             HandlePlayerOutOfSight();
         }
-        if (!loopsPath)
+        if (!loopsPath && player != null)
         {
             distance = Vector2.Distance(transform.position, player.transform.position);
             if (distance >= distanceToEscape && !isPlayerCaught)
@@ -173,6 +173,7 @@ public class PatrolNPCController : Interactable
                     {
                         GameManager.instance.canSaveGame = true;
                     }
+                    gameObject.SetActive(false);
                 }
             }
             currentPatrolPoint = (currentPatrolPoint + 1) % patrolPoints.Length;

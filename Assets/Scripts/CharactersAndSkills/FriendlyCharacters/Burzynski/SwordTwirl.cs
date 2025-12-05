@@ -20,7 +20,7 @@ public class SwordTwirl : PlayableSkill
         levelsToUpgrades = new List<int> { 1, 1, 12 };
         tokensToUpgrades = new List<int> { 2, 1, 2 };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zmniejsz koszt umiejêtnoœci", "Wzmocnij krytyczne trafienia" };
-        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 2 razy", "50% -> 40% maxSP", "Krytyczne trafienia nak³adaj¹ krwawienie na 1 turê" };
+        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia wszystkim przeciwnikom", "50% -> 40% maxSP", "Krytyczne trafienia nak³adaj¹ krwawienie na 1 turê" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

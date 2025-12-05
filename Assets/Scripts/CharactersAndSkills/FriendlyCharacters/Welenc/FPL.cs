@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FPL : PlayableSkill
 {
-    float attackMultiplier = 1.2f;
+    float attackMultiplier = 1.33f;
     bool criticalStuns = false;
     public FPL() : base()
     {
@@ -60,7 +60,7 @@ public class FPL : PlayableSkill
         }
         if (Level == 1)
         {
-            attackMultiplier = 1.5f;
+            attackMultiplier = 1.67f;
             AccuracyMultiplier = 0.8f;
         }
         if (Level == 2)

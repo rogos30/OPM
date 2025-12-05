@@ -20,7 +20,7 @@ public class ArtifactController : Interactable
         base.Update();
         if (canLeave)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return))
             {
                 Exit();
             }
@@ -46,6 +46,7 @@ public class ArtifactController : Interactable
         {
             gameObject.SetActive(false);
         }
+        canLeave = false;
     }
 
     IEnumerator startDialogueDelayed()
@@ -59,6 +60,7 @@ public class ArtifactController : Interactable
     IEnumerator allowToLeave()
     {
         yield return new WaitForSeconds(0.25f);
+        Debug.Log("CHUJDUPACIPA");
         canLeave = true;
     }
 }
