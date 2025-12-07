@@ -244,7 +244,9 @@ public class GameStartManager : MonoBehaviour
                                 File.Delete(fullPath1);
                             }
                             PlayerPrefs.SetString("lastSaveFile", chosenSaveSlot.ToString());
-                            SceneManager.LoadScene("world");
+                            PlayerPrefs.SetInt("cutsceneId", 0);
+                            //SceneManager.LoadScene("world");
+                            SceneManager.LoadScene("cutscenes");
                             break;
                         case 2: //no
                             currentState = 1;

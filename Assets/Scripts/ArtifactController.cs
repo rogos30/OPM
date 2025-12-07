@@ -20,7 +20,7 @@ public class ArtifactController : Interactable
         base.Update();
         if (canLeave)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
             {
                 Exit();
             }
@@ -42,6 +42,22 @@ public class ArtifactController : Interactable
     {
         GameManager.instance.artifactCanvas.enabled = false;
         wasSeen = true;
+        if (interactionProgressesStory)
+        { //dialogue end progresses story
+            StoryManager.instance.ProgressStory();
+        }
+        if (interactionSavesGame)
+        { //dialogue end saves game
+            GameManager.instance.SaveGame();
+        }
+        if (interactionBlocksSavingGame)
+        {
+            GameManager.instance.canSaveGame = false;
+        }
+        else
+        {
+            GameManager.instance.canSaveGame = true;
+        }
         if (disappearAfterInteraction)
         {
             gameObject.SetActive(false);
@@ -60,7 +76,6 @@ public class ArtifactController : Interactable
     IEnumerator allowToLeave()
     {
         yield return new WaitForSeconds(0.25f);
-        Debug.Log("CHUJDUPACIPA");
         canLeave = true;
     }
 }

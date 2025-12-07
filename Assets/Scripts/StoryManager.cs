@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StoryManager : MonoBehaviour
 {
     public static StoryManager instance;
+    [SerializeField] Camera cam;
     [SerializeField] PlayerController player;
     [SerializeField] TMP_Text currentQuestText;
     [SerializeField] GameObject[] storyNPCs;
@@ -485,6 +487,7 @@ public class StoryManager : MonoBehaviour
                 break;
             case 47:
                 //dodanie Brudzyñskiego
+                player.currentRandomEncounterStage = 1;
                 BattleManager.instance.currentPartyCharacters.Add(4);
                 if (isPlayingGameNormally)
                 {
@@ -502,20 +505,120 @@ public class StoryManager : MonoBehaviour
                 GameManager.instance.currentFreeroamMusicStage = 4;
                 if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
                 break;
-            case 57:
+            case 60:
                 //przejœcie do Lory
+                player.PreventRandomEncounters();
+                if (isPlayingGameNormally)
+                {
+                    StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                    StartCoroutine(TransitionToLora());
+                }
+                else
+                {
+                    player.ChangeAnimator(2);
+                    player.transform.position = new Vector2(-207, 52);
+                }
                 BattleManager.instance.currentPartyCharacters.RemoveAll(x => x >= 0);
                 BattleManager.instance.currentPartyCharacters.Add(6); //Janek
                 BattleManager.instance.currentPartyCharacters.Add(5); //Lora
-
                 break;
-            case 999:
-                //powrot do g³ównej ekipy
+            case 69:
+                //ucieczka przed caryca
+                player.ChangeAnimator(1);
                 BattleManager.instance.currentPartyCharacters.RemoveAll(x => x >= 0);
                 BattleManager.instance.currentPartyCharacters.Add(0); //Rogos
                 BattleManager.instance.currentPartyCharacters.Add(1); //Welenc
                 BattleManager.instance.currentPartyCharacters.Add(2); //Stasiak
                 BattleManager.instance.currentPartyCharacters.Add(3); //Kaja
+                AdjustFollowerNPCsDistance(true);
+                if (isPlayingGameNormally)
+                {
+                    GameManager.instance.currentFreeroamMusicStage = 5;
+                    GameManager.instance.PlayFreeroamMusic();
+                    cam.orthographicSize = 5f;
+                }
+                break;
+            case 73:
+                //koniec ucieczki
+                if (isPlayingGameNormally)
+                {
+                    PlayerPrefs.SetInt("cutsceneId", 1);
+                    SceneManager.LoadScene("cutscenes");
+                }
+                break;
+            case 74:
+                //poczatek outside'u
+                player.transform.position = new Vector2(-414, 185);
+                cam.orthographicSize = 5f;
+                AdjustFollowerNPCsDistance(false);
+                GameManager.instance.currentFreeroamMusicStage = 6;
+                if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
+                GameManager.instance.currentLocationText.text = "Za szko³¹";
+                break;
+            case 81:
+                player.moveSpeed = 8;
+                break;
+            case 82:
+                player.moveSpeed = 3.5f;
+                break;
+            case 83:
+                player.moveSpeed = 8;
+                break;
+            case 84:
+                player.moveSpeed = 3.5f;
+                break;
+            case 87:
+                player.moveSpeed = 8;
+                break;
+            case 88:
+                player.moveSpeed = 3.5f;
+                break;
+            case 90:
+                player.moveSpeed = 8;
+                break;
+            case 91:
+                //wejscie do podziemi
+                player.currentRandomEncounterStage = 2;
+                GameManager.instance.currentFreeroamMusicStage = 7;
+                GameManager.instance.currentLocationText.text = "Podziemia szko³y";
+                cam.orthographicSize = 3.5f;
+                player.moveSpeed = 3.5f;
+                player.AllowRandomEncounters();
+                if (isPlayingGameNormally)
+                {
+                    StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                    StartCoroutine(TransitionToUnderground());
+                    GameManager.instance.PlayFreeroamMusic();
+                }
+                else
+                {
+                    player.transform.position = new Vector2(-258, 175);
+                }
+                break;
+            case 101:
+                //poczatek patrolujacych szkieletow
+                AdjustFollowerNPCsDistance(true);
+                break;
+            case 108:
+                //koniec patrolujacych szkieletow
+                AdjustFollowerNPCsDistance(false);
+                break;
+            case 110:
+                //wyjscie z podziemi
+                if (isPlayingGameNormally)
+                {
+                    PlayerPrefs.SetInt("cutsceneId", 2);
+                    SceneManager.LoadScene("cutscenes");
+                }
+                break;
+            case 111:
+                player.transform.position = new Vector2(-300.5f, 45);
+                GameManager.instance.currentFreeroamMusicStage = 4;
+                if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
+                GameManager.instance.currentLocationText.text = "Parter, blok D";
+                break;
+            case 999:
+                //powrot do g³ównej ekipy
                 break;
         }
         if (isPlayingGameNormally)
@@ -723,5 +826,17 @@ public class StoryManager : MonoBehaviour
             }
             HandleSideQuestNPCs(4);
         }
+    }
+
+    IEnumerator TransitionToLora()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(2);
+        player.transform.position = new Vector2(-207, 52);
+    }
+    IEnumerator TransitionToUnderground()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.transform.position = new Vector2(-258, 175);
     }
 }

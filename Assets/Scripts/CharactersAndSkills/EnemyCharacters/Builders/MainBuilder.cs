@@ -9,11 +9,11 @@ public class MainBuiler : EnemyCharacter
         NominativeName = "Brygadzista";
         DativeName = "Brygadziœcie";
         AccusativeName = "Brygadzisty";
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 7000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 6000;
         DifficultyHealthChange = 2500;
-        Attack = DefaultAttack = BaseAttack = 350;
+        Attack = DefaultAttack = BaseAttack = 300;
         DifficultyAttackChange = 150;
-        Defense = DefaultDefense = BaseDefense = 100;
+        Defense = DefaultDefense = BaseDefense = 90;
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
         Turns = DefaultTurns = BaseTurns = 1;
         Speed = 450;

@@ -67,6 +67,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoRotate.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemySwordMayhem.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
+    <Compile Include="Assets\Scripts\CutsceneManager.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\EnergyDrinks\Dzik.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Builders\EnemyMoraleBoost.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />

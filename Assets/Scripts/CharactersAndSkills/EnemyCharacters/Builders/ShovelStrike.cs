@@ -21,7 +21,7 @@ public class ShovelStrike : EnemySkill
             return source.NominativeName + " nie trafia ³opat¹ w " + target.AccusativeName;
         }
         string finalDesc = source.NominativeName + InFightDescription + target.DativeName;
-        int damage = (int)(source.Attack * 2) - target.Defense;
+        int damage = (int)(source.Attack * 1.75f * Random.Range(0.8f, 1.2f)) - target.Defense;
         int turns = 2;
         if (Random.Range(0, 1f) < criticalChance)
         {

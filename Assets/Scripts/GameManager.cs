@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField] AudioClip[] freeRoamMusic;
+    [SerializeField] AudioClip chaseMusic;
 
     public Canvas pauseCanvas, inGameCanvas, artifactCanvas, passwordCanvas, lockpickCanvas, fadeToBlackCanvas;
     [SerializeField] Image blackImage;
@@ -57,7 +58,8 @@ public class GameManager : MonoBehaviour
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     [NonSerialized] public int currentFreeroamMusicStage = 0;
-    List<int>[] freeroamMusicIds;
+    int[,] freeroamMusicIds = { { 0, 0, 0 }, { 1, 1, 1 }, { 0, 1, 1 }, { 2, 2, 2 }, { 0, 1, 2 }, { 3, 3, 3 }, { 4, 4, 4 }, { 5, 5, 5 }, { 0, 1, 2 } };
+    //beginning, start of recruitment, rand, working with Burzynski, rand, chase, outside, underground, return to school
     int frames;
     float framesTime = 0f, maxFramesTime = 0.5f;
     [SerializeField] TMP_Text[] mainColumnTexts;
@@ -94,6 +96,7 @@ public class GameManager : MonoBehaviour
 
     Vector3 defaultUpgradeRequirementsTextScale;
     [SerializeField] Sprite[] upgradeSprites;
+    [SerializeField] Sprite[] characterInfoSprites;
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -109,15 +112,6 @@ public class GameManager : MonoBehaviour
             LoadGame();
         }
         HandleArtifacts();
-        freeroamMusicIds = new List<int>[8];
-        freeroamMusicIds[0] = new List<int> { 0 }; //beginning
-        freeroamMusicIds[1] = new List<int> { 1 }; //start of recruitment
-        freeroamMusicIds[2] = new List<int> { 0, 1 };
-        freeroamMusicIds[3] = new List<int> { 2 }; //working with Burzynski
-        freeroamMusicIds[4] = new List<int> { 0, 1, 2 }; //working with Burzynski
-        freeroamMusicIds[5] = new List<int> { 3 }; //outside
-        freeroamMusicIds[6] = new List<int> { 4 }; //underground
-        freeroamMusicIds[7] = new List<int> { 0, 1, 2 }; //return to school
     }
     private void Awake()
     {
@@ -162,8 +156,15 @@ public class GameManager : MonoBehaviour
 
     public void PlayFreeroamMusic()
     {
-        int musicId = UnityEngine.Random.Range(0, freeroamMusicIds[currentFreeroamMusicStage].Count); //select a random track from current stage
-        musicSource.clip = freeRoamMusic[freeroamMusicIds[currentFreeroamMusicStage][musicId]];
+        int musicId = UnityEngine.Random.Range(0, 3); //select a random track from current stage
+        musicSource.clip = freeRoamMusic[freeroamMusicIds[currentFreeroamMusicStage, musicId]];
+        musicSource.loop = true;
+        musicSource.Play();
+    }
+
+    public void PlayChaseMusic()
+    {
+        musicSource.clip = chaseMusic;
         musicSource.loop = true;
         musicSource.Play();
     }
@@ -1030,7 +1031,7 @@ public class GameManager : MonoBehaviour
     {
         var currentChar = BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]];
         characterNameText.text = currentChar.NominativeName;
-        characterSprite.sprite = DialogueManager.instance.speakerSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
+        characterSprite.sprite = characterInfoSprites[BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[currentPage]].SpriteIndex];
     }
 
     void LoadSettings()
@@ -1160,20 +1161,10 @@ public class GameManager : MonoBehaviour
         characterSkillTreeRequirementsText.transform.localScale = defaultUpgradeRequirementsTextScale;
     }
 
-    public IEnumerator FadeToBlack()
+    public IEnumerator FadeToBlack(float blackoutTime)
     {
         fadeToBlackCanvas.enabled = true;
         float transitionTime = 0.2f;
-        float blackoutTime = 0.3f;
-        /*while (blackImage.color.a != 0)
-        {
-            Color newColor = blackImage.color;
-            newColor.a -= Time.deltaTime / transitionTime;
-            blackImage.color = newColor;
-            yield return null;
-
-
-        }*/
 
         float time = 0.0f;
         while (time < transitionTime)
@@ -1185,15 +1176,6 @@ public class GameManager : MonoBehaviour
         blackImage.color = new Color(0, 0, 0, 1);
 
         yield return new WaitForSeconds(blackoutTime);
-
-
-        /*while (blackImage.color.a != 1)
-         {
-             Color newColor = blackImage.color;
-             newColor.a += Time.deltaTime / transitionTime;
-             blackImage.color = newColor;
-             yield return null;
-         }*/
 
         time = 0.0f;
         while (time < transitionTime)
@@ -1343,6 +1325,11 @@ public class GameManager : MonoBehaviour
                 float playerX = float.Parse(reader.ReadLine());
                 float playerY = float.Parse(reader.ReadLine());
                 ShopManager.instance.player.transform.position = new Vector2(playerX, playerY);
+                if (StoryManager.instance.currentMainQuest == 73 || StoryManager.instance.currentMainQuest == 110)
+                {
+                    //just saw kidnapping cutscene, progress story once more
+                    StoryManager.instance.ProgressStory(false);
+                }
 
                 foreach (var character in BattleManager.instance.playableCharacters)
                 {
@@ -1357,9 +1344,12 @@ public class GameManager : MonoBehaviour
                     }
                     character.CurrentXP = int.Parse(reader.ReadLine());
                     int upgradeLevel = int.Parse(reader.ReadLine());
-                    for (int i = 0; i < upgradeLevel; i++)
+                    if (character.UpgradeLevel == 0)
                     {
-                        character.Upgrade();
+                        for (int i = 0; i < upgradeLevel; i++)
+                        {
+                            character.Upgrade();
+                        }
                     }
                     character.UpgradeTokens = int.Parse(reader.ReadLine());
 

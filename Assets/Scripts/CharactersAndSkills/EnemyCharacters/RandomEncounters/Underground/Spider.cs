@@ -7,9 +7,9 @@ public class Spider : EnemyCharacter
     public Spider()
     {
 
-        NominativeName = "Ch³opak z fakerem";
-        DativeName = "Ch³opakowi z fakerem";
-        AccusativeName = "Ch³opaka z fakerem";
+        NominativeName = "Paj¹k";
+        DativeName = "Pajakowi";
+        AccusativeName = "Paj¹ka";
 
         Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 2000;
         DifficultyHealthChange = 600;

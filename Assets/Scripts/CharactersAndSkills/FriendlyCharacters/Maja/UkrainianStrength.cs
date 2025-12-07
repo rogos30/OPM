@@ -20,7 +20,7 @@ public class UkrainianStrength : PlayableSkill
         levelsToUpgrades = new List<int> { 6, 8, 11 };
         tokensToUpgrades = new List<int> { 2, 2, 2 };
         upgradeNames = new List<string> { "Odblokuj umiejêtnoœæ " + Name, "Zwiêksz czas trwania efektu umiejêtnoœci", "Zmniejsz koszt umiejêtnoœci" };
-        upgradeDescriptions = new List<string> { "Zadaje spore obra¿enia 2 razy", "2 -> 3 tury", "40% -> 33% maxSP" };
+        upgradeDescriptions = new List<string> { "Zwiêksza atak i celnoœæ sojusznika", "2 -> 3 tury", "40% -> 33% maxSP" };
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

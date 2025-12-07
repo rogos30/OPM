@@ -9,8 +9,8 @@ public class Builder : EnemyCharacter
         NominativeName = "Budowniczy A";
         DativeName = "Budowniczemu A";
         AccusativeName = "Budowniczego A";
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 4000;
-        DifficultyHealthChange = 2000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 3000;
+        DifficultyHealthChange = 1700;
         Attack = DefaultAttack = BaseAttack = 250;
         DifficultyAttackChange = 125;
         Defense = DefaultDefense = BaseDefense = 70;
@@ -38,10 +38,10 @@ public class Builder : EnemyCharacter
         NominativeName = nameN;
         DativeName = nameD;
         AccusativeName = nameA;
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 4000;
-        DifficultyHealthChange = 2000;
-        Attack = DefaultAttack = BaseAttack = 300;
-        DifficultyAttackChange = 150;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 3000;
+        DifficultyHealthChange = 1700;
+        Attack = DefaultAttack = BaseAttack = 250;
+        DifficultyAttackChange = 125;
         Defense = DefaultDefense = BaseDefense = 70;
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
         Turns = DefaultTurns = BaseTurns = 1;
@@ -49,7 +49,6 @@ public class Builder : EnemyCharacter
         MoneyDropped = 5000;
         XPDropped = 500;
         ShovelStrike shovelStrike = new ShovelStrike();
-        skillSet.Add(shovelStrike);
         skillSet.Add(shovelStrike);
         DrinkOfTheGods drinkOfTheGods = new DrinkOfTheGods();
         skillSet.Add(drinkOfTheGods);
@@ -59,6 +58,7 @@ public class Builder : EnemyCharacter
         skillSet.Add(wheelbarrow);
         skillSet.Add(wheelbarrow);
         BottleThrow bottleThrow = new BottleThrow();
+        skillSet.Add(bottleThrow);
         skillSet.Add(bottleThrow);
     }
 }

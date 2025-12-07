@@ -178,6 +178,7 @@ public class FriendlyCharacter : Character
 
     public void Upgrade()
     {
+        Debug.Log("ulepszam " + NominativeName);
         UpgradeLevel++;
         MaxHealth = (int)(MaxHealth * statIncreaseFactor);
         MaxSkill = (int)(MaxSkill * statIncreaseFactor);

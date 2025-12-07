@@ -36,7 +36,7 @@ public class TeleportController : Interactable
 
     public override void Interact()
     {
-        StartCoroutine(GameManager.instance.FadeToBlack());
+        StartCoroutine(GameManager.instance.FadeToBlack(0.4f));
         StartCoroutine(TeleportDelayed());
     }
 

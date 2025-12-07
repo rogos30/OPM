@@ -6,9 +6,9 @@ public class Rat : EnemyCharacter
 {
     public Rat()
     {
-        NominativeName = "Wkurzona laska";
-        DativeName = "Wkurzonej lasce";
-        AccusativeName = "Wkurzonej laski";
+        NominativeName = "Szczur";
+        DativeName = "Szczurowi";
+        AccusativeName = "Szczura";
         Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 1600;
         DifficultyHealthChange = 400;
         Attack = DefaultAttack = BaseAttack = 600;

@@ -373,7 +373,10 @@ public class ShopManager : MonoBehaviour
         player.SetActive(true);
         musicSource.Stop();
         shopCanvas.enabled = false;
-        GameManager.instance.SaveGame();
+        if (GameManager.instance.canSaveGame)
+        {
+            GameManager.instance.SaveGame();
+        }
     }
 
     IEnumerator CantAfford()

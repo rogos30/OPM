@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     [SerializeField] RuntimeAnimatorController[] controllers;
     bool isFacingRight = false, isMoving = false;
-    int currentArea = 0;
+    public int currentRandomEncounterStage = 0;
     [SerializeField] bool allowRandomEncounters = false;
 
     [SerializeField] GameObject interactionPrompt;
@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour
         {
             if (enemiesFirstDraw[i])
             {
-                enemies[j++] = BattleManager.instance.randomEncounterEnemyIndexes[currentArea, i];
+                enemies[j++] = BattleManager.instance.randomEncounterEnemyIndexes[currentRandomEncounterStage, i];
             }
         }
         BattleManager.instance.InitiateBattle(playables, enemies, 0, true, true);

@@ -19,10 +19,10 @@ public class PatrolNPCController : Interactable
     [SerializeField] private GameObject[] patrolPoints;
     [SerializeField] private GameObject visionCone;
     [SerializeField] private GameObject pursuitKillZone;
-    [Range(0.5f, 10f)][SerializeField] float moveSpeed;
+    [SerializeField] float moveSpeed;
     [Range(0, 10f)][SerializeField] float waitTimeAtPatrolPoint;
     [Range(0, 10f)][SerializeField] float awarenessCooldownTime;
-    [Range(5f, 30f)][SerializeField] float distanceToEscape;
+    [SerializeField] float distanceToEscape;
     [SerializeField] GameObject player;
     [SerializeField] bool loopsPath;
     [SerializeField] bool hasKillZone;
@@ -36,7 +36,7 @@ public class PatrolNPCController : Interactable
     bool isSomeoneInSight = false;
     public bool killZoneEngaged = false;
     int playablesInSight = 0;
-    int[] visionConeScales = { 2, 3, 4, 5 };
+    int[] visionConeScales = { 3, 4, 5, 6 };
     float distance;
     float playerSpeed;
     [SerializeField] AudioClip[] onFailVoiceLine;
@@ -122,7 +122,7 @@ public class PatrolNPCController : Interactable
 
     public void UpdateDifficulty(int difficulty)
     {
-        Vector3 theScale = transform.localScale;
+        Vector2 theScale = transform.localScale;
         theScale.x = visionConeScales[difficulty];
         theScale.y = visionConeScales[difficulty];
         visionCone.transform.localScale = theScale;
@@ -191,12 +191,13 @@ public class PatrolNPCController : Interactable
             { //runs from player
                 speed = distance < 4 ? playerSpeed + 1 : moveSpeed;
             } 
-            if (killZoneEngaged)
+            if (killZoneEngaged && !isPlayerCaught)
             {
-                speed = 10;
+                GameOver();
+                /*speed = 10;
                 Vector3 newPos = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
                 newPos.z = newPos.y;
-                transform.position = newPos;
+                transform.position = newPos;*/
             }
             else
             {

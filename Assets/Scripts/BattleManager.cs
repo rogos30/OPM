@@ -1228,6 +1228,7 @@ public class BattleManager : MonoBehaviour
         {
             playableCharacters[5].Upgrade();
             playableCharacters[6].Upgrade();
+            Debug.Log(playableCharacters[5].MaxHealth);
         }
 
         character = new Bombel();
