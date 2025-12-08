@@ -11,6 +11,7 @@ public class EnemyCutball : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
+        SkillSoundId = 16;
     }
 
     public override string execute(EnemyCharacter source, Character target)

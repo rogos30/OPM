@@ -30,7 +30,6 @@ public class PatrolNPCController : Interactable
     [SerializeField] bool hasAwarenessThresholds;
     int currentPatrolPoint = 0;
     bool canMove = true;
-    bool hasSetDirection = true;
     bool isInPatrol = false;
     bool isPlayerCaught = false;
     bool isSomeoneInSight = false;
@@ -43,6 +42,9 @@ public class PatrolNPCController : Interactable
 
     Animator animator;
     bool isFacingRight = false;
+
+    [SerializeField] int changeAnimatorAtIndex;
+    [SerializeField] RuntimeAnimatorController controller;
 
     // Start is called before the first frame update
     void Start()
@@ -116,7 +118,6 @@ public class PatrolNPCController : Interactable
             isInPatrol = false;
             canMove = true;
             currentWaitTime = 0;
-            hasSetDirection = false;
         }
     }
 
@@ -155,6 +156,10 @@ public class PatrolNPCController : Interactable
         {
             if (!loopsPath)
             {
+                if (currentPatrolPoint == changeAnimatorAtIndex)
+                {
+                    animator.runtimeAnimatorController = controller;
+                }
                 if (currentPatrolPoint + 1 == patrolPoints.Length)
                 {
                     if (interactionProgressesStory)
@@ -182,42 +187,37 @@ public class PatrolNPCController : Interactable
         }
         if (canMove)
         {
-            float speed;
-            if (hasKillZone)
+            float speed = moveSpeed;
+            /*if (hasKillZone)
             { //chases player
                 speed = distance > 10 ? playerSpeed + 1 : moveSpeed;
             }
             else
             { //runs from player
                 speed = distance < 4 ? playerSpeed + 1 : moveSpeed;
-            } 
+            }*/
             if (killZoneEngaged && !isPlayerCaught)
             {
-                GameOver();
-                /*speed = 10;
-                Vector3 newPos = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
-                newPos.z = newPos.y;
-                transform.position = newPos;*/
-            }
-            else
-            {
-                Vector3 newPos = Vector2.MoveTowards(transform.position, patrolPoints[currentPatrolPoint].transform.position, moveSpeed * Time.deltaTime);
+                speed = 10;
+                Vector3 newPos = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
                 newPos.z = newPos.y;
                 transform.position = newPos;
             }
-            if (!hasSetDirection)
+            else
             {
-                if (Math.Abs(patrolPoints[currentPatrolPoint].transform.position.y - transform.position.y) <= 0.2f)
-                {
-                    Debug.Log("horizontal");
-                    MoveHorizontal(patrolPoints[currentPatrolPoint].transform.position.x >= transform.position.x);
-                }
-                else
-                {
-                    Debug.Log("vertical");
-                    MoveVertical(patrolPoints[currentPatrolPoint].transform.position.y >= transform.position.y);
-                }
-                hasSetDirection = true;
+                Vector3 newPos = Vector2.MoveTowards(transform.position, patrolPoints[currentPatrolPoint].transform.position, speed * Time.deltaTime);
+                newPos.z = newPos.y;
+                transform.position = newPos;
+            }
+            Vector2 difference = patrolPoints[currentPatrolPoint].transform.position - transform.position;
+            double angle = Math.Abs(Math.Atan(difference.x / difference.y) * 180 / Math.PI);
+            if (angle > 45)
+            {
+                MoveHorizontal(difference.x >= 0);
+            }
+            else
+            {
+                MoveVertical(difference.y >= 0);
             }
         }
     }

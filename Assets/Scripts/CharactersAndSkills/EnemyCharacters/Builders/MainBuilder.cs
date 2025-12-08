@@ -18,7 +18,7 @@ public class MainBuiler : EnemyCharacter
         Turns = DefaultTurns = BaseTurns = 1;
         Speed = 450;
         MoneyDropped = 50;
-        XPDropped = 10000;
+        XPDropped = 4500;
         EnemyMoraleBoost enemyMoraleBoost = new EnemyMoraleBoost();
         skillSet.Add(enemyMoraleBoost);
         ShovelStrike shovelStrike = new ShovelStrike();

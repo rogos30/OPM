@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -25,6 +24,8 @@ public class BattleManager : MonoBehaviour
     public UnityEvent onSkillCheckFinished, onMoveFinished;
     public static BattleManager instance;
     [SerializeField] Canvas battleCanvas;
+    [SerializeField] GameObject tabInfo;
+    [SerializeField] GameObject[] qeInfo;
     [SerializeField] Slider skillCheckSlider;
     [SerializeField] GameObject skillCheckBlueArea;
     [SerializeField] GameObject skillCheckGreenArea;
@@ -658,6 +659,16 @@ public class BattleManager : MonoBehaviour
             }
         }
         actionDescriptionText.text = playableCharacterList[currentPlayable].NominativeName + " " + playableCharacterList[currentPlayable].skillSet[GetSkillsRealId(true)].SkillDescription;
+        if (maxCurrentPage > 1)
+        {
+            qeInfo[0].gameObject.SetActive(true);
+            qeInfo[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            qeInfo[0].gameObject.SetActive(false);
+            qeInfo[1].gameObject.SetActive(false);
+        }
     }
 
     int GetSkillsRealId(bool skillIsBeingChosen)
@@ -705,6 +716,16 @@ public class BattleManager : MonoBehaviour
         maxCurrentRow = actions.Length;
         maxCurrentPage = ShopManager.instance.level + 1;
         actionDescriptionText.text = Inventory.instance.items[currentPage * actions.Length].Description;
+        if (maxCurrentPage > 1)
+        {
+            qeInfo[0].gameObject.SetActive(true);
+            qeInfo[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            qeInfo[0].gameObject.SetActive(false);
+            qeInfo[1].gameObject.SetActive(false);
+        }
     }
     void PrintYesNo()
     {
@@ -804,6 +825,16 @@ public class BattleManager : MonoBehaviour
         }
         maxCurrentRow = textIndex;
         maxCurrentPage = (playableCharacterList.Count - 1) / actions.Length + 1;
+        if (maxCurrentPage > 1)
+        {
+            qeInfo[0].gameObject.SetActive(true);
+            qeInfo[1].gameObject.SetActive(true);
+        }
+        else
+        {
+            qeInfo[0].gameObject.SetActive(false);
+            qeInfo[1].gameObject.SetActive(false);
+        }
     }
 
     void PrintPageOfEnemies()
@@ -1069,6 +1100,16 @@ public class BattleManager : MonoBehaviour
         battleFinished = false;
         battleCanvas.enabled = true;
         GameManager.instance.inGameCanvas.enabled = false;
+        if (playables.Length > 1)
+        {
+            tabInfo.gameObject.SetActive(true);
+        }
+        else
+        {
+            tabInfo.gameObject.SetActive(false);
+        }
+        qeInfo[0].gameObject.SetActive(false);
+        qeInfo[1].gameObject.SetActive(false);
         returnPosition = player.transform.position;
         player.transform.position = battlePosition;
         player.SetActive(false);
@@ -1814,12 +1855,17 @@ public class BattleManager : MonoBehaviour
                     string[] lines = {
                         "MASZ JUŻ DOŚĆ?!",
                         "...",
-                        "Co z wolnym po Nowym Roku?",
-                        "O co chodziło z tym koncertem? GDZIE JEST LORA I GDZIE BOMBA?",
+                        "Co z wolnym po Nowym Roku? O co chodziło z tym koncertem? GDZIE JEST LORA I GDZIE BOMBA?",
                         "..." };
-                    int[] speakerIndexes = { 0,4,0,0,4 };
+                    int[] speakerIndexes = { 0,4, 0,4 };
+                    AudioClip[] voiceLines = new AudioClip[4];
+                    voiceLines[0] = midFightVoiceLines[0];
+                    voiceLines[1] = midFightVoiceLines[1];
+                    voiceLines[2] = midFightVoiceLines[2];
+                    voiceLines[3] = midFightVoiceLines[3];
+
                     acceptsInput = false;
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
@@ -1834,18 +1880,20 @@ public class BattleManager : MonoBehaviour
                 {
                     currentPhase++;
                     string[] lines = {
-                        "KTO ZA TYM STOI I GDZIE JEST?!",
-                        "ODPOWIEDZ WRESZCIE!!!",
-                        "OD KIEDY TO PLANOWALIŚCIE?!",
+                        "KTO ZA TYM STOI I GDZIE JEST?! ODPOWIEDZ WRESZCIE!!! OD KIEDY TO PLANOWALIŚCIE?!",
                         "Głupcy, wszystko w imię wyższego celu. W imię wyższej racji!",
-                        "Jakiego celu? Jakiej racji?!",
-                        "GDZIE...",
-                        "JEST...",
-                        "LORA?!",
-                        "Zamknij się wreszcie" };
-                    int[] speakerIndexes = { 0, 0, 0, 4, 0, 0, 0, 0, 4 };
+                        "Jakiego celu? Jakiej racji?! GDZIE JEST LORA?!",
+                        "Zamknij się i walcz." };
+                    int[] speakerIndexes = { 0, 4, 0, 4 };
+
+                    AudioClip[] voiceLines = new AudioClip[4];
+                    voiceLines[0] = midFightVoiceLines[4];
+                    voiceLines[1] = midFightVoiceLines[5];
+                    voiceLines[2] = midFightVoiceLines[6];
+                    voiceLines[3] = midFightVoiceLines[7];
+
                     acceptsInput = false;
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
@@ -1862,14 +1910,18 @@ public class BattleManager : MonoBehaviour
                     musicSource.loop = true;
                     musicSource.Play();
                     string[] lines = {
-                        "Ach! Poddaj się wreszcie!",
-                        "Oboje wiemy, że nic już nie zrobicie!",
+                        "Ach! Poddaj się wreszcie! Oboje wiemy, że nic już nie zrobicie!",
                         "Mylisz się, wszystko jest na najlepszej drodze. W imię wyższych racji!",
                         "Przestań się oszukiwać, Kamil! Przypomnij sobie, ile razy oszukiwałeś też mnie, kiedy byliśmy razem! Tyle obietnic, tyle kłamstw!",
                         "Jakich kłamstw, Maju? Zawsze chciałem dla Ciebie jak najlepiej. Kochałem Cię, to ty nie potrafiłaś tego odwzajemnić! Nigdy Cię nie oszukałem" };
-                    int[] speakerIndexes = { 3, 3, 4, 3, 4 };
+                    int[] speakerIndexes = { 3, 4, 3, 4 };
+                    AudioClip[] voiceLines = new AudioClip[4];
+                    voiceLines[0] = midFightVoiceLines[8];
+                    voiceLines[1] = midFightVoiceLines[9];
+                    voiceLines[2] = midFightVoiceLines[10];
+                    voiceLines[3] = midFightVoiceLines[11];
                     acceptsInput = false;
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
@@ -1885,11 +1937,17 @@ public class BattleManager : MonoBehaviour
                     string[] lines = {
                         "Każde Twoje słowo, kiedy byliśmy razem to kłamstwo. Nigdy nie zależało Ci na mnie, miałeś w głowie tylko siebie i swoje dobro",
                         "To samo jest teraz w roli przewodniczącego. Nie potrafisz być nawet przez chwilę ani poważny, ani szczery",
-                        "A Twoja dziecinność? Myślisz, że ten breloczek z dinozaurem dodaje Ci fajności? Jak głupupia byłam...",
+                        "A Twoja dziecinność? Myślisz, że ten breloczek z dinozaurem dodaje Ci fajności? Jak głupia byłam...",
                         "Przestań, przestań!" };
                     int[] speakerIndexes = { 3, 3, 3, 4 };
+
+                    AudioClip[] voiceLines = new AudioClip[4];
+                    voiceLines[0] = midFightVoiceLines[12];
+                    voiceLines[1] = midFightVoiceLines[13];
+                    voiceLines[2] = midFightVoiceLines[14];
+                    voiceLines[3] = midFightVoiceLines[15];
                     acceptsInput = false;
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
@@ -1911,8 +1969,16 @@ public class BattleManager : MonoBehaviour
                         "I jeszcze więcej złych"
                     };
                     int[] speakerIndexes = { 4, 3, 4, 3, 4, 3 };
+
+                    AudioClip[] voiceLines = new AudioClip[6];
+                    voiceLines[0] = midFightVoiceLines[16];
+                    voiceLines[1] = midFightVoiceLines[17];
+                    voiceLines[2] = midFightVoiceLines[18];
+                    voiceLines[3] = midFightVoiceLines[19];
+                    voiceLines[4] = midFightVoiceLines[20];
+                    voiceLines[5] = midFightVoiceLines[21];
                     acceptsInput = false;
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
@@ -1920,10 +1986,10 @@ public class BattleManager : MonoBehaviour
                 }
                 break;
             case "Franek":
-                if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.5f && currentPhase == 0)
+                if ((float)enemyCharacterList[0].Health / enemyCharacterList[0].MaxHealth <= 0.95f && currentPhase == 0)
                 {
                     currentPhase++;
-                    enemyCharacterList[0].Health = (int)(0.87221f * enemyCharacterList[0].MaxHealth);
+                    enemyCharacterList[0].Health = (int)(UnityEngine.Random.Range(0.8f, 0.9f) * enemyCharacterList[0].MaxHealth);
                     enemyCharacterList[0].DefaultDefense = 99999;
                     enemyCharacterList[0].Defense = 99999;
 
@@ -1936,7 +2002,9 @@ public class BattleManager : MonoBehaviour
                         "Pora to zakończyć" };
                     int[] speakerIndexes = { 0 };
                     acceptsInput = false;
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, midFightVoiceLines);
+                    AudioClip[] voiceLines = new AudioClip[1];
+                    voiceLines[0] = midFightVoiceLines[22];
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     DialogueManager.instance.onDialogueEnd.AddListener(() => {
                         acceptsInput = true;
                         UpdateHealthBarsAndIcons();

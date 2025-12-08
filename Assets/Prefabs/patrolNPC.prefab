@@ -739,6 +739,8 @@ MonoBehaviour:
   hasAwarenessThresholds: 0
   killZoneEngaged: 0
   onFailVoiceLine: []
+  changeAnimatorAtIndex: -1
+  controller: {fileID: 0}
 --- !u!95 &409939940629766157
 Animator:
   serializedVersion: 5

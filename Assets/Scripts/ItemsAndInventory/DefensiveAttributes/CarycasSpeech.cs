@@ -6,7 +6,7 @@ public class CarycasSpeech : DefensiveAttribute
 {
     public CarycasSpeech()
     {
-        Name = "Inskrypcja przemówienia Carycy";
+        Name = "Transkrypcja przemówienia Carycy";
         Description = "Zwiêksza obronê o 120, ale zmniejsza celnoœæ o 25%";
         AttackAdded = 0;
         DefenseAdded = 120;

@@ -6,10 +6,9 @@ public class MiddleFingerKidBuffed : EnemyCharacter
 {
     public MiddleFingerKidBuffed()
     {
-
-        NominativeName = "Ch³opak z fakerem";
-        DativeName = "Ch³opakowi z fakerem";
-        AccusativeName = "Ch³opaka z fakerem";
+        NominativeName = "M³odszy uczeñ";
+        DativeName = "M³odszemu uczniowi";
+        AccusativeName = "M³odszego ucznia";
 
         Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 1000;
         DifficultyHealthChange = 300;

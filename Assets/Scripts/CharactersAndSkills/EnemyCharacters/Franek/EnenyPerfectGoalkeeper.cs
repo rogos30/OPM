@@ -13,7 +13,7 @@ public class EnemyPerfectGoalkeeper : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
-        SkillSoundId = 9;
+        SkillSoundId = 42;
     }
 
     public override string execute(EnemyCharacter source, Character target)

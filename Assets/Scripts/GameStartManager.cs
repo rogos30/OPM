@@ -45,6 +45,7 @@ public class GameStartManager : MonoBehaviour
             LoadSettings();
         }
         SaveSettings();
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Awake()
     {
@@ -498,14 +499,24 @@ public class GameStartManager : MonoBehaviour
             return;
         }
         //Debug.Log(fullPath);
+        int currentMainQuest;
         using (FileStream stream = new FileStream(fullPath, FileMode.Open))
         {
             using (StreamReader reader = new StreamReader(stream))
             {
-                int currentMainQuest = int.Parse(reader.ReadLine());
+                currentMainQuest = int.Parse(reader.ReadLine());
                 string date = reader.ReadLine();
-                guideText.text = "Data zapisu: " + date + ", postêp: " + (100f * currentMainQuest / 15) + "%";
+                guideText.text = "Data zapisu: " + date + ", postêp: " + (100f * currentMainQuest / 140) + "%";
             }
+        }
+        if (currentMainQuest / 140f > 1)
+        {
+            File.Delete(fullPath);
+            guideText.text = "Puste miejsce zapisu";
+        }
+        else
+        {
+            Debug.Log("jestemgejem");
         }
     }
 }

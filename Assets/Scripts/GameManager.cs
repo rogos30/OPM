@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Unity.VisualScripting.Member;
-using static UnityEditor.Progress;
 using static UnityEngine.GraphicsBuffer;
 
 
@@ -58,7 +56,7 @@ public class GameManager : MonoBehaviour
     int sfxVolume = 25, musicVolume = 25, showFPS = 0;
     [NonSerialized] public int difficulty = 0;
     [NonSerialized] public int currentFreeroamMusicStage = 0;
-    int[,] freeroamMusicIds = { { 0, 0, 0 }, { 1, 1, 1 }, { 0, 1, 1 }, { 2, 2, 2 }, { 0, 1, 2 }, { 3, 3, 3 }, { 4, 4, 4 }, { 5, 5, 5 }, { 0, 1, 2 } };
+    int[,] freeroamMusicIds = { { 0, 0, 0 }, { 1, 1, 1 }, { 0, 1, 1 }, { 2, 2, 2 }, { 0, 1, 2 }, { 3, 3, 3 }, { 4, 4, 4 }, { 5, 5, 5 }, { 1, 2, 2 } };
     //beginning, start of recruitment, rand, working with Burzynski, rand, chase, outside, underground, return to school
     int frames;
     float framesTime = 0f, maxFramesTime = 0.5f;
@@ -91,7 +89,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip navigationAcceptSound;
     [SerializeField] AudioClip actionForbiddenSound;
 
-    [SerializeField] GameObject[] artifacts;
+    public GameObject[] artifacts;
     [SerializeField] Sprite emptySprite;
 
     Vector3 defaultUpgradeRequirementsTextScale;
@@ -110,6 +108,12 @@ public class GameManager : MonoBehaviour
         if (File.Exists(fullPath))
         {
             LoadGame();
+        }
+        else
+        {
+            List<string> gameInfoLines = new List<string>();
+            gameInfoLines.Add("U¿yj WASD lub strza³ek, aby siê poruszaæ");
+            DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         HandleArtifacts();
     }
@@ -839,10 +843,12 @@ public class GameManager : MonoBehaviour
                     if (artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().wasSeen)
                     {
                         itemDescriptionText.text = artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().description;
+                        itemImage.sprite = GameManager.instance.artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().artifact;
                     }
                     else
                     {
                         itemDescriptionText.text = "???";
+                        itemImage.sprite = emptySprite;
                     }
                     PrintCurrentPageOfArtifacts();
                     break;
@@ -894,15 +900,17 @@ public class GameManager : MonoBehaviour
                     PrintCurrentPageOfWearables();
                     break;
                 case (int)PauseState.INVENTORY_ARTIFACTS:
-                    currentPage = (currentPage + 1 > ((artifacts.Length - 1) / 4 + 1)) ? currentPage : currentPage + 1;
+                    currentPage = (currentPage + 1 > ((artifacts.Length - 1) / 4)) ? currentPage : currentPage + 1;
                     itemPageText.text = "Strona: " + (currentPage + 1) + "/" + ((artifacts.Length - 1) / 4 + 1);
                     if (artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().wasSeen)
                     {
                         itemDescriptionText.text = artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().description;
+                        itemImage.sprite = GameManager.instance.artifacts[currentPage * 4 + currentRow].GetComponent<ArtifactController>().artifact;
                     }
                     else
                     {
                         itemDescriptionText.text = "???";
+                        itemImage.sprite = emptySprite;
                     }
                     PrintCurrentPageOfArtifacts();
                     break;

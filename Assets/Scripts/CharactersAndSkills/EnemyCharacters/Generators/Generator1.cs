@@ -18,7 +18,7 @@ public class Generator1 : EnemyCharacter
         Turns = DefaultTurns = BaseTurns = 1;
         Speed = 250;
         MoneyDropped = 100;
-        XPDropped = 5000;
+        XPDropped = 3000;
         EnemyAttack enemyAttack = new EnemyAttack();
         skillSet.Add(enemyAttack);
         DoublePunch doublePunch = new DoublePunch();

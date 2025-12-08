@@ -16,6 +16,7 @@ public class TheEnd : PlayableSkill
         TargetIsRandom = false;
         SkillSoundId = 26;
         AccuracyMultiplier = 10;
+        IsUnlocked = true;
     }
 
     public override string execute(FriendlyCharacter source, Character target, int skillPerformance)

@@ -46,7 +46,7 @@ public class Builder : EnemyCharacter
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
         Turns = DefaultTurns = BaseTurns = 1;
         Speed = 350;
-        MoneyDropped = 5000;
+        MoneyDropped = 50;
         XPDropped = 500;
         ShovelStrike shovelStrike = new ShovelStrike();
         skillSet.Add(shovelStrike);

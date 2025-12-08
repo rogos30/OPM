@@ -12,6 +12,7 @@ public class StrongGrunt : EnemySkill
         TargetIsSelf = false;
         MultipleTargets = true;
         AccuracyMultiplier = 0.7f;
+        SkillSoundId = 37;
     }
 
     public override string execute(EnemyCharacter source, Character target)

@@ -67,7 +67,7 @@ public class StoryManager : MonoBehaviour
 
     public void CollectMarlboro()
     {
-        if (marlborosCollected++ == Marlboros.Length)
+        if (++marlborosCollected == Marlboros.Length)
         {
             ProgressStory();
         }
@@ -444,6 +444,24 @@ public class StoryManager : MonoBehaviour
                 //zdjecie kurtki
                 player.ChangeAnimator(1);
                 break;
+            case 4:
+                //pobity uczen
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("Zwiêkszanie poziomu postaci daje tokeny, które mo¿esz wykorzystaæ na ulepszenie postaci. Drzewo rozwoju postaci znajdziesz w menu pauzy. Zagl¹daj tam czêsto!");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
+                break;
+            case 5:
+                //odwiedzony sklep
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("U toœciary (i nie tylko) mo¿esz kupowaæ przedmioty lecz¹ce oraz wyposa¿enie kluczowe do zwyciêstwa w walkach. Zajrzyj tu, jak zaczniesz mieæ trudnoœci w walkach");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
+                break;
             case 9:
                 //dodanie Welenca
                 BattleManager.instance.currentPartyCharacters.Add(1);
@@ -458,6 +476,12 @@ public class StoryManager : MonoBehaviour
                 //dodanie Stasiaka;
                 BattleManager.instance.currentPartyCharacters.Add(2);
                 player.AllowRandomEncounters();
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("PRZYPOMNIENIE - Zwiêkszanie poziomu postaci daje tokeny, które mo¿esz wykorzystaæ na ulepszenie postaci. Drzewo rozwoju postaci znajdziesz w menu pauzy. Zagl¹daj tam czêsto!");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
                 break;
             case 24:
                 //dodanie Mai
@@ -470,12 +494,26 @@ public class StoryManager : MonoBehaviour
             case 29:
                 //koniec skradanki elektrotechnik
                 AdjustFollowerNPCsDistance(false);
+                GameManager.instance.artifacts[6].GetComponent<ArtifactController>().wasSeen = true;
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
                 break;
             case 30:
                 EnableMarlboros();
                 break;
             case 31:
                 DisableMarlboros();
+                GameManager.instance.artifacts[1].GetComponent<ArtifactController>().wasSeen = true;
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
                 break;
             case 34:
                 //Maja zostaje pod lazienka
@@ -531,11 +569,11 @@ public class StoryManager : MonoBehaviour
                 BattleManager.instance.currentPartyCharacters.Add(2); //Stasiak
                 BattleManager.instance.currentPartyCharacters.Add(3); //Kaja
                 AdjustFollowerNPCsDistance(true);
+                GameManager.instance.currentFreeroamMusicStage = 5;
+                cam.orthographicSize = 5f;
                 if (isPlayingGameNormally)
                 {
-                    GameManager.instance.currentFreeroamMusicStage = 5;
                     GameManager.instance.PlayFreeroamMusic();
-                    cam.orthographicSize = 5f;
                 }
                 break;
             case 73:
@@ -557,24 +595,52 @@ public class StoryManager : MonoBehaviour
                 break;
             case 81:
                 player.moveSpeed = 8;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 9;
+                }
                 break;
             case 82:
                 player.moveSpeed = 3.5f;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 4;
+                }
                 break;
             case 83:
                 player.moveSpeed = 8;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 9;
+                }
                 break;
             case 84:
                 player.moveSpeed = 3.5f;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 4;
+                }
                 break;
             case 87:
                 player.moveSpeed = 8;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 9;
+                }
                 break;
             case 88:
                 player.moveSpeed = 3.5f;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 4;
+                }
                 break;
             case 90:
                 player.moveSpeed = 8;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 9;
+                }
                 break;
             case 91:
                 //wejscie do podziemi
@@ -583,6 +649,10 @@ public class StoryManager : MonoBehaviour
                 GameManager.instance.currentLocationText.text = "Podziemia szko³y";
                 cam.orthographicSize = 3.5f;
                 player.moveSpeed = 3.5f;
+                foreach (var follower in followerNPCs)
+                {
+                    follower.GetComponent<PlayerFollowerController>().moveSpeed = 4;
+                }
                 player.AllowRandomEncounters();
                 if (isPlayingGameNormally)
                 {
@@ -612,14 +682,52 @@ public class StoryManager : MonoBehaviour
                 }
                 break;
             case 111:
+                player.currentRandomEncounterStage = 1;
                 player.transform.position = new Vector2(-300.5f, 45);
-                GameManager.instance.currentFreeroamMusicStage = 4;
+                GameManager.instance.currentFreeroamMusicStage = 8;
                 if (isPlayingGameNormally) GameManager.instance.PlayFreeroamMusic();
                 GameManager.instance.currentLocationText.text = "Parter, blok D";
                 break;
-            case 999:
-                //powrot do g³ównej ekipy
+            case 121:
+                player.PreventRandomEncounters();
                 break;
+            case 124:
+                //burzynski chase
+                BattleManager.instance.currentPartyCharacters.Remove(1);
+                BattleManager.instance.currentPartyCharacters.Remove(2);
+                AdjustFollowerNPCsDistance(true);
+                GameManager.instance.currentFreeroamMusicStage = 5;
+                cam.orthographicSize = 5f;
+                if (isPlayingGameNormally)
+                {
+                    GameManager.instance.PlayFreeroamMusic();
+                }
+                break;
+            case 130:
+                GameManager.instance.currentFreeroamMusicStage = 3;
+                AdjustFollowerNPCsDistance(false);
+                break;
+            case 131:
+                cam.orthographicSize = 3.5f;
+                break;
+            case 137:
+                GameManager.instance.artifacts[8].GetComponent<ArtifactController>().wasSeen = true;
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
+                break;
+            case 141:
+                if (isPlayingGameNormally)
+                {
+                    PlayerPrefs.SetInt("cutsceneId", 3);
+                    SceneManager.LoadScene("cutscenes");
+                }
+                break;
+                //koniec gry
+
         }
         if (isPlayingGameNormally)
         {

@@ -37,7 +37,6 @@ public class PlayerFollowerController : Interactable
             timeWithNoMovement = 0f;
             Vector2 difference = target.position - transform.position;
             double angle = Math.Abs(Math.Atan(difference.x / difference.y) * 180/Math.PI);
-            //Debug.Log(angle);
             if (angle > 45)
             {
                 MoveHorizontal(difference.x >= 0);
@@ -121,7 +120,7 @@ public class PlayerFollowerController : Interactable
         {
             other.GetComponentInParent<PatrolNPCController>().killZoneEngaged = true;
         }
-        else if (other.CompareTag("Marlboro"))
+        /*else if (other.CompareTag("Marlboro"))
         {
             StoryManager.instance.CollectMarlboro();
             other.gameObject.SetActive(false);
@@ -130,7 +129,7 @@ public class PlayerFollowerController : Interactable
         {
             StoryManager.instance.CollectPonySticker();
             other.gameObject.SetActive(false);
-        }
+        }*/
     }
 
     private void OnTriggerExit2D(Collider2D other)

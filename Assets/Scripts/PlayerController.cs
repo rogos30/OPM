@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     bool isFacingRight = false, isMoving = false;
     public int currentRandomEncounterStage = 0;
     [SerializeField] bool allowRandomEncounters = false;
+    int[] randomEncounterBackgroundIndexes = { 5, 21, 5 };
 
     [SerializeField] GameObject interactionPrompt;
     private void Awake()
@@ -71,7 +72,7 @@ public class PlayerController : MonoBehaviour
             pressedMovementKey = true;
             MoveVertical(false);
         }
-        if (Input.GetKeyDown(KeyCode.P))
+        /*if (Input.GetKeyDown(KeyCode.P))
         {
             Inventory.instance.money += 1000;
             Debug.Log(Inventory.instance.money);
@@ -84,20 +85,17 @@ public class PlayerController : MonoBehaviour
                 BattleManager.instance.playableCharacters[index].HandleLevel(5000);
             }
         }
-        /*if ( Input.GetKeyDown(KeyCode.L))
-        {
-            int[] playables = new int[BattleManager.instance.currentPartyCharacters.Count];
-            for (int i = 0; i < playables.Length; i++)
-            {
-                playables[i] = i;
-            }
-            int[] enemies = { 6 };
-            BattleManager.instance.InitiateBattle(playables, enemies);
-        }*/
         if (Input.GetKeyDown(KeyCode.L))
         {
             StoryManager.instance.ProgressStory();
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                StoryManager.instance.ProgressStory();
+            }
+        }*/
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameManager.instance.canPause)

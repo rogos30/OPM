@@ -9,7 +9,7 @@ public class KorwinsPistol : PlayableSkill
         Name = "Pistolet Krula";
         SkillDescription = "pos³uguje siê broni¹ Krula w celu rozprawienia siê z komunistami.";
         InFightDescription = " stawia kres lewactwu i zadaje ";
-        Cost = 240;
+        Cost = 0.7f;
         Repetitions = 3;
         AccuracyMultiplier = 1f;
         AnimationId = 7;

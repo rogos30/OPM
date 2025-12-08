@@ -7,8 +7,7 @@ using UnityEngine.Video;
 public class CutsceneManager : MonoBehaviour
 {
     public static CutsceneManager instance;
-    public VideoClip[] cutscenes;
-    public VideoPlayer videoPlayer;
+    public GameObject[] videoPlayer;
     int cutsceneId;
     float currentSkipTime = 0;
     float skipTime = 3;
@@ -22,13 +21,12 @@ public class CutsceneManager : MonoBehaviour
     {
         Time.timeScale = 1;
         cutsceneId = PlayerPrefs.GetInt("cutsceneId");
-        videoPlayer.clip = cutscenes[cutsceneId];
+        videoPlayer[cutsceneId].SetActive(true);
         //videoPlayer.clip = cutscenes[0];
-        videoPlayer.Play();
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         //Debug.Log(videoPlayer.frame + " " + videoPlayer.frameCount);
         if (Input.GetKey(KeyCode.Return))
@@ -40,10 +38,24 @@ public class CutsceneManager : MonoBehaviour
         {
             currentSkipTime = 0;
         }
-        if ((ulong)videoPlayer.frame + 1 == videoPlayer.frameCount || currentSkipTime >= skipTime)
+        bool returnToScene = true;
+        foreach (var player in videoPlayer)
         {
-            Debug.Log("koniec");
-            SceneManager.LoadScene("world");
+            if (player.activeSelf == true)
+            {
+                returnToScene = false;
+            }
         }
-    }
+        if (returnToScene || currentSkipTime >= skipTime)
+        {
+            if (cutsceneId == videoPlayer.Length - 1)
+            {
+                SceneManager.LoadScene("start");
+            }
+            else
+            {
+                SceneManager.LoadScene("world");
+            }
+        }
+    }*/
 }

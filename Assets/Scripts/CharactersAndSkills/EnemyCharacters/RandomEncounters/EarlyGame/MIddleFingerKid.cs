@@ -6,11 +6,9 @@ public class MiddleFingerKid : EnemyCharacter
 {
     public MiddleFingerKid()
     {
-        //EnemyCharacter character = new EnemyCharacter("Ch³opak z fakerem", 225, 30, 50, 15, 15, 0.85f, 1, 400, 20, 200, skills);
-
-        NominativeName = "Ch³opak z fakerem";
-        DativeName = "Ch³opakowi z fakerem";
-        AccusativeName = "Ch³opaka z fakerem";
+        NominativeName = "M³odszy uczeñ";
+        DativeName = "M³odszemu uczniowi";
+        AccusativeName = "M³odszego ucznia";
 
         Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 250;
         DifficultyHealthChange = 75;

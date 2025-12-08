@@ -12,7 +12,7 @@ public class BoneThrow : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
-        SkillSoundId = 29;
+        SkillSoundId = 26;
         AccuracyMultiplier = 0.8f;
     }
 

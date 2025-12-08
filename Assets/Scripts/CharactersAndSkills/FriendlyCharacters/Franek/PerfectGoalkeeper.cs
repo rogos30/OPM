@@ -14,7 +14,7 @@ public class PerfectGoalkeeper : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
-        SkillSoundId = 9;
+        SkillSoundId = 42;
         IsUnlocked = true;
     }
 

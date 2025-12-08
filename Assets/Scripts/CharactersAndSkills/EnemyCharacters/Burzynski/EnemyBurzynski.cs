@@ -18,7 +18,7 @@ public class EnemyBurzynski : EnemyCharacter
         Turns = DefaultTurns = BaseTurns = 1;
         Speed = 200;
         MoneyDropped = 500;
-        XPDropped = 15000;
+        XPDropped = 10000;
         EnemyAttack attack = new EnemyAttack();
         skillSet.Add(attack);
         EnemyBalaclava balaclava = new EnemyBalaclava();

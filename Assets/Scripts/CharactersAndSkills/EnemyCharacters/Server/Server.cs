@@ -18,7 +18,7 @@ public class Server : EnemyCharacter
         Turns = DefaultTurns = BaseTurns = 1;
         Speed = 450;
         MoneyDropped = 250;
-        XPDropped = 7500;
+        XPDropped = 6000;
         TriplePunch attack = new TriplePunch();
         skillSet.Add(attack);
         HeavyPunch heavyPunch = new HeavyPunch();
