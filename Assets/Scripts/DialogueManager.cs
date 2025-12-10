@@ -66,6 +66,7 @@ public class DialogueManager : MonoBehaviour
     }
     public void StartDialogue(string[] lines, int[] speakersIndexes, AudioClip[] voiceLines)
     {
+        if (dialogueCanvas.enabled) return;
         currentIndex = -1;
         dialogueCanvas.enabled = true;
         this.lines = lines;
@@ -74,7 +75,7 @@ public class DialogueManager : MonoBehaviour
         NextLine();
     }
     
-    void EndDialogue()
+    public void EndDialogue()
     {
         sfxSource.Stop();
         dialogueCanvas.enabled = false;

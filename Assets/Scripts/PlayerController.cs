@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     bool isFacingRight = false, isMoving = false;
     public int currentRandomEncounterStage = 0;
     [SerializeField] bool allowRandomEncounters = false;
+    [SerializeField] bool enableCheats = false;
     int[] randomEncounterBackgroundIndexes = { 5, 21, 5 };
 
     [SerializeField] GameObject interactionPrompt;
@@ -72,30 +73,33 @@ public class PlayerController : MonoBehaviour
             pressedMovementKey = true;
             MoveVertical(false);
         }
-        /*if (Input.GetKeyDown(KeyCode.P))
+        if (enableCheats)
         {
-            Inventory.instance.money += 1000;
-            Debug.Log(Inventory.instance.money);
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            for (int i = 0; i < BattleManager.instance.currentPartyCharacters.Count; i++)
+            if (Input.GetKeyDown(KeyCode.P))
             {
-                int index = BattleManager.instance.currentPartyCharacters[i];
-                BattleManager.instance.playableCharacters[index].HandleLevel(5000);
+                Inventory.instance.money += 1000;
+                Debug.Log(Inventory.instance.money);
             }
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StoryManager.instance.ProgressStory();
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            for (int i = 0; i < 5; i++)
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                for (int i = 0; i < BattleManager.instance.currentPartyCharacters.Count; i++)
+                {
+                    int index = BattleManager.instance.currentPartyCharacters[i];
+                    BattleManager.instance.playableCharacters[index].HandleLevel(5000);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 StoryManager.instance.ProgressStory();
             }
-        }*/
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    StoryManager.instance.ProgressStory();
+                }
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameManager.instance.canPause)
@@ -251,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
     void ResetTimeToRandomEcounter()
     {
-        timeToFight = Random.Range(35, 50);
+        timeToFight = Random.Range(55, 70);
         //timeToFight = Random.Range(5, 10);
     }
 

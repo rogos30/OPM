@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
         dataDirPath = Application.persistentDataPath;
         dataFileName = PlayerPrefs.GetString("lastSaveFile");
         string fullPath = Path.Combine(dataDirPath, dataFileName);
+        StoryManager.instance.DisableSideQuestNPCs();
         if (File.Exists(fullPath))
         {
             LoadGame();
@@ -112,7 +113,7 @@ public class GameManager : MonoBehaviour
         else
         {
             List<string> gameInfoLines = new List<string>();
-            gameInfoLines.Add("U¿yj WASD lub strza³ek, aby siê poruszaæ");
+            gameInfoLines.Add("U¿yj WASD lub strza³ek, aby siê poruszaæ. Naciœnij Esc, aby otworzyæ menu pauzy.");
             DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         HandleArtifacts();

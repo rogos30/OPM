@@ -14,12 +14,11 @@ public class SidequestTriggerController : Interactable
     [SerializeField] int[] speakersIndexes;
     public override void Interact()
     {
-        if (lines.Length > 0)
-        {
-            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogueManager.instance.onDialogueEnd.AddListener(AfterDialogue);
-            DialogueManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
-        }
+        DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
+        DialogueManager.instance.EndDialogue();
+        GameManager.instance.targetIsEscapingText.gameObject.SetActive(false);
+        DialogueManager.instance.onDialogueEnd.AddListener(AfterDialogue);
+        DialogueManager.instance.StartDialogue(lines, speakersIndexes, voiceLines);
     }
 
     public int GetProgressInSidequest()

@@ -509,7 +509,7 @@ public class GameStartManager : MonoBehaviour
                 guideText.text = "Data zapisu: " + date + ", postêp: " + (100f * currentMainQuest / 140) + "%";
             }
         }
-        if (currentMainQuest / 140f > 1)
+        if (currentMainQuest > 141)
         {
             File.Delete(fullPath);
             guideText.text = "Puste miejsce zapisu";

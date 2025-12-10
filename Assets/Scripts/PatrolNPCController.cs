@@ -28,6 +28,7 @@ public class PatrolNPCController : Interactable
     [SerializeField] bool hasKillZone;
     [SerializeField] bool playerInSightExtendsPatrol;
     [SerializeField] bool hasAwarenessThresholds;
+    public int sideQuestId = -1;
     int currentPatrolPoint = 0;
     bool canMove = true;
     bool isInPatrol = false;
@@ -38,7 +39,9 @@ public class PatrolNPCController : Interactable
     int[] visionConeScales = { 3, 4, 5, 6 };
     float distance;
     float playerSpeed;
+    [SerializeField] string[] onFailLine;
     [SerializeField] AudioClip[] onFailVoiceLine;
+    [SerializeField] int[] onFailLineIndex;
 
     Animator animator;
     bool isFacingRight = false;
@@ -320,10 +323,7 @@ public class PatrolNPCController : Interactable
     {
         isPlayerCaught = true;
         canMove = false;
-        string[] lines = {
-                        "Niech to!" };
-        int[] speakerIndexes = { 0 };
-        DialogueManager.instance.StartDialogue(lines, speakerIndexes, onFailVoiceLine);
+        DialogueManager.instance.StartDialogue(onFailLine, onFailLineIndex, onFailVoiceLine);
         DialogueManager.instance.onDialogueEnd.AddListener(() => {
             SceneManager.LoadScene("gameOver");
         });

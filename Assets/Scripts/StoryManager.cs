@@ -166,7 +166,7 @@ public class StoryManager : MonoBehaviour
         }
         foreach (var npc in PatrolNPCs)
         {
-            if (currentMainQuest >= npc.GetComponent<Interactable>().appearanceAtQuest && currentMainQuest < npc.GetComponent<Interactable>().disappearanceAtQuest)
+            if (currentMainQuest >= npc.GetComponent<Interactable>().appearanceAtQuest && currentMainQuest < npc.GetComponent<Interactable>().disappearanceAtQuest && npc.GetComponent<PatrolNPCController>().sideQuestId == -1)
             {
                 npc.SetActive(true);
             }
@@ -348,7 +348,6 @@ public class StoryManager : MonoBehaviour
             {
                 switch (sqtrigger.sideQuestId)
                 {
-
                     case 0:
                         if (currentPingPongScamsQuest >= sqtrigger.appearanceAtQuest && currentPingPongScamsQuest < sqtrigger.disappearanceAtQuest)
                         {
@@ -400,6 +399,64 @@ public class StoryManager : MonoBehaviour
                         }
                         break;
                 }
+            }
+        }
+        foreach (var pnpc in PatrolNPCs)
+        {
+            var sqpnpc = pnpc.GetComponent<PatrolNPCController>();
+            switch (sqpnpc.sideQuestId)
+            {
+
+                case 0:
+                    if (currentPingPongScamsQuest >= sqpnpc.appearanceAtQuest && currentPingPongScamsQuest < sqpnpc.disappearanceAtQuest)
+                    {
+                        pnpc.SetActive(true);
+                    }
+                    else
+                    {
+                        pnpc.SetActive(false);
+                    }
+                    break;
+                case 1:
+                    if (currentFollowingRefereesQuest >= sqpnpc.appearanceAtQuest && currentFollowingRefereesQuest < sqpnpc.disappearanceAtQuest)
+                    {
+                        pnpc.SetActive(true);
+                    }
+                    else
+                    {
+                        pnpc.SetActive(false);
+                    }
+                    break;
+                case 2:
+                    if (currentDiversionAndSearchQuest >= sqpnpc.appearanceAtQuest && currentDiversionAndSearchQuest < sqpnpc.disappearanceAtQuest)
+                    {
+                        pnpc.SetActive(true);
+                    }
+                    else
+                    {
+                        pnpc.SetActive(false);
+                    }
+                    break;
+                case 3:
+                    if (currentStrongStuffQuest >= sqpnpc.appearanceAtQuest && currentStrongStuffQuest < sqpnpc.disappearanceAtQuest)
+                    {
+                        pnpc.SetActive(true);
+                    }
+                    else
+                    {
+                        pnpc.SetActive(false);
+                    }
+                    break;
+                case 4:
+                    if (currentFaceTheCheaterQuest >= sqpnpc.appearanceAtQuest && currentFaceTheCheaterQuest < sqpnpc.disappearanceAtQuest)
+                    {
+                        pnpc.SetActive(true);
+                    }
+                    else
+                    {
+                        pnpc.SetActive(false);
+                    }
+                    break;
             }
         }
     }
@@ -458,7 +515,7 @@ public class StoryManager : MonoBehaviour
                 if (isPlayingGameNormally)
                 {
                     List<string> gameInfoLines = new List<string>();
-                    gameInfoLines.Add("U toœciary (i nie tylko) mo¿esz kupowaæ przedmioty lecz¹ce oraz wyposa¿enie kluczowe do zwyciêstwa w walkach. Zajrzyj tu, jak zaczniesz mieæ trudnoœci w walkach");
+                    gameInfoLines.Add("U toœciary (i nie tylko) mo¿esz kupowaæ przedmioty lecz¹ce oraz wyposa¿enie kluczowe do zwyciêstwa w walkach. Zajrzyj tu, jak zaczniesz mieæ trudnoœci z pokonywaniem przeciwników.");
                     DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
                 break;
@@ -487,6 +544,15 @@ public class StoryManager : MonoBehaviour
                 //dodanie Mai
                 BattleManager.instance.currentPartyCharacters.Add(3);
                 break;
+            case 25:
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    //gameInfoLines.Add("Misja poboczna dostêpna! U¿yj Q oraz E, aby przegl¹daæ dostêpne misje.");
+                    gameInfoLines.Add("Misja poboczna dostêpna!");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
+                break;
             case 27:
                 //skradanka elektrotechnik
                 AdjustFollowerNPCsDistance(true);
@@ -498,7 +564,7 @@ public class StoryManager : MonoBehaviour
                 if (isPlayingGameNormally)
                 {
                     List<string> gameInfoLines = new List<string>();
-                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy");
+                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy.");
                     DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
                 break;
@@ -511,7 +577,7 @@ public class StoryManager : MonoBehaviour
                 if (isPlayingGameNormally)
                 {
                     List<string> gameInfoLines = new List<string>();
-                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy");
+                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy.");
                     DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
                 break;
@@ -523,8 +589,8 @@ public class StoryManager : MonoBehaviour
                 //Maja wraca do druzyny
                 BattleManager.instance.currentPartyCharacters.Add(3);
                 break;
-            case 47:
-                //dodanie Brudzyñskiego
+            case 50:
+                //dodanie Burzyñskiego
                 player.currentRandomEncounterStage = 1;
                 BattleManager.instance.currentPartyCharacters.Add(4);
                 if (isPlayingGameNormally)
@@ -715,7 +781,7 @@ public class StoryManager : MonoBehaviour
                 if (isPlayingGameNormally)
                 {
                     List<string> gameInfoLines = new List<string>();
-                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy");
+                    gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy.");
                     DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
                 break;
@@ -736,7 +802,7 @@ public class StoryManager : MonoBehaviour
                 if (i == currentMainQuest)
                 {
                     List<string> gameInfoLines = new List<string>();
-                    gameInfoLines.Add("Ulepszenie sklepu dostêpne");
+                    gameInfoLines.Add("Ulepszenie sklepu dostêpne!");
                     DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
             }
@@ -746,6 +812,7 @@ public class StoryManager : MonoBehaviour
 
     void FinishSideQuest()
     {
+        Debug.Log("koniec side questa");
         //showStoryNPCs jest true gdy gra nie jest wczytywana aka jest grana normalnie
         if (canReturnToMainStory) //gdy gra nie jest wczytywana LUB nie jestesmy w side quescie
         {
@@ -817,6 +884,16 @@ public class StoryManager : MonoBehaviour
             {
                 case 1:
                     DisableFollowerNPCs();
+                    if (readDialogue)
+                    {
+                        StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                        StartCoroutine(TransitionToMania());
+                    }
+                    else
+                    {
+                        player.ChangeAnimator(3);
+                        player.transform.position = new Vector2(-309, -112);
+                    }
                     break;
             }
             HandleSideQuestNPCs(1);
@@ -946,5 +1023,11 @@ public class StoryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         player.transform.position = new Vector2(-258, 175);
+    }
+    IEnumerator TransitionToMania()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(3);
+        player.transform.position = new Vector2(-309, -112);
     }
 }
