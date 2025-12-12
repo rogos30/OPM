@@ -38,10 +38,10 @@ public class Tracksuiter : EnemyCharacter
         NominativeName = nameN;
         DativeName = nameD;
         AccusativeName = nameA;
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 6000;
-        DifficultyHealthChange = 2000;
-        Attack = DefaultAttack = BaseAttack = 250;
-        DifficultyAttackChange = 80;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 2500;
+        DifficultyHealthChange = 750;
+        Attack = DefaultAttack = BaseAttack = 150;
+        DifficultyAttackChange = 50;
         Defense = DefaultDefense = BaseDefense = 70;
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
         Turns = DefaultTurns = 1;

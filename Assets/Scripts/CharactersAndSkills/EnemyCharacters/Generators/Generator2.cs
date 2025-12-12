@@ -9,8 +9,8 @@ public class Generator2 : EnemyCharacter
         NominativeName = "Generator w ³azience";
         DativeName = "Generatorowi w ³azience";
         AccusativeName = "Generator w ³azience";
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 4000;
-        DifficultyHealthChange = 2000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 2500;
+        DifficultyHealthChange = 1250;
         Attack = DefaultAttack = BaseAttack = 175;
         DifficultyAttackChange = 75;
         Defense = DefaultDefense = BaseDefense = 60;

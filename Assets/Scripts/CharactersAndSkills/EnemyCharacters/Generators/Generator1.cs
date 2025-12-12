@@ -9,8 +9,8 @@ public class Generator1 : EnemyCharacter
         NominativeName = "Generator wuefistów";
         DativeName = "Generatorowi wuefistów";
         AccusativeName = "Generator wuefistów";
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 2000;
-        DifficultyHealthChange = 1000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 1500;
+        DifficultyHealthChange = 800;
         Attack = DefaultAttack = BaseAttack = 150;
         DifficultyAttackChange = 50;
         Defense = DefaultDefense = BaseDefense = 40;

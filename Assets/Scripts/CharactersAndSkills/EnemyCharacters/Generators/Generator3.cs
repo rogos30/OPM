@@ -9,8 +9,8 @@ public class Generator3 : EnemyCharacter
         NominativeName = "Generator teleskopowy";
         DativeName = "Generatorowi teleskopowemu";
         AccusativeName = "Generator teleskopowy";
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 6000;
-        DifficultyHealthChange = 3000;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 4000;
+        DifficultyHealthChange = 2000;
         Attack = DefaultAttack = BaseAttack = 200;
         DifficultyAttackChange = 100;
         Defense = DefaultDefense = BaseDefense = 80;

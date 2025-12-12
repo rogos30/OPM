@@ -19,7 +19,7 @@ public class Bombel : FriendlyCharacter
         CanBeUpgraded = false;
         Turns = DefaultTurns = 1;
         Speed = 400;
-        SpriteIndex = 13;
+        SpriteIndex = 7;
         criticalDamageMultiplier = 7;
         AbilityDescription = "Chybienie umiejêtnoœci¹ Matiego ma 20% szans trafiæ, a zwyk³e trafienie ma 20% szans staæ siê krytycznym trafieniem.";
         CharacterDescription = "Opis Matiego wip";

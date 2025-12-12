@@ -11,7 +11,7 @@ public class Chant : EnemySkill
         TargetIsFriendly = false;
         TargetIsSelf = true;
         MultipleTargets = false;
-        SkillSoundId = 9;
+        SkillSoundId = 43;
     }
 
     public override string execute(EnemyCharacter source, Character target)

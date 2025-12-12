@@ -26,6 +26,7 @@ public class PatrolNPCController : Interactable
     [SerializeField] GameObject player;
     [SerializeField] bool loopsPath;
     [SerializeField] bool hasKillZone;
+    [SerializeField] bool killZoneLosesInstantly;
     [SerializeField] bool playerInSightExtendsPatrol;
     [SerializeField] bool hasAwarenessThresholds;
     public int sideQuestId = -1;
@@ -162,6 +163,7 @@ public class PatrolNPCController : Interactable
                 if (currentPatrolPoint == changeAnimatorAtIndex)
                 {
                     animator.runtimeAnimatorController = controller;
+                    if (pursuitKillZone != null) pursuitKillZone.SetActive(false);
                 }
                 if (currentPatrolPoint + 1 == patrolPoints.Length)
                 {
@@ -201,10 +203,17 @@ public class PatrolNPCController : Interactable
             }*/
             if (killZoneEngaged && !isPlayerCaught)
             {
-                speed = 10;
-                Vector3 newPos = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-                newPos.z = newPos.y;
-                transform.position = newPos;
+                if (killZoneLosesInstantly)
+                {
+                    GameOver();
+                }
+                else
+                {
+                    speed = 10;
+                    Vector3 newPos = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+                    newPos.z = newPos.y;
+                    transform.position = newPos;
+                }
             }
             else
             {

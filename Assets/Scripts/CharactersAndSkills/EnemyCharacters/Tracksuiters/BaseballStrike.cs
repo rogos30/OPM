@@ -7,7 +7,7 @@ public class BaseballStrike : EnemySkill
     public BaseballStrike() : base()
     {
         Name = "£omot baseballem";
-        InFightDescription = " wyprowadza potê¿ny cios baseballem, czym zadaje ";
+        InFightDescription = " wyprowadza potê¿ny cios baseballem, ";
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
@@ -25,9 +25,9 @@ public class BaseballStrike : EnemySkill
         int turns = 2;
         if (Random.Range(0, 1f) < criticalChance)
         {
-            finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
-            turns = 3;
+            finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc + " parali¿uj¹c na 1 turê i ";
             damage *= source.criticalDamageMultiplier;
+            target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
         }
 
         damage = Mathf.Max(damage, 1);
@@ -36,8 +36,7 @@ public class BaseballStrike : EnemySkill
         {
             damage /= 2;
         }
-        target.ApplyDebuff((int)Character.StatusEffects.TURNS, turns);
-        finalDesc = finalDesc + " " + damage + " obra¿eñ i parali¿uje cel na " + (turns - 1) + " tury!";
+        finalDesc = finalDesc + " zadaj¹c " + damage + " obra¿eñ!";
         return finalDesc;
     }
 }

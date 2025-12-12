@@ -42,7 +42,7 @@ public class StoryManager : MonoBehaviour
     [SerializeField] string[] faceTheCheaterQuestDescriptions;
 
     public int[] sideQuestLengths = new int[5];
-    bool jaronaldMentioned = false;
+    bool jaronaldMentioned = false, jaronaldFightAvailable = false;
 
     public bool canReturnToMainStory = true;
 
@@ -152,6 +152,10 @@ public class StoryManager : MonoBehaviour
             {
                 npc.SetActive(false);
             }
+            if (npc.GetComponent<Interactable>().appearanceAtQuest == 112 && jaronaldFightAvailable)
+            {
+                npc.SetActive(false);
+            }
         }
         foreach (var trigger in storyTriggers)
         {
@@ -239,6 +243,8 @@ public class StoryManager : MonoBehaviour
     {
         switch (sideQuest)
         {
+            case -1: //mati vs jaronald override
+                return true;
             case 0:
                 return currentPingPongScamsQuest >= pingPongScamsQuestDescriptions.Length;
             case 1:
@@ -823,6 +829,7 @@ public class StoryManager : MonoBehaviour
         {
             HandleSideQuestNPCs();
         }
+        player.AllowRandomEncounters();
     }
 
     public void ProgressSideQuest(int sideQuest, bool readDialogue = true)
@@ -871,6 +878,16 @@ public class StoryManager : MonoBehaviour
         if (currentFollowingRefereesQuest + 1 >= followingRefereesQuestDescriptions.Length)
         {
             currentFollowingRefereesQuest++;
+            if (readDialogue)
+            {
+                StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                StartCoroutine(FinishFollowingReferees());
+            }
+            else
+            {
+                player.ChangeAnimator(1);
+                player.transform.position = new Vector2(-300, 32);
+            }
             FinishSideQuest();
         }
         else
@@ -887,13 +904,18 @@ public class StoryManager : MonoBehaviour
                     if (readDialogue)
                     {
                         StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
-                        StartCoroutine(TransitionToMania());
+                        StartCoroutine(TransitionToManiaFollowingReferees());
                     }
                     else
                     {
                         player.ChangeAnimator(3);
                         player.transform.position = new Vector2(-309, -112);
                     }
+                    player.PreventRandomEncounters();
+                    cam.orthographicSize = 5f;
+                    break;
+                case 6:
+                    cam.orthographicSize = 3.5f;
                     break;
             }
             HandleSideQuestNPCs(1);
@@ -916,8 +938,15 @@ public class StoryManager : MonoBehaviour
                     "Napisa³em do niego, ¿eby na niego uwa¿a³."
                 };
                     int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                    AudioClip[] voiceLines = new AudioClip[5];
+                    voiceLines[0] = additionalVoiceLines[0];
+                    voiceLines[1] = additionalVoiceLines[1];
+                    voiceLines[2] = additionalVoiceLines[2];
+                    voiceLines[3] = additionalVoiceLines[3];
+                    voiceLines[4] = additionalVoiceLines[4];
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                 }
+                jaronaldFightAvailable = true;
             }
             else
             {
@@ -932,6 +961,36 @@ public class StoryManager : MonoBehaviour
             if (canReturnToMainStory)
             {
                 currentQuestText.text = diversionAndSearchQuestDescriptions[currentDiversionAndSearchQuest];
+            }
+            switch (currentDiversionAndSearchQuest)
+            {
+                case 1:
+                    DisableFollowerNPCs();
+                    if (readDialogue)
+                    {
+                        StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                        StartCoroutine(TransitionToManiaDiversionAndSearch());
+                    }
+                    else
+                    {
+                        player.ChangeAnimator(3);
+                        player.transform.position = new Vector2(-174, 11.5f);
+                    }
+                    player.PreventRandomEncounters();
+                    break;
+                case 2:
+                    if (readDialogue)
+                    {
+                        StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                        StartCoroutine(TransitionBackToRogosDiversionAndSearch());
+                    }
+                    else
+                    {
+                        player.ChangeAnimator(1);
+                        player.transform.position = new Vector2(-300, 35);
+                    }
+                    HandleFollowerNPCs();
+                    break;
             }
             HandleSideQuestNPCs(2);
         }
@@ -953,8 +1012,15 @@ public class StoryManager : MonoBehaviour
                     "Napisa³em do niego, ¿eby na niego uwa¿a³."
                 };
                     int[] speakerIndexes = { 1, 0, 2, 3, 0 };
-                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                    AudioClip[] voiceLines = new AudioClip[5];
+                    voiceLines[0] = additionalVoiceLines[0];
+                    voiceLines[1] = additionalVoiceLines[5];
+                    voiceLines[2] = additionalVoiceLines[2];
+                    voiceLines[3] = additionalVoiceLines[3];
+                    voiceLines[4] = additionalVoiceLines[4];
+                    DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                 }
+                jaronaldFightAvailable = true;
             }
             else
             {
@@ -970,13 +1036,12 @@ public class StoryManager : MonoBehaviour
             {
                 currentQuestText.text = strongStuffQuestDescriptions[currentStrongStuffQuest];
             }
-
             switch (currentStrongStuffQuest)
             {
-                case 2:
+                case 1:
                     EnablePonyStickers();
                     break;
-                case 4:
+                case 3:
                     DisablePonyStickers();
                     if (readDialogue)
                     {
@@ -985,8 +1050,11 @@ public class StoryManager : MonoBehaviour
                             "Oho..."
                         };
                         int[] speakerIndexes = { 19, 0 };
+                        AudioClip[] voiceLines = new AudioClip[2];
+                        voiceLines[0] = additionalVoiceLines[6];
+                        voiceLines[1] = additionalVoiceLines[7];
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
-                        DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+                        DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     }
                     
                     break;
@@ -1001,6 +1069,8 @@ public class StoryManager : MonoBehaviour
         {
             currentFaceTheCheaterQuest++;
             FinishSideQuest();
+            ProgressStory();
+            Debug.Log("greckim jestem pedalem,");
         }
         else
         {
@@ -1008,6 +1078,36 @@ public class StoryManager : MonoBehaviour
             if (canReturnToMainStory)
             {
                 currentQuestText.text = faceTheCheaterQuestDescriptions[currentFaceTheCheaterQuest];
+            }
+            switch (currentFaceTheCheaterQuest)
+            {
+                case 1:
+                    DisableFollowerNPCs();
+                    player.PreventRandomEncounters();
+                    if (readDialogue)
+                    {
+                        StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                        StartCoroutine(TransitionToMatiFaceTheCheater());
+                    }
+                    else
+                    {
+                        player.ChangeAnimator(4);
+                        player.transform.position = new Vector2(-193, -80);
+                    }
+                    break;
+                case 3:
+                    if (readDialogue)
+                    {
+                        StartCoroutine(GameManager.instance.FadeToBlack(0.7f));
+                        StartCoroutine(TransitionBackToRogosFaceTheCheater());
+                    }
+                    else
+                    {
+                        player.ChangeAnimator(1);
+                        player.transform.position = new Vector2(-290, -117);
+                    }
+
+                    break;
             }
             HandleSideQuestNPCs(4);
         }
@@ -1024,10 +1124,43 @@ public class StoryManager : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         player.transform.position = new Vector2(-258, 175);
     }
-    IEnumerator TransitionToMania()
+    IEnumerator TransitionToManiaFollowingReferees()
     {
         yield return new WaitForSeconds(0.4f);
         player.ChangeAnimator(3);
         player.transform.position = new Vector2(-309, -112);
+    }
+    IEnumerator FinishFollowingReferees()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(1);
+        player.transform.position = new Vector2(-300, 32);
+    }
+
+    IEnumerator TransitionToManiaDiversionAndSearch()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(3);
+        player.transform.position = new Vector2(-174, 11.5f);
+    }
+
+    IEnumerator TransitionBackToRogosDiversionAndSearch()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(1);
+        player.transform.position = new Vector2(-300, 35);
+    }
+
+    IEnumerator TransitionToMatiFaceTheCheater()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(4);
+        player.transform.position = new Vector2(-193, -80);
+    }
+    IEnumerator TransitionBackToRogosFaceTheCheater()
+    {
+        yield return new WaitForSeconds(0.4f);
+        player.ChangeAnimator(1);
+        player.transform.position = new Vector2(-290, -117);
     }
 }

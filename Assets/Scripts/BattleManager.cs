@@ -606,26 +606,6 @@ public class BattleManager : MonoBehaviour
             maxCurrentPage = 1;
             maxCurrentRow = 1;
         }
-        /*for (int i = 0; i < actions.Length; i++)
-        {
-            if (currentPage * actions.Length + i < playableCharacterList[currentPlayable].GetUnlockedSkills())
-            {
-                float cost = 0;
-                if (playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost > 1)
-                {
-                    cost = playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost;
-                }
-                else
-                {
-                    cost = (int)(playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Cost * playableCharacterList[currentPlayable].MaxSkill);
-                }
-                actions[i].text = playableCharacterList[currentPlayable].skillSet[currentPage * actions.Length + i].Name + " (" + cost + ")";
-            }
-            else
-            {
-                actions[i].text = "";
-            }
-        }*/
         int textIndex = 0, skillsToSkip = currentPage * actions.Length;
         for (int i = 0; i < playableCharacterList[currentPlayable].skillSet.Count; i++)
         {

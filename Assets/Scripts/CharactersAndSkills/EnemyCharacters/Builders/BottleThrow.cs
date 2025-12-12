@@ -7,8 +7,8 @@ public class BottleThrow : EnemySkill
     public BottleThrow() : base()
     {
         Name = "Rzut butelk¹";
-        InFightDescription = " rzuca butelk¹ jak bumerangiem w ";
-        Repetitions = 2;
+        InFightDescription = " rzuca butelk¹ o ziemiê! Od³amki szk³a trafiaj¹ ";
+        Repetitions = 3;
         TargetIsFriendly = false;
         TargetIsSelf = false;
         MultipleTargets = false;
@@ -19,7 +19,7 @@ public class BottleThrow : EnemySkill
     {
         if (Random.Range(0, 1f) > source.Accuracy * AccuracyMultiplier)
         {
-            return source.NominativeName + " nie trafia butelk¹ w " + target.AccusativeName;
+            return source.NominativeName + " rzuca butelk¹ o ziemiê, ale butelka nie pêka!";
         }
         string finalDesc = source.NominativeName + InFightDescription + target.AccusativeName + ", zadaj¹c ";
         int damage = (int)(source.Attack * Random.Range(0.8f, 1.2f)) - target.Defense;

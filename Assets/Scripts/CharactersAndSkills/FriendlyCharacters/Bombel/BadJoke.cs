@@ -14,7 +14,7 @@ public class BadJoke : PlayableSkill
         TargetIsSelf = true;
         MultipleTargets = false;
         TargetIsRandom = false;
-        SkillSoundId = 24;
+        SkillSoundId = 19;
         IsUnlocked = true;
     }
 
@@ -39,7 +39,7 @@ public class BadJoke : PlayableSkill
             finalDesc = "KRYTYCZNE TRAFIENIE! " + finalDesc;
         }
         target.ApplyBuff((int)Character.StatusEffects.ATTACK, attackTurns);
-        target.ApplyBuff((int)Character.StatusEffects.ACCURACY, accuracyTurns);
+        target.ApplyDebuff((int)Character.StatusEffects.ACCURACY, accuracyTurns);
         finalDesc = finalDesc + (attackTurns - 1) + ", jednoczeœnie os³abiaj¹c swoj¹ celnoœæ na " + (accuracyTurns-1) + " tury!";
         return finalDesc;
     }
