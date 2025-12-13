@@ -65,5 +65,10 @@ public class Inventory : MonoBehaviour
         item = new DiamondArmor(); wearables.Add(item);
         item = new CarycasSpeech(); wearables.Add(item);
         item = new FailedTest(); wearables.Add(item);
+
+        item = new NetheriteSword(); wearables.Add(item);
+        item = new NetheriteArmor(); wearables.Add(item);
+        item = new SuperToast(); wearables.Add(item);
+        item = new GoldMedal(); wearables.Add(item);
     }
 }

@@ -5,4 +5,5 @@ using UnityEngine;
 public class LocationChangeTriggerController : MonoBehaviour
 {
     public string newLocationName;
+    public int newLocationIndex;
 }

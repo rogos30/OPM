@@ -9,8 +9,6 @@ public class CutsceneManager : MonoBehaviour
     public static CutsceneManager instance;
     public GameObject[] videoPlayer;
     int cutsceneId;
-    float currentSkipTime = 0;
-    float skipTime = 3;
     // Start is called before the first frame update
 
     private void Awake()

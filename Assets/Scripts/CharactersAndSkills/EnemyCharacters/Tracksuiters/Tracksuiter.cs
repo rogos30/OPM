@@ -9,28 +9,25 @@ public class Tracksuiter : EnemyCharacter
         NominativeName = "Dresiarz";
         DativeName = "Dresiarzowi";
         AccusativeName = "Dresiarza";
-        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 5000;
-        DifficultyHealthChange = 1750;
-        Attack = DefaultAttack = BaseAttack = 200;
-        DifficultyAttackChange = 80;
+        Health = MaxHealth = DefaultMaxHealth = BaseMaxHealth = 2500;
+        DifficultyHealthChange = 750;
+        Attack = DefaultAttack = BaseAttack = 150;
+        DifficultyAttackChange = 50;
         Defense = DefaultDefense = BaseDefense = 70;
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
-        Turns = DefaultTurns = BaseTurns = 1;
+        Turns = DefaultTurns = 1;
         Speed = 350;
-        MoneyDropped = 5000;
+        MoneyDropped = 25;
         XPDropped = 500;
-        ShovelStrike shovelStrike = new ShovelStrike();
-        skillSet.Add(shovelStrike);
-        skillSet.Add(shovelStrike);
-        DrinkOfTheGods drinkOfTheGods = new DrinkOfTheGods();
-        skillSet.Add(drinkOfTheGods);
-        AlcoholOverdose alcoholOverdose = new AlcoholOverdose();
-        skillSet.Add(alcoholOverdose);
-        Wheelbarrow wheelbarrow = new Wheelbarrow();
-        skillSet.Add(wheelbarrow);
-        skillSet.Add(wheelbarrow);
+        BaseballStrike baseballStrike = new BaseballStrike();
+        skillSet.Add(baseballStrike);
+        skillSet.Add(baseballStrike);
         BottleThrow bottleThrow = new BottleThrow();
         skillSet.Add(bottleThrow);
+        EnemyBalaclava enemyBalaclava = new EnemyBalaclava();
+        skillSet.Add(enemyBalaclava);
+        Chant chant = new Chant();
+        skillSet.Add(chant);
     }
 
     public Tracksuiter(string nameN, string nameD, string nameA) : base()
@@ -46,7 +43,7 @@ public class Tracksuiter : EnemyCharacter
         Accuracy = DefaultAccuracy = BaseAccuracy = 1f;
         Turns = DefaultTurns = 1;
         Speed = 350;
-        MoneyDropped = 5000;
+        MoneyDropped = 25;
         XPDropped = 500;
         BaseballStrike baseballStrike = new BaseballStrike();
         skillSet.Add(baseballStrike);

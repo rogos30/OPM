@@ -75,7 +75,7 @@ public class BattleManager : MonoBehaviour
     const int maxCharactersInBattle = 5, iconsPerPlayable = 6;
     const int maxEnemiesInBattle = 4, iconsPerEnemy = 5;
     const int skillCheckSliderWidth = 500;
-    const float defaultSkillCheckTime = 1.75f;
+    const float defaultSkillCheckTime = 2f;
 
     [SerializeField] GameObject[] animationObjects;
     public int[,] randomEncounterEnemyIndexes = { { 0, 1, 2, 3 }, { 34, 35, 36, 37 }, { 30, 31, 32, 33 } }; //1st act, 2nd act, underground
@@ -1180,8 +1180,21 @@ public class BattleManager : MonoBehaviour
                 string newText = playableCharacterList[i].HandleLevel(xpEarned);
                 if (!newText.Equals("")) gameInfoLines.Add(newText);
             }
+            int unlockNetherite = UnityEngine.Random.Range(0, 100);
+            if (unlockNetherite == 0)
+            {
+                Inventory.instance.wearables[16].Add(1); //netherite sword
+                GameManager.instance.lastPageOfWearablesUnlocked = true;
+                gameInfoLines.Add("Otrzymujesz Netherytowy Miecz");
+            }
+            unlockNetherite = UnityEngine.Random.Range(0, 100);
+            if (unlockNetherite == 99)
+            {
+                Inventory.instance.wearables[17].Add(1); //netherite armor
+                GameManager.instance.lastPageOfWearablesUnlocked = true;
+                gameInfoLines.Add("Otrzymujesz Netherytową Zbroję");
+            }
             Inventory.instance.money += moneyEarned;
-            Debug.Log("Earned " + moneyEarned + " money. Now you have " + Inventory.instance.money + " money");
 
             DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
             if (saveGameAfterBattle)
@@ -1758,13 +1771,14 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator PerformSkillCheck(int greenPos, int bluePos)
     {
-        for (int i = 0; i < 2 * skillCheckSlider.maxValue; i++)
+        float totalSkillCheckDistance = 0f;
+        while (totalSkillCheckDistance <= 200)
         {
             if (skillCheckAcceptsInput)
             {
                 if (skillCheckGoingRight)
                 {
-                    skillCheckSlider.value++;
+                    skillCheckSlider.value += 2 * skillCheckSlider.maxValue * Time.deltaTime / skillCheckTime;
                     if (skillCheckSlider.value == skillCheckSlider.maxValue)
                     {
                         skillCheckGoingRight = false;
@@ -1772,14 +1786,16 @@ public class BattleManager : MonoBehaviour
                 }
                 else
                 {
-                    skillCheckSlider.value--;
+                    skillCheckSlider.value -= 2 * skillCheckSlider.maxValue * Time.deltaTime / skillCheckTime;
                 }
+                totalSkillCheckDistance += 2 * skillCheckSlider.maxValue * Time.deltaTime / skillCheckTime;
             }
             else
             {
                 break;
             }
-            yield return new WaitForSeconds(skillCheckTime / (2 * skillCheckSlider.maxValue));
+            //yield return new WaitForSeconds(skillCheckTime / (2 * skillCheckSlider.maxValue));
+            yield return new WaitForEndOfFrame();
         }
         yield return new WaitForSeconds(1);
         skillCheckSlider.gameObject.SetActive(false);
@@ -2039,6 +2055,15 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            string name = actions[index].text;
+            for (int i = 0; i <= enemyCharacterList.Count; i++)
+            {
+                if (enemyCharacterList[i].NominativeName == name)
+                {
+                    index = i;
+                    break;
+                }
+            }
             enemySprites[enemySpriteIndexes[index]].GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
@@ -2054,6 +2079,15 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            string name = actions[index].text;
+            for (int i = 0; i <= enemyCharacterList.Count; i++)
+            {
+                if (enemyCharacterList[i].NominativeName == name)
+                {
+                    index = i;
+                    break;
+                }
+            }
             enemySprites[enemySpriteIndexes[index]].GetComponent<SpriteRenderer>().color = orange;
         }
     }

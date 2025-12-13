@@ -8,6 +8,7 @@ public class TeleportController : Interactable
     [SerializeField] Transform destination;
     [SerializeField] Transform player;
     [SerializeField] string newLocationName;
+    [SerializeField] int newLocationIndex;
     [SerializeField] AudioClip newMusic;
     [SerializeField] bool changeToFreeroamMusic;
 
@@ -54,6 +55,7 @@ public class TeleportController : Interactable
             GameManager.instance.PlayFreeroamMusic();
         }
         if (newLocationName != "") GameManager.instance.currentLocationText.text = newLocationName;
+        GameManager.instance.currentLocationIndex = newLocationIndex;
         player.position = destination.position;
     }
 }

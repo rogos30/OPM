@@ -120,13 +120,14 @@ public class LockpickController : Interactable
     IEnumerator PerformSkillCheck(int greenPos)
     {
         Slider slider = GameManager.instance.skillCheckSlider;
-        for (int i = 0; i < 2 * slider.maxValue; i++)
+        float totalSkillCheckDistance = 0f;
+        while (totalSkillCheckDistance <= 200)
         {
             if (skillCheckAcceptsInput)
             {
                 if (skillCheckGoingRight)
                 {
-                    slider.value++;
+                    slider.value += 2 * slider.maxValue * Time.deltaTime / skillCheckTime;
                     if (slider.value == slider.maxValue)
                     {
                         skillCheckGoingRight = false;
@@ -134,14 +135,16 @@ public class LockpickController : Interactable
                 }
                 else
                 {
-                    slider.value--;
+                    slider.value -= 2 * slider.maxValue * Time.deltaTime / skillCheckTime;
                 }
+                totalSkillCheckDistance += 2 * slider.maxValue * Time.deltaTime / skillCheckTime;
             }
             else
             {
                 break;
             }
-            yield return new WaitForSeconds(skillCheckTime / (2 * slider.maxValue));
+            //yield return new WaitForSeconds(skillCheckTime / (2 * skillCheckSlider.maxValue));
+            yield return new WaitForEndOfFrame();
         }
         yield return new WaitForSeconds(1);
         slider.gameObject.SetActive(false);

@@ -233,6 +233,7 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("LocationTrigger"))
         {
             GameManager.instance.currentLocationText.text = other.GetComponent<LocationChangeTriggerController>().newLocationName;
+            GameManager.instance.currentLocationIndex = other.GetComponent<LocationChangeTriggerController>().newLocationIndex;
         }
     }
 
@@ -288,6 +289,7 @@ public class PlayerController : MonoBehaviour
                 enemies[j++] = BattleManager.instance.randomEncounterEnemyIndexes[currentRandomEncounterStage, i];
             }
         }
-        BattleManager.instance.InitiateBattle(playables, enemies, 0, true, true);
+        if (GameManager.instance.currentLocationIndex == -1) return;
+        BattleManager.instance.InitiateBattle(playables, enemies, GameManager.instance.currentLocationIndex, true, true);
     }
 }

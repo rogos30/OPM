@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor.Experimental;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text passwordText;
     [SerializeField] TMP_Text gameFpsText;
     public TMP_Text currentLocationText;
+    public int currentLocationIndex;
     [SerializeField] GameObject optionsColumn;
     [SerializeField] GameObject inventoryMainColumn;
     [SerializeField] GameObject inventoryItemsColumn;
@@ -95,6 +97,8 @@ public class GameManager : MonoBehaviour
     Vector3 defaultUpgradeRequirementsTextScale;
     [SerializeField] Sprite[] upgradeSprites;
     [SerializeField] Sprite[] characterInfoSprites;
+
+    public bool lastPageOfWearablesUnlocked = false;
     private void Start()
     {
         if (PlayerPrefs.HasKey("sfxVolume"))
@@ -117,6 +121,7 @@ public class GameManager : MonoBehaviour
             DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         HandleArtifacts();
+        StoryManager.instance.HandleSuperToastIngredients();
     }
     private void Awake()
     {
@@ -567,6 +572,7 @@ public class GameManager : MonoBehaviour
                             break;
                         case 1: //entered inventory
                             currentColumn = (int)PauseState.INVENTORY_MAIN;
+                            currentPage = 0;
                             chosenMain = currentRow;
                             mainColumnTexts[chosenMain].color = Color.red;
                             inventoryMainTexts[currentRow = 0].color = orange;
@@ -578,12 +584,14 @@ public class GameManager : MonoBehaviour
                             chosenMain = currentRow;
                             mainColumnTexts[chosenMain].color = Color.red;
                             characterInfoTexts[currentRow = 0].color = orange;
+                            currentPage = 0;
                             PrintCharInfo();
                             maxCurrentRow = characterInfoTexts.Length;
                             characterInfoColumn.SetActive(true);
                             break;
                         case 3: //entered settings
                             currentColumn = (int)PauseState.SETTINGS;
+                            currentPage = 0;
                             chosenMain = currentRow;
                             mainColumnTexts[chosenMain].color = Color.red;
                             optionsTexts[currentRow = 0].color = orange;
@@ -620,7 +628,8 @@ public class GameManager : MonoBehaviour
                             chosenInv = currentRow;
                             inventoryMainTexts[chosenInv].color = Color.red;
                             inventoryBrowseTexts[currentRow = 0].color = orange;
-                            itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
+                            int maxCurrentPage = lastPageOfWearablesUnlocked ? 4 : ShopManager.instance.level;
+                            itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (maxCurrentPage + 1);
                             itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                                 Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
                             maxCurrentRow = inventoryBrowseTexts.Length;
@@ -670,21 +679,30 @@ public class GameManager : MonoBehaviour
                             PrintCharStats(BattleManager.instance.currentPartyCharacters[currentPage]);
                             break;
                         case 1: //character eq category
-                            currentColumn = (int)PauseState.CHARACTER_EQ_CATEGORY;
-                            chosenCharOption = currentRow;
-                            chosenChar = BattleManager.instance.currentPartyCharacters[currentPage];
-                            characterInfoTexts[chosenCharOption].color = Color.red;
-                            inventoryEqCategoryTexts[currentRow = 0].color = orange;
-                            maxCurrentRow = inventoryEqCategoryTexts.Length;
-                            inventoryEqCategoryColumn.SetActive(true);
-                            eqDescriptionText.text = "";
-                            if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow] != null)
+                            if (BattleManager.instance.playableCharacters[BattleManager.instance.currentPartyCharacters[chosenChar]].CanBeUpgraded)
                             {
-                                inventoryEqCategoryDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow].Name;
+                                currentColumn = (int)PauseState.CHARACTER_EQ_CATEGORY;
+                                chosenCharOption = currentRow;
+                                chosenChar = BattleManager.instance.currentPartyCharacters[currentPage];
+                                characterInfoTexts[chosenCharOption].color = Color.red;
+                                inventoryEqCategoryTexts[currentRow = 0].color = orange;
+                                maxCurrentRow = inventoryEqCategoryTexts.Length;
+                                inventoryEqCategoryColumn.SetActive(true);
+                                eqDescriptionText.text = "";
+                                if (BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow] != null)
+                                {
+                                    inventoryEqCategoryDescriptionText.text = BattleManager.instance.playableCharacters[chosenChar].wearablesWorn[currentRow].Name;
+                                }
+                                else
+                                {
+                                    inventoryEqCategoryDescriptionText.text = "Brak";
+                                }
                             }
                             else
                             {
-                                inventoryEqCategoryDescriptionText.text = "Brak";
+                                sfxSource.clip = actionForbiddenSound;
+                                sfxSource.loop = false;
+                                sfxSource.Play();
                             }
                             break;
                         case 2: //character skill tree
@@ -725,6 +743,7 @@ public class GameManager : MonoBehaviour
                     inventoryEqCategoryTexts[chosenEqCategory].color = Color.red;
                     inventoryEqChangeTexts[currentRow = 0].color = orange;
                     maxCurrentRow = inventoryEqChangeTexts.Length - 1;
+                    if (lastPageOfWearablesUnlocked) maxCurrentRow = inventoryEqChangeTexts.Length;
                     inventoryEqChangeColumn.SetActive(true);
                     eqDescriptionText.text = "";
                     PrintAvailableEquipment();
@@ -893,8 +912,9 @@ public class GameManager : MonoBehaviour
                     PrintCurrentPageOfItems();
                     break;
                 case (int)PauseState.INVENTORY_WEARABLES:
-                    currentPage = (currentPage + 1 > ShopManager.instance.level) ? currentPage : currentPage + 1;
-                    itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (ShopManager.instance.level + 1);
+                    int maxCurrentPage = lastPageOfWearablesUnlocked ? 4 : ShopManager.instance.level;
+                    currentPage = (currentPage + 1 > maxCurrentPage) ? currentPage : currentPage + 1;
+                    itemPageText.text = "Strona: " + (currentPage + 1) + "/" + (maxCurrentPage + 1);
                     itemDescriptionText.text = Inventory.instance.wearables[currentPage * 4 + currentRow].Description + ".\n\nMasz: " +
                         Inventory.instance.wearables[currentPage * 4 + currentRow].Amount;
                     itemImage.sprite = Inventory.instance.wearablesImages[Inventory.instance.wearables[currentPage * 4 + currentRow].Id];
@@ -1140,7 +1160,9 @@ public class GameManager : MonoBehaviour
 
     void PrintAvailableEquipment()
     {
-        for (int i = 1; i <= maxCurrentRow; i++)
+        int maxToPrint = maxCurrentRow - 1;
+        if (lastPageOfWearablesUnlocked) maxToPrint = maxCurrentRow;
+        for (int i = 1; i <= maxToPrint; i++)
         {
             inventoryEqChangeTexts[i].text = Inventory.instance.wearables[(i-1) * 4 + chosenEqCategory].Name;
         }
@@ -1254,6 +1276,14 @@ public class GameManager : MonoBehaviour
                 {
                     writer.WriteLine(artifact.GetComponent<ArtifactController>().wasSeen);
                 }
+                foreach (var ingredient in StoryManager.instance.SuperToastIngredients)
+                {
+                    writer.WriteLine(ingredient.GetComponent<ArtifactController>().wasSeen);
+                }
+                writer.WriteLine(StoryManager.instance.finishedSuperToast);
+                writer.WriteLine(currentLocationText.text);
+                writer.WriteLine(currentLocationIndex);
+                writer.WriteLine(lastPageOfWearablesUnlocked);
                 writer.WriteLine("end");
                 writer.Close();
             }
@@ -1401,6 +1431,14 @@ public class GameManager : MonoBehaviour
                 {
                     artifact.GetComponent<ArtifactController>().wasSeen = bool.Parse(reader.ReadLine());
                 }
+                foreach (var ingredient in StoryManager.instance.SuperToastIngredients)
+                {
+                    ingredient.GetComponent<ArtifactController>().wasSeen = bool.Parse(reader.ReadLine());
+                }
+                StoryManager.instance.finishedSuperToast = bool.Parse(reader.ReadLine());
+                currentLocationText.text = reader.ReadLine();
+                currentLocationIndex = int.Parse(reader.ReadLine());
+                lastPageOfWearablesUnlocked = bool.Parse(reader.ReadLine());
                 reader.ReadLine();
                 reader.Close();
             }

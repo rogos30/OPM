@@ -7,9 +7,9 @@ public class DiamondArmor : Armor
     public DiamondArmor()
     {
         Name = "Diamentowa zbroja";
-        Description = "Zwiêksza obronê o 160";
+        Description = "Zwiêksza obronê o 120";
         AttackAdded = 0;
-        DefenseAdded = 160;
+        DefenseAdded = 120;
         HealingMultiplier = 1;
         AccuracyMultiplier = 1;
         Cost = 170;

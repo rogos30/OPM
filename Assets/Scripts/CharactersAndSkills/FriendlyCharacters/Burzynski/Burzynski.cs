@@ -33,4 +33,12 @@ public class Burzynski : FriendlyCharacter
         Dinology dinology = new Dinology();
         skillSet.Add(dinology);
     }
+    protected override void AdditionalChangesOnReset()
+    {
+        NegativeEffectsImmunity = 9999;
+    }
+    protected override void AdditionalChangesOnDeath()
+    {
+        NegativeEffectsImmunity = 9999;
+    }
 }

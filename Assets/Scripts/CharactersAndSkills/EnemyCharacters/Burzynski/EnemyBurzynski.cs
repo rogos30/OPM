@@ -34,4 +34,12 @@ public class EnemyBurzynski : EnemyCharacter
         EnemyDinology dinology = new EnemyDinology();
         skillSet.Add(dinology);
     }
+    protected override void AdditionalChangesOnReset()
+    {
+        NegativeEffectsImmunity = 9999;
+    }
+    protected override void AdditionalChangesOnDeath()
+    {
+        NegativeEffectsImmunity = 9999;
+    }
 }

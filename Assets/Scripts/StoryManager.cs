@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,6 +47,10 @@ public class StoryManager : MonoBehaviour
 
     public bool canReturnToMainStory = true;
 
+    public GameObject[] SuperToastIngredients;
+    public bool finishedSuperToast;
+    public int superToastProgress;
+
     [SerializeField] AudioClip[] additionalVoiceLines;
     void Awake()
     {
@@ -58,11 +63,14 @@ public class StoryManager : MonoBehaviour
         currentQuestText.text = questDescriptions[currentMainQuest];
         HandleAllNPCs(); //initializing all npcs
         marlborosCollected = 0;
+        ponyStickersCollected = 0;
+        superToastProgress = 0;
+        finishedSuperToast = false;
     }
 
     void Update()
     {
-        
+
     }
 
     public void CollectMarlboro()
@@ -99,8 +107,10 @@ public class StoryManager : MonoBehaviour
                     "Dobra, to chyba wszystkie"
                     };
             int[] speakerIndexes = { 3 };
-            DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
-            DialogueManager.instance.StartDialogue(lines, speakerIndexes, additionalVoiceLines);
+            AudioClip[] voiceLines = new AudioClip[1];
+            voiceLines[0] = additionalVoiceLines[8];
+
+            DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines); DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
             DialogueManager.instance.onDialogueEnd.AddListener(() => {
                 ProgressSideQuest(3);
             });
@@ -130,6 +140,24 @@ public class StoryManager : MonoBehaviour
         HandleStoryTeleports();
         HandleFollowerNPCs();
         HandleSideQuestNPCs();
+        HandleSuperToastIngredients();
+    }
+
+    public void HandleSuperToastIngredients()
+    {
+        superToastProgress = 0;
+        SuperToastIngredients[0].SetActive(!SuperToastIngredients[0].GetComponent<ArtifactController>().wasSeen);
+        SuperToastIngredients[1].SetActive(!SuperToastIngredients[1].GetComponent<ArtifactController>().wasSeen);
+        foreach (var ingredient in SuperToastIngredients)
+        {
+            if (ingredient.GetComponent<ArtifactController>().wasSeen)
+            {
+                superToastProgress++;
+            }
+        }
+        SuperToastIngredients[2].SetActive(superToastProgress == 2 && currentMainQuest >= 109);
+        if (finishedSuperToast) superToastProgress = 4;
+        Debug.Log(superToastProgress);
     }
 
     public void DisableAllNPCs()
@@ -521,7 +549,7 @@ public class StoryManager : MonoBehaviour
                 if (isPlayingGameNormally)
                 {
                     List<string> gameInfoLines = new List<string>();
-                    gameInfoLines.Add("U toœciary (i nie tylko) mo¿esz kupowaæ przedmioty lecz¹ce oraz wyposa¿enie kluczowe do zwyciêstwa w walkach. Zajrzyj tu, jak zaczniesz mieæ trudnoœci z pokonywaniem przeciwników.");
+                    gameInfoLines.Add("U toœciary mo¿esz kupowaæ przedmioty lecz¹ce oraz wyposa¿enie kluczowe do zwyciêstwa w walkach. Zajrzyj tu, jak zaczniesz mieæ trudnoœci z pokonywaniem przeciwników.");
                     DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
                 }
                 break;
@@ -566,7 +594,7 @@ public class StoryManager : MonoBehaviour
             case 29:
                 //koniec skradanki elektrotechnik
                 AdjustFollowerNPCsDistance(false);
-                GameManager.instance.artifacts[6].GetComponent<ArtifactController>().wasSeen = true;
+                GameManager.instance.artifacts[5].GetComponent<ArtifactController>().wasSeen = true;
                 if (isPlayingGameNormally)
                 {
                     List<string> gameInfoLines = new List<string>();
@@ -594,6 +622,15 @@ public class StoryManager : MonoBehaviour
             case 36:
                 //Maja wraca do druzyny
                 BattleManager.instance.currentPartyCharacters.Add(3);
+                break;
+            case 43:
+                //first lockpick
+                if (isPlayingGameNormally)
+                {
+                    List<string> gameInfoLines = new List<string>();
+                    gameInfoLines.Add("Aby otworzyæ zamkniête drzwi, przekrêcaj wytrych. Gdy zacznie dr¿eæ, oznacza to, ¿e jesteœ blisko dobrego ustawienia. Im bli¿ej dobrego ustawienia, tym szersze pole na pasku szybkiego trafienia.");
+                    DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                }
                 break;
             case 50:
                 //dodanie Burzyñskiego
@@ -991,6 +1028,15 @@ public class StoryManager : MonoBehaviour
                     }
                     HandleFollowerNPCs();
                     break;
+                case 4:
+                    GameManager.instance.artifacts[2].GetComponent<ArtifactController>().wasSeen = true;
+                    if (readDialogue)
+                    {
+                        List<string> gameInfoLines = new List<string>();
+                        gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy.");
+                        DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                    }
+                    break;
             }
             HandleSideQuestNPCs(2);
         }
@@ -1056,7 +1102,14 @@ public class StoryManager : MonoBehaviour
                         DialogueManager.instance.onDialogueEnd.RemoveAllListeners();
                         DialogueManager.instance.StartDialogue(lines, speakerIndexes, voiceLines);
                     }
-                    
+                    GameManager.instance.artifacts[9].GetComponent<ArtifactController>().wasSeen = true;
+                    if (readDialogue)
+                    {
+                        List<string> gameInfoLines = new List<string>();
+                        gameInfoLines.Add("Zdobyto nowy artefakt. Artefakty mo¿esz przegl¹daæ w menu pauzy.");
+                        DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
+                    }
+
                     break;
             }
             HandleSideQuestNPCs(3);
@@ -1070,7 +1123,12 @@ public class StoryManager : MonoBehaviour
             currentFaceTheCheaterQuest++;
             FinishSideQuest();
             ProgressStory();
-            Debug.Log("greckim jestem pedalem,");
+
+            Inventory.instance.wearables[19].Add(1); //gold medal
+            GameManager.instance.lastPageOfWearablesUnlocked = true;
+            List<string> gameInfoLines = new List<string>();
+            gameInfoLines.Add("Otrzymujesz Z³oty Medal Matiego (atrybut ofensywny)");
+            DialogueManager.instance.StartGameInfo(gameInfoLines.ToArray());
         }
         else
         {

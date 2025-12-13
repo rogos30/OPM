@@ -7,8 +7,8 @@ public class DiamondSword : Weapon
     public DiamondSword()
     {
         Name = "Diamentowy miecz";
-        Description = "Zwiêksza atak o 400";
-        AttackAdded = 400;
+        Description = "Zwiêksza atak o 300";
+        AttackAdded = 300;
         DefenseAdded = 0;
         HealingMultiplier = 1;
         AccuracyMultiplier = 1;

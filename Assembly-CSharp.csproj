@@ -76,6 +76,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\SchoolHoodie.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Welenc\DiscoPoloStar.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\DefensiveAttributes\SuperToast.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\TriplePunch.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Surveillance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Assets\Scripts\ArtifactController.cs" />
     <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\WoodenSword.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\Armor\NetheriteArmor.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Lora\Lora.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemySwordTwirl.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyKorwinsPistol.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\BetrayableAttack.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\Underground\EnemyBite.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyBurzynski.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\OffensiveAttributes\GoldMedal.cs" />
     <Compile Include="Assets\Scripts\ShopkeeperController.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdMotivation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\RandomEncounters\Underground\Spider.cs" />
@@ -185,6 +188,7 @@
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Piotrek\CrowdIntimidation.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Franek\EnenyPerfectGoalkeeper.cs" />
     <Compile Include="Assets\Scripts\TeleportController.cs" />
+    <Compile Include="Assets\Scripts\ItemsAndInventory\Weapons\NetheriteSword.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\EnemyCharacters\Burzynski\EnemyShitMonologue.cs" />
     <Compile Include="Assets\Scripts\CharactersAndSkills\FriendlyCharacters\Swietlik\TankStance.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
